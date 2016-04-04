@@ -31,7 +31,7 @@
                                 <p *ngFor="#fileDetails of filesToUploadDetails; #i=index"><span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span><button type="button" (click)="removeCasefile(i)">-</button></p>
                             </div>
                             <input id="fileselect" type="file" multiple (change)="fileSelectHandler($event)" ngControl="casefiles" />
-                            <div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>
+                            <!--<div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>-->
                         </div>
                     </div>
                 </div>
