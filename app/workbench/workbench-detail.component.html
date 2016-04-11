@@ -11,179 +11,205 @@
 
                 <div class="dms-group noheader">
                     <div class="row">
-                        <div class="col-md-1">
-                            <div class="form-group">
-                                <label for="priority">Priority</label>
-                                <input id="priority" type="checkbox" [checked]="priority" class="form-control" ngControl="priority">
+                        <div class="col-md-2">
+                            <div class="chx-group">
+                                <label for="priority">Priority</label><!--
+                                --><div class="chx">
+                                    <input id="priority" type="checkbox" [checked]="priority" ngControl="priority">
+                                </div>
+                            </div><!--
+                            --><div class="chx-group">
+                                <label for="two">Other Check</label><!--
+                                --><div class="chx">
+                                    <input id="priority" type="checkbox" [checked]="priority" ngControl="priority">
+                                </div>
+                            </div><!--
+                            --><div class="chx-group">
+                                <label for="three">Another Check</label><!--
+                                --><div class="chx">
+                                    <input id="priority" type="checkbox" [checked]="priority" ngControl="priority">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="casefiles">Case Files</label>
+
+                        <div class="col-md-4">
+                            <div class="file-group">
+                                <label class="half-label" for="casefiles">Case Files</label><!--
+                                --><label class="file-upload-label" for="fileselect">Upload New</label>
                                 <ul id="casefiles" *ngIf="myCasefiles.length > 0">
                                     <li *ngFor="#casefile of myCasefiles"><a target="_blank" [href]="casefile.file">{{ casefile.name }}</a></li>
                                 </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="casefilesToUpload">Files to Upload</label>
-                                <div id="casefilesToUpload">
+                                <!-- <div id="casefilesToUpload">
                                     <p *ngFor="#fileDetails of filesToUploadDetails; #i=index"><span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span><button type="button" (click)="removeCasefile(i)">-</button></p>
-                                </div>
-                                <input id="fileselect" type="file" multiple (change)="fileSelectHandler($event)" ngControl="casefiles" />
-                                <!--<div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>-->
+                                </div> -->
+
+                                <input class="custom-file-input" id="fileselect" type="file" multiple (change)="fileSelectHandler($event)" ngControl="casefiles" />
+
                             </div>
                         </div>
+
+                        <div class="col-md-2 dms-form-group bb br">
+                            <label for="cbrs_unit">CBRS Unit</label>
+                            <select id="cbrs_unit" ngControl="cbrs_unit" (change)="getSystemmaps(newUnit.value); getProhibitiondates(newUnit.value); updateCaseControlValue(newUnit.id, newUnit.value)" #newUnit>
+                                <option value=""></option>
+                                <option *ngFor="#unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myCase.cbrs_unit">{{unit.system_unit_number}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 dms-form-group bb br">
+                            <label for="map_number">Map Number</label>
+                            <select id="map_number" ngControl="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
+                                <option value=""></option>
+                                <option *ngFor="#map of mySystemmaps" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.map_number}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 dms-form-group bb">
+                            <label for="cbrs_map_date">Map Date</label>
+                            <input id="cbrs_map_date" type="date" ngControl="cbrs_map_date" readonly>
+                            <!--<select id="cbrs_map_date" class="form-control">-->
+                            <!--    <option *ngFor="#mapdate of availableSystemmapdates" [value]="mapdate.id">{{mapdate.map_date}}</option>-->
+                            <!--</select>-->
+                        </div>
+                        <div class="col-md-2 dms-form-group br">
+                            <label for="determination">Determination</label>
+                            <select id="determination" ngControl="determination" (change)="updateCaseControlValue(newDetermination.id, newDetermination.value)" #newDetermination>
+                                <option value=""></option>
+                                <option *ngFor="#determination of myDeterminations" [value]="determination.id" [selected]="determination.id == myCase.determination">{{determination.determination}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 dms-form-group br">
+                            <label for="prohibition_date">Prohibition Date</label>
+                            <select id="prohibition_date" ngControl="prohibition_date" (change)="updateCaseControlValue(newProhibitionDate.id, newProhibitionDate.value)" #newProhibitionDate>
+                                <option value=""></option>
+                                <option *ngFor="#prohibitiondate of myProhibitiondates" [value]="prohibitiondate.prohibition_date" [selected]="prohibitiondate.prohibition_date == myCase.prohibition_date">{{prohibitiondate.prohibition_date}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 dms-form-group">
+                            <label for="distance">Distance</label>
+                            <input id="distance" type="text" ngControl="distance">
+                        </div>
+
+
                     </div>
 
-                    <div class="row" id="case_determination">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="cbrs_unit">CBRS Unit</label>
-                                <select id="cbrs_unit" class="form-control" ngControl="cbrs_unit" (change)="getSystemmaps(newUnit.value); getProhibitiondates(newUnit.value); updateCaseControlValue(newUnit.id, newUnit.value)" #newUnit>
-                                    <option value=""></option>
-                                    <option *ngFor="#unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myCase.cbrs_unit">{{unit.system_unit_number}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="map_number">Map Number</label>
-                                <select id="map_number" class="form-control" ngControl="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
-                                    <option value=""></option>
-                                    <option *ngFor="#map of mySystemmaps" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.map_number}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="cbrs_map_date">Map Date</label>
-                                <input id="cbrs_map_date" type="date" class="form-control" ngControl="cbrs_map_date" readonly>
-                                <!--<select id="cbrs_map_date" class="form-control">-->
-                                <!--    <option *ngFor="#mapdate of availableSystemmapdates" [value]="mapdate.id">{{mapdate.map_date}}</option>-->
-                                <!--</select>-->
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="determination">Determination</label>
-                                <select id="determination" class="form-control" ngControl="determination" (change)="updateCaseControlValue(newDetermination.id, newDetermination.value)" #newDetermination>
-                                    <option value=""></option>
-                                    <option *ngFor="#determination of myDeterminations" [value]="determination.id" [selected]="determination.id == myCase.determination">{{determination.determination}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="prohibition_date">Prohibition Date</label>
-                                <select id="prohibition_date" class="form-control" ngControl="prohibition_date" (change)="updateCaseControlValue(newProhibitionDate.id, newProhibitionDate.value)" #newProhibitionDate>
-                                    <option value=""></option>
-                                    <option *ngFor="#prohibitiondate of myProhibitiondates" [value]="prohibitiondate.prohibition_date" [selected]="prohibitiondate.prohibition_date == myCase.prohibition_date">{{prohibitiondate.prohibition_date}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="distance">Distance</label>
-                                <input id="distance" type="text" class="form-control" ngControl="distance">
-                            </div>
-                        </div>
-                    </div>
                     <div class="row" id="case_messages" [hidden]="mapsfound"><pre>No maps found for this unit.</pre></div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
                 <div class="dms-group">
                     <h2 class="dms-group-header">Important Dates</h2>
 
                     <div class="row" id="dates">
-                        <div class="col-md-4" id="important_dates">
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="request_date">Request Date</label>
-                                    <input id="request_date" type="date" class="form-control" ngControl="request_date">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="fws_fo_received_date">Field Office Received Date</label>
-                                    <input id="fws_fo_received_date" type="date" class="form-control" ngControl="fws_fo_received_date">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="fws_hq_received_date">Headquarters Received Date</label>
-                                    <input id="fws_hq_received_date" type="date" class="form-control" ngControl="fws_hq_received_date">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="final_letter_date">Final Letter Date</label>
-                                    <input id="final_letter_date" type="date" class="form-control" ngControl="final_letter_date">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="close_date">Close Date</label>
-                                    <input id="close_date" type="date" class="form-control" ngControl="close_date">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8" id="signoffs">
+                        <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="form-group">
+                                    <div class="dms-form-group br bb">
+                                        <label for="request_date">Request Date</label>
+                                        <input id="request_date" type="date" ngControl="request_date">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="dms-form-group br bb">
                                         <label for="analyst">Analyst</label>
-                                        <select id="analyst" class="form-control" ngControl="analyst" (change)="setSignoffDateToday(newAnalyst.id); updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>
+                                        <select id="analyst" ngControl="analyst" (change)="setSignoffDateToday(newAnalyst.id); updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>
                                             <option value=""></option>
                                             <option *ngFor="#analyst of availableAnalysts" [value]="analyst.id" [selected]="analyst.id == selectedAnalyst">{{analyst.username}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group">
+                                    <div class="dms-form-group br bb">
                                         <label for="analyst_signoff_date">Date</label>
-                                        <input id="analyst_signoff_date" type="date" class="form-control" ngControl="analyst_signoff_date">
+                                        <input id="analyst_signoff_date" type="date" ngControl="analyst_signoff_date">
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="form-group">
+                                    <div class="dms-form-group br bb">
+                                        <label for="fws_fo_received_date">Field Office Received Date</label>
+                                        <input id="fws_fo_received_date" type="date" ngControl="fws_fo_received_date">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="dms-form-group br bb">
                                         <label for="qc_reviewer">QC Reviewer</label>
-                                        <select id="qc_reviewer" class="form-control" ngControl="qc_reviewer" (change)="setSignoffDateToday(newQCReviewer.id); updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)" #newQCReviewer>
+                                        <select id="qc_reviewer" ngControl="qc_reviewer" (change)="setSignoffDateToday(newQCReviewer.id); updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)" #newQCReviewer>
                                             <option value=""></option>
                                             <option *ngFor="#qc_reviewer of availableQCReviewers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == selectedQCReviewer">{{qc_reviewer.username}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group">
+                                    <div class="dms-form-group bb">
                                         <label for="qc_reviewer_signoff_date">Date</label>
-                                        <input id="qc_reviewer_signoff_date" type="date" class="form-control" ngControl="qc_reviewer_signoff_date">
+                                        <input id="qc_reviewer_signoff_date" type="date" ngControl="qc_reviewer_signoff_date">
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+
+                        <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="form-group">
+                                    <div class="dms-form-group br">
+                                        <label for="fws_hq_received_date">Headquarters Received Date</label>
+                                        <input id="fws_hq_received_date" type="date" ngControl="fws_hq_received_date">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="dms-form-group br">
                                         <label for="fws_reviewer">FWS Reviewer</label>
-                                        <select id="fws_reviewer" class="form-control" ngControl="fws_reviewer" (change)="setSignoffDateToday(newFWSReviewer.id); updateCaseControlValue(newFWSReviewer.id, newFWSReviewer.value)" #newFWSReviewer>
+                                        <select id="fws_reviewer" ngControl="fws_reviewer" (change)="setSignoffDateToday(newFWSReviewer.id); updateCaseControlValue(newFWSReviewer.id, newFWSReviewer.value)" #newFWSReviewer>
                                             <option value=""></option>
                                             <option *ngFor="#fws_reviewer of availableFWSReviewers" [value]="fws_reviewer.id" [selected]="fws_reviewer.id == selectedFWSReviewer">{{fws_reviewer.username}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group">
+                                    <div class="dms-form-group br">
                                         <label for="fws_reviewer_signoff_date">Date</label>
-                                        <input id="fws_reviewer_signoff_date" type="date" class="form-control" ngControl="fws_reviewer_signoff_date">
+                                        <input id="fws_reviewer_signoff_date" type="date" ngControl="fws_reviewer_signoff_date">
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="dms-form-group br">
+                                        <label for="final_letter_date">Final Letter Date</label>
+                                        <input id="final_letter_date" type="date" class="form-control" ngControl="final_letter_date">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dms-form-group">
+                                        <label for="close_date">Close Date</label>
+                                        <input id="close_date" type="date" class="form-control" ngControl="close_date">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
+
 
                 </div>
             </div>
@@ -193,53 +219,53 @@
 
             <div class="dms-group">
                 <h2 class="dms-group-header">Property Information</h2>
-                <div class="row" id="request_information">
+                <div class="row" ngControlGroup="propertygroup">
 
-                    <div class="col-md-12" ngControlGroup="propertygroup">
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="street">Street</label>
-                                <input id="street" type="text" class="form-control" ngControl="street">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="unit">Unit</label>
-                                <input id="unit" type="text" class="form-control" ngControl="unit">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="city">City</label>
-                                <input id="city" type="text" class="form-control" ngControl="city">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="state">State</label>
-                                <input id="state" type="text" class="form-control" ngControl="state">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="zipcode">Zipcode</label>
-                                <input id="zipcode" type="text" class="form-control" ngControl="zipcode">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="subdivision">Subdivision</label>
-                                <input id="subdivision" type="text" class="form-control" ngControl="subdivision">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="policy_number">Policy Number</label>
-                                <input id="policy_number" type="text" class="form-control" ngControl="policy_number">
-                            </div>
+                    <div class="col-md-3">
+                        <div class="dms-form-group br bb">
+                            <label for="street">Street</label>
+                            <input id="street" type="text" ngControl="street">
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="dms-form-group br bb">
+                            <label for="unit">Unit</label>
+                            <input id="unit" type="text" ngControl="unit">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dms-form-group br bb">
+                            <label for="city">City</label>
+                            <input id="city" type="text" ngControl="city">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dms-form-group bb">
+                            <label for="state">State</label>
+                            <input id="state" type="text" ngControl="state">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="dms-form-group br">
+                            <label for="zipcode">Zipcode</label>
+                            <input id="zipcode" type="text" ngControl="zipcode">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dms-form-group br">
+                            <label for="subdivision">Subdivision</label>
+                            <input id="subdivision" type="text" ngControl="subdivision">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dms-form-group">
+                            <label for="policy_number">Policy Number</label>
+                            <input id="policy_number" type="text" ngControl="policy_number">
+                        </div>
+                    </div>
+
 
 
 
@@ -249,51 +275,43 @@
 
             <div class="dms-group">
                 <h2 class="dms-group-header">Requester Information</h2>
-                <div class="row">
-                    <div class="col-md-12" ngControlGroup="requestergroup">
+                <div class="row" ngControlGroup="requestergroup">
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="salutation">Salutation</label>
-                                <select id="salutation" class="form-control" ngControl="salutation" (change)="updateRequesterControlValue(newSalutation.id, newSalutation.value)" #newSalutation>
-                                    <option value=""></option>
-                                    <option *ngFor="#salutation of salutations" [value]="salutation" [selected]="salutation == myRequester.salutation">{{salutation}}</option>
-                                </select>
-                            </div>
+                    <div class="col-md-2">
+                        <div class="dms-form-group br">
+                            <label for="salutation">Salutation</label>
+                            <select id="salutation" ngControl="salutation" (change)="updateRequesterControlValue(newSalutation.id, newSalutation.value)" #newSalutation>
+                                <option value=""></option>
+                                <option *ngFor="#salutation of salutations" [value]="salutation" [selected]="salutation == myRequester.salutation">{{salutation}}</option>
+                            </select>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="first_name">First Name</label>
-                                <input id="first_name" type="text" class="form-control" ngControl="first_name">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="last_name">Last Name</label>
-                                <input id="last_name" type="text" class="form-control" ngControl="last_name">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="organization">Organization</label>
-                                <input id="organization" type="text" class="form-control" ngControl="organization">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input id="email" type="text" class="form-control" ngControl="email">
-                            </div>
-                        </div>
-                        <!--
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="address">Address</label>
-                                <input id="address" type="text" class="form-control" ngControl="address">
-                            </div>
-                        </div>
-                        -->
                     </div>
+                    <div class="col-md-2">
+                        <div class="dms-form-group br">
+                            <label for="first_name">First Name</label>
+                            <input id="first_name" type="text" ngControl="first_name">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="dms-form-group br">
+                            <label for="last_name">Last Name</label>
+                            <input id="last_name" type="text" ngControl="last_name">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dms-form-group br">
+                            <label for="organization">Organization</label>
+                            <input id="organization" type="text" ngControl="organization">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dms-form-group">
+                            <label for="email">Email</label>
+                            <input id="email" type="text" ngControl="email">
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
 
@@ -301,27 +319,36 @@
 
 
             <div class="dms-group noheader">
+                <div class="row">
+                    <div class="col-md-6" style="border-right: 1px solid #E8E8E8">
+                        <h2 class="dms-group-header">Comments</h2>
 
-                <div class="row" id="comments_tags">
-                    <div class="col-md-6" ngControlGroup="commentgroup">
-                        <label>Comments</label>
+                        <div class="add-comment-wrap">
+                            <input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment><!--
+                            --><button class="btn-add-comment" type="button" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
+                        </div>
+
                         <ul class="comment-ul">
                             <li *ngFor="#comment of myComments">{{ comment.comment }}</li>
                         </ul>
-                        <input type="text" class="form-control" #newComment>
-                        <button class="btn-add" type="button" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
+
                     </div>
-                    <div class="col-md-6" ngControlGroup="taggroup">
-                        <label>Tags</label>
+                    <div class="col-md-6">
+                        <h2 class="dms-group-header">Tags</h2>
+
+                        <div class="add-comment-wrap">
+                            <select class="new-comment-input new-comment-select" #newTag>
+                                <option *ngFor="#tag of availableTags" [value]="tag.id">{{tag.name}}</option>
+                            </select><!--
+                            --><button class="btn-add-comment" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>
+                        </div>
+
                         <ul class="tag-ul">
                             <li *ngFor="#casetag of myCasetags">{{ casetag.tagname }} <button class="btn-remove" type="button" (click)="removeCasetag(casetag.id)"><i class="fa fa-remove"></i></button></li>
                         </ul>
-                        <select class="form-control" #newTag>
-                            <option *ngFor="#tag of availableTags" [value]="tag.id">{{tag.name}}</option>
-                        </select>
-                        <button class="btn-add" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>
                     </div>
                 </div>
+
             </div>
 
             <br/>

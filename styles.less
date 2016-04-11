@@ -8,6 +8,7 @@
 
 body,
 html{
+    background-color: #F8F8F8;
     font-family: @sans;
     margin: 0 auto;
     padding: 0;
@@ -79,10 +80,11 @@ nav{
     display: block;
     width: 100%;
     z-index: 5000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     a{
         display: inline-block;
         box-sizing: border-box;
-        padding: 12px 20px;
+        padding: 16px 20px;
         font-size: 10pt;
         color: @white;
         background-color: @black;
@@ -91,7 +93,9 @@ nav{
         letter-spacing: 0.75px;
         vertical-align: middle;
         transition: @transition;
-        &:hover{
+        &:hover,
+        &:active,
+        &:focus{
             text-decoration: none;
             cursor: pointer;
             color: @white;
@@ -104,8 +108,9 @@ nav{
         display: inline-block;;
         text-align: center;
         font-family: @sans;
-        font-weight: bolder;
-        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-weight: 300;
+        letter-spacing: 1.5px;
         color: @white;
         font-size: 14pt;
         box-sizing: border-box;
@@ -122,8 +127,11 @@ nav{
     font-family: @sans;
     border-left: 0px solid black;
     border-right: 0px solid black;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,100,0.1), 0 1px 2px rgba(0,0,100,0.14);
 
     thead{
+        background-color: @white;
         th{
             border-bottom-width: 1px !important;
             a{
@@ -148,6 +156,7 @@ nav{
         tr{
             border: 0px solid black !important;
             transition: @transition;
+            background-color: @white;
 
             &:hover{
                 cursor: pointer;
@@ -187,36 +196,34 @@ nav{
     }
 
     label{
-        display: block;
-        width: 100%;
         font-family: @sans;
         font-weight: bolder;
         color: @black;
         text-transform: uppercase;
         font-size: 8.5pt;
+        margin: 0;
     }
     input,
     select,
     textarea{
         border-radius: 0px !important;
         background-color: @white;
-        border: 1px solid lighten(#3d4360, 25%);
+        // border: 1px solid lighten(#3d4360, 25%);
+        border: none;
         box-shadow: none;
+        box-sizing: border-box;
+        padding: 4px;
+        border-radius: 4px;
         transition: @transition;
         &:hover{
             transition: @transition;
-            border: 1px solid lighten(#3d4360, 20%);
+            background-color: #FCFCFC;
         }
         &:focus{
-            border: 1px solid lighten(#3d4360, 12%);
         }
     }
     select{
-        border-radius: 0;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        height: 30px;
         &:hover{
             cursor: pointer;
         }
@@ -224,14 +231,6 @@ nav{
     input[type='file']{
         background-color: transparent;
         border: 0px solid black;
-    }
-    input[type='checkbox']{
-        display: block;
-        text-align: center;
-        margin: 0 auto;
-        position: relative;
-        top: -10px;
-        left:18px;
     }
 
     .row{
@@ -243,67 +242,188 @@ nav{
         display: block;
         width: 100%;
         box-sizing: border-box;
-        padding: 20px 35px 20px 35px;
-        background-color: #fcfcfc;
+        // padding: 20px 35px 20px 35px;
+        background-color: @white;
         border: 1px solid darken(#fcfcfc, 5%);
-        margin-bottom: 35px;
-
+        margin-bottom: 55px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.14);
 
         .dms-group-header{
-            display: block;
-            font-size: 12pt;
-            letter-spacing: 1px;
-            font-weight: bolder;
-            margin: 0 0 25px 0;
-            width: 100%;
-            text-align: center;
+            border-bottom: 1px solid #E8E8E8;
+            margin: 0 auto;
             box-sizing: border-box;
-            padding: 0;
+            padding: 15px;
+            font-size: 14pt;
+            font-weight: bolder;
+            color: @black;
             text-transform: uppercase;
         }
 
-        .btn-add{
-            background-color: @blue;
-            color: @white;
-            text-transform: uppercase;
-            font-family: @sans;
-            box-sizing: border-box;
-            padding: 6px 10px 4px 10px;
-            border: 1px solid darken(@blue, 5%);
-            font-size: 8pt;
-            font-weight: bolder;
-            border-radius: 4px;
-            margin: 5px 0 0 0;
-            transition: @transition;
-
-            &:hover{
-                cursor: pointer;
-                background-color: darken(@blue, 5%);
-                border: 1px solid darken(@blue, 10%);
-                transition: @transition;
-            }
-        }
-
-        .comment-ul{
-            display: block;
-            width: 100%;
-            margin: 0 auto 15px 0;
+        .col-md-1,
+        .col-md-2,
+        .col-md-3,
+        .col-md-4,
+        .col-md-5,
+        .col-md-6{
             padding: 0;
-            list-style-type: none;
-
-            li{
-                box-sizing: border-box;
-                padding: 2px 0;
-            }
         }
 
-        .tag-ul{
+        .chx-group{
             display: block;
             width: 100%;
             margin: 0 auto;
             padding: 0;
+            box-sizing: border-box;
+
+            label{
+                display: inline-block;
+                width: 140px;
+                width: calc(~'100% - 40px');
+                height: 45px;
+                vertical-align: top;
+                line-height: 45px;
+                margin: 0 auto;
+                background-color: #3d4360;
+                border-bottom: 1px solid @black;
+                color: @white;
+                box-sizing: border-box;
+                padding: 0 0 0 18px;
+            }
+
+            .chx{
+                height: 45px;
+                width: 40px;
+                line-height: 45px;
+                vertical-align: top;
+                background-color: @black;
+                display: inline-block;
+                text-align: center;
+                border-bottom: 1px solid darken(@black, 10%);
+                input[type="checkbox"]{
+                    position: relative;
+                    top: 12px;
+
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .file-group{
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            border-right: 1px solid #E8E8E8;
+            height: 135px;
+
+            label{
+                display: inline-block;
+                width: 70%;
+                color: @black;
+                margin: 0 auto;
+                height: 45px;
+                line-height: 45px;
+                text-align: center;
+                box-sizing: border-box;
+                vertical-align: middle;
+                background-color: @white;
+                border-bottom: 1px solid darken(#FCFCFC, 8%);
+            }
+
+            ul{
+                display: block;
+                width: 90%;
+                padding: 10px 0 0 0;
+                margin: 0 5%;
+                list-style-type: bullet;
+
+                li{
+                    display: block;
+                    box-sizing: border-box;
+                    padding: 0 0 5px 0;
+                    text-align: left;
+
+                    a{
+                        font-size: 9pt;
+                        font-weight: bolder;
+                        color: @black;
+                        font-weight: 600;
+                        letter-spacing: 0.5px;
+                        font-family: @sans;
+                        transition: @transition;
+
+                        &:hover{
+                            cursor: pointer;
+                            color: @blue;
+                            transition: @transition;
+                        }
+                    }
+                }
+            }
+
+            input[type="file"]{
+                display: none;
+            }
+            .file-upload-label{
+                height: 45px;
+                vertical-align: middle;
+                line-height: 45px;
+                display: inline-block;
+                width: 30%;
+                text-align: center;
+                padding: 0;
+                background-color: @blue;
+                color: @white;
+                text-align: center;
+                margin: 0 auto;
+                text-transform: capitalize;
+                font-weight: 400;
+                font-size: 8pt;
+                letter-spacing: 0.5px;
+                box-sizing: border-box;
+
+                &:hover{
+                    cursor: pointer;
+                    transition: @transition;
+                    background-color: darken(@blue, 8%);
+                }
+            }
+        }
+
+        .dms-form-group{
+            box-sizing: border-box;
+            height: 67.5px;
+
+            &.bb{border-bottom: 1px solid #E8E8E8;}
+            &.br{border-right: 1px solid #E8E8E8;}
+
+            label{
+                box-sizing: border-box;
+                padding: 10px 0 0 14px;
+                display: block;
+            }
+
+            input,
+            select{
+                display: block;
+                width: 86%;
+                margin: 0 auto;
+                background-color: @white;
+                border-radius: 0 !important;
+            }
+        }
+
+
+
+        .tag-ul{
+            display: block;
+            width: 80%;
+            margin: 0 auto;
+            padding: 0;
             list-style-type: none;
-            margin: 15px auto 15px 0;
+            margin: 15px auto 15px auto !important;
+            text-align: center;
 
             li{
                 display: inline-block;
@@ -314,7 +434,7 @@ nav{
                 border-radius: 4px;
                 font-size: 10pt;
                 border: 1px solid darken(#fcfcfc, 5%);
-                margin: 0 5px 5px 0;
+                margin: 0 7px 5px 7px;
 
                 .btn-remove{
                     background-color: transparent;
@@ -339,6 +459,55 @@ nav{
             }
         }
     }
+}
+
+
+.add-comment-wrap{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px 35px;
+    .new-comment-input{
+        border-top: 1px solid #E8E8E8;
+        box-sizing: border-box;
+        padding: 10px 15px !important;
+        display: inline-block;
+        width: 70%;
+        vertical-align: middle;
+        border: 1px solid darken(#F8F8F8, 5%) !important;
+
+    }
+    .new-comment-select{
+        height: 42px;
+    }
+    .btn-add-comment{
+        display: inline-block;
+        width: 30%;
+        text-align: center;
+        color: @white;
+        background-color: @blue;
+        border: 1px solid darken(@blue, 5%);
+        transition: @transition;
+        height: 42px;
+        line-height: 36px;
+        font-size: 8pt;
+        text-transform: uppercase;
+        font-weight: bolder;
+        letter-spacing: 1px;
+        vertical-align: middle;
+
+        &:hover{
+            transition: @transition;
+            background-color: lighten(@blue, 5%);
+            border: 1px solid @blue;
+            cursor: pointer;
+        }
+    }
+}
+
+.comment-ul{
+    box-sizing: border-box;
+    padding: 25px 55px;
 }
 
 
