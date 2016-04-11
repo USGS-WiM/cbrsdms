@@ -41,25 +41,25 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
                     this.cases_properties = [];
                     this.notready = true;
                 }
-                WorkbenchListComponent.prototype.getCases = function () {
+                WorkbenchListComponent.prototype._getCases = function () {
                     var _this = this;
                     this._caseService.getCases(new http_2.URLSearchParams('view=workbench'))
                         .subscribe(function (cases) {
-                        _this.cases = cases;
-                        for (var i = 0, j = _this.cases.length; i < j; i++) {
+                        _this._cases = cases;
+                        for (var i = 0, j = _this._cases.length; i < j; i++) {
                             //this.getProperties(this.cases[i].id);
-                            var case_property = _this.cases[i];
+                            var case_property = _this._cases[i];
                             var address = case_property.property_string.split(',');
                             case_property.street = address[0];
                             case_property.city = address[1];
                             _this.cases_properties.push(case_property);
-                            if (_this.cases.length == _this.cases_properties.length) {
-                                _this.sortAndShow();
+                            if (_this._cases.length == _this.cases_properties.length) {
+                                _this._sortAndShow();
                             }
                         }
-                    }, function (error) { return _this.errorMessage = error; });
+                    }, function (error) { return _this._errorMessage = error; });
                 };
-                /*    getProperties(caseID: number) {
+                /*    _getProperties(caseID: number) {
                         this._propertyService.getProperties(new URLSearchParams('case='+caseID))
                             .subscribe(
                                 property => {
@@ -67,15 +67,15 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
                                     let case_property: any = cases[0];
                                     case_property.street = property[0].street;
                                     case_property.city = property[0].city;
-                                    this.cases_properties.push(case_property);
-                                    if (this.cases.length == this.cases_properties.length) {
-                                        this.sortAndShow();
+                                    this._cases_properties.push(case_property);
+                                    if (this._cases.length == this._cases_properties.length) {
+                                        this._sortAndShow();
                                     }
                                 },
-                                error => this.errorMessage = <any>error);
+                                error => this._errorMessage = <any>error);
                     }
                 */
-                WorkbenchListComponent.prototype.getColumns = function () {
+                WorkbenchListComponent.prototype._getColumns = function () {
                     this.columns = [
                         new column_1.Column('status', 'Status'),
                         new column_1.Column('request_date', 'Request Date'),
@@ -90,7 +90,7 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
                     ];
                 };
                 // the following function found here: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
-                WorkbenchListComponent.prototype.dynamicSortMultiple = function () {
+                WorkbenchListComponent.prototype._dynamicSortMultiple = function () {
                     function dynamicSort(property) {
                         var sortOrder = 1;
                         if (property[0] === "-") {
@@ -120,13 +120,13 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
                         return result;
                     };
                 };
-                WorkbenchListComponent.prototype.sortAndShow = function () {
-                    this.cases_properties.sort(this.dynamicSortMultiple('-priority', '-status'));
+                WorkbenchListComponent.prototype._sortAndShow = function () {
+                    this.cases_properties.sort(this._dynamicSortMultiple('-priority', '-status'));
                     this.notready = false;
                 };
                 WorkbenchListComponent.prototype.ngOnInit = function () {
-                    this.getCases();
-                    this.getColumns();
+                    this._getCases();
+                    this._getColumns();
                 };
                 WorkbenchListComponent = __decorate([
                     core_1.Component({

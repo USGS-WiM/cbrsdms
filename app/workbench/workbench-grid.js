@@ -42,7 +42,7 @@ System.register(['angular2/core', '../grid/grid', 'angular2/router'], function(e
                     core_1.Component({
                         selector: 'grid',
                         inputs: ['rows: rows', 'columns: columns'],
-                        templateUrl: 'app/workbench/workbench-grid.html',
+                        templateUrl: 'app/workbench/workbench-list.component.html',
                         styles: ['.gridHeader {cursor:pointer;}']
                     }), 
                     __metadata('design:paramtypes', [router_1.Router])

@@ -108,9 +108,9 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                     configurable: true
                 });
                 ;
-                APP_SETTINGS._API_ENDPOINT = 'http://localhost:8000/cbraservices/';
+                APP_SETTINGS._API_ENDPOINT = 'http://54.175.91.99:8000/cbraservices/';
                 APP_SETTINGS = __decorate([
-                    core_1.Injectable(), 
+                    core_1.Injectable(),
                     __metadata('design:paramtypes', [])
                 ], APP_SETTINGS);
                 return APP_SETTINGS;
