@@ -59,6 +59,9 @@ export class WorkbenchDetailComponent{
 
     private _userFields:string[] = ['analyst', 'qc_reviewer', 'fws_reviewer'];
     private _today: string = new Date().toISOString().substr(0,10);
+    private _time: string = new Date().toISOString().substr(14,22);
+    private _getTime() { return new Date().toISOString().substr(14,22); }
+    private _debug: Boolean = false;
 
     myCase = new Case();
     myProperty = new Property();
@@ -72,6 +75,7 @@ export class WorkbenchDetailComponent{
     availableTags = [];
     mySystemunits: Systemunit[];
     mySystemmaps: Systemmap[];
+    selectedMap: number;
     availableSystemmapdates = [];
     myFieldoffices: Fieldoffice[];
     myUsers: User[];
@@ -162,6 +166,8 @@ export class WorkbenchDetailComponent{
                  private _prohibitiondateService: ProhibitiondateService
     ){
 
+        if(this._debug){console.log("0: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
+
         this._caseControls = this._makeControls(this._myCase_fields);
         this._propertyControls = this._makeControls(this._myProperty_fields);
         this._requesterControls = this._makeControls(this._myRequester_fields);
@@ -198,6 +204,18 @@ export class WorkbenchDetailComponent{
             this.noxhr = false;
         }
 
+        // TODO: Discover and fix the underlying issue and remove this hack.
+        // This is a hack to get the Map Number select box to properly select the case's map number.
+        // During debugging, the select box actually does make the proper selection, but then for some reason
+        // it de-selects, leaving the selected value null, and I can't figure out why. Maybe it's losing a race
+        // condition between the page load and the system unit select box load???
+        setTimeout(()=> {
+            //this._updateControl("map_number", this._myCase_fields, this._caseControls, this.mySystemmaps);
+            this.selectedMap = this.myCase.map_number;
+            if(this._debug){console.log("6: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
+            console.log("map_number hack");
+        }, 3000);
+
 /*
         this.form.valueChanges
             .subscribe((formValue) => {
@@ -211,6 +229,8 @@ export class WorkbenchDetailComponent{
             .subscribe(
                 acase => {
                     this.myCase = acase;
+                    if(this._debug){console.log("1: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
+                    //this.selectedMap = this.myCase.map_number;
                     this.selectedAnalyst = acase.analyst;
                     this.selectedQCReviewer = acase.qc_reviewer;
                     this.selectedFWSReviewer = acase.fws_reviewer;
@@ -303,6 +323,7 @@ export class WorkbenchDetailComponent{
             .subscribe(
                 systemunits => {
                     this.mySystemunits = systemunits;
+                    if(this._debug){console.log("2: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
                     //let unitID = (this.myCase.cbrs_unit ? this.myCase.cbrs_unit : this.mySystemunits[0].id);
                     //this.getSystemmaps(unitID);
                     if (this.myCase.cbrs_unit) {
@@ -322,7 +343,9 @@ export class WorkbenchDetailComponent{
                     if (this.mySystemmaps.length == 0) { this.mapsfound = false; } //alert('No maps found for this unit.'); }
                     else {
                         this.mapsfound = true;
+                        if(this._debug){console.log("3: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
                         this._updateControl("map_number", this._myCase_fields, this._caseControls, this.mySystemmaps);
+                        if(this._debug){console.log("4: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap); console.log(this.mySystemmaps);}
                         //let mapID = (this.myCase.map_number ? this.myCase.map_number : this.mySystemmaps[0].id);
                         //this.getSystemmapdate(mapID);
                         if (this.myCase.map_number) {this.getSystemmapdate(this.myCase.map_number)}
@@ -336,6 +359,7 @@ export class WorkbenchDetailComponent{
         else {
             let maps = this.mySystemmaps.filter(function (map) {return map.id == mapID;});
             this._caseControls["cbrs_map_date"].updateValue(maps[0].map_date);
+            if(this._debug){console.log("5: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
             //this.updateControl("cbrs_map_date", this.myCase_fields, this.caseControls, this.mySystemmaps);
         }
     }
@@ -530,12 +554,15 @@ export class WorkbenchDetailComponent{
     fileDragHover(fileInput) {
         fileInput.stopPropagation();
         fileInput.preventDefault();
-        fileInput.target.className = (fileInput.type == "dragover" ? "hover" : "");
+        //fileInput.target.className = (fileInput.type == "dragover" ? "hover" : "");
     }
 
     fileSelectHandler(fileInput: any){
         this.fileDragHover(fileInput);
-        this._filesToUpload = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;
+        let selectedFiles = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;
+        for (let i = 0, j = selectedFiles.length; i < j; i++) {
+            this._filesToUpload.push(selectedFiles[i]);
+        }
         for (let i = 0, f; f = this._filesToUpload[i]; i++) {
             let fileDetails = {'name': f.name, 'size': ((f.size)/1024/1024).toFixed(3)};
             this.filesToUploadDetails.push(fileDetails);
@@ -543,6 +570,7 @@ export class WorkbenchDetailComponent{
     }
 
     removeCasefile(index: number) {
+        this._filesToUpload.splice(index, 1);
         this.filesToUploadDetails.splice(index, 1);
     }
 

@@ -9,7 +9,7 @@ export class RequesterService {
     constructor (private http: Http) {}
 
     getRequester (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.get(APP_SETTINGS.REQUESTERS_URL+id+'/', options)
             .map(res => <Requester> res.json())
@@ -17,7 +17,7 @@ export class RequesterService {
     }
   
     getRequesters (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.REQUESTERS_URL, options)
 		    .map(res => <Requester[]> res.json())
@@ -26,7 +26,7 @@ export class RequesterService {
 
     createRequester (requester: Requester) : Observable<Requester> {
         let body = JSON.stringify(requester);
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
   
         return this.http.post(APP_SETTINGS.REQUESTERS_URL, body, options)
             .map(res => <Requester> res.json())
@@ -39,8 +39,8 @@ export class RequesterService {
         delete requester['id'];
 
         let body = JSON.stringify(requester);
-        //let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
-        let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
 
 
         return this.http.put(APP_SETTINGS.REQUESTERS_URL+id+'/', body, options)

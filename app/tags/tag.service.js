@@ -32,20 +32,20 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../app.se
                     this.http = http;
                 }
                 TagService.prototype.getTag = function (id) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
                     return this.http.get(app_settings_1.APP_SETTINGS.TAGS_URL + id + '/', options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 TagService.prototype.getTags = function (searchArgs) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER, search: searchArgs });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
                     return this.http.get(app_settings_1.APP_SETTINGS.TAGS_URL, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 TagService.prototype.createTag = function (tag) {
                     var body = JSON.stringify(tag);
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
                     return this.http.post(app_settings_1.APP_SETTINGS.TAGS_URL, body, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
@@ -55,7 +55,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../app.se
                     var id = tag.id;
                     delete tag['id'];
                     var body = JSON.stringify(tag);
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
                     return this.http.put(app_settings_1.APP_SETTINGS.TAGS_URL + id + '/', body, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);

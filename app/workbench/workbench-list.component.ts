@@ -1,6 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {HTTP_PROVIDERS}    from 'angular2/http';
-import {URLSearchParams}   from 'angular2/http';
+import {HTTP_PROVIDERS, URLSearchParams}    from 'angular2/http';
 import {Case}              from '../cases/case'
 import {CaseService}       from '../cases/case.service';
 import {PropertyService}   from '../properties/property.service';
@@ -23,7 +22,10 @@ import {Column}            from '../grid/column';
 
 export class WorkbenchListComponent implements OnInit{
 
-    constructor (private _caseService: CaseService, private _propertyService: PropertyService) {}
+    constructor (
+        private _caseService: CaseService,
+        private _propertyService: PropertyService
+    ) {}
 
     private _cases: Case[];
     cases_properties = [];
@@ -116,7 +118,7 @@ export class WorkbenchListComponent implements OnInit{
     }
 
     _sortAndShow() {
-        this.cases_properties.sort(this._dynamicSortMultiple('-priority', '-status'));
+        this.cases_properties.sort(this._dynamicSortMultiple(['-priority', '-status']));
         this.notready = false;
     }
 
@@ -124,4 +126,6 @@ export class WorkbenchListComponent implements OnInit{
         this._getCases();
         this._getColumns();
     }
+
+
 }

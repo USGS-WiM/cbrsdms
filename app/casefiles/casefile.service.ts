@@ -6,11 +6,8 @@ import {APP_SETTINGS}   from '../app.settings';
 export class CasefileService {
     constructor (private http: Http) {}
 
-    private _username = "public";
-    private _password = "public";
-
     getCasefiles (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.CASEFILES_URL, options)
             .toPromise()
@@ -35,7 +32,7 @@ export class CasefileService {
                     }
                 };
                 xhr.open("POST", APP_SETTINGS.CASEFILES_URL, true);
-                xhr.setRequestHeader("Authorization", "Basic " + btoa(this._username + ":" + this._password));
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(sessionStorage.getItem('username') + ":" + sessionStorage.getItem('password')));
                 xhr.send(formData);
             }
         });

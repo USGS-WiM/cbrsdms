@@ -2,7 +2,8 @@
 <div style="margin-left:100px;">
 
     <nav>
-        <a [routerLink]="['Workbench']">Workbench</a>
+        <!--<a [routerLink]="['Workbench']">Workbench</a>-->
+        <a *ngFor="#link of links" [routerLink]="['/' + link]" (click)="resetLinks()">{{ link }}</a>
     </nav>
     <router-outlet></router-outlet>
 

@@ -9,7 +9,7 @@ export class CommentService {
     constructor (private http: Http) {}
 
     getComment (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         
         return this.http.get(APP_SETTINGS.COMMENTS_URL+id+'/', options)
             .map(res => <Comment> res.json())
@@ -17,7 +17,7 @@ export class CommentService {
     }
   
     getComments (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
         
         return this.http.get(APP_SETTINGS.COMMENTS_URL, options)
             .map(res => <Comment[]> res.json())
@@ -27,8 +27,8 @@ export class CommentService {
     createComment (comment: Comment) : Observable<Comment> {
         let acomment = {'case': comment.caseid, 'comment': comment.comment};
         let body = JSON.stringify(acomment);
-        //let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
-        let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
 
         return this.http.post(APP_SETTINGS.COMMENTS_URL, body, options)
             .map(res => <Comment> res.json())
@@ -41,7 +41,7 @@ export class CommentService {
         delete comment['id'];
         
         let body = JSON.stringify(comment);
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         
         return this.http.put(APP_SETTINGS.COMMENTS_URL+id+'/', body, options)
             .map(res => <Comment> res.json())

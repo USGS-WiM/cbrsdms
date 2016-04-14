@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/case.service', './workbench-list.component', './workbench-detail.component', '../grid/grid'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/case.service', './workbench-list.component', './workbench-detail.component', '../grid/grid', '../authentication/authentication.service', '../authentication/is-loggedin'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, http_1, case_service_1, workbench_list_component_1, workbench_detail_component_1, grid_1;
+    var core_1, router_1, http_1, case_service_1, workbench_list_component_1, workbench_detail_component_1, grid_1, authentication_service_1, is_loggedin_1;
     var WorkbenchComponent;
     return {
         setters:[
@@ -34,25 +34,38 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
             },
             function (grid_1_1) {
                 grid_1 = grid_1_1;
+            },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
+            },
+            function (is_loggedin_1_1) {
+                is_loggedin_1 = is_loggedin_1_1;
             }],
         execute: function() {
             WorkbenchComponent = (function () {
-                function WorkbenchComponent() {
+                function WorkbenchComponent(auth, router) {
+                    this.auth = auth;
+                    this.router = router;
+                    this.first_name = sessionStorage.getItem('first_name');
+                    this.last_name = sessionStorage.getItem('last_name');
                 }
+                WorkbenchComponent.prototype.onLogout = function () {
+                    var _this = this;
+                    this.auth.logout()
+                        .subscribe(function () { return _this.router.navigate(['../Login']); });
+                };
                 WorkbenchComponent = __decorate([
                     core_1.Component({
-                        template: "\n    <router-outlet></router-outlet>\n    ",
-                        directives: [grid_1.Grid, router_1.RouterOutlet],
-                        providers: [
-                            http_1.HTTP_PROVIDERS,
-                            case_service_1.CaseService,
-                        ]
+                        template: "\n    <div style=\"float: left;\">\n        <a [routerLink]=\"['Workbench']\">Workbench</a>\n    </div>\n    <div style=\"float: right;\">\n        User: {{ first_name }} {{ last_name }} <a href=\"/logout\" (click)=\"onLogout()\">Logout</a>\n    </div>\n    <router-outlet></router-outlet>\n    ",
+                        directives: [router_1.ROUTER_DIRECTIVES, grid_1.Grid, router_1.RouterOutlet],
+                        providers: [http_1.HTTP_PROVIDERS, case_service_1.CaseService]
                     }),
                     router_1.RouteConfig([
                         { path: '/', name: 'WorkbenchList', component: workbench_list_component_1.WorkbenchListComponent, useAsDefault: true },
-                        { path: '/cases/:id', name: 'WorkbenchDetail', component: workbench_detail_component_1.WorkbenchDetailComponent }
-                    ]), 
-                    __metadata('design:paramtypes', [])
+                        { path: '/cases/:id', name: 'WorkbenchDetail', component: workbench_detail_component_1.WorkbenchDetailComponent },
+                    ]),
+                    router_1.CanActivate(function () { return is_loggedin_1.isLoggedin(); }), 
+                    __metadata('design:paramtypes', [authentication_service_1.AuthenticationService, router_1.Router])
                 ], WorkbenchComponent);
                 return WorkbenchComponent;
             }());

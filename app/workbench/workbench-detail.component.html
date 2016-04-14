@@ -51,7 +51,7 @@
                             <label for="map_number">Map Number</label>
                             <select id="map_number" class="form-control" ngControl="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
                                 <option value=""></option>
-                                <option *ngFor="#map of mySystemmaps" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.map_number}}</option>
+                                <option *ngFor="#map of mySystemmaps" [value]="map.id" [selected]="map.id == selectedMap">{{map.map_number}}</option>
                             </select>
                         </div>
                     </div>

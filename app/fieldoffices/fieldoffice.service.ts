@@ -9,7 +9,7 @@ export class FieldofficeService {
     constructor (private http: Http) {}
 
     getFieldoffice (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         
         return this.http.get(APP_SETTINGS.FIELDOFFICES_URL+id+'/', options)
             .map(res => <Fieldoffice> res.json())
@@ -17,7 +17,7 @@ export class FieldofficeService {
     }
   
     getFieldoffices (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
         
         return this.http.get(APP_SETTINGS.FIELDOFFICES_URL, options)
             .map(res => <Fieldoffice[]> res.json())
@@ -26,8 +26,8 @@ export class FieldofficeService {
 
     createFieldoffice (fieldoffice: Fieldoffice) : Observable<Fieldoffice> {
         let body = JSON.stringify(fieldoffice);
-        //let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
-        let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
 
         return this.http.post(APP_SETTINGS.FIELDOFFICES_URL, body, options)
             .map(res => <Fieldoffice> res.json())
@@ -40,7 +40,7 @@ export class FieldofficeService {
         delete fieldoffice['id'];
         
         let body = JSON.stringify(fieldoffice);
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         
         return this.http.put(APP_SETTINGS.FIELDOFFICES_URL+id+'/', body, options)
             .map(res => <Fieldoffice> res.json())
