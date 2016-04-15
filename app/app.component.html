@@ -1,10 +1,5 @@
-<h1>CBRA Determination Management</h1>
-<div style="margin-left:100px;">
-
-    <nav>
-        <!--<a [routerLink]="['Workbench']">Workbench</a>-->
-        <a *ngFor="#link of links" [routerLink]="['/' + link]" (click)="resetLinks()">{{ link }}</a>
-    </nav>
-    <router-outlet></router-outlet>
-
-</div>
+<nav>
+    <a [routerLink]="['Workbench']">Workbench</a>
+    <h1>CBRA Determination Management</h1>
+</nav>
+<router-outlet></router-outlet>

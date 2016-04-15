@@ -8,7 +8,7 @@ import {Column}            from '../grid/column';
 
 @Component({
     template: `
-        <div [hidden]="!notready" align="center"><img [src]="'loading.gif'" /></div>
+        <div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
         <div [hidden]="notready">
             <grid [rows]="cases_properties" [columns]="columns"></grid>
         </div>

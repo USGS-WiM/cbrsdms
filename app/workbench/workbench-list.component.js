@@ -129,7 +129,7 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
                 };
                 WorkbenchListComponent = __decorate([
                     core_1.Component({
-                        template: "\n        <div [hidden]=\"!notready\" align=\"center\"><img [src]=\"'loading.gif'\" /></div>\n        <div [hidden]=\"notready\">\n            <grid [rows]=\"cases_properties\" [columns]=\"columns\"></grid>\n        </div>\n    ",
+                        template: "\n        <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><img class=\"loader\" [src]=\"'loading.gif'\" /></div>\n        <div [hidden]=\"notready\">\n            <grid [rows]=\"cases_properties\" [columns]=\"columns\"></grid>\n        </div>\n    ",
                         directives: [workbench_grid_1.WorkbenchGrid],
                         providers: [
                             http_1.HTTP_PROVIDERS,
