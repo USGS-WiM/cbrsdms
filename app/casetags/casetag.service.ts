@@ -9,7 +9,7 @@ export class CasetagService {
     constructor (private http: Http) {}
 
     getCasetag (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.get(APP_SETTINGS.CASETAGS_URL+id+'/', options)
             .map(res => <Casetag> res.json())
@@ -17,7 +17,7 @@ export class CasetagService {
     }
   
     getCasetags (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.CASETAGS_URL, options)
             .map(res => <Casetag[]> res.json())
@@ -27,8 +27,8 @@ export class CasetagService {
     createCasetag (casetag: Casetag) : Observable<Casetag> {
         let acasetag = {'case': casetag.caseid, 'tag': casetag.tag};
         let body = JSON.stringify(acasetag);
-        //let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
-        let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
 
         return this.http.post(APP_SETTINGS.CASETAGS_URL, body, options)
             .map(res => <Casetag> res.json())
@@ -41,7 +41,7 @@ export class CasetagService {
         delete casetag['id'];
         
         let body = JSON.stringify(casetag);
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         
         return this.http.put(APP_SETTINGS.CASETAGS_URL+id+'/', body, options)
             .map(res => <Casetag> res.json())
@@ -49,7 +49,7 @@ export class CasetagService {
     }
 
     deleteCasetag (id: number | string) : Observable<Response> {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         
         return this.http.delete(APP_SETTINGS.CASETAGS_URL+id+'/', options);
     }

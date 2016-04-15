@@ -4,7 +4,9 @@ import {Headers} from 'angular2/http';
 @Injectable()
 export class APP_SETTINGS {
     private static _API_ENDPOINT: string = 'http://localhost:8000/cbraservices/';
+    //private static _API_ENDPOINT: string = 'http://54.175.91.99:8000/cbraservices/';
 
+    public static get AUTH_URL(): string { return this._API_ENDPOINT+'auth/' };
     public static get CASES_URL(): string { return this._API_ENDPOINT+'cases/' };
     public static get PROPERTIES_URL(): string { return this._API_ENDPOINT+'properties/' };
     public static get REQUESTERS_URL(): string { return this._API_ENDPOINT+'requesters/' };
@@ -19,5 +21,11 @@ export class APP_SETTINGS {
     public static get DETERMINATIONS_URL(): string { return this._API_ENDPOINT+'determinations/' };
     public static get SYSTEMUNITPROHIBITIONDATES_URL(): string { return this._API_ENDPOINT+'systemunitprohibitiondates/' };
 
-    public static get JSON_HEADER() { return new Headers({ 'Accept': 'application/json' }) };
+    public static get JSON_HEADERS() { return new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) };
+    public static get AUTH_HEADERS() { return new Headers({ 'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password'))}) };
+    public static get AUTH_JSON_HEADERS() { return new Headers({
+        'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')),
+        'Accept': 'application/json', 'Content-Type': 'application/json' }
+    )};
+
 }

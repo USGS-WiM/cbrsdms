@@ -86,6 +86,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
         execute: function() {
             WorkbenchDetailComponent = (function () {
                 function WorkbenchDetailComponent(fb, _routeParams, _caseService, _casefileService, _propertyService, _requesterService, _commentService, _tagService, _casetagService, _systemunitService, _systemmapService, _fieldofficeService, _userService, _determinationService, _prohibitiondateService) {
+                    var _this = this;
                     this._routeParams = _routeParams;
                     this._caseService = _caseService;
                     this._casefileService = _casefileService;
@@ -107,6 +108,8 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                     this.noxhr = true;
                     this._userFields = ['analyst', 'qc_reviewer', 'fws_reviewer'];
                     this._today = new Date().toISOString().substr(0, 10);
+                    this._time = new Date().toISOString().substr(14, 22);
+                    this._debug = false;
                     this.myCase = new case_1.Case();
                     this.myProperty = new property_1.Property();
                     this.myRequester = new requester_1.Requester();
@@ -125,6 +128,9 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                     this._myRequester_fields = Object.keys(this.myRequester);
                     this._commentsControls = [];
                     this._casetagsControls = [];
+                    if (this._debug) {
+                        console.log("0: " + this._getTime() + ": " + this.myCase.map_number + " : " + this.selectedMap);
+                    }
                     this._caseControls = this._makeControls(this._myCase_fields);
                     this._propertyControls = this._makeControls(this._myProperty_fields);
                     this._requesterControls = this._makeControls(this._myRequester_fields);
@@ -156,6 +162,19 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                     if (xhr.upload) {
                         this.noxhr = false;
                     }
+                    // TODO: Discover and fix the underlying issue and remove this hack.
+                    // This is a hack to get the Map Number select box to properly select the case's map number.
+                    // During debugging, the select box actually does make the proper selection, but then for some reason
+                    // it de-selects, leaving the selected value null, and I can't figure out why. Maybe it's losing a race
+                    // condition between the page load and the system unit select box load???
+                    setTimeout(function () {
+                        //this._updateControl("map_number", this._myCase_fields, this._caseControls, this.mySystemmaps);
+                        _this.selectedMap = _this.myCase.map_number;
+                        if (_this._debug) {
+                            console.log("6: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                        }
+                        console.log("map_number hack");
+                    }, 3000);
                     /*
                             this.form.valueChanges
                                 .subscribe((formValue) => {
@@ -163,6 +182,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                                 });
                     */
                 }
+                WorkbenchDetailComponent.prototype._getTime = function () { return new Date().toISOString().substr(14, 22); };
                 WorkbenchDetailComponent.prototype._makeControls = function (fields) {
                     var controls = {};
                     for (var i = 0, j = fields.length; i < j; i++) {
@@ -204,6 +224,10 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                     this._caseService.getCase(caseID)
                         .subscribe(function (acase) {
                         _this.myCase = acase;
+                        if (_this._debug) {
+                            console.log("1: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                        }
+                        //this.selectedMap = this.myCase.map_number;
                         _this.selectedAnalyst = acase.analyst;
                         _this.selectedQCReviewer = acase.qc_reviewer;
                         _this.selectedFWSReviewer = acase.fws_reviewer;
@@ -281,6 +305,9 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                     this._systemunitService.getSystemunits()
                         .subscribe(function (systemunits) {
                         _this.mySystemunits = systemunits;
+                        if (_this._debug) {
+                            console.log("2: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                        }
                         //let unitID = (this.myCase.cbrs_unit ? this.myCase.cbrs_unit : this.mySystemunits[0].id);
                         //this.getSystemmaps(unitID);
                         if (_this.myCase.cbrs_unit) {
@@ -300,7 +327,14 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                         } //alert('No maps found for this unit.'); }
                         else {
                             _this.mapsfound = true;
+                            if (_this._debug) {
+                                console.log("3: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                            }
                             _this._updateControl("map_number", _this._myCase_fields, _this._caseControls, _this.mySystemmaps);
+                            if (_this._debug) {
+                                console.log("4: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                                console.log(_this.mySystemmaps);
+                            }
                             //let mapID = (this.myCase.map_number ? this.myCase.map_number : this.mySystemmaps[0].id);
                             //this.getSystemmapdate(mapID);
                             if (_this.myCase.map_number) {
@@ -316,6 +350,9 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                     else {
                         var maps = this.mySystemmaps.filter(function (map) { return map.id == mapID; });
                         this._caseControls["cbrs_map_date"].updateValue(maps[0].map_date);
+                        if (this._debug) {
+                            console.log("5: " + this._getTime() + ": " + this.myCase.map_number + " : " + this.selectedMap);
+                        }
                     }
                 };
                 WorkbenchDetailComponent.prototype._getUsers = function () {
@@ -540,17 +577,21 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                 WorkbenchDetailComponent.prototype.fileDragHover = function (fileInput) {
                     fileInput.stopPropagation();
                     fileInput.preventDefault();
-                    fileInput.target.className = (fileInput.type == "dragover" ? "hover" : "");
+                    //fileInput.target.className = (fileInput.type == "dragover" ? "hover" : "");
                 };
                 WorkbenchDetailComponent.prototype.fileSelectHandler = function (fileInput) {
                     this.fileDragHover(fileInput);
-                    this._filesToUpload = fileInput.target.files || fileInput.dataTransfer.files;
+                    var selectedFiles = fileInput.target.files || fileInput.dataTransfer.files;
+                    for (var i = 0, j = selectedFiles.length; i < j; i++) {
+                        this._filesToUpload.push(selectedFiles[i]);
+                    }
                     for (var i = 0, f = void 0; f = this._filesToUpload[i]; i++) {
                         var fileDetails = { 'name': f.name, 'size': ((f.size) / 1024 / 1024).toFixed(3) };
                         this.filesToUploadDetails.push(fileDetails);
                     }
                 };
                 WorkbenchDetailComponent.prototype.removeCasefile = function (index) {
+                    this._filesToUpload.splice(index, 1);
                     this.filesToUploadDetails.splice(index, 1);
                 };
                 WorkbenchDetailComponent.prototype._callCreateCasefiles = function () {

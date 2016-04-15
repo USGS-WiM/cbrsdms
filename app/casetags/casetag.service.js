@@ -32,13 +32,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../app.se
                     this.http = http;
                 }
                 CasetagService.prototype.getCasetag = function (id) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
                     return this.http.get(app_settings_1.APP_SETTINGS.CASETAGS_URL + id + '/', options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 CasetagService.prototype.getCasetags = function (searchArgs) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER, search: searchArgs });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
                     return this.http.get(app_settings_1.APP_SETTINGS.CASETAGS_URL, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
@@ -46,8 +46,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../app.se
                 CasetagService.prototype.createCasetag = function (casetag) {
                     var acasetag = { 'case': casetag.caseid, 'tag': casetag.tag };
                     var body = JSON.stringify(acasetag);
-                    //let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
-                    var options = new http_1.RequestOptions({ headers: new http_1.Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
+                    //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
                     return this.http.post(app_settings_1.APP_SETTINGS.CASETAGS_URL, body, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
@@ -57,13 +57,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../app.se
                     var id = casetag.id;
                     delete casetag['id'];
                     var body = JSON.stringify(casetag);
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
                     return this.http.put(app_settings_1.APP_SETTINGS.CASETAGS_URL + id + '/', body, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 CasetagService.prototype.deleteCasetag = function (id) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
                     return this.http.delete(app_settings_1.APP_SETTINGS.CASETAGS_URL + id + '/', options);
                 };
                 CasetagService.prototype.handleError = function (error) {

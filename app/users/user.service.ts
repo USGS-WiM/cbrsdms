@@ -9,7 +9,7 @@ export class UserService {
     constructor (private http: Http) {}
 
     getUser (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         
         return this.http.get(APP_SETTINGS.USERS_URL+id+'/', options)
             .map(res => <User> res.json())
@@ -17,7 +17,7 @@ export class UserService {
     }
   
     getUsers (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
         
         return this.http.get(APP_SETTINGS.USERS_URL, options)
             .map(res => <User[]> res.json())

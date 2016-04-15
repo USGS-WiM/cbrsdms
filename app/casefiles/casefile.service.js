@@ -27,18 +27,15 @@ System.register(['angular2/core', 'angular2/http', '../app.settings'], function(
             CasefileService = (function () {
                 function CasefileService(http) {
                     this.http = http;
-                    this._username = "public";
-                    this._password = "public";
                 }
                 CasefileService.prototype.getCasefiles = function (searchArgs) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER, search: searchArgs });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
                     return this.http.get(app_settings_1.APP_SETTINGS.CASEFILES_URL, options)
                         .toPromise()
                         .then(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 CasefileService.prototype.createCasefiles = function (caseid, files) {
-                    var _this = this;
                     return new Promise(function (resolve, reject) {
                         var _loop_1 = function(i) {
                             var formData = new FormData();
@@ -56,7 +53,7 @@ System.register(['angular2/core', 'angular2/http', '../app.settings'], function(
                                 }
                             };
                             xhr.open("POST", app_settings_1.APP_SETTINGS.CASEFILES_URL, true);
-                            xhr.setRequestHeader("Authorization", "Basic " + btoa(_this._username + ":" + _this._password));
+                            xhr.setRequestHeader("Authorization", "Basic " + btoa(sessionStorage.getItem('username') + ":" + sessionStorage.getItem('password')));
                             xhr.send(formData);
                         };
                         for (var i = 0; i < files.length; i++) {

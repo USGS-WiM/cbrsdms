@@ -9,7 +9,7 @@ export class SystemunitService {
     constructor (private http: Http) {}
 
     getSystemunit (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         
         return this.http.get(APP_SETTINGS.SYSTEMUNITS_URL+id+'/', options)
             .map(res => <Systemunit> res.json())
@@ -17,7 +17,7 @@ export class SystemunitService {
     }
   
     getSystemunits (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
         
         return this.http.get(APP_SETTINGS.SYSTEMUNITS_URL, options)
             .map(res => <Systemunit[]> res.json())

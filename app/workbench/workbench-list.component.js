@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, http_2, case_service_1, property_service_1, workbench_grid_1, column_1;
+    var core_1, http_1, case_service_1, property_service_1, workbench_grid_1, column_1;
     var WorkbenchListComponent;
     return {
         setters:[
@@ -19,7 +19,6 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
             },
             function (http_1_1) {
                 http_1 = http_1_1;
-                http_2 = http_1_1;
             },
             function (case_service_1_1) {
                 case_service_1 = case_service_1_1;
@@ -43,7 +42,7 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
                 }
                 WorkbenchListComponent.prototype._getCases = function () {
                     var _this = this;
-                    this._caseService.getCases(new http_2.URLSearchParams('view=workbench'))
+                    this._caseService.getCases(new http_1.URLSearchParams('view=workbench'))
                         .subscribe(function (cases) {
                         _this._cases = cases;
                         for (var i = 0, j = _this._cases.length; i < j; i++) {
@@ -121,7 +120,7 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
                     };
                 };
                 WorkbenchListComponent.prototype._sortAndShow = function () {
-                    this.cases_properties.sort(this._dynamicSortMultiple('-priority', '-status'));
+                    this.cases_properties.sort(this._dynamicSortMultiple(['-priority', '-status']));
                     this.notready = false;
                 };
                 WorkbenchListComponent.prototype.ngOnInit = function () {
@@ -130,7 +129,7 @@ System.register(['angular2/core', 'angular2/http', '../cases/case.service', '../
                 };
                 WorkbenchListComponent = __decorate([
                     core_1.Component({
-                        template: "\n        <div [hidden]=\"!notready\" align=\"center\"><img [src]=\"'loading.gif'\" /></div>\n        <div [hidden]=\"notready\">\n            <grid [rows]=\"cases_properties\" [columns]=\"columns\"></grid>\n        </div>\n    ",
+                        template: "\n        <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><img class=\"loader\" [src]=\"'loading.gif'\" /></div>\n        <div [hidden]=\"notready\">\n            <grid [rows]=\"cases_properties\" [columns]=\"columns\"></grid>\n        </div>\n    ",
                         directives: [workbench_grid_1.WorkbenchGrid],
                         providers: [
                             http_1.HTTP_PROVIDERS,

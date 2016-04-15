@@ -32,13 +32,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../app.se
                     this.http = http;
                 }
                 SystemmapService.prototype.getSystemmap = function (id) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
                     return this.http.get(app_settings_1.APP_SETTINGS.SYSTEMMAPS_URL + id + '/', options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 SystemmapService.prototype.getSystemmaps = function (searchArgs) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER, search: searchArgs });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
                     return this.http.get(app_settings_1.APP_SETTINGS.SYSTEMMAPS_URL, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);

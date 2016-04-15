@@ -32,20 +32,20 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../app.se
                     this.http = http;
                 }
                 RequesterService.prototype.getRequester = function (id) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
                     return this.http.get(app_settings_1.APP_SETTINGS.REQUESTERS_URL + id + '/', options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 RequesterService.prototype.getRequesters = function (searchArgs) {
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER, search: searchArgs });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
                     return this.http.get(app_settings_1.APP_SETTINGS.REQUESTERS_URL, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 RequesterService.prototype.createRequester = function (requester) {
                     var body = JSON.stringify(requester);
-                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.JSON_HEADER });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
                     return this.http.post(app_settings_1.APP_SETTINGS.REQUESTERS_URL, body, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
@@ -55,8 +55,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../app.se
                     var id = requester.id;
                     delete requester['id'];
                     var body = JSON.stringify(requester);
-                    //let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
-                    var options = new http_1.RequestOptions({ headers: new http_1.Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+                    var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
+                    //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
                     return this.http.put(app_settings_1.APP_SETTINGS.REQUESTERS_URL + id + '/', body, options)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);

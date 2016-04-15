@@ -24,6 +24,13 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
             APP_SETTINGS = (function () {
                 function APP_SETTINGS() {
                 }
+                Object.defineProperty(APP_SETTINGS, "AUTH_URL", {
+                    //private static _API_ENDPOINT: string = 'http://54.175.91.99:8000/cbraservices/';
+                    get: function () { return this._API_ENDPOINT + 'auth/'; },
+                    enumerable: true,
+                    configurable: true
+                });
+                ;
                 Object.defineProperty(APP_SETTINGS, "CASES_URL", {
                     get: function () { return this._API_ENDPOINT + 'cases/'; },
                     enumerable: true,
@@ -102,15 +109,31 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                     configurable: true
                 });
                 ;
-                Object.defineProperty(APP_SETTINGS, "JSON_HEADER", {
-                    get: function () { return new http_1.Headers({ 'Accept': 'application/json' }); },
+                Object.defineProperty(APP_SETTINGS, "JSON_HEADERS", {
+                    get: function () { return new http_1.Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }); },
                     enumerable: true,
                     configurable: true
                 });
                 ;
-                APP_SETTINGS._API_ENDPOINT = 'http://54.175.91.99:8000/cbraservices/';
+                Object.defineProperty(APP_SETTINGS, "AUTH_HEADERS", {
+                    get: function () { return new http_1.Headers({ 'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')) }); },
+                    enumerable: true,
+                    configurable: true
+                });
+                ;
+                Object.defineProperty(APP_SETTINGS, "AUTH_JSON_HEADERS", {
+                    get: function () {
+                        return new http_1.Headers({
+                            'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')),
+                            'Accept': 'application/json', 'Content-Type': 'application/json' });
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                ;
+                APP_SETTINGS._API_ENDPOINT = 'http://localhost:8000/cbraservices/';
                 APP_SETTINGS = __decorate([
-                    core_1.Injectable(),
+                    core_1.Injectable(), 
                     __metadata('design:paramtypes', [])
                 ], APP_SETTINGS);
                 return APP_SETTINGS;

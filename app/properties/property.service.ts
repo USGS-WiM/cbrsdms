@@ -9,7 +9,7 @@ export class PropertyService {
     constructor (private http: Http) {}
 
     getProperty (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.get(APP_SETTINGS.PROPERTIES_URL+id+'/',options)
             .map(res => <Property> res.json())
@@ -17,7 +17,7 @@ export class PropertyService {
     }
   
     getProperties (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.PROPERTIES_URL, options)
             .map(res => <Property[]> res.json())
@@ -26,7 +26,7 @@ export class PropertyService {
 
     createProperty (property: Property) : Observable<Property> {
         let body = JSON.stringify(property);
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.post(APP_SETTINGS.PROPERTIES_URL, body, options)
             .map(res => <Property> res.json())
@@ -39,8 +39,8 @@ export class PropertyService {
         delete property['id'];
 
         let body = JSON.stringify(property);
-        //let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
-        let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
 
 
         return this.http.put(APP_SETTINGS.PROPERTIES_URL+id+'/', body, options)

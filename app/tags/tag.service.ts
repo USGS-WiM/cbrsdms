@@ -9,7 +9,7 @@ export class TagService {
     constructor (private http: Http) {}
 
     getTag (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.get(APP_SETTINGS.TAGS_URL+id+'/', options)
             .map(res => <Tag> res.json())
@@ -17,7 +17,7 @@ export class TagService {
     }
   
     getTags (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.TAGS_URL, options)
             .map(res => <Tag[]> res.json())
@@ -26,7 +26,7 @@ export class TagService {
 
     createTag (tag: Tag) : Observable<Tag> {
         let body = JSON.stringify(tag);
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.post(APP_SETTINGS.TAGS_URL, body, options)
             .map(res => <Tag> res.json())
@@ -39,7 +39,7 @@ export class TagService {
         delete tag['id'];
         
         let body = JSON.stringify(tag);
-        let options = new RequestOptions({ headers: APP_SETTINGS.JSON_HEADER });
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         
         return this.http.put(APP_SETTINGS.TAGS_URL+id+'/', body, options)
             .map(res => <Tag> res.json())
