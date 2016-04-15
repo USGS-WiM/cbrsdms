@@ -25,7 +25,6 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                 function APP_SETTINGS() {
                 }
                 Object.defineProperty(APP_SETTINGS, "AUTH_URL", {
-                    //private static _API_ENDPOINT: string = 'http://54.175.91.99:8000/cbraservices/';
                     get: function () { return this._API_ENDPOINT + 'auth/'; },
                     enumerable: true,
                     configurable: true
@@ -131,7 +130,8 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                     configurable: true
                 });
                 ;
-                APP_SETTINGS._API_ENDPOINT = 'http://localhost:8000/cbraservices/';
+                //private static _API_ENDPOINT: string = 'http://localhost:8000/cbraservices/';
+                APP_SETTINGS._API_ENDPOINT = 'http://' + window.location + '/cbra/cbraservices/';
                 APP_SETTINGS = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [])
