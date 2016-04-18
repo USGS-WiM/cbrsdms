@@ -13,7 +13,7 @@ export class LogoutComponent {
     constructor(public auth: AuthenticationService, public router: Router) {
         auth.logout()
             .subscribe(
-                () => this.router.navigate(['../Login'])
+                () => this.router.navigate(['/Login'])
             );
     }
 
