@@ -30,7 +30,7 @@ System.register(['angular2/core', 'angular2/router', './authentication.service']
                     this.auth = auth;
                     this.router = router;
                     auth.logout()
-                        .subscribe(function () { return _this.router.navigate(['../Login']); });
+                        .subscribe(function () { return _this.router.navigate(['/Login']); });
                 }
                 LogoutComponent = __decorate([
                     core_1.Component({

@@ -52,11 +52,11 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                 WorkbenchComponent.prototype.onLogout = function () {
                     var _this = this;
                     this.auth.logout()
-                        .subscribe(function () { return _this.router.navigate(['../Login']); });
+                        .subscribe(function () { return _this.router.navigate(['/Login']); });
                 };
                 WorkbenchComponent = __decorate([
                     core_1.Component({
-                        template: "\n    <div style=\"float: left;\">\n        <a [routerLink]=\"['Workbench']\">Workbench</a>\n    </div>\n    <div style=\"float: right;\">\n        User: {{ first_name }} {{ last_name }} <a href=\"/logout\" (click)=\"onLogout()\">Logout</a>\n    </div>\n    <router-outlet></router-outlet>\n    ",
+                        template: "\n    <div style=\"float: left;\">\n        <a [routerLink]=\"['Workbench']\">Workbench</a>\n        <!-- <a href=\"../../cbra/cbrarequests/\">Create Case</a>\n        <a href=\"/reports\">Reports</a>\n        <a href=\"/tags\">Tags</a> -->\n    </div>\n    <div style=\"float: right;\">\n        <!-- <input type=\"text\">\n        <button>Search</button>\n        <button>Reset</button> -->\n        User: {{ first_name }} {{ last_name }} <a href=\"/logout\" (click)=\"onLogout()\">Logout</a>\n    </div>\n    <router-outlet></router-outlet>\n    ",
                         directives: [router_1.ROUTER_DIRECTIVES, grid_1.Grid, router_1.RouterOutlet],
                         providers: [http_1.HTTP_PROVIDERS, case_service_1.CaseService]
                     }),

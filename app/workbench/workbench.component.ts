@@ -12,8 +12,14 @@ import {isLoggedin}        from '../authentication/is-loggedin';
     template: `
     <div style="float: left;">
         <a [routerLink]="['Workbench']">Workbench</a>
+        <!-- <a href="../../cbra/cbrarequests/">Create Case</a>
+        <a href="/reports">Reports</a>
+        <a href="/tags">Tags</a> -->
     </div>
     <div style="float: right;">
+        <!-- <input type="text">
+        <button>Search</button>
+        <button>Reset</button> -->
         User: {{ first_name }} {{ last_name }} <a href="/logout" (click)="onLogout()">Logout</a>
     </div>
     <router-outlet></router-outlet>
@@ -38,7 +44,7 @@ export class WorkbenchComponent {
     onLogout() {
         this.auth.logout()
             .subscribe(
-                () => this.router.navigate(['../Login'])
+                () => this.router.navigate(['/Login'])
             );
     }
 }
