@@ -55,8 +55,6 @@
                             </div>
                         </div>
 
-
-
                         <div class="col-md-4">
                             <div class="file-group">
                                 <label class="half-label" for="casefiles">Case Files</label><!--
@@ -80,41 +78,24 @@
                                     <input id="priority" type="checkbox" [checked]="priority" ngControl="priority">
                                 </div>
                             </div><!--
-                            --><div class="chx-group">
-                                <label for="two">Other Check</label><!--
+                                --><div class="chx-group">
+                                <label for="on_hold">On Hold</label><!--
                                 --><div class="chx">
-                                    <input id="priority" type="checkbox" [checked]="priority" ngControl="priority">
+                                    <input id="on_hold" type="checkbox" [checked]="on_hold" ngControl="on_hold">
                                 </div>
                             </div><!--
-                            --><div class="chx-group">
-                                <label for="three">Another Check</label><!--
+                                --><div class="chx-group">
+                                <label for="invalid">Invalid</label><!--
                                 --><div class="chx">
-                                    <input id="priority" type="checkbox" [checked]="priority" ngControl="priority">
+                                    <input id="invalid" type="checkbox" [checked]="invalid" ngControl="invalid">
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
 
                     </div>
 
                     <div class="row" id="case_messages" [hidden]="mapsfound"><pre>No maps found for this unit.</pre></div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <div class="dms-group">
                     <h2 class="dms-group-header">Important Dates</h2>
@@ -155,19 +136,14 @@
                             </div>
                         </div>
 
-
-
                     </div>
 
-
                 </div>
-
-
 
                 <div class="dms-group">
                     <h2 class="dms-group-header">CASE SIGNOFF</h2>
 
-                    <div class="row" id="dates">
+                    <div class="row" id="signoff">
                         <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="analyst">Analyst</label>
@@ -200,7 +176,6 @@
                             </div>
                         </div>
 
-
                         <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="fws_reviewer">FWS Reviewer</label>
@@ -217,15 +192,11 @@
                             </div>
                         </div>
 
-
                     </div>
 
-
                 </div>
+
             </div>
-
-
-
 
             <div class="dms-group">
                 <h2 class="dms-group-header">Property Information</h2>
@@ -256,7 +227,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-md-4">
                         <div class="dms-form-group br">
                             <label for="zipcode">Zipcode</label>
@@ -276,10 +246,8 @@
                         </div>
                     </div>
 
-
-
-
                 </div>
+
             </div>
 
 
@@ -321,12 +289,9 @@
                         </div>
                     </div>
 
-
                 </div>
+
             </div>
-
-
-
 
             <div class="dms-group noheader">
                 <div class="row">
@@ -334,12 +299,12 @@
                         <h2 class="dms-group-header">Comments</h2>
 
                         <div class="add-comment-wrap">
-                            <input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment><!--
-                            --><button class="btn-add-comment" type="button" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
+                            <input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment>
+                            <button class="btn-add-comment" type="button" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
                         </div>
 
                         <ul class="comment-ul">
-                            <li *ngFor="#comment of myComments">{{ comment.comment }}</li>
+                            <p *ngFor="#comment of myComments">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</p>
                         </ul>
 
                     </div>
@@ -349,8 +314,8 @@
                         <div class="add-comment-wrap">
                             <select class="new-comment-input new-comment-select" #newTag>
                                 <option *ngFor="#tag of availableTags" [value]="tag.id">{{tag.name}}</option>
-                            </select><!--
-                            --><button class="btn-add-comment" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>
+                            </select>
+                            <button class="btn-add-comment" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>
                         </div>
 
                         <ul class="tag-ul">
