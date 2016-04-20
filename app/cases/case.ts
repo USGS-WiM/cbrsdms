@@ -30,7 +30,9 @@ export class Case {
         public fws_reviewer?: number,
         public fws_reviewer_string?: string,
         public fws_reviewer_signoff_date?: Date,
-        public priority?: boolean,
+        public priority?: Boolean,
+        public on_hold?: Boolean,
+        public invalid?: Boolean,
         public comments?: number[],
         public tags?: number[],
         public id?: number

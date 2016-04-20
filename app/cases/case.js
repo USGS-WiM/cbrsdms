@@ -6,7 +6,7 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             Case = (function () {
-                function Case(requester, property, property_string, case_number, status, request_date, casefiles, cbrs_unit, cbrs_unit_string, map_number, map_number_string, cbrs_map_date, determination, determination_string, prohibition_date, distance, fws_fo_received_date, fws_hq_received_date, final_letter_date, close_date, final_letter_recipient, analyst, analyst_string, analyst_signoff_date, qc_reviewer, qc_reviewer_string, qc_reviewer_signoff_date, fws_reviewer, fws_reviewer_string, fws_reviewer_signoff_date, priority, comments, tags, id) {
+                function Case(requester, property, property_string, case_number, status, request_date, casefiles, cbrs_unit, cbrs_unit_string, map_number, map_number_string, cbrs_map_date, determination, determination_string, prohibition_date, distance, fws_fo_received_date, fws_hq_received_date, final_letter_date, close_date, final_letter_recipient, analyst, analyst_string, analyst_signoff_date, qc_reviewer, qc_reviewer_string, qc_reviewer_signoff_date, fws_reviewer, fws_reviewer_string, fws_reviewer_signoff_date, priority, on_hold, invalid, comments, tags, id) {
                     this.requester = requester;
                     this.property = property;
                     this.property_string = property_string;
@@ -38,6 +38,8 @@ System.register([], function(exports_1, context_1) {
                     this.fws_reviewer_string = fws_reviewer_string;
                     this.fws_reviewer_signoff_date = fws_reviewer_signoff_date;
                     this.priority = priority;
+                    this.on_hold = on_hold;
+                    this.invalid = invalid;
                     this.comments = comments;
                     this.tags = tags;
                     this.id = id;
