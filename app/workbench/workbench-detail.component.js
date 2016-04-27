@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/case', '../properties/property', '../requesters/requester', '../comments/comment', '../tags/tag', '../casetags/casetag', '../cases/case.service', '../casefiles/casefile.service', '../properties/property.service', '../requesters/requester.service', '../comments/comment.service', '../tags/tag.service', '../casetags/casetag.service', '../systemunits/systemunit.service', '../systemmaps/systemmap.service', '../fieldoffices/fieldoffice.service', '../users/user.service', '../determinations/determination.service', '../prohibitiondates/prohibitiondate.service', 'angular2/common'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/case', '../properties/property', '../requesters/requester', '../comments/comment', '../tags/tag', '../casetags/casetag', '../cases/case.service', '../casefiles/casefile.service', '../properties/property.service', '../requesters/requester.service', '../comments/comment.service', '../tags/tag.service', '../casetags/casetag.service', '../systemunits/systemunit.service', '../systemmaps/systemmap.service', '../fieldoffices/fieldoffice.service', '../users/user.service', '../determinations/determination.service', '../prohibitiondates/prohibitiondate.service', 'angular2/common', '../app.settings'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, http_1, case_1, property_1, requester_1, comment_1, tag_1, casetag_1, case_service_1, casefile_service_1, property_service_1, requester_service_1, comment_service_1, tag_service_1, casetag_service_1, systemunit_service_1, systemmap_service_1, fieldoffice_service_1, user_service_1, determination_service_1, prohibitiondate_service_1, common_1;
+    var core_1, router_1, http_1, case_1, property_1, requester_1, comment_1, tag_1, casetag_1, case_service_1, casefile_service_1, property_service_1, requester_service_1, comment_service_1, tag_service_1, casetag_service_1, systemunit_service_1, systemmap_service_1, fieldoffice_service_1, user_service_1, determination_service_1, prohibitiondate_service_1, common_1, app_settings_1;
     var WorkbenchDetailComponent;
     return {
         setters:[
@@ -82,6 +82,9 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
             },
             function (common_1_1) {
                 common_1 = common_1_1;
+            },
+            function (app_settings_1_1) {
+                app_settings_1 = app_settings_1_1;
             }],
         execute: function() {
             WorkbenchDetailComponent = (function () {
@@ -106,6 +109,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                     this.active = true;
                     this.notready = true;
                     this.noxhr = true;
+                    this.isreadonly_prohibitiondate = false;
                     this._userFields = ['analyst', 'qc_reviewer', 'fws_reviewer'];
                     this._today = new Date().toISOString().substr(0, 10);
                     this._time = new Date().toISOString().substr(14, 22);
@@ -121,7 +125,8 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                     this.availableAnalysts = [];
                     this.availableQCReviewers = [];
                     this.availableFWSReviewers = [];
-                    this.salutations = ['Mr.', 'Ms.', 'Dr.'];
+                    this.salutations = app_settings_1.APP_SETTINGS.SALUTATIONS;
+                    this.states = app_settings_1.APP_SETTINGS.US_STATES;
                     this.myCasefiles = [];
                     this._myCase_fields = Object.keys(this.myCase);
                     this._myProperty_fields = Object.keys(this.myProperty);
@@ -186,7 +191,12 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                 WorkbenchDetailComponent.prototype._makeControls = function (fields) {
                     var controls = {};
                     for (var i = 0, j = fields.length; i < j; i++) {
-                        controls[fields[i]] = new common_1.Control("");
+                        if (fields[i] == "zipcode") {
+                            controls[fields[i]] = new common_1.Control("", common_1.Validators.maxLength(5));
+                        }
+                        else {
+                            controls[fields[i]] = new common_1.Control("");
+                        }
                     }
                     return controls;
                 };
@@ -209,6 +219,9 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                     if (this._userFields.indexOf(control) > -1) {
                         this._buildUserOptions(control, value);
                     }
+                };
+                WorkbenchDetailComponent.prototype.updatePropertyControlValue = function (control, value) {
+                    this._propertyControls[control].updateValue(value);
                 };
                 WorkbenchDetailComponent.prototype.updateRequesterControlValue = function (control, value) {
                     this._requesterControls[control].updateValue(value);
@@ -353,6 +366,15 @@ System.register(['angular2/core', 'angular2/router', 'angular2/http', '../cases/
                         if (this._debug) {
                             console.log("5: " + this._getTime() + ": " + this.myCase.map_number + " : " + this.selectedMap);
                         }
+                    }
+                };
+                WorkbenchDetailComponent.prototype.toggleReadOnlyProhibitionDate = function (determination) {
+                    if (determination == 2 || determination == 4) {
+                        this._caseControls["prohibition_date"].updateValue(null);
+                        this.isreadonly_prohibitiondate = true;
+                    }
+                    else {
+                        this.isreadonly_prohibitiondate = false;
                     }
                 };
                 WorkbenchDetailComponent.prototype._getUsers = function () {
