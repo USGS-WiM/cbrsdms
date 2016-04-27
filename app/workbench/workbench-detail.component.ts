@@ -27,6 +27,7 @@ import {UserService}       from '../users/user.service';
 import {DeterminationService} from '../determinations/determination.service';
 import {ProhibitiondateService} from '../prohibitiondates/prohibitiondate.service';
 import {FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, Control, ControlArray} from 'angular2/common';
+import {APP_SETTINGS}      from '../app.settings';
 
 @Component({
     templateUrl: 'app/workbench/workbench-detail.component.html',
@@ -55,6 +56,7 @@ export class WorkbenchDetailComponent{
     active = true;
     notready: Boolean = true;
     noxhr: Boolean = true;
+    isreadonly_prohibitiondate: Boolean = false;
     private _errorMessage: string;
 
     private _userFields:string[] = ['analyst', 'qc_reviewer', 'fws_reviewer'];
@@ -87,7 +89,8 @@ export class WorkbenchDetailComponent{
     selectedFWSReviewer: number;
     myDeterminations: Determination[];
     myProhibitiondates: Prohibitiondate[];
-    salutations: String[] = ['Mr.', 'Ms.', 'Dr.'];
+    salutations: string[] = APP_SETTINGS.SALUTATIONS;
+    states: string[] = APP_SETTINGS.US_STATES;
     myCasefiles = [];
 
     private _myCase_fields = Object.keys(this.myCase);
@@ -109,7 +112,8 @@ export class WorkbenchDetailComponent{
     private _makeControls(fields) {
         let controls = {};
         for (let i = 0, j = fields.length; i < j; i++) {
-            controls[fields[i]] = new Control("");
+            if (fields[i] == "zipcode") {controls[fields[i]] = new Control("", Validators.maxLength(5));}
+            else {controls[fields[i]] = new Control("");}
         }
         return controls;
     }
@@ -135,6 +139,10 @@ export class WorkbenchDetailComponent{
     private updateCaseControlValue(control, value) {
         this._caseControls[control].updateValue(value);
         if (this._userFields.indexOf(control) > -1) { this._buildUserOptions(control, value); }
+    }
+    
+    private updatePropertyControlValue(control, value) {
+        this._propertyControls[control].updateValue(value);
     }
 
     private updateRequesterControlValue(control, value) {
@@ -335,7 +343,7 @@ export class WorkbenchDetailComponent{
                 error => this._errorMessage = <any>error);
     }
     
-    private getSystemmaps(unitID: number | string) {
+    public getSystemmaps(unitID: number | string) {
         this._systemmapService.getSystemmaps(new URLSearchParams('unit='+unitID))
             .subscribe(
                 systemmaps => {
@@ -354,13 +362,23 @@ export class WorkbenchDetailComponent{
                 error => this._errorMessage = <any>error);
     }
 
-    private getSystemmapdate(mapID) {
+    public getSystemmapdate(mapID) {
         if (!mapID) {this._caseControls["cbrs_map_date"].updateValue("");}
         else {
             let maps = this.mySystemmaps.filter(function (map) {return map.id == mapID;});
             this._caseControls["cbrs_map_date"].updateValue(maps[0].map_date);
             if(this._debug){console.log("5: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
             //this.updateControl("cbrs_map_date", this.myCase_fields, this.caseControls, this.mySystemmaps);
+        }
+    }
+
+    public toggleReadOnlyProhibitionDate(determination) {
+        if (determination == 2 || determination == 4) {
+            this._caseControls["prohibition_date"].updateValue(null);
+            this.isreadonly_prohibitiondate = true;
+        }
+        else {
+            this.isreadonly_prohibitiondate = false;
         }
     }
 
