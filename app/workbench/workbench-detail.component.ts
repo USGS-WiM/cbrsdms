@@ -1,6 +1,6 @@
-import {Component}         from 'angular2/core';
-import {RouteParams}       from 'angular2/router';
-import {URLSearchParams}   from 'angular2/http';
+import {Component}         from '@angular/core';
+import {ActivatedRoute}    from '@angular/router';
+import {URLSearchParams}   from '@angular/http';
 import {Case}              from '../cases/case';
 import {Property}          from '../properties/property'
 import {Requester}         from '../requesters/requester';
@@ -26,12 +26,12 @@ import {FieldofficeService} from '../fieldoffices/fieldoffice.service';
 import {UserService}       from '../users/user.service';
 import {DeterminationService} from '../determinations/determination.service';
 import {ProhibitiondateService} from '../prohibitiondates/prohibitiondate.service';
-import {FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, Control, ControlArray} from 'angular2/common';
+import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup, FormControl, FormArray} from '@angular/forms';
 import {APP_SETTINGS}      from '../app.settings';
 
 @Component({
     templateUrl: 'app/workbench/workbench-detail.component.html',
-    directives: [FORM_DIRECTIVES],
+    directives: [REACTIVE_FORM_DIRECTIVES],
     providers: [
         PropertyService,
         RequesterService,
@@ -97,23 +97,24 @@ export class WorkbenchDetailComponent{
     private _myProperty_fields = Object.keys(this.myProperty);
     private _myRequester_fields = Object.keys(this.myRequester);
 
-    form: ControlGroup;
+    form: FormGroup;
     private _caseControls;
     private _propertyControls;
     private _requesterControls;
-    private _commentsControls: Control[] = [];
-    private _casetagsControls: Control[] = [];
-    casegroup: ControlGroup;
-    propertygroup: ControlGroup;
-    requestergroup: ControlGroup;
-    commentgroup: ControlArray;
-    taggroup: ControlArray;
+    private _commentsControls: FormControl[] = [];
+    private _casetagsControls: FormControl[] = [];
+    casegroup: FormGroup;
+    propertygroup: FormGroup;
+    requestergroup: FormGroup;
+    commentgroup: FormArray;
+    taggroup: FormArray;
 
     private _makeControls(fields) {
         let controls = {};
         for (let i = 0, j = fields.length; i < j; i++) {
-            if (fields[i] == "zipcode") {controls[fields[i]] = new Control("", Validators.maxLength(5));}
-            else {controls[fields[i]] = new Control("");}
+            //if (fields[i] == "zipcode") {controls[fields[i]] = new FormControl("", Validators.maxLength(5));}
+            //else {controls[fields[i]] = new FormControl("");}
+            controls[fields[i]] = new FormControl("");
         }
         return controls;
     }
@@ -136,29 +137,29 @@ export class WorkbenchDetailComponent{
         }
     }
 
-    private updateCaseControlValue(control, value) {
-        this._caseControls[control].updateValue(value);
-        if (this._userFields.indexOf(control) > -1) { this._buildUserOptions(control, value); }
+    private updateCaseControlValue(formControl, value) {
+        this._caseControls[formControl].updateValue(value);
+        if (this._userFields.indexOf(formControl) > -1) { this._buildUserOptions(formControl, value); }
     }
     
-    private updatePropertyControlValue(control, value) {
-        this._propertyControls[control].updateValue(value);
+    private updatePropertyControlValue(formControl, value) {
+        this._propertyControls[formControl].updateValue(value);
     }
 
-    private updateRequesterControlValue(control, value) {
-        this._requesterControls[control].updateValue(value);
+    private updateRequesterControlValue(formControl, value) {
+        this._requesterControls[formControl].updateValue(value);
     }
 
     private _addCommentControl(value): void {
-        this._commentsControls.push(new Control(value))
+        this._commentsControls.push(new FormControl(value))
     }
 
     private _addCasetagControl(value): void {
-        this._casetagsControls.push(new Control(value));
+        this._casetagsControls.push(new FormControl(value));
     }
 
     constructor (fb: FormBuilder,
-                 private _routeParams: RouteParams,
+                 private _route: ActivatedRoute,
                  private _caseService: CaseService,
                  private _casefileService: CasefileService,
                  private _propertyService: PropertyService,
@@ -180,11 +181,11 @@ export class WorkbenchDetailComponent{
         this._propertyControls = this._makeControls(this._myProperty_fields);
         this._requesterControls = this._makeControls(this._myRequester_fields);
 
-        this.casegroup = new ControlGroup(this._caseControls);
-        this.propertygroup = new ControlGroup(this._propertyControls);
-        this.requestergroup = new ControlGroup(this._requesterControls);
-        this.commentgroup = new ControlArray(this._commentsControls);
-        this.taggroup = new ControlArray(this._casetagsControls);
+        this.casegroup = new FormGroup(this._caseControls);
+        this.propertygroup = new FormGroup(this._propertyControls);
+        this.requestergroup = new FormGroup(this._requesterControls);
+        this.commentgroup = new FormArray(this._commentsControls);
+        this.taggroup = new FormArray(this._casetagsControls);
 
         this.form = fb.group({
             casegroup: this.casegroup,
@@ -194,14 +195,13 @@ export class WorkbenchDetailComponent{
             taggroup: this.taggroup
         });
 
-        let caseID = +this._routeParams.get('id');
-        this.case_ID = caseID;
-        this._getCase(caseID);
-        this._getCasefiles(caseID);
-        this._getProperties(caseID);
-        this._getRequesters(caseID);
-        this._getComments(caseID);
-        this._getCasetags(caseID);
+        this._route.params.subscribe(params => this.case_ID = +params['id']);
+        this._getCase(this.case_ID);
+        this._getCasefiles(this.case_ID);
+        this._getProperties(this.case_ID);
+        this._getRequesters(this.case_ID);
+        this._getComments(this.case_ID);
+        this._getCasetags(this.case_ID);
         this._getSystemunits();
         this._getFieldoffices();
         this._getDeterminations();
@@ -392,7 +392,7 @@ export class WorkbenchDetailComponent{
                 error => this._errorMessage = <any>error);
     }
     
-    private _buildUserOptions(control?, userID?) {
+    private _buildUserOptions(formControl?, userID?) {
 
         let usedUserIDs = [];
         let availableUserIDs = [];
@@ -403,8 +403,8 @@ export class WorkbenchDetailComponent{
         this.availableFWSReviewers.length = 0;
 
         // make a list of user IDs that are already in use ("usedUserIDs")
-        // the content of this list depends on whether a control has just been updated (one of the switch cases) or not (default)
-        switch (control) {
+        // the content of this list depends on whether a formControl has just been updated (one of the switch cases) or not (default)
+        switch (formControl) {
             case 'analyst':
                 if (this.myCase.qc_reviewer) {usedUserIDs.push(this.myCase.qc_reviewer);}
                 if (this.myCase.fws_reviewer) {usedUserIDs.push(this.myCase.fws_reviewer);}
@@ -443,12 +443,12 @@ export class WorkbenchDetailComponent{
         // for the analyst select list only, add back the analyst assigned from the database and/or a user-selected analyst
         let addAnalystUserIDs = [];
         let caseAnalystUserID = this.myCase.analyst;
-        // if the analyst control was changed, add the selected value to the analyst select list
-        if (control == 'analyst') {addAnalystUserIDs.push(Number(userID)); this.selectedAnalyst = userID}
-        // otherwise, if the analyst control was not changed, add back the analyst assigned from the database
+        // if the analyst formControl was changed, add the selected value to the analyst select list
+        if (formControl == 'analyst') {addAnalystUserIDs.push(Number(userID)); this.selectedAnalyst = userID}
+        // otherwise, if the analyst formControl was not changed, add back the analyst assigned from the database
         else if (caseAnalystUserID) {addAnalystUserIDs.push(caseAnalystUserID); this.selectedAnalyst = caseAnalystUserID;}
-        // if the analyst control was changed, but the selected value was not a user (i.e., null), and the analyst assigned from the database has not been re-assigned already, add back the analyst assigned from the database
-        if (control == 'analyst' && !userID) {if (caseAnalystUserID && availableUserIDs.indexOf(caseAnalystUserID) < 0) {addAnalystUserIDs.push(caseAnalystUserID);}}
+        // if the analyst formControl was changed, but the selected value was not a user (i.e., null), and the analyst assigned from the database has not been re-assigned already, add back the analyst assigned from the database
+        if (formControl == 'analyst' && !userID) {if (caseAnalystUserID && availableUserIDs.indexOf(caseAnalystUserID) < 0) {addAnalystUserIDs.push(caseAnalystUserID);}}
         for (let i = 0, j = this.myUsers.length; i < j; i++) {
             if (addAnalystUserIDs.indexOf(this.myUsers[i].id) > -1) {
                 this.availableAnalysts.push(this.myUsers[i]);
@@ -458,12 +458,12 @@ export class WorkbenchDetailComponent{
         // for the qc_reviewer select list only, add back the qc_reviewer assigned from the database and/or a user-selected qc_reviewer
         let addQCReviewerUserIDs = [];
         let caseQCReviewerUserID = this.myCase.qc_reviewer;
-        // if the qc_reviewer control was changed, add the selected value to the qc_reviewer select list
-        if (control == 'qc_reviewer') {addQCReviewerUserIDs.push(Number(userID)); this.selectedQCReviewer = userID}
-        // otherwise, if the qc_reviewer control was not changed, add back the qc_reviewer assigned from the database
+        // if the qc_reviewer formControl was changed, add the selected value to the qc_reviewer select list
+        if (formControl == 'qc_reviewer') {addQCReviewerUserIDs.push(Number(userID)); this.selectedQCReviewer = userID}
+        // otherwise, if the qc_reviewer formControl was not changed, add back the qc_reviewer assigned from the database
         else if (caseQCReviewerUserID) {addQCReviewerUserIDs.push(caseQCReviewerUserID); this.selectedQCReviewer = caseQCReviewerUserID;}
-        // if the qc_reviewer control was changed, but the selected value was not a user (i.e., null), and the qc_reviewer assigned from the database has not been re-assigned already, add back the qc_reviewer assigned from the database
-        if (control == 'qc_reviewer' && !userID) {if (caseQCReviewerUserID && availableUserIDs.indexOf(caseQCReviewerUserID) < 0) {addQCReviewerUserIDs.push(caseQCReviewerUserID);}}
+        // if the qc_reviewer formControl was changed, but the selected value was not a user (i.e., null), and the qc_reviewer assigned from the database has not been re-assigned already, add back the qc_reviewer assigned from the database
+        if (formControl == 'qc_reviewer' && !userID) {if (caseQCReviewerUserID && availableUserIDs.indexOf(caseQCReviewerUserID) < 0) {addQCReviewerUserIDs.push(caseQCReviewerUserID);}}
         for (let i = 0, j = this.myUsers.length; i < j; i++) {
             if (addQCReviewerUserIDs.indexOf(this.myUsers[i].id) > -1) {
                 this.availableQCReviewers.push(this.myUsers[i]);
@@ -473,12 +473,12 @@ export class WorkbenchDetailComponent{
         // for the fws_reviewer select list only, add back the fws_reviewer assigned from the database and/or a user-selected fws_reviewer
         let addFWSReviewerUserIDs = [];
         let caseFWSReviewerUserID = this.myCase.fws_reviewer;
-        // if the fws_reviewer control was changed, add the selected value to the fws_reviewer select list
-        if (control == 'fws_reviewer') {addFWSReviewerUserIDs.push(Number(userID)); this.selectedFWSReviewer = userID;}
-        // otherwise, if the fws_reviewer control was not changed, add back the fws_reviewer assigned from the database
+        // if the fws_reviewer formControl was changed, add the selected value to the fws_reviewer select list
+        if (formControl == 'fws_reviewer') {addFWSReviewerUserIDs.push(Number(userID)); this.selectedFWSReviewer = userID;}
+        // otherwise, if the fws_reviewer formControl was not changed, add back the fws_reviewer assigned from the database
         else if (caseFWSReviewerUserID) {addFWSReviewerUserIDs.push(caseFWSReviewerUserID); this.selectedFWSReviewer = caseFWSReviewerUserID;}
-        // if the fws_reviewer control was changed, but the selected value was not a user (i.e., null), and the fws_reviewer assigned from the database has not been re-assigned already, add back the fws_reviewer assigned from the database
-        if (control == 'fws_reviewer' && !userID) {if (caseFWSReviewerUserID && availableUserIDs.indexOf(caseFWSReviewerUserID) < 0) {addFWSReviewerUserIDs.push(caseFWSReviewerUserID);}}
+        // if the fws_reviewer formControl was changed, but the selected value was not a user (i.e., null), and the fws_reviewer assigned from the database has not been re-assigned already, add back the fws_reviewer assigned from the database
+        if (formControl == 'fws_reviewer' && !userID) {if (caseFWSReviewerUserID && availableUserIDs.indexOf(caseFWSReviewerUserID) < 0) {addFWSReviewerUserIDs.push(caseFWSReviewerUserID);}}
         for (let i = 0, j = this.myUsers.length; i < j; i++) {
             if (addFWSReviewerUserIDs.indexOf(this.myUsers[i].id) > -1) {
                 this.availableFWSReviewers.push(this.myUsers[i]);
@@ -608,7 +608,7 @@ export class WorkbenchDetailComponent{
     //onSubmit () {this.updateValues(this.myCase_fields, this.caseControls, this.myCase)}
 
     onSubmit (form) {
-        // check each form control group for changes, then send the changed objects to their respective services
+        // check each formControl group for changes, then send the changed objects to their respective services
         if (form.dirty) {
 
             this.notready = true;

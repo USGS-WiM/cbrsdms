@@ -1,5 +1,5 @@
-import {Component, OnInit} from 'angular2/core';
-import {HTTP_PROVIDERS, URLSearchParams}    from 'angular2/http';
+import {Component, OnInit} from '@angular/core';
+import {HTTP_PROVIDERS, URLSearchParams}    from '@angular/http';
 import {Case}              from '../cases/case'
 import {CaseService}       from '../cases/case.service';
 import {PropertyService}   from '../properties/property.service';

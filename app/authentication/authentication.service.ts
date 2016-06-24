@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from 'angular2/http';
+import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import {APP_SETTINGS}   from '../app.settings';
 import {User} from './user'
 
