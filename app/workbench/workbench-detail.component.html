@@ -5,9 +5,9 @@
     <div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
     <div [hidden]="notready">
 
-        <form [ngFormModel]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
+        <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
 
-            <div ngControlGroup="casegroup">
+            <div formGroupName="casegroup">
 
                 <div class="dms-group noheader">
                     <div class="row">
@@ -15,42 +15,42 @@
                             <div class="row">
                                 <div class="col-md-4 dms-form-group bb br">
                                     <label for="cbrs_unit">CBRS Unit</label>
-                                    <select id="cbrs_unit" ngControl="cbrs_unit" (change)="getSystemmaps(newUnit.value); getProhibitiondates(newUnit.value); updateCaseControlValue(newUnit.id, newUnit.value)" #newUnit>
+                                    <select id="cbrs_unit" formControlName="cbrs_unit" (change)="getSystemmaps(newUnit.value); getProhibitiondates(newUnit.value); updateCaseControlValue(newUnit.id, newUnit.value)" #newUnit>
                                         <option value=""></option>
-                                        <option *ngFor="#unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myCase.cbrs_unit">{{unit.system_unit_number}}</option>
+                                        <option *ngFor="let unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myCase.cbrs_unit">{{unit.system_unit_number}}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 dms-form-group bb br">
                                     <label for="map_number">Map Number</label>
-                                    <select id="map_number" ngControl="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
+                                    <select id="map_number" formControlName="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
                                         <option value=""></option>
-                                        <option *ngFor="#map of mySystemmaps" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.map_number}}</option>
+                                        <option *ngFor="let map of mySystemmaps" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.map_number}}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 dms-form-group bb">
                                     <label for="cbrs_map_date">Map Date</label>
-                                    <input id="cbrs_map_date" type="date" ngControl="cbrs_map_date" readonly>
+                                    <input id="cbrs_map_date" type="date" formControlName="cbrs_map_date" readonly>
                                     <!--<select id="cbrs_map_date" class="form-control">-->
-                                    <!--    <option *ngFor="#mapdate of availableSystemmapdates" [value]="mapdate.id">{{mapdate.map_date}}</option>-->
+                                    <!--    <option *ngFor="let mapdate of availableSystemmapdates" [value]="mapdate.id">{{mapdate.map_date}}</option>-->
                                     <!--</select>-->
                                 </div>
                                 <div class="col-md-4 dms-form-group br">
                                     <label for="determination">Determination</label>
-                                    <select id="determination" ngControl="determination" (change)="toggleReadOnlyProhibitionDate(newDetermination.value); updateCaseControlValue(newDetermination.id, newDetermination.value)" #newDetermination>
+                                    <select id="determination" formControlName="determination" (change)="toggleReadOnlyProhibitionDate(newDetermination.value); updateCaseControlValue(newDetermination.id, newDetermination.value)" #newDetermination>
                                         <option value=""></option>
-                                        <option *ngFor="#determination of myDeterminations" [value]="determination.id" [selected]="determination.id == myCase.determination">{{determination.determination}}</option>
+                                        <option *ngFor="let determination of myDeterminations" [value]="determination.id" [selected]="determination.id == myCase.determination">{{determination.determination}}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 dms-form-group br">
                                     <label for="prohibition_date">Prohibition Date</label>
-                                    <select id="prohibition_date" ngControl="prohibition_date" [disabled]="isreadonly_prohibitiondate" (change)="updateCaseControlValue(newProhibitionDate.id, newProhibitionDate.value)" #newProhibitionDate>
+                                    <select id="prohibition_date" formControlName="prohibition_date" [disabled]="isreadonly_prohibitiondate" (change)="updateCaseControlValue(newProhibitionDate.id, newProhibitionDate.value)" #newProhibitionDate>
                                         <option value=""></option>
-                                        <option *ngFor="#prohibitiondate of myProhibitiondates" [value]="prohibitiondate.prohibition_date" [selected]="prohibitiondate.prohibition_date == myCase.prohibition_date">{{prohibitiondate.prohibition_date}}</option>
+                                        <option *ngFor="let prohibitiondate of myProhibitiondates" [value]="prohibitiondate.prohibition_date" [selected]="prohibitiondate.prohibition_date == myCase.prohibition_date">{{prohibitiondate.prohibition_date}}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 dms-form-group">
                                     <label for="distance">Distance</label>
-                                    <input id="distance" type="number" ngControl="distance">
+                                    <input id="distance" type="number" formControlName="distance">
                                 </div>
                             </div>
                         </div>
@@ -59,16 +59,20 @@
                             <div class="file-group">
                                 <label class="half-label" for="casefiles">Case Files</label><!--
                                 --><label class="file-upload-label" for="fileselect">Upload New</label>
-                                <ul id="casefiles" *ngIf="myCasefiles.length > 0">
-                                    <li *ngFor="#casefile of myCasefiles"><a target="_blank" [href]="casefile.file">{{ casefile.name }}</a></li>
-                                </ul>
-                                <input class="custom-file-input" id="fileselect" type="file" multiple (change)="fileSelectHandler($event)" ngControl="casefiles" />
-
+                                <div class="col-md-6">
+                                    <ul id="casefiles" *ngIf="myCasefiles.length > 0">
+                                        <li *ngFor="let casefile of myCasefiles">
+                                            <a target="_blank" [href]="casefile.file">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                            <input *ngIf="myCase.status == 'Awaiting Final Letter'" id="signed" type="checkbox" (change)="setFinalLetterDate(signed.checked)" #signed> Signed Letter<!-- [checked]="signed" formControlName="signed"> -->
+                                        </li>
+                                    </ul>
+                                </div>
+                                <input class="custom-file-input" id="fileselect" type="file" multiple (change)="fileSelectHandler($event)" formControlName="casefiles" />
                             </div>
                         </div>
                         <!-- <div class="col-md-2">
                             <div id="casefilesToUpload">
-                                <p *ngFor="#fileDetails of filesToUploadDetails; #i=index"><span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span><button type="button" (click)="removeCasefile(i)">-</button></p>
+                                <p *ngFor="let fileDetails of filesToUploadDetails; #i=index"><span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span><button type="button" (click)="removeCasefile(i)">-</button></p>
                             </div>
                             <div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>
                         </div> -->
@@ -77,19 +81,19 @@
                             <div class="chx-group">
                                 <label for="priority">Priority</label><!--
                                 --><div class="chx">
-                                    <input id="priority" type="checkbox" [checked]="priority" ngControl="priority">
+                                    <input id="priority" type="checkbox" [checked]="priority" formControlName="priority">
                                 </div>
                             </div><!--
                                 --><div class="chx-group">
                                 <label for="on_hold">On Hold</label><!--
                                 --><div class="chx">
-                                    <input id="on_hold" type="checkbox" [checked]="on_hold" ngControl="on_hold">
+                                    <input id="on_hold" type="checkbox" [checked]="on_hold" formControlName="on_hold">
                                 </div>
                             </div><!--
                                 --><div class="chx-group">
                                 <label for="invalid">Invalid</label><!--
                                 --><div class="chx">
-                                    <input id="invalid" type="checkbox" [checked]="invalid" ngControl="invalid">
+                                    <input id="invalid" type="checkbox" [checked]="invalid" formControlName="invalid">
                                 </div>
                             </div>
                         </div>
@@ -106,35 +110,35 @@
                         <div class="col-md-4">
                             <div class="dms-form-group br bb">
                                 <label for="request_date">Request Date</label>
-                                <input id="request_date" type="date" ngControl="request_date">
+                                <input id="request_date" type="date" formControlName="request_date">
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="dms-form-group br bb">
                                 <label for="fws_fo_received_date">Field Office Received Date</label>
-                                <input id="fws_fo_received_date" type="date" ngControl="fws_fo_received_date">
+                                <input id="fws_fo_received_date" type="date" formControlName="fws_fo_received_date">
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="dms-form-group bb">
                                 <label for="fws_hq_received_date">Headquarters Received Date</label>
-                                <input id="fws_hq_received_date" type="date" ngControl="fws_hq_received_date">
+                                <input id="fws_hq_received_date" type="date" formControlName="fws_hq_received_date">
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="dms-form-group br">
                                 <label for="final_letter_date">Final Letter Date</label>
-                                <input id="final_letter_date" type="date" class="form-control" ngControl="final_letter_date">
+                                <input id="final_letter_date" type="date" class="form-control" formControlName="final_letter_date">
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="dms-form-group br">
                                 <label for="close_date">Close Date</label>
-                                <input id="close_date" type="date" class="form-control" ngControl="close_date">
+                                <input id="close_date" type="date" class="form-control" formControlName="close_date">
                             </div>
                         </div>
 
@@ -149,48 +153,48 @@
                         <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="analyst">Analyst</label>
-                                <select id="analyst" ngControl="analyst" (change)="setSignoffDateToday(newAnalyst.id); updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>
+                                <select id="analyst" formControlName="analyst" (change)="setSignoffDateToday(newAnalyst.id); updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>
                                     <option value=""></option>
-                                    <option *ngFor="#analyst of availableAnalysts" [value]="analyst.id" [selected]="analyst.id == selectedAnalyst">{{analyst.username}}</option>
+                                    <option *ngFor="let analyst of availableAnalysts" [value]="analyst.id" [selected]="analyst.id == selectedAnalyst">{{analyst.username}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="analyst_signoff_date">Date</label>
-                                <input id="analyst_signoff_date" type="date" ngControl="analyst_signoff_date">
+                                <input id="analyst_signoff_date" type="date" formControlName="analyst_signoff_date">
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="qc_reviewer">QC Reviewer</label>
-                                <select id="qc_reviewer" ngControl="qc_reviewer" (change)="setSignoffDateToday(newQCReviewer.id); updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)" #newQCReviewer>
+                                <select id="qc_reviewer" formControlName="qc_reviewer" (change)="setSignoffDateToday(newQCReviewer.id); updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)" #newQCReviewer>
                                     <option value=""></option>
-                                    <option *ngFor="#qc_reviewer of availableQCReviewers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == selectedQCReviewer">{{qc_reviewer.username}}</option>
+                                    <option *ngFor="let qc_reviewer of availableQCReviewers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == selectedQCReviewer">{{qc_reviewer.username}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="qc_reviewer_signoff_date">Date</label>
-                                <input id="qc_reviewer_signoff_date" type="date" ngControl="qc_reviewer_signoff_date">
+                                <input id="qc_reviewer_signoff_date" type="date" formControlName="qc_reviewer_signoff_date">
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="fws_reviewer">FWS Reviewer</label>
-                                <select id="fws_reviewer" ngControl="fws_reviewer" (change)="setSignoffDateToday(newFWSReviewer.id); updateCaseControlValue(newFWSReviewer.id, newFWSReviewer.value)" #newFWSReviewer>
+                                <select id="fws_reviewer" formControlName="fws_reviewer" (change)="setSignoffDateToday(newFWSReviewer.id); updateCaseControlValue(newFWSReviewer.id, newFWSReviewer.value)" #newFWSReviewer>
                                     <option value=""></option>
-                                    <option *ngFor="#fws_reviewer of availableFWSReviewers" [value]="fws_reviewer.id" [selected]="fws_reviewer.id == selectedFWSReviewer">{{fws_reviewer.username}}</option>
+                                    <option *ngFor="let fws_reviewer of availableFWSReviewers" [value]="fws_reviewer.id" [selected]="fws_reviewer.id == selectedFWSReviewer">{{fws_reviewer.username}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="dms-form-group">
                                 <label for="fws_reviewer_signoff_date">Date</label>
-                                <input id="fws_reviewer_signoff_date" type="date" ngControl="fws_reviewer_signoff_date">
+                                <input id="fws_reviewer_signoff_date" type="date" formControlName="fws_reviewer_signoff_date">
                             </div>
                         </div>
 
@@ -202,32 +206,32 @@
 
             <div class="dms-group">
                 <h2 class="dms-group-header">Property Information</h2>
-                <div class="row" ngControlGroup="propertygroup">
+                <div class="row" formGroupName="propertygroup">
 
                     <div class="col-md-3">
                         <div class="dms-form-group br bb">
                             <label for="street">Street</label>
-                            <input id="street" type="text" ngControl="street">
+                            <input id="street" type="text" formControlName="street">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br bb">
                             <label for="unit">Unit</label>
-                            <input id="unit" type="text" ngControl="unit">
+                            <input id="unit" type="text" formControlName="unit">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="dms-form-group br bb">
                             <label for="city">City</label>
-                            <input id="city" type="text" ngControl="city">
+                            <input id="city" type="text" formControlName="city">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br bb">
                             <label for="state">State</label>
-                            <select id="state" ngControl="state" (change)="updatePropertyControlValue(newState.id, newState.value)" #newState>
+                            <select id="state" formControlName="state" (change)="updatePropertyControlValue(newState.id, newState.value)" #newState>
                                 <option value=""></option>
-                                <option *ngFor="#state of states" [value]="state" [selected]="state == myRequester.state">{{state}}</option>
+                                <option *ngFor="let state of states" [value]="state" [selected]="state == myRequester.state">{{state}}</option>
                             </select>
                         </div>
                     </div>
@@ -235,19 +239,19 @@
                     <div class="col-md-2">
                         <div class="dms-form-group bb">
                             <label for="zipcode">Zipcode</label>
-                            <input id="zipcode" type="text" ngControl="zipcode">
+                            <input id="zipcode" type="text" formControlName="zipcode">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="dms-form-group br">
                             <label for="subdivision">Subdivision</label>
-                            <input id="subdivision" type="text" ngControl="subdivision">
+                            <input id="subdivision" type="text" formControlName="subdivision">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="dms-form-group">
                             <label for="policy_number">Policy Number</label>
-                            <input id="policy_number" type="text" ngControl="policy_number">
+                            <input id="policy_number" type="text" formControlName="policy_number">
                         </div>
                     </div>
 
@@ -258,66 +262,66 @@
 
             <div class="dms-group">
                 <h2 class="dms-group-header">Requester Information</h2>
-                <div class="row" ngControlGroup="requestergroup">
+                <div class="row" formGroupName="requestergroup">
 
                     <div class="col-md-2">
                         <div class="dms-form-group br bb">
                             <label for="salutation">Salutation</label>
-                            <select id="salutation" ngControl="salutation" (change)="updateRequesterControlValue(newSalutation.id, newSalutation.value)" #newSalutation>
+                            <select id="salutation" formControlName="salutation" (change)="updateRequesterControlValue(newSalutation.id, newSalutation.value)" #newSalutation>
                                 <option value=""></option>
-                                <option *ngFor="#salutation of salutations" [value]="salutation" [selected]="salutation == myRequester.salutation">{{salutation}}</option>
+                                <option *ngFor="let salutation of salutations" [value]="salutation" [selected]="salutation == myRequester.salutation">{{salutation}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br bb">
                             <label for="first_name">First Name</label>
-                            <input id="first_name" type="text" ngControl="first_name">
+                            <input id="first_name" type="text" formControlName="first_name">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br bb">
                             <label for="last_name">Last Name</label>
-                            <input id="last_name" type="text" ngControl="last_name">
+                            <input id="last_name" type="text" formControlName="last_name">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="dms-form-group br bb">
                             <label for="organization">Organization</label>
-                            <input id="organization" type="text" ngControl="organization">
+                            <input id="organization" type="text" formControlName="organization">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="dms-form-group bb">
                             <label for="email">Email</label>
-                            <input id="email" type="email" ngControl="email">
+                            <input id="email" type="email" formControlName="email">
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="dms-form-group br">
                             <label for="street">Street</label>
-                            <input id="street" type="text" ngControl="street">
+                            <input id="street" type="text" formControlName="street">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br">
                             <label for="unit">Unit</label>
-                            <input id="unit" type="text" ngControl="unit">
+                            <input id="unit" type="text" formControlName="unit">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="dms-form-group br">
                             <label for="city">City</label>
-                            <input id="city" type="text" ngControl="city">
+                            <input id="city" type="text" formControlName="city">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br">
                             <label for="state">State</label>
-                            <select id="state" ngControl="state" (change)="updateRequesterControlValue(newState.id, newState.value)" #newState>
+                            <select id="state" formControlName="state" (change)="updateRequesterControlValue(newState.id, newState.value)" #newState>
                                 <option value=""></option>
-                                <option *ngFor="#state of states" [value]="state" [selected]="state == myRequester.state">{{state}}</option>
+                                <option *ngFor="let state of states" [value]="state" [selected]="state == myRequester.state">{{state}}</option>
                             </select>
                         </div>
                     </div>
@@ -325,7 +329,7 @@
                     <div class="col-md-2">
                         <div class="dms-form-group">
                             <label for="zipcode">Zipcode</label>
-                            <input id="zipcode" type="text" ngControl="zipcode">
+                            <input id="zipcode" type="text" formControlName="zipcode">
                         </div>
                     </div>
 
@@ -344,7 +348,7 @@
                         </div>
 
                         <ul class="comment-ul">
-                            <p *ngFor="#comment of myComments">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</p>
+                            <p *ngFor="let comment of myComments">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</p>
                         </ul>
 
                     </div>
@@ -353,13 +357,13 @@
 
                         <div class="add-comment-wrap">
                             <select class="new-comment-input new-comment-select" #newTag>
-                                <option *ngFor="#tag of availableTags" [value]="tag.id">{{tag.name}}</option>
+                                <option *ngFor="let tag of availableTags" [value]="tag.id">{{tag.name}}</option>
                             </select>
                             <button class="btn-add-comment" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>
                         </div>
 
                         <ul class="tag-ul">
-                            <li *ngFor="#casetag of myCasetags">{{ casetag.tagname }} <button class="btn-remove" type="button" (click)="removeCasetag(casetag.id)">x<i class="fa fa-remove"></i></button></li>
+                            <li *ngFor="let casetag of myCasetags">{{ casetag.tagname }} <button class="btn-remove" type="button" (click)="removeCasetag(casetag.id)"><i class="fa fa-remove">x</i></button></li>
                         </ul>
                     </div>
                 </div>

@@ -1,12 +1,14 @@
-import {bootstrap}    from 'angular2/platform/browser';
-import {provide} from 'angular2/core';
-import {ROUTER_PROVIDERS, LocationStrategy, PathLocationStrategy} from 'angular2/router';
+import {bootstrap}    from '@angular/platform-browser-dynamic';
+import {APP_ROUTER_PROVIDERS} from './app.routes';
 import {AppComponent} from './app.component';
 import {AuthenticationService} from './authentication/authentication.service';
 import 'rxjs/Rx';
+import {disableDeprecatedForms, provideForms} from '@angular/forms';
 
 bootstrap(AppComponent, [
-    ROUTER_PROVIDERS,
-    provide(LocationStrategy, {useClass: PathLocationStrategy}),
-    AuthenticationService
-]);
+    APP_ROUTER_PROVIDERS,
+    AuthenticationService,
+    disableDeprecatedForms(),
+    provideForms()
+])
+.catch(err => console.error(err));

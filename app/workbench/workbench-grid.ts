@@ -1,6 +1,6 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {Grid}   from '../grid/grid';
-import {Router} from 'angular2/router';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'grid',
@@ -15,6 +15,6 @@ export class WorkbenchGrid extends Grid{
     }
     
     onClick(row: any) {
-        this._router.navigate( ['WorkbenchDetail', { id: row.id }]  );
+        this._router.navigate( ['/workbench', row.id]  );
     }
 }

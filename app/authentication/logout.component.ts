@@ -1,6 +1,5 @@
-import {Component} from 'angular2/core';
-import {FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf} from 'angular2/common';
-import {Router} from 'angular2/router';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 import {AuthenticationService} from './authentication.service';
 
 @Component({
@@ -13,7 +12,7 @@ export class LogoutComponent {
     constructor(public auth: AuthenticationService, public router: Router) {
         auth.logout()
             .subscribe(
-                () => this.router.navigate(['/Login'])
+                () => this.router.navigate(['/login'])
             );
     }
 

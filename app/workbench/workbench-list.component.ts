@@ -1,5 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
-import {HTTP_PROVIDERS, URLSearchParams}    from 'angular2/http';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Router, ROUTER_DIRECTIVES, ActivatedRoute}    from '@angular/router';
+import {HTTP_PROVIDERS, URLSearchParams}    from '@angular/http';
 import {Case}              from '../cases/case'
 import {CaseService}       from '../cases/case.service';
 import {PropertyService}   from '../properties/property.service';
@@ -10,35 +11,79 @@ import {Column}            from '../grid/column';
     template: `
         <div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
         <div [hidden]="notready">
-            <grid [rows]="cases_properties" [columns]="columns"></grid>
+            <div class="container">
+                <div *ngIf="tag_ID"><p>Filter: Tag={{tag_ID}}<button class="btn" type="button" (click)="removeTagFilter()"><i class="fa">X</i></button></p></div>
+                <!-- <h3 class="form-main-header">Workbench</h3> -->
+                <grid [rows]="cases_properties" [columns]="columns"></grid>
+            </div>
         </div>
     `,
-    directives:[WorkbenchGrid],
+    directives:[ROUTER_DIRECTIVES, WorkbenchGrid],
     providers: [
         HTTP_PROVIDERS,
         CaseService,
     ]
 })
 
-export class WorkbenchListComponent implements OnInit{
+export class WorkbenchListComponent implements OnInit, OnDestroy {
 
-    constructor (
-        private _caseService: CaseService,
-        private _propertyService: PropertyService
-    ) {}
-
+    private _params: any;
+    tag_ID: string;
     private _cases: Case[];
     cases_properties = [];
     columns: Column[];
     notready: Boolean = true;
     private _errorMessage: string;
 
-    _getCases() {
-        this._caseService.getCases(new URLSearchParams('view=workbench'))
+    constructor (
+        private _route: ActivatedRoute,
+        private _router: Router,
+        private _caseService: CaseService,
+        private _propertyService: PropertyService
+    ) {
+        // this._params = this._router.routerState.queryParams
+        //     .subscribe(params => {
+        //         this.tag_ID = params['tag'];
+        //         this._getCases(this.tag_ID);
+        //         this._getColumns();
+        //         //delete params['tag'];
+        //     });
+    }
+
+    ngOnInit() {
+        this._params = this._router.routerState.queryParams
+        // this._params = this._route.params
+            .subscribe(params => {
+                this.tag_ID = params['tag'];
+                this._getCases(this.tag_ID);
+                this._getColumns();
+                delete params['tag'];
+            });
+        // let tag_ID = this._route.snapshot._urlSegment.pathsWithParams[0].parameters.tag;
+        // let tag_ID = this._route.snapshot.params['tag'];
+        // this._getCases(tag_ID);
+        // this._getColumns();
+    }
+
+    ngOnDestroy() {
+        if (this._params) {
+            this._params.unsubscribe();
+        }
+    }
+
+    removeTagFilter() {
+        this.notready = true;
+        this.tag_ID = null;
+        this._getCases();
+    }
+
+    _getCases(tag_ID?) {
+        let urlSearchParams = tag_ID ? 'view=workbench&tags='+tag_ID : 'view=workbench';
+        this._caseService.getCases(new URLSearchParams(urlSearchParams))
             .subscribe(
                 cases => {
                     this._cases = cases;
-                    for (var i = 0, j = this._cases.length; i < j; i++) {
+                    for (let i = 0, j = this._cases.length; i < j; i++) {
                         //this.getProperties(this.cases[i].id);
                         let case_property: any = this._cases[i];
                         let address = case_property.property_string.split(',');
@@ -46,6 +91,10 @@ export class WorkbenchListComponent implements OnInit{
                         case_property.city = address[1];
                         this.cases_properties.push(case_property);
                         if (this._cases.length == this.cases_properties.length) {
+                            // if (this._params) {
+                            //     delete this._params._subscriptions[0].subject.value.tag;
+                            // }
+                            if (!tag_ID) {this._router.navigate(['/workbench']);}
                             this._sortAndShow();
                         }
                     }
@@ -88,13 +137,13 @@ export class WorkbenchListComponent implements OnInit{
     // the following function found here: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
     _dynamicSortMultiple() {
         function dynamicSort(property) {
-            var sortOrder = 1;
+            let sortOrder = 1;
             if(property[0] === "-") {
                 sortOrder = -1;
                 property = property.substr(1);
             }
             return function (a,b) {
-                var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+                let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
                 return result * sortOrder;
             }
         }
@@ -103,9 +152,9 @@ export class WorkbenchListComponent implements OnInit{
          * note that arguments object is an array-like object
          * consisting of the names of the properties to sort by
          */
-        var props = arguments;
+        let props = arguments;
         return function (obj1, obj2) {
-            var i = 0, result = 0, numberOfProperties = props.length;
+            let i = 0, result = 0, numberOfProperties = props.length;
             /* try getting a different result from 0 (equal)
              * as long as we have extra properties to compare
              */
@@ -121,11 +170,5 @@ export class WorkbenchListComponent implements OnInit{
         this.cases_properties.sort(this._dynamicSortMultiple(['-priority', '-status']));
         this.notready = false;
     }
-
-    ngOnInit() {
-        this._getCases();
-        this._getColumns();
-    }
-
 
 }

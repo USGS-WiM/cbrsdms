@@ -1,5 +1,5 @@
-import {Injectable}     from 'angular2/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from 'angular2/http';
+import {Injectable}     from '@angular/core';
+import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import {Tag}            from './tag';
 import {Observable}     from 'rxjs/Observable';
 import {APP_SETTINGS}   from '../app.settings';
@@ -44,6 +44,14 @@ export class TagService {
         return this.http.put(APP_SETTINGS.TAGS_URL+id+'/', body, options)
             .map(res => <Tag> res.json())
             .catch(this.handleError)
+    }
+
+    deleteTag (id: number | string) {
+        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+
+        return this.http.delete(APP_SETTINGS.TAGS_URL+id+'/', options)
+            .map(res => console.log(res))
+            .catch(this.handleError);
     }
 
     private handleError (error: Response) {
