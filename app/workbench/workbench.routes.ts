@@ -15,7 +15,7 @@ export const WorkbenchRoutes: RouterConfig = [
         component: WorkbenchComponent,
         children: [
             {
-                path: 'case/:id',
+                path: ':id',
                 component: WorkbenchDetailComponent,
                 canActivate: [AuthenticationGuard]
             },

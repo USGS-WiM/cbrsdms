@@ -15,6 +15,6 @@ export class WorkbenchGrid extends Grid{
     }
     
     onClick(row: any) {
-        this._router.navigate( ['/workbench/case', row.id]  );
+        this._router.navigate( ['/workbench', row.id]  );
     }
 }

@@ -50,6 +50,7 @@ var WorkbenchDetailComponent = (function () {
         this._determinationService = _determinationService;
         this._prohibitiondateService = _prohibitiondateService;
         this.mapsfound = true;
+        this._filesToUpload = [];
         this.filesToUploadDetails = [];
         this.active = true;
         this.notready = true;
@@ -535,6 +536,14 @@ var WorkbenchDetailComponent = (function () {
         //}
         if (this.casegroup.contains(controlName)) {
             this._caseControls[controlName].updateValue(this._today);
+        }
+    };
+    WorkbenchDetailComponent.prototype.setFinalLetterDate = function (checked) {
+        if (checked) {
+            this._caseControls["final_letter_date"].updateValue(this._today);
+        }
+        else {
+            this._caseControls["final_letter_date"].updateValue("");
         }
     };
     WorkbenchDetailComponent.prototype.fileDragHover = function (fileInput) {

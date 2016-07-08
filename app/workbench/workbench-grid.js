@@ -23,7 +23,7 @@ var WorkbenchGrid = (function (_super) {
         this._router = _router;
     }
     WorkbenchGrid.prototype.onClick = function (row) {
-        this._router.navigate(['/workbench/case', row.id]);
+        this._router.navigate(['/workbench', row.id]);
     };
     WorkbenchGrid = __decorate([
         core_1.Component({

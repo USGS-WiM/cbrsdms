@@ -10,27 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var http_1 = require('@angular/http');
-var case_service_1 = require('../cases/case.service');
-var grid_1 = require('../grid/grid');
-var authentication_service_1 = require('../authentication/authentication.service');
+var navbar_component_1 = require('../navbar.component');
 var WorkbenchComponent = (function () {
-    function WorkbenchComponent(auth, router) {
-        this.auth = auth;
-        this.router = router;
-        this.first_name = sessionStorage.getItem('first_name');
-        this.last_name = sessionStorage.getItem('last_name');
+    function WorkbenchComponent() {
     }
-    WorkbenchComponent.prototype.onLogout = function () {
-        this.auth.logout();
-    };
     WorkbenchComponent = __decorate([
         core_1.Component({
-            template: "\n    <div style=\"float: left;\">\n        <a [routerLink]=\"['/workbench']\">Workbench</a>\n        <!-- <a href=\"../../cbra/cbrarequests/\">Create Case</a>\n        <a href=\"/reports\">Reports</a>\n        <a href=\"/tags\">Tags</a> -->\n    </div>\n    <div style=\"float: right;\">\n        <!-- <input type=\"text\">\n        <button>Search</button>\n        <button>Reset</button> -->\n        User: {{ first_name }} {{ last_name }} <a href=\"/logout\" (click)=\"onLogout()\">Logout</a>\n    </div>\n    <router-outlet></router-outlet>\n    ",
-            directives: [router_1.ROUTER_DIRECTIVES, grid_1.Grid],
-            providers: [http_1.HTTP_PROVIDERS, case_service_1.CaseService]
+            template: "<navbar></navbar><router-outlet></router-outlet>",
+            directives: [router_1.ROUTER_DIRECTIVES, navbar_component_1.NavbarComponent]
         }), 
-        __metadata('design:paramtypes', [authentication_service_1.AuthenticationService, router_1.Router])
+        __metadata('design:paramtypes', [])
     ], WorkbenchComponent);
     return WorkbenchComponent;
 }());

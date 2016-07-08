@@ -14,7 +14,7 @@ exports.WorkbenchRoutes = [
         component: workbench_component_1.WorkbenchComponent,
         children: [
             {
-                path: 'case/:id',
+                path: ':id',
                 component: workbench_detail_component_1.WorkbenchDetailComponent,
                 canActivate: [authentication_guard_1.AuthenticationGuard]
             },

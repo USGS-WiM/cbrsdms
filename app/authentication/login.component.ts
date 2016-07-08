@@ -4,24 +4,24 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from './authentication.service';
 
 @Component({
-  selector: 'login',
-  directives: [ REACTIVE_FORM_DIRECTIVES ],
-  template: `
+    selector: 'login',
+    directives: [ REACTIVE_FORM_DIRECTIVES ],
+    template: `
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-      <div *ngIf="error">Check your password</div>
-      <div>
-        <label for="username">Username</label>
-        <input type="text" formControlName="username">
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input type="password" formControlName="password">
-      </div>
-      <div class="form-group">
-        <button type="submit" [disabled]="!form.valid">Login</button>
-      </div>
+        <div *ngIf="error">Check your password</div>
+        <div>
+            <label for="username">Username</label>
+            <input type="text" formControlName="username">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" formControlName="password">
+        </div>
+        <div class="form-group">
+            <button type="submit" [disabled]="!form.valid">Login</button>
+        </div>
     </form>
-  `
+    `
 })
 
 export class LoginComponent {

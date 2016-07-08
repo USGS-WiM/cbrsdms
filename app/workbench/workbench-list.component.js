@@ -9,21 +9,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var case_service_1 = require('../cases/case.service');
 var property_service_1 = require('../properties/property.service');
 var workbench_grid_1 = require('./workbench-grid');
 var column_1 = require('../grid/column');
 var WorkbenchListComponent = (function () {
-    function WorkbenchListComponent(_caseService, _propertyService) {
+    function WorkbenchListComponent(_route, _router, _caseService, _propertyService) {
+        this._route = _route;
+        this._router = _router;
         this._caseService = _caseService;
         this._propertyService = _propertyService;
         this.cases_properties = [];
         this.notready = true;
+        // this._params = this._router.routerState.queryParams
+        //     .subscribe(params => {
+        //         this.tag_ID = params['tag'];
+        //         this._getCases(this.tag_ID);
+        //         this._getColumns();
+        //         //delete params['tag'];
+        //     });
     }
-    WorkbenchListComponent.prototype._getCases = function () {
+    WorkbenchListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._caseService.getCases(new http_1.URLSearchParams('view=workbench'))
+        this._params = this._router.routerState.queryParams
+            .subscribe(function (params) {
+            _this.tag_ID = params['tag'];
+            _this._getCases(_this.tag_ID);
+            _this._getColumns();
+            delete params['tag'];
+        });
+        // let tag_ID = this._route.snapshot._urlSegment.pathsWithParams[0].parameters.tag;
+        // let tag_ID = this._route.snapshot.params['tag'];
+        // this._getCases(tag_ID);
+        // this._getColumns();
+    };
+    WorkbenchListComponent.prototype.ngOnDestroy = function () {
+        if (this._params) {
+            this._params.unsubscribe();
+        }
+    };
+    WorkbenchListComponent.prototype.removeTagFilter = function () {
+        this.notready = true;
+        this.tag_ID = null;
+        this._getCases();
+    };
+    WorkbenchListComponent.prototype._getCases = function (tag_ID) {
+        var _this = this;
+        var urlSearchParams = tag_ID ? 'view=workbench&tags=' + tag_ID : 'view=workbench';
+        this._caseService.getCases(new http_1.URLSearchParams(urlSearchParams))
             .subscribe(function (cases) {
             _this._cases = cases;
             for (var i = 0, j = _this._cases.length; i < j; i++) {
@@ -34,6 +69,12 @@ var WorkbenchListComponent = (function () {
                 case_property.city = address[1];
                 _this.cases_properties.push(case_property);
                 if (_this._cases.length == _this.cases_properties.length) {
+                    // if (this._params) {
+                    //     delete this._params._subscriptions[0].subject.value.tag;
+                    // }
+                    if (!tag_ID) {
+                        _this._router.navigate(['/workbench']);
+                    }
                     _this._sortAndShow();
                 }
             }
@@ -104,20 +145,16 @@ var WorkbenchListComponent = (function () {
         this.cases_properties.sort(this._dynamicSortMultiple(['-priority', '-status']));
         this.notready = false;
     };
-    WorkbenchListComponent.prototype.ngOnInit = function () {
-        this._getCases();
-        this._getColumns();
-    };
     WorkbenchListComponent = __decorate([
         core_1.Component({
-            template: "\n        <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><img class=\"loader\" [src]=\"'loading.gif'\" /></div>\n        <div [hidden]=\"notready\">\n            <grid [rows]=\"cases_properties\" [columns]=\"columns\"></grid>\n        </div>\n    ",
-            directives: [workbench_grid_1.WorkbenchGrid],
+            template: "\n        <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><img class=\"loader\" [src]=\"'loading.gif'\" /></div>\n        <div [hidden]=\"notready\">\n            <div class=\"container\">\n                <div *ngIf=\"tag_ID\"><p>Filter: Tag={{tag_ID}}<button class=\"btn\" type=\"button\" (click)=\"removeTagFilter()\"><i class=\"fa\">X</i></button></p></div>\n                <!-- <h3 class=\"form-main-header\">Workbench</h3> -->\n                <grid [rows]=\"cases_properties\" [columns]=\"columns\"></grid>\n            </div>\n        </div>\n    ",
+            directives: [router_1.ROUTER_DIRECTIVES, workbench_grid_1.WorkbenchGrid],
             providers: [
                 http_1.HTTP_PROVIDERS,
                 case_service_1.CaseService,
             ]
         }), 
-        __metadata('design:paramtypes', [case_service_1.CaseService, property_service_1.PropertyService])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router, case_service_1.CaseService, property_service_1.PropertyService])
     ], WorkbenchListComponent);
     return WorkbenchListComponent;
 }());

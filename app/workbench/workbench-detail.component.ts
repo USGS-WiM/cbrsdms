@@ -51,7 +51,7 @@ import {APP_SETTINGS}      from '../app.settings';
 export class WorkbenchDetailComponent{
     case_ID: number;
     mapsfound: boolean = true;
-    private _filesToUpload: File[];
+    private _filesToUpload: File[] = [];
     filesToUploadDetails: Object[] = [];
     active = true;
     notready: Boolean = true;
@@ -567,6 +567,11 @@ export class WorkbenchDetailComponent{
         if (this.casegroup.contains(controlName)) {
             this._caseControls[controlName].updateValue(this._today);
         }
+    }
+
+    setFinalLetterDate(checked) {
+        if(checked) {this._caseControls["final_letter_date"].updateValue(this._today);}
+        else {this._caseControls["final_letter_date"].updateValue("");}
     }
 
     fileDragHover(fileInput) {

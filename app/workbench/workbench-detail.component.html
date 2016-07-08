@@ -59,11 +59,15 @@
                             <div class="file-group">
                                 <label class="half-label" for="casefiles">Case Files</label><!--
                                 --><label class="file-upload-label" for="fileselect">Upload New</label>
-                                <ul id="casefiles" *ngIf="myCasefiles.length > 0">
-                                    <li *ngFor="let casefile of myCasefiles"><a target="_blank" [href]="casefile.file">{{ casefile.name }}</a></li>
-                                </ul>
+                                <div class="col-md-6">
+                                    <ul id="casefiles" *ngIf="myCasefiles.length > 0">
+                                        <li *ngFor="let casefile of myCasefiles">
+                                            <a target="_blank" [href]="casefile.file">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                            <input *ngIf="myCase.status == 'Awaiting Final Letter'" id="signed" type="checkbox" (change)="setFinalLetterDate(signed.checked)" #signed> Signed Letter<!-- [checked]="signed" formControlName="signed"> -->
+                                        </li>
+                                    </ul>
+                                </div>
                                 <input class="custom-file-input" id="fileselect" type="file" multiple (change)="fileSelectHandler($event)" formControlName="casefiles" />
-
                             </div>
                         </div>
                         <!-- <div class="col-md-2">
@@ -359,7 +363,7 @@
                         </div>
 
                         <ul class="tag-ul">
-                            <li *ngFor="let casetag of myCasetags">{{ casetag.tagname }} <button class="btn-remove" type="button" (click)="removeCasetag(casetag.id)">x<i class="fa fa-remove"></i></button></li>
+                            <li *ngFor="let casetag of myCasetags">{{ casetag.tagname }} <button class="btn-remove" type="button" (click)="removeCasetag(casetag.id)"><i class="fa fa-remove">x</i></button></li>
                         </ul>
                     </div>
                 </div>

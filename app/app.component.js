@@ -18,9 +18,13 @@ var requester_service_1 = require('./requesters/requester.service');
 var authentication_service_1 = require('./authentication/authentication.service');
 var is_loggedin_1 = require('./authentication/is-loggedin');
 var AppComponent = (function () {
-    function AppComponent(router) {
+    function AppComponent(auth, router) {
+        this.auth = auth;
         this.router = router;
     }
+    AppComponent.prototype.onLogout = function () {
+        this.auth.logout();
+    };
     AppComponent.prototype.ngOnInit = function () {
         if (!is_loggedin_1.isLoggedin()) {
             this.router.navigate(['/login']);
@@ -29,8 +33,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            //templateUrl: 'app/app.component.html',
-            template: "\n        <h1>CBRA Determination Management</h1>\n        <div style=\"margin-left:100px;\">\n            <router-outlet></router-outlet>\n        </div>\n    ",
+            templateUrl: 'app/app.component.html',
             directives: [router_1.ROUTER_DIRECTIVES],
             providers: [
                 http_1.HTTP_PROVIDERS,
@@ -41,7 +44,7 @@ var AppComponent = (function () {
                 authentication_service_1.AuthenticationService
             ]
         }), 
-        __metadata('design:paramtypes', [router_1.Router])
+        __metadata('design:paramtypes', [authentication_service_1.AuthenticationService, router_1.Router])
     ], AppComponent);
     return AppComponent;
 }());

@@ -11,13 +11,7 @@ import {isLoggedin}        from './authentication/is-loggedin';
 
 @Component({
     selector: 'my-app',
-    //templateUrl: 'app/app.component.html',
-    template: `
-        <h1>CBRA Determination Management</h1>
-        <div style="margin-left:100px;">
-            <router-outlet></router-outlet>
-        </div>
-    `,
+    templateUrl: 'app/app.component.html',
     directives: [ROUTER_DIRECTIVES],
     providers: [
         HTTP_PROVIDERS,
@@ -30,7 +24,12 @@ import {isLoggedin}        from './authentication/is-loggedin';
 })
 export class AppComponent implements OnInit{
 
-    constructor(public router: Router){}
+    constructor(public auth: AuthenticationService, public router: Router) {
+    }
+
+    onLogout() {
+        this.auth.logout();
+    }
 
     ngOnInit() {
         if (!isLoggedin()) {this.router.navigate(['/login']);}

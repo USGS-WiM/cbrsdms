@@ -45,6 +45,12 @@ var TagService = (function () {
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
+    TagService.prototype.deleteTag = function (id) {
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
+        return this.http.delete(app_settings_1.APP_SETTINGS.TAGS_URL + id + '/', options)
+            .map(function (res) { return console.log(res); })
+            .catch(this.handleError);
+    };
     TagService.prototype.handleError = function (error) {
         // TODO figure out a better error handler
         // in a real world app, we may send the server to some remote logging infrastructure
