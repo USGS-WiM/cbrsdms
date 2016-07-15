@@ -13,6 +13,7 @@ var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var case_service_1 = require('../cases/case.service');
 var property_service_1 = require('../properties/property.service');
+var workbench_filter_component_1 = require('./workbench-filter.component');
 var workbench_grid_1 = require('./workbench-grid');
 var column_1 = require('../grid/column');
 var WorkbenchListComponent = (function () {
@@ -23,6 +24,7 @@ var WorkbenchListComponent = (function () {
         this._propertyService = _propertyService;
         this.cases_properties = [];
         this.notready = true;
+        this.hideFilter = true;
         // this._params = this._router.routerState.queryParams
         //     .subscribe(params => {
         //         this.tag_ID = params['tag'];
@@ -35,10 +37,17 @@ var WorkbenchListComponent = (function () {
         var _this = this;
         this._params = this._router.routerState.queryParams
             .subscribe(function (params) {
-            _this.tag_ID = params['tag'];
-            _this._getCases(_this.tag_ID);
-            _this._getColumns();
-            delete params['tag'];
+            if (params['tags']) {
+                _this.t = params['tags'];
+                var urlSearchParams = 'view=workbench&tags=' + params['tags'];
+                _this._getCases(urlSearchParams);
+                _this._getColumns();
+                delete params['tags'];
+            }
+            else {
+                _this._getCases();
+                _this._getColumns();
+            }
         });
         // let tag_ID = this._route.snapshot._urlSegment.pathsWithParams[0].parameters.tag;
         // let tag_ID = this._route.snapshot.params['tag'];
@@ -50,17 +59,27 @@ var WorkbenchListComponent = (function () {
             this._params.unsubscribe();
         }
     };
-    WorkbenchListComponent.prototype.removeTagFilter = function () {
-        this.notready = true;
-        this.tag_ID = null;
-        this._getCases();
+    WorkbenchListComponent.prototype.ngAfterViewInit = function () {
+        this.filterComponent.myWorkbenchFilter.tags = [+this.t];
     };
-    WorkbenchListComponent.prototype._getCases = function (tag_ID) {
+    WorkbenchListComponent.prototype.toggleFilter = function () {
+        this.hideFilter ? this.hideFilter = false : this.hideFilter = true;
+    };
+    WorkbenchListComponent.prototype.onFilter = function (urlSearchParams) {
+        this._getCases(urlSearchParams);
+    };
+    // removeTagFilter() {
+    //     this.notready = true;
+    //     this.tag_ID = null;
+    //     this._getCases();
+    // }
+    WorkbenchListComponent.prototype._getCases = function (newUrlSearchParams) {
         var _this = this;
-        var urlSearchParams = tag_ID ? 'view=workbench&tags=' + tag_ID : 'view=workbench';
+        var urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'view=workbench';
         this._caseService.getCases(new http_1.URLSearchParams(urlSearchParams))
             .subscribe(function (cases) {
             _this._cases = cases;
+            _this.cases_properties.length = 0;
             for (var i = 0, j = _this._cases.length; i < j; i++) {
                 //this.getProperties(this.cases[i].id);
                 var case_property = _this._cases[i];
@@ -72,7 +91,7 @@ var WorkbenchListComponent = (function () {
                     // if (this._params) {
                     //     delete this._params._subscriptions[0].subject.value.tag;
                     // }
-                    if (!tag_ID) {
+                    if (!newUrlSearchParams) {
                         _this._router.navigate(['/workbench']);
                     }
                     _this._sortAndShow();
@@ -145,10 +164,14 @@ var WorkbenchListComponent = (function () {
         this.cases_properties.sort(this._dynamicSortMultiple(['-priority', '-status']));
         this.notready = false;
     };
+    __decorate([
+        core_1.ViewChild(workbench_filter_component_1.WorkbenchFilterComponent), 
+        __metadata('design:type', workbench_filter_component_1.WorkbenchFilterComponent)
+    ], WorkbenchListComponent.prototype, "filterComponent", void 0);
     WorkbenchListComponent = __decorate([
         core_1.Component({
-            template: "\n        <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><img class=\"loader\" [src]=\"'loading.gif'\" /></div>\n        <div [hidden]=\"notready\">\n            <div class=\"container\">\n                <div *ngIf=\"tag_ID\"><p>Filter: Tag={{tag_ID}}<button class=\"btn\" type=\"button\" (click)=\"removeTagFilter()\"><i class=\"fa\">X</i></button></p></div>\n                <!-- <h3 class=\"form-main-header\">Workbench</h3> -->\n                <grid [rows]=\"cases_properties\" [columns]=\"columns\"></grid>\n            </div>\n        </div>\n    ",
-            directives: [router_1.ROUTER_DIRECTIVES, workbench_grid_1.WorkbenchGrid],
+            template: "\n        <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><img class=\"loader\" [src]=\"'loading.gif'\" /></div>\n        <div [hidden]=\"notready\">\n            <div  align=\"center\"><button class=\"btn btn-default\" (click)=\"toggleFilter()\">Filter Cases</button></div>\n            <workbench-filter [hidden]=\"hideFilter\" (onFilter)=\"onFilter($event)\"></workbench-filter>\n            <grid [rows]=\"cases_properties\" [columns]=\"columns\"></grid>\n        </div>\n    ",
+            directives: [router_1.ROUTER_DIRECTIVES, workbench_grid_1.WorkbenchGrid, workbench_filter_component_1.WorkbenchFilterComponent],
             providers: [
                 http_1.HTTP_PROVIDERS,
                 case_service_1.CaseService,
