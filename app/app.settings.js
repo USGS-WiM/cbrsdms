@@ -119,8 +119,13 @@ var APP_SETTINGS = (function () {
         configurable: true
     });
     ;
+    Object.defineProperty(APP_SETTINGS, "STATUSES", {
+        get: function () { return ["Closed with no Final Letter", "Final", "Awaiting Final Letter", "Awaiting FWS Review", "Awaiting QC", "Received"]; },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(APP_SETTINGS, "SALUTATIONS", {
-        get: function () { return ['Mr.', 'Ms.', 'Dr.']; },
+        get: function () { return ["Mr.", "Ms.", "Dr."]; },
         enumerable: true,
         configurable: true
     });

@@ -1,9 +1,11 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES, ActivatedRoute}    from '@angular/router';
 import {HTTP_PROVIDERS, URLSearchParams}    from '@angular/http';
-import {Case}              from '../cases/case'
+import {WorkbenchFilter}      from './workbench-filter';
+import {Case}              from '../cases/case';
 import {CaseService}       from '../cases/case.service';
 import {PropertyService}   from '../properties/property.service';
+import {WorkbenchFilterComponent} from './workbench-filter.component';
 import {WorkbenchGrid}     from './workbench-grid';
 import {Column}            from '../grid/column';
 
@@ -11,28 +13,29 @@ import {Column}            from '../grid/column';
     template: `
         <div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
         <div [hidden]="notready">
-            <div class="container">
-                <div *ngIf="tag_ID"><p>Filter: Tag={{tag_ID}}<button class="btn" type="button" (click)="removeTagFilter()"><i class="fa">X</i></button></p></div>
-                <!-- <h3 class="form-main-header">Workbench</h3> -->
-                <grid [rows]="cases_properties" [columns]="columns"></grid>
-            </div>
+            <div  align="center"><button class="btn btn-default" (click)="toggleFilter()">Filter Cases</button></div>
+            <workbench-filter [hidden]="hideFilter" (onFilter)="onFilter($event)"></workbench-filter>
+            <grid [rows]="cases_properties" [columns]="columns"></grid>
         </div>
     `,
-    directives:[ROUTER_DIRECTIVES, WorkbenchGrid],
+    directives:[ROUTER_DIRECTIVES, WorkbenchGrid, WorkbenchFilterComponent],
     providers: [
         HTTP_PROVIDERS,
         CaseService,
     ]
 })
 
-export class WorkbenchListComponent implements OnInit, OnDestroy {
+export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit {
+    @ViewChild(WorkbenchFilterComponent)
+    filterComponent: WorkbenchFilterComponent;
 
+    t: number;
     private _params: any;
-    tag_ID: string;
     private _cases: Case[];
     cases_properties = [];
     columns: Column[];
     notready: Boolean = true;
+    hideFilter: Boolean = true;
     private _errorMessage: string;
 
     constructor (
@@ -54,10 +57,17 @@ export class WorkbenchListComponent implements OnInit, OnDestroy {
         this._params = this._router.routerState.queryParams
         // this._params = this._route.params
             .subscribe(params => {
-                this.tag_ID = params['tag'];
-                this._getCases(this.tag_ID);
-                this._getColumns();
-                delete params['tag'];
+                if (params['tags']) {
+                    this.t = params['tags'];
+                    let urlSearchParams = 'view=workbench&tags=' + params['tags'];
+                    this._getCases(urlSearchParams);
+                    this._getColumns();
+                    delete params['tags'];
+                }
+                else {
+                    this._getCases();
+                    this._getColumns();
+                }
             });
         // let tag_ID = this._route.snapshot._urlSegment.pathsWithParams[0].parameters.tag;
         // let tag_ID = this._route.snapshot.params['tag'];
@@ -71,18 +81,31 @@ export class WorkbenchListComponent implements OnInit, OnDestroy {
         }
     }
 
-    removeTagFilter() {
-        this.notready = true;
-        this.tag_ID = null;
-        this._getCases();
+    ngAfterViewInit() {
+        this.filterComponent.myWorkbenchFilter.tags = [+this.t];
     }
 
-    _getCases(tag_ID?) {
-        let urlSearchParams = tag_ID ? 'view=workbench&tags='+tag_ID : 'view=workbench';
+    toggleFilter() {
+        this.hideFilter ? this.hideFilter = false : this.hideFilter = true;
+    }
+
+    onFilter(urlSearchParams: string) {
+        this._getCases(urlSearchParams);
+    }
+
+    // removeTagFilter() {
+    //     this.notready = true;
+    //     this.tag_ID = null;
+    //     this._getCases();
+    // }
+
+    _getCases(newUrlSearchParams?) {
+        let urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'view=workbench';
         this._caseService.getCases(new URLSearchParams(urlSearchParams))
             .subscribe(
                 cases => {
                     this._cases = cases;
+                    this.cases_properties.length = 0;
                     for (let i = 0, j = this._cases.length; i < j; i++) {
                         //this.getProperties(this.cases[i].id);
                         let case_property: any = this._cases[i];
@@ -94,7 +117,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy {
                             // if (this._params) {
                             //     delete this._params._subscriptions[0].subject.value.tag;
                             // }
-                            if (!tag_ID) {this._router.navigate(['/workbench']);}
+                            if (!newUrlSearchParams) {this._router.navigate(['/workbench']);}
                             this._sortAndShow();
                         }
                     }
