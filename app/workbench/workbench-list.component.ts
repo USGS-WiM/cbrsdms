@@ -1,28 +1,17 @@
 import {Component, OnInit, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES, ActivatedRoute}    from '@angular/router';
+import {Router, ROUTER_DIRECTIVES}    from '@angular/router';
 import {HTTP_PROVIDERS, URLSearchParams}    from '@angular/http';
-import {WorkbenchFilter}      from './workbench-filter';
 import {Case}              from '../cases/case';
 import {CaseService}       from '../cases/case.service';
-import {PropertyService}   from '../properties/property.service';
 import {WorkbenchFilterComponent} from './workbench-filter.component';
-import {WorkbenchGrid}     from './workbench-grid';
+import {WorkbenchGridComponent}   from './workbench-grid.component';
 import {Column}            from '../grid/column';
+import {dynamicSortMultiple} from '../app.utilities';
 
 @Component({
-    template: `
-        <div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
-        <div [hidden]="notready">
-            <div  align="center"><button class="btn btn-default" (click)="toggleFilter()">Filter Cases</button></div>
-            <workbench-filter [hidden]="hideFilter" (onFilter)="onFilter($event)"></workbench-filter>
-            <grid [rows]="cases_properties" [columns]="columns"></grid>
-        </div>
-    `,
-    directives:[ROUTER_DIRECTIVES, WorkbenchGrid, WorkbenchFilterComponent],
-    providers: [
-        HTTP_PROVIDERS,
-        CaseService,
-    ]
+    templateUrl: 'app/workbench/workbench-list.component.html',
+    directives:[ROUTER_DIRECTIVES, WorkbenchGridComponent, WorkbenchFilterComponent],
+    providers: [HTTP_PROVIDERS, CaseService]
 })
 
 export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -39,10 +28,8 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     private _errorMessage: string;
 
     constructor (
-        private _route: ActivatedRoute,
         private _router: Router,
-        private _caseService: CaseService,
-        private _propertyService: PropertyService
+        private _caseService: CaseService
     ) {
         // this._params = this._router.routerState.queryParams
         //     .subscribe(params => {
@@ -99,7 +86,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     //     this._getCases();
     // }
 
-    _getCases(newUrlSearchParams?) {
+    private _getCases(newUrlSearchParams?) {
         let urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'view=workbench';
         this._caseService.getCases(new URLSearchParams(urlSearchParams))
             .subscribe(
@@ -111,7 +98,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
                         let case_property: any = this._cases[i];
                         let address = case_property.property_string.split(',');
                         case_property.street = address[0];
-                        case_property.city = address[1];
+                        case_property.city = address[2];
                         this.cases_properties.push(case_property);
                         if (this._cases.length == this.cases_properties.length) {
                             // if (this._params) {
@@ -126,7 +113,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             );
     }
 
-/*    _getProperties(caseID: number) {
+/*   private _getProperties(caseID: number) {
         this._propertyService.getProperties(new URLSearchParams('case='+caseID))
             .subscribe(
                 property => {
@@ -142,7 +129,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
                 error => this._errorMessage = <any>error);
     }
 */
-    _getColumns() {
+    private _getColumns() {
         this.columns = [
             new Column('status', 'Status'),
             new Column('request_date','Request Date'),
@@ -157,40 +144,10 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
         ];
     }
 
-    // the following function found here: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
-    _dynamicSortMultiple() {
-        function dynamicSort(property) {
-            let sortOrder = 1;
-            if(property[0] === "-") {
-                sortOrder = -1;
-                property = property.substr(1);
-            }
-            return function (a,b) {
-                let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-                return result * sortOrder;
-            }
-        }
-        /*
-         * save the arguments object as it will be overwritten
-         * note that arguments object is an array-like object
-         * consisting of the names of the properties to sort by
-         */
-        let props = arguments;
-        return function (obj1, obj2) {
-            let i = 0, result = 0, numberOfProperties = props.length;
-            /* try getting a different result from 0 (equal)
-             * as long as we have extra properties to compare
-             */
-            while(result === 0 && i < numberOfProperties) {
-                result = dynamicSort(props[i])(obj1, obj2);
-                i++;
-            }
-            return result;
-        }
-    }
 
-    _sortAndShow() {
-        this.cases_properties.sort(this._dynamicSortMultiple(['-priority', '-status']));
+
+    private _sortAndShow() {
+        this.cases_properties.sort(dynamicSortMultiple(['-priority', '-status']));
         this.notready = false;
     }
 

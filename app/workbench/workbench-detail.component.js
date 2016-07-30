@@ -32,6 +32,7 @@ var determination_service_1 = require('../determinations/determination.service')
 var prohibitiondate_service_1 = require('../prohibitiondates/prohibitiondate.service');
 var forms_1 = require('@angular/forms');
 var app_settings_1 = require('../app.settings');
+var app_utilities_1 = require('../app.utilities');
 var WorkbenchDetailComponent = (function () {
     function WorkbenchDetailComponent(fb, _route, _caseService, _casefileService, _propertyService, _requesterService, _commentService, _tagService, _casetagService, _systemunitService, _systemmapService, _fieldofficeService, _userService, _determinationService, _prohibitiondateService) {
         var _this = this;
@@ -57,8 +58,6 @@ var WorkbenchDetailComponent = (function () {
         this.noxhr = true;
         this.isreadonly_prohibitiondate = false;
         this._userFields = ['analyst', 'qc_reviewer', 'fws_reviewer'];
-        this._today = new Date().toISOString().substr(0, 10);
-        this._time = new Date().toISOString().substr(14, 22);
         this._debug = false;
         this.myCase = new case_1.Case();
         this.myProperty = new property_1.Property();
@@ -80,7 +79,7 @@ var WorkbenchDetailComponent = (function () {
         this._commentsControls = [];
         this._casetagsControls = [];
         if (this._debug) {
-            console.log("0: " + this._getTime() + ": " + this.myCase.map_number + " : " + this.selectedMap);
+            console.log("0: " + app_utilities_1.APP_DATETIME.TIME + ": " + this.myCase.map_number + " : " + this.selectedMap);
         }
         this._caseControls = this._makeControls(this._myCase_fields);
         this._propertyControls = this._makeControls(this._myProperty_fields);
@@ -121,7 +120,7 @@ var WorkbenchDetailComponent = (function () {
             //this._updateControl("map_number", this._myCase_fields, this._caseControls, this.mySystemmaps);
             _this.selectedMap = _this.myCase.map_number;
             if (_this._debug) {
-                console.log("6: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                console.log("6: " + app_utilities_1.APP_DATETIME.TIME + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
             }
             console.log("map_number hack");
         }, 3000);
@@ -132,7 +131,6 @@ var WorkbenchDetailComponent = (function () {
                     });
         */
     }
-    WorkbenchDetailComponent.prototype._getTime = function () { return new Date().toISOString().substr(14, 22); };
     WorkbenchDetailComponent.prototype._makeControls = function (fields) {
         var controls = {};
         for (var i = 0, j = fields.length; i < j; i++) {
@@ -180,7 +178,7 @@ var WorkbenchDetailComponent = (function () {
             .subscribe(function (acase) {
             _this.myCase = acase;
             if (_this._debug) {
-                console.log("1: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                console.log("1: " + app_utilities_1.APP_DATETIME.TIME + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
             }
             //this.selectedMap = this.myCase.map_number;
             _this.selectedAnalyst = acase.analyst;
@@ -261,7 +259,7 @@ var WorkbenchDetailComponent = (function () {
             .subscribe(function (systemunits) {
             _this.mySystemunits = systemunits;
             if (_this._debug) {
-                console.log("2: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                console.log("2: " + app_utilities_1.APP_DATETIME.TIME + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
             }
             //let unitID = (this.myCase.cbrs_unit ? this.myCase.cbrs_unit : this.mySystemunits[0].id);
             //this.getSystemmaps(unitID);
@@ -283,11 +281,11 @@ var WorkbenchDetailComponent = (function () {
             else {
                 _this.mapsfound = true;
                 if (_this._debug) {
-                    console.log("3: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                    console.log("3: " + app_utilities_1.APP_DATETIME.TIME + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
                 }
                 _this._updateControl("map_number", _this._myCase_fields, _this._caseControls, _this.mySystemmaps);
                 if (_this._debug) {
-                    console.log("4: " + _this._getTime() + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
+                    console.log("4: " + app_utilities_1.APP_DATETIME.TIME + ": " + _this.myCase.map_number + " : " + _this.selectedMap);
                     console.log(_this.mySystemmaps);
                 }
                 //let mapID = (this.myCase.map_number ? this.myCase.map_number : this.mySystemmaps[0].id);
@@ -306,7 +304,7 @@ var WorkbenchDetailComponent = (function () {
             var maps = this.mySystemmaps.filter(function (map) { return map.id == mapID; });
             this._caseControls["cbrs_map_date"].updateValue(maps[0].map_date);
             if (this._debug) {
-                console.log("5: " + this._getTime() + ": " + this.myCase.map_number + " : " + this.selectedMap);
+                console.log("5: " + app_utilities_1.APP_DATETIME.TIME + ": " + this.myCase.map_number + " : " + this.selectedMap);
             }
         }
     };
@@ -535,12 +533,12 @@ var WorkbenchDetailComponent = (function () {
         //    this.caseControls[controlName].updateValue(this._today);
         //}
         if (this.casegroup.contains(controlName)) {
-            this._caseControls[controlName].updateValue(this._today);
+            this._caseControls[controlName].updateValue(app_utilities_1.APP_DATETIME.TODAY);
         }
     };
     WorkbenchDetailComponent.prototype.setFinalLetterDate = function (checked) {
         if (checked) {
-            this._caseControls["final_letter_date"].updateValue(this._today);
+            this._caseControls["final_letter_date"].updateValue(app_utilities_1.APP_DATETIME.TODAY);
         }
         else {
             this._caseControls["final_letter_date"].updateValue("");

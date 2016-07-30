@@ -28,6 +28,7 @@ import {DeterminationService} from '../determinations/determination.service';
 import {ProhibitiondateService} from '../prohibitiondates/prohibitiondate.service';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup, FormControl, FormArray} from '@angular/forms';
 import {APP_SETTINGS}      from '../app.settings';
+import {APP_DATETIME}      from '../app.utilities';
 
 @Component({
     templateUrl: 'app/workbench/workbench-detail.component.html',
@@ -60,9 +61,6 @@ export class WorkbenchDetailComponent{
     private _errorMessage: string;
 
     private _userFields:string[] = ['analyst', 'qc_reviewer', 'fws_reviewer'];
-    private _today: string = new Date().toISOString().substr(0,10);
-    private _time: string = new Date().toISOString().substr(14,22);
-    private _getTime() { return new Date().toISOString().substr(14,22); }
     private _debug: Boolean = false;
 
     myCase = new Case();
@@ -175,7 +173,7 @@ export class WorkbenchDetailComponent{
                  private _prohibitiondateService: ProhibitiondateService
     ){
 
-        if(this._debug){console.log("0: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
+        if(this._debug){console.log("0: "+APP_DATETIME.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
 
         this._caseControls = this._makeControls(this._myCase_fields);
         this._propertyControls = this._makeControls(this._myProperty_fields);
@@ -220,7 +218,7 @@ export class WorkbenchDetailComponent{
         setTimeout(()=> {
             //this._updateControl("map_number", this._myCase_fields, this._caseControls, this.mySystemmaps);
             this.selectedMap = this.myCase.map_number;
-            if(this._debug){console.log("6: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
+            if(this._debug){console.log("6: "+APP_DATETIME.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
             console.log("map_number hack");
         }, 3000);
 
@@ -237,7 +235,7 @@ export class WorkbenchDetailComponent{
             .subscribe(
                 acase => {
                     this.myCase = acase;
-                    if(this._debug){console.log("1: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
+                    if(this._debug){console.log("1: "+APP_DATETIME.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
                     //this.selectedMap = this.myCase.map_number;
                     this.selectedAnalyst = acase.analyst;
                     this.selectedQCReviewer = acase.qc_reviewer;
@@ -331,7 +329,7 @@ export class WorkbenchDetailComponent{
             .subscribe(
                 systemunits => {
                     this.mySystemunits = systemunits;
-                    if(this._debug){console.log("2: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
+                    if(this._debug){console.log("2: "+APP_DATETIME.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
                     //let unitID = (this.myCase.cbrs_unit ? this.myCase.cbrs_unit : this.mySystemunits[0].id);
                     //this.getSystemmaps(unitID);
                     if (this.myCase.cbrs_unit) {
@@ -351,9 +349,9 @@ export class WorkbenchDetailComponent{
                     if (this.mySystemmaps.length == 0) { this.mapsfound = false; } //alert('No maps found for this unit.'); }
                     else {
                         this.mapsfound = true;
-                        if(this._debug){console.log("3: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
+                        if(this._debug){console.log("3: "+APP_DATETIME.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
                         this._updateControl("map_number", this._myCase_fields, this._caseControls, this.mySystemmaps);
-                        if(this._debug){console.log("4: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap); console.log(this.mySystemmaps);}
+                        if(this._debug){console.log("4: "+APP_DATETIME.TIME+": "+this.myCase.map_number+" : "+this.selectedMap); console.log(this.mySystemmaps);}
                         //let mapID = (this.myCase.map_number ? this.myCase.map_number : this.mySystemmaps[0].id);
                         //this.getSystemmapdate(mapID);
                         if (this.myCase.map_number) {this.getSystemmapdate(this.myCase.map_number)}
@@ -367,7 +365,7 @@ export class WorkbenchDetailComponent{
         else {
             let maps = this.mySystemmaps.filter(function (map) {return map.id == mapID;});
             this._caseControls["cbrs_map_date"].updateValue(maps[0].map_date);
-            if(this._debug){console.log("5: "+this._getTime()+": "+this.myCase.map_number+" : "+this.selectedMap);}
+            if(this._debug){console.log("5: "+APP_DATETIME.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
             //this.updateControl("cbrs_map_date", this.myCase_fields, this.caseControls, this.mySystemmaps);
         }
     }
@@ -565,12 +563,12 @@ export class WorkbenchDetailComponent{
         //    this.caseControls[controlName].updateValue(this._today);
         //}
         if (this.casegroup.contains(controlName)) {
-            this._caseControls[controlName].updateValue(this._today);
+            this._caseControls[controlName].updateValue(APP_DATETIME.TODAY);
         }
     }
 
     setFinalLetterDate(checked) {
-        if(checked) {this._caseControls["final_letter_date"].updateValue(this._today);}
+        if(checked) {this._caseControls["final_letter_date"].updateValue(APP_DATETIME.TODAY);}
         else {this._caseControls["final_letter_date"].updateValue("");}
     }
 

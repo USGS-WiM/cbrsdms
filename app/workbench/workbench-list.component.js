@@ -12,16 +12,14 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var case_service_1 = require('../cases/case.service');
-var property_service_1 = require('../properties/property.service');
 var workbench_filter_component_1 = require('./workbench-filter.component');
-var workbench_grid_1 = require('./workbench-grid');
+var workbench_grid_component_1 = require('./workbench-grid.component');
 var column_1 = require('../grid/column');
+var app_utilities_1 = require('../app.utilities');
 var WorkbenchListComponent = (function () {
-    function WorkbenchListComponent(_route, _router, _caseService, _propertyService) {
-        this._route = _route;
+    function WorkbenchListComponent(_router, _caseService) {
         this._router = _router;
         this._caseService = _caseService;
-        this._propertyService = _propertyService;
         this.cases_properties = [];
         this.notready = true;
         this.hideFilter = true;
@@ -85,7 +83,7 @@ var WorkbenchListComponent = (function () {
                 var case_property = _this._cases[i];
                 var address = case_property.property_string.split(',');
                 case_property.street = address[0];
-                case_property.city = address[1];
+                case_property.city = address[2];
                 _this.cases_properties.push(case_property);
                 if (_this._cases.length == _this.cases_properties.length) {
                     // if (this._params) {
@@ -99,7 +97,7 @@ var WorkbenchListComponent = (function () {
             }
         }, function (error) { return _this._errorMessage = error; });
     };
-    /*    _getProperties(caseID: number) {
+    /*   private _getProperties(caseID: number) {
             this._propertyService.getProperties(new URLSearchParams('case='+caseID))
                 .subscribe(
                     property => {
@@ -129,39 +127,8 @@ var WorkbenchListComponent = (function () {
             new column_1.Column('priority', 'Priority'),
         ];
     };
-    // the following function found here: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
-    WorkbenchListComponent.prototype._dynamicSortMultiple = function () {
-        function dynamicSort(property) {
-            var sortOrder = 1;
-            if (property[0] === "-") {
-                sortOrder = -1;
-                property = property.substr(1);
-            }
-            return function (a, b) {
-                var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-                return result * sortOrder;
-            };
-        }
-        /*
-         * save the arguments object as it will be overwritten
-         * note that arguments object is an array-like object
-         * consisting of the names of the properties to sort by
-         */
-        var props = arguments;
-        return function (obj1, obj2) {
-            var i = 0, result = 0, numberOfProperties = props.length;
-            /* try getting a different result from 0 (equal)
-             * as long as we have extra properties to compare
-             */
-            while (result === 0 && i < numberOfProperties) {
-                result = dynamicSort(props[i])(obj1, obj2);
-                i++;
-            }
-            return result;
-        };
-    };
     WorkbenchListComponent.prototype._sortAndShow = function () {
-        this.cases_properties.sort(this._dynamicSortMultiple(['-priority', '-status']));
+        this.cases_properties.sort(app_utilities_1.dynamicSortMultiple(['-priority', '-status']));
         this.notready = false;
     };
     __decorate([
@@ -170,14 +137,11 @@ var WorkbenchListComponent = (function () {
     ], WorkbenchListComponent.prototype, "filterComponent", void 0);
     WorkbenchListComponent = __decorate([
         core_1.Component({
-            template: "\n        <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><img class=\"loader\" [src]=\"'loading.gif'\" /></div>\n        <div [hidden]=\"notready\">\n            <div  align=\"center\"><button class=\"btn btn-default\" (click)=\"toggleFilter()\">Filter Cases</button></div>\n            <workbench-filter [hidden]=\"hideFilter\" (onFilter)=\"onFilter($event)\"></workbench-filter>\n            <grid [rows]=\"cases_properties\" [columns]=\"columns\"></grid>\n        </div>\n    ",
-            directives: [router_1.ROUTER_DIRECTIVES, workbench_grid_1.WorkbenchGrid, workbench_filter_component_1.WorkbenchFilterComponent],
-            providers: [
-                http_1.HTTP_PROVIDERS,
-                case_service_1.CaseService,
-            ]
+            templateUrl: 'app/workbench/workbench-list.component.html',
+            directives: [router_1.ROUTER_DIRECTIVES, workbench_grid_component_1.WorkbenchGridComponent, workbench_filter_component_1.WorkbenchFilterComponent],
+            providers: [http_1.HTTP_PROVIDERS, case_service_1.CaseService]
         }), 
-        __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router, case_service_1.CaseService, property_service_1.PropertyService])
+        __metadata('design:paramtypes', [router_1.Router, case_service_1.CaseService])
     ], WorkbenchListComponent);
     return WorkbenchListComponent;
 }());
