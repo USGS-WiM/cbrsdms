@@ -24,7 +24,7 @@ var NavbarComponent = (function () {
     NavbarComponent = __decorate([
         core_1.Component({
             selector: 'navbar',
-            template: "\n        <nav [hidden]=\"hideNavbar\">\n            <div style=\"float: left;\">\n                <!-- <a [routerLink]=\"['/workbench']\">Workbench</a> -->\n                <a href=\"/workbench\">Workbench</a>\n                <a href=\"../../cbra/cbrarequests/\">Create Case</a>\n                <!-- <a href=\"/reports\">Reports</a> -->\n                <a [routerLink]=\"['/tags']\">Tags</a>\n            </div>\n            <div style=\"float: right;\">\n                <!-- <input type=\"text\">\n                <button>Search</button>\n                <button>Reset</button> -->\n                User: {{ first_name }} {{ last_name }} <a [routerLink]=\"['/logout']\" (click)=\"onLogout()\">Logout</a>\n            </div>\n        </nav>\n    ",
+            templateUrl: 'app/navbar.component.html',
             directives: [router_1.ROUTER_DIRECTIVES],
             providers: [http_1.HTTP_PROVIDERS]
         }), 

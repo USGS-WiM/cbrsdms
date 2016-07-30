@@ -6,23 +6,7 @@ import {isLoggedin}        from './authentication/is-loggedin';
 
 @Component({
     selector: 'navbar',
-    template: `
-        <nav [hidden]="hideNavbar">
-            <div style="float: left;">
-                <!-- <a [routerLink]="['/workbench']">Workbench</a> -->
-                <a href="/workbench">Workbench</a>
-                <a href="../../cbra/cbrarequests/">Create Case</a>
-                <!-- <a href="/reports">Reports</a> -->
-                <a [routerLink]="['/tags']">Tags</a>
-            </div>
-            <div style="float: right;">
-                <!-- <input type="text">
-                <button>Search</button>
-                <button>Reset</button> -->
-                User: {{ first_name }} {{ last_name }} <a [routerLink]="['/logout']" (click)="onLogout()">Logout</a>
-            </div>
-        </nav>
-    `,
+    templateUrl: 'app/navbar.component.html',
     directives: [ROUTER_DIRECTIVES],
     providers: [HTTP_PROVIDERS]
 })
