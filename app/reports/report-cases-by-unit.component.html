@@ -1,0 +1,13 @@
+<div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
+<div [hidden]="notready">
+    <div align="center">
+        <label for="cbrs_unit">CBRS Unit</label>
+        <select id="cbrs_unit" (change)="onFilter(newUnit.value)" #newUnit>
+            <option value=""></option>
+            <option *ngFor="let unit of systemunits" [value]="unit.id" [selected]="unit.id == selected_unit">{{unit.system_unit_number}}</option>
+        </select>
+        <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
+        <button class="btn btn-default btn-save-all" (click)="exportToCSV()">Export CSV</button>
+    </div>
+    <grid [rows]="cases_properties" [columns]="columns"></grid>
+</div>
