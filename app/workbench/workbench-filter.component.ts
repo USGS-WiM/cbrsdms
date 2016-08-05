@@ -13,7 +13,7 @@ import {APP_SETTINGS}      from '../app.settings';
 
 @Component({
     selector: 'workbench-filter',
-    templateUrl: '/app/workbench/workbench-filter.component.html',
+    templateUrl: 'app/workbench/workbench-filter.component.html',
     directives: [REACTIVE_FORM_DIRECTIVES],
     providers: [
         HTTP_PROVIDERS,

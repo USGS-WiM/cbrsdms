@@ -121,7 +121,7 @@ var WorkbenchFilterComponent = (function () {
     WorkbenchFilterComponent = __decorate([
         core_1.Component({
             selector: 'workbench-filter',
-            templateUrl: '/app/workbench/workbench-filter.component.html',
+            templateUrl: 'app/workbench/workbench-filter.component.html',
             directives: [forms_1.REACTIVE_FORM_DIRECTIVES],
             providers: [
                 http_1.HTTP_PROVIDERS,
