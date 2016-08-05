@@ -1,6 +1,7 @@
 <div class="container cbra-form">
 
     <h3 class="form-main-header">Edit Case #{{ myCase.id || case_ID }}</h3>
+    <h4 class="form-main-header">Current Status: {{ myCase.status }}</h4>
 
     <div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
     <div [hidden]="notready">
@@ -58,24 +59,32 @@
                         <div class="col-md-4">
                             <div class="file-group">
                                 <label class="half-label" for="casefiles">Case Files</label><!--
-                                --><label class="file-upload-label" for="fileselect">Upload New</label>
-                                <div class="col-md-6">
+                                --><label class="file-upload-label" for="fileselect">Upload New</label><!--
+                                --><label class="file-upload-label" for="draftletter">Draft Letter</label>
+                                <div class="col-md-4">
                                     <ul id="casefiles" *ngIf="myCasefiles.length > 0">
                                         <li *ngFor="let casefile of myCasefiles">
                                             <a target="_blank" [href]="casefile.file">{{ casefile.name }}</a>&nbsp;&nbsp;
-                                            <input *ngIf="myCase.status == 'Awaiting Final Letter'" id="signed" type="checkbox" (change)="setFinalLetterDate(signed.checked)" #signed> Signed Letter<!-- [checked]="signed" formControlName="signed"> -->
                                         </li>
                                     </ul>
                                 </div>
+                                <div class="col-md-4">
+                                    <div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div id="casefilesToUpload">
+                                        <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
+                                            <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span>
+                                            <button type="button" (click)="removeCasefile(i)">-</button>
+                                            <input *ngIf="myCase.status == 'Awaiting Final Letter'" id="signed" type="checkbox" (change)="setFinalLetterDate(signed.checked)" #signed> Signed Letter<!-- [checked]="signed" formControlName="signed"> -->
+                                        </p>
+                                    </div>
+                                </div>
                                 <input class="custom-file-input" id="fileselect" type="file" multiple (change)="fileSelectHandler($event)" formControlName="casefiles" />
+                                <input class="custom-file-input" id="draftletter" type="button" *ngIf="myCase.status == 'Awaiting Final Letter'" (click)="generateLetter()" />
                             </div>
                         </div>
-                        <!-- <div class="col-md-2">
-                            <div id="casefilesToUpload">
-                                <p *ngFor="let fileDetails of filesToUploadDetails; #i=index"><span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span><button type="button" (click)="removeCasefile(i)">-</button></p>
-                            </div>
-                            <div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>
-                        </div> -->
+
 
                         <div class="col-md-2">
                             <div class="chx-group">
@@ -345,6 +354,7 @@
                         <div class="add-comment-wrap">
                             <input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment>
                             <button class="btn-add-comment" type="button" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
+                            <span [hidden]="commentUnique" class="alert alert-danger">That comment already exists for this case.</span>
                         </div>
 
                         <ul class="comment-ul">

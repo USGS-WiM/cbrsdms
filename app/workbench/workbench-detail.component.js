@@ -33,6 +33,9 @@ var prohibitiondate_service_1 = require('../prohibitiondates/prohibitiondate.ser
 var forms_1 = require('@angular/forms');
 var app_settings_1 = require('../app.settings');
 var app_utilities_1 = require('../app.utilities');
+// Use Filesaver.js to save binary to file
+// https://github.com/eligrey/FileSaver.js/
+//let fileSaver = require('../../node_modules/filesaver.js/FileSaver.js');
 var WorkbenchDetailComponent = (function () {
     function WorkbenchDetailComponent(fb, _route, _caseService, _casefileService, _propertyService, _requesterService, _commentService, _tagService, _casetagService, _systemunitService, _systemmapService, _fieldofficeService, _userService, _determinationService, _prohibitiondateService) {
         var _this = this;
@@ -57,6 +60,7 @@ var WorkbenchDetailComponent = (function () {
         this.notready = true;
         this.noxhr = true;
         this.isreadonly_prohibitiondate = false;
+        this.commentUnique = true;
         this._userFields = ['analyst', 'qc_reviewer', 'fws_reviewer'];
         this._debug = false;
         this.myCase = new case_1.Case();
@@ -502,11 +506,19 @@ var WorkbenchDetailComponent = (function () {
         if (!newcomment) {
             return;
         }
-        this._commentService.createComment(new comment_1.Comment(this.case_ID, newcomment))
-            .subscribe(function (comment) {
-            _this.myComments.push(comment);
-            _this._addCommentControl(comment.comment);
-        }, function (error) { return _this._errorMessage = error; });
+        var matchingComment = this.myComments.filter(function (comment) { return comment.comment == newcomment; });
+        if (matchingComment[0]) {
+            this.commentUnique = false;
+            return;
+        }
+        else {
+            this.commentUnique = true;
+            this._commentService.createComment(new comment_1.Comment(this.case_ID, newcomment))
+                .subscribe(function (comment) {
+                _this.myComments.push(comment);
+                _this._addCommentControl(comment.comment);
+            }, function (error) { return _this._errorMessage = error; });
+        }
     };
     WorkbenchDetailComponent.prototype.addCasetag = function (newtag) {
         var _this = this;
@@ -539,6 +551,13 @@ var WorkbenchDetailComponent = (function () {
     WorkbenchDetailComponent.prototype.setFinalLetterDate = function (checked) {
         if (checked) {
             this._caseControls["final_letter_date"].updateValue(app_utilities_1.APP_DATETIME.TODAY);
+            var close_case = confirm("Do you also want to close this case?");
+            if (close_case) {
+                this._caseControls["close_date"].updateValue(app_utilities_1.APP_DATETIME.TODAY);
+            }
+            else {
+                this._caseControls["close_date"].updateValue("");
+            }
         }
         else {
             this._caseControls["final_letter_date"].updateValue("");
@@ -572,6 +591,33 @@ var WorkbenchDetailComponent = (function () {
         }, function (error) {
             console.error(error);
         });
+    };
+    WorkbenchDetailComponent.prototype.generateLetter = function () {
+        this._caseService.createFinalLeter(this.case_ID)
+            .then(function (data) {
+            var blob = new Blob([data[0]], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+            saveAs(blob, data[1]);
+        });
+        // this._caseService.createFinalLeter(this.case_ID)
+        // .then(function(data) {
+        //   // create a blob url representing the data
+        //   var blob = new Blob([data],{ type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+        //   var url = window.URL.createObjectURL(blob);
+        //   // attach blob url to anchor element with download attribute
+        //   var anchor = document.createElement('a');
+        //   anchor.setAttribute('href', url);
+        //   anchor.setAttribute('download', "doc.docx");
+        //   anchor.click();
+        //   window.URL.revokeObjectURL(url);
+        // });
+        // let link = document.createElement("a");
+        // link.setAttribute("href", APP_SETTINGS.CASES_URL+'?case_number='+this.case_ID+'&format=docx');
+        // link.setAttribute("download", "");
+        // link.setAttribute("username", "fred");//btoa(sessionStorage.getItem('username')));
+        // link.setAttribute("password", "fred");//sessionStorage.getItem('password'));
+        // document.body.appendChild(link);
+        // link.click();
+        // document.body.removeChild(link);
     };
     //onSubmit () {this.updateValues(this.myCase_fields, this.caseControls, this.myCase)}
     WorkbenchDetailComponent.prototype.onSubmit = function (form) {

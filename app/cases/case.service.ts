@@ -45,7 +45,33 @@ export class CaseService {
             .map(res => <Case> res.json())
             .catch(this.handleError)
     }
-    
+
+    createFinalLeter(caseid: number | string) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        let filename = "";
+                        let disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            let matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                        }
+                        resolve([xhr.response, filename]);
+                    } else {
+                        reject(xhr.response);
+                    }
+                }
+            };
+            xhr.responseType = "blob";
+            xhr.open("GET", APP_SETTINGS.CASES_URL+"?case_number="+caseid+"&format=docx", true);
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(sessionStorage.getItem('username') + ":" + sessionStorage.getItem('password')));
+            xhr.send();
+        });
+    }
+
     private handleError (error: Response) {
         // TODO figure out a better error handler
         // in a real world app, we may send the server to some remote logging infrastructure
