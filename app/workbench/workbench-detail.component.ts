@@ -30,6 +30,10 @@ import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup, FormContro
 import {APP_SETTINGS}      from '../app.settings';
 import {APP_DATETIME}      from '../app.utilities';
 
+// Use Filesaver.js to save binary to file
+// https://github.com/eligrey/FileSaver.js/
+//let fileSaver = require('../../node_modules/filesaver.js/FileSaver.js');
+
 @Component({
     templateUrl: 'app/workbench/workbench-detail.component.html',
     directives: [REACTIVE_FORM_DIRECTIVES],
@@ -58,6 +62,7 @@ export class WorkbenchDetailComponent{
     notready: Boolean = true;
     noxhr: Boolean = true;
     isreadonly_prohibitiondate: Boolean = false;
+    commentUnique: Boolean = true;
     private _errorMessage: string;
 
     private _userFields:string[] = ['analyst', 'qc_reviewer', 'fws_reviewer'];
@@ -527,13 +532,18 @@ export class WorkbenchDetailComponent{
 
     addComment(newcomment) {
         if (!newcomment) {return;}
-        this._commentService.createComment(new Comment(this.case_ID, newcomment))
-            .subscribe(
-                comment => {
-                    this.myComments.push(comment);
-                    this._addCommentControl(comment.comment);
-                },
-                error => this._errorMessage = <any>error);
+        let matchingComment = this.myComments.filter(function (comment) {return comment.comment == newcomment;});
+        if (matchingComment[0]) { this.commentUnique = false; return; }
+        else {
+            this.commentUnique = true;
+            this._commentService.createComment(new Comment(this.case_ID, newcomment))
+                .subscribe(
+                    comment => {
+                        this.myComments.push(comment);
+                        this._addCommentControl(comment.comment);
+                    },
+                    error => this._errorMessage = <any>error);
+        }
     }
 
     addCasetag(newtag) {
@@ -568,7 +578,14 @@ export class WorkbenchDetailComponent{
     }
 
     setFinalLetterDate(checked) {
-        if(checked) {this._caseControls["final_letter_date"].updateValue(APP_DATETIME.TODAY);}
+        if(checked) {
+            this._caseControls["final_letter_date"].updateValue(APP_DATETIME.TODAY);
+            let close_case = confirm("Do you also want to close this case?");
+            if (close_case) {
+                this._caseControls["close_date"].updateValue(APP_DATETIME.TODAY);
+            }
+            else {this._caseControls["close_date"].updateValue("");}
+        }
         else {this._caseControls["final_letter_date"].updateValue("");}
     }
 
@@ -606,6 +623,36 @@ export class WorkbenchDetailComponent{
                     console.error(error);
                 }
             );
+    }
+
+    generateLetter () {
+        this._caseService.createFinalLeter(this.case_ID)
+            .then(function(data) {
+                let blob = new Blob([data[0]],{ type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+                saveAs(blob, data[1]);
+            });
+
+        // this._caseService.createFinalLeter(this.case_ID)
+        // .then(function(data) {
+        //   // create a blob url representing the data
+        //   var blob = new Blob([data],{ type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+        //   var url = window.URL.createObjectURL(blob);
+        //   // attach blob url to anchor element with download attribute
+        //   var anchor = document.createElement('a');
+        //   anchor.setAttribute('href', url);
+        //   anchor.setAttribute('download', "doc.docx");
+        //   anchor.click();
+        //   window.URL.revokeObjectURL(url);
+        // });
+
+        // let link = document.createElement("a");
+        // link.setAttribute("href", APP_SETTINGS.CASES_URL+'?case_number='+this.case_ID+'&format=docx');
+        // link.setAttribute("download", "");
+        // link.setAttribute("username", "fred");//btoa(sessionStorage.getItem('username')));
+        // link.setAttribute("password", "fred");//sessionStorage.getItem('password'));
+        // document.body.appendChild(link);
+        // link.click();
+        // document.body.removeChild(link);
     }
 
     //onSubmit () {this.updateValues(this.myCase_fields, this.caseControls, this.myCase)}
