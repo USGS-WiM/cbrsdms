@@ -1,7 +1,7 @@
 <div class="container">
-    <h3>Reports</h3>
+    <h3 class="subheader">Reports</h3>
     <div [hidden]="notready">
-        <ul>
+        <ul class="reports-ul">
             <li>
                 <a [routerLink]="['/reports/casesbyunit']">Cases by Unit</a>
                 <label for="cbrs_unit">CBRS Unit</label>
@@ -10,7 +10,7 @@
                     <option *ngFor="let unit of systemunits" [value]="unit.id">{{unit.system_unit_number}}</option>
                 </select>
             </li>
-            <br /><p>...more to come...</p>
+            <p>...more to come...</p>
             <li>Total Time to Resolution</li>
             <li>Time from Request to each status complete</li>
             <li>Total Number of Cases by Status</li>

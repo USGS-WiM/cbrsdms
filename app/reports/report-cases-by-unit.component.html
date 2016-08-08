@@ -6,8 +6,9 @@
             <option value=""></option>
             <option *ngFor="let unit of systemunits" [value]="unit.id" [selected]="unit.id == selected_unit">{{unit.system_unit_number}}</option>
         </select>
+        <br/><br/>
         <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
-        <button class="btn btn-default btn-save-all" (click)="exportToCSV()">Export CSV</button>
+        <button class="btn btn-default reports-export-btn" (click)="exportToCSV()">Export CSV</button>
     </div>
     <grid [rows]="cases_properties" [columns]="columns"></grid>
 </div>

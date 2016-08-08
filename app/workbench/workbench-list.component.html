@@ -1,6 +1,6 @@
 <div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
 <div [hidden]="notready">
-    <div align="center"><button class="btn btn-default" (click)="toggleFilter()">Filter Cases</button></div>
+    <button class="filter-cases-btn" (click)="toggleFilter()">Filter Cases</button>
     <workbench-filter [hidden]="hideFilter" (onFilter)="onFilter($event)"></workbench-filter>
     <grid [rows]="cases_properties" [columns]="columns"></grid>
 </div>

@@ -58,9 +58,12 @@
 
                         <div class="col-md-4">
                             <div class="file-group">
-                                <label class="half-label" for="casefiles">Case Files</label><!--
+                                <label class="half-label fifty" for="casefiles">Case Files</label><!--
                                 --><label class="file-upload-label" for="fileselect">Upload New</label><!--
                                 --><label class="file-upload-label" for="draftletter">Draft Letter</label>
+                                <div class="col-md-12">
+                                    <div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>
+                                </div>
                                 <div class="col-md-4">
                                     <ul id="casefiles" *ngIf="myCasefiles.length > 0">
                                         <li *ngFor="let casefile of myCasefiles">
@@ -68,9 +71,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-md-4">
-                                    <div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>
-                                </div>
+
                                 <div class="col-md-2">
                                     <div id="casefilesToUpload">
                                         <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
@@ -352,8 +353,8 @@
                         <h2 class="dms-group-header">Comments</h2>
 
                         <div class="add-comment-wrap">
-                            <input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment>
-                            <button class="btn-add-comment" type="button" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
+                            <input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment><!--
+                            --><button class="btn-add-comment" type="button" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
                             <span [hidden]="commentUnique" class="alert alert-danger">That comment already exists for this case.</span>
                         </div>
 
@@ -368,8 +369,8 @@
                         <div class="add-comment-wrap">
                             <select class="new-comment-input new-comment-select" #newTag>
                                 <option *ngFor="let tag of availableTags" [value]="tag.id">{{tag.name}}</option>
-                            </select>
-                            <button class="btn-add-comment" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>
+                            </select><!--
+                            --><button class="btn-add-comment" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>
                         </div>
 
                         <ul class="tag-ul">
