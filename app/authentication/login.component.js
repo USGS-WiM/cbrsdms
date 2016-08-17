@@ -34,7 +34,7 @@ var LoginComponent = (function () {
         core_1.Component({
             selector: 'login',
             directives: [forms_1.REACTIVE_FORM_DIRECTIVES],
-            template: "\n    <form [formGroup]=\"form\" (ngSubmit)=\"onSubmit(form.value)\">\n        <div *ngIf=\"error\">Check your password</div>\n        <div>\n            <label for=\"username\">Username</label>\n            <input type=\"text\" formControlName=\"username\">\n        </div>\n        <div>\n            <label for=\"password\">Password</label>\n            <input type=\"password\" formControlName=\"password\">\n        </div>\n        <div class=\"form-group\">\n            <button type=\"submit\" [disabled]=\"!form.valid\">Login</button>\n        </div>\n    </form>\n    "
+            template: "\n    <form [formGroup]=\"form\" (ngSubmit)=\"onSubmit(form.value)\" class=\"login-form\">\n        <div *ngIf=\"error\">Check your password</div>\n        <div>\n            <label for=\"username\">Username</label>\n            <input type=\"text\" formControlName=\"username\">\n        </div>\n        <div>\n            <label for=\"password\">Password</label>\n            <input type=\"password\" formControlName=\"password\">\n        </div>\n        <div class=\"form-group\">\n            <button type=\"submit\" [disabled]=\"!form.valid\">Login</button>\n        </div>\n    </form>\n    "
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder, authentication_service_1.AuthenticationService, router_1.Router])
     ], LoginComponent);

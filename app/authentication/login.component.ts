@@ -7,7 +7,7 @@ import {AuthenticationService} from './authentication.service';
     selector: 'login',
     directives: [ REACTIVE_FORM_DIRECTIVES ],
     template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="login-form">
         <div *ngIf="error">Check your password</div>
         <div>
             <label for="username">Username</label>

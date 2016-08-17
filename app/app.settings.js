@@ -148,7 +148,7 @@ var APP_SETTINGS = (function () {
         configurable: true
     });
     ;
-    //private static _API_ENDPOINT: string = 'http://localhost:8000/cbraservices/';
+    // private static _API_ENDPOINT: string = 'http://localhost:8000/cbraservices/';
     // APP_SETTINGS._API_ENDPOINT = 'http://cbradev.wim.usgs.gov/cbra/cbraservices/';
     APP_SETTINGS._API_ENDPOINT = 'http://' + window.location.hostname + ':8000/cbraservices/';
     APP_SETTINGS = __decorate([

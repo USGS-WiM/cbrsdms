@@ -1,6 +1,6 @@
 //out: styles.css, sourcemap: false, compress: true
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
-@blue: #0071BC;
+@blue: #00CCA3;
 @black: #2D3146;
 @white: #FFF;
 @sans: 'Open Sans', sans-serif;
@@ -39,11 +39,55 @@ a{
 }
 
 
+
 img{
     margin-top: 105px;
     display: block;
     position: relative;
     top: 100px;
+}
+
+
+.login-form{
+    display: block;
+    width: 280px;
+    box-sizing: border-box;
+    padding: 20px 20px 5px 20px;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin: 45px auto;
+    label{
+        display: block;
+        padding: 0;
+        margin: 0 0 3px 0;
+        font-size: 10pt;
+        font-weight: 400;
+    }
+    input{
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        padding: 8px;
+        border: 1px solid #CCC;
+        border-radius: 3px;
+    }
+    button{
+        background-color: @blue;
+        box-sizing: border-box;
+        padding: 8px;
+        display: block;
+        text-align: center;
+        border: none;
+        width: 100%;
+        color: #FFF;
+        font-weight: bolder;
+        font-size: 12pt;
+        letter-spacing: 1px;
+        border-radius: 3px;
+        margin-top: 22px;
+    }
 }
 
 // Initial Styles
@@ -129,24 +173,69 @@ nav{
 }
 
 
-h1.app-header{
+span.app-header{
     display: block;
     text-align: center;
     text-transform: uppercase;
     font-size: 16pt;
     font-weight: bolder;
-    letter-spacing: 2px;
     box-sizing: border-box;
-    padding: 15px 0;
+    padding: 25px 0;
+    line-height: 0.5em;
+
+    h1{
+        display: block;
+        margin: 0 auto;
+        padding: 0;
+        font-size: 42pt;
+        font-weight: bolder;
+        letter-spacing: -2px;
+        padding: 0;
+        text-align: center;
+        line-height: 0.95em;
+    }
+    h2{
+        display: block;
+        margin: 0 auto;
+        padding: 0;
+        font-size: 13.5pt;
+        font-weight: bolder;
+        line-height: 0.4em;
+        letter-spacing: -0.8px;
+        padding: 0;
+        text-align: center;
+        box-sizing: border-box;
+        padding-left: 7px;
+    }
+    h3{
+        display: block;
+        margin: 0 auto;
+        padding: 0;
+        font-size: 15.5pt;
+        font-weight: bolder;
+        letter-spacing: -0.8px;
+        padding: 0;
+        text-align: center;
+        box-sizing: border-box;
+        padding-left: 7px;
+    }
+
 }
 
 h3.subheader{
     display: block;
     text-align:center;
-    font-size: 12pt;
+    font-size: 14pt;
     font-weight: bolder;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    margin-bottom: 45px;
+
+    b{
+        display: inline;
+        border-bottom: 4px solid @black;
+        box-sizing: border-box;
+        padding:0px 4px;
+    }
 }
 
 span.loading-message{
@@ -155,9 +244,18 @@ span.loading-message{
     font-size: 22pt;
     box-sizing: border-box;
     padding: 25px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    text-transform: lowercase;
+    letter-spacing: -1px;
     font-weight: bolder;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+
+    i{
+        display: block;
+        margin: 0 auto;
+    }
 }
 
 button.filter-cases-btn,
@@ -169,7 +267,7 @@ button.reports-export-btn{
     margin: 0 auto;
     box-sizing: border-box;
     padding: 8px 15px;
-    font-weight: lighter;
+    font-weight: 700;
     text-transform: capitalize;
     border-radius: 3px;
     border: 2px solid darken(@white, 5%);
@@ -178,10 +276,42 @@ button.reports-export-btn{
     &:hover{
         cursor: pointer;
         transition: @transition;
-        background-color: darken(@white, 2%);
+        // background-color: darken(@white, 2%);
+        border: 2px solid darken(@white, 15%);
+
+        i{
+            color: fade(@black, 70%);
+        }
+    }
+
+    i{
+        color: fade(@black, 30%);
+
+        &.fa-filter{
+            position: relative;
+            top: -1px;
+            padding-right: 4px;
+        }
+
     }
 }
 
+
+.true-false-icon{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 14pt;
+    padding-top: 1px;
+
+    &.fa-check{
+        color: @blue;
+    }
+    &.fa-close{
+        color: @red;
+    }
+}
 
 .dms-table{
     display: block;
@@ -737,12 +867,10 @@ button.reports-export-btn{
     text-align: center;
     background-color: @blue;
     color: @white;
-    font-size: 12pt;
+    font-size: 10pt;
     box-sizing: border-box;
     padding: 10px 20px;
-    font-weight: lighter;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+    font-weight: bolder;
     border-radius: 0;
     border: 1px solid darken(@blue, 5%);
     transition: @transition;

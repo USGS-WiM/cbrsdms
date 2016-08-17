@@ -133,15 +133,15 @@
 
                 <div class="row">
 
-                    <div formGroupName="workbenchfreetextgroup" class="col-md-6">
+                    <div formGroupName="workbenchfreetextgroup" class="col-md-10">
 
 
-                        <div class="col-md-6 dms-form-group br">
+                        <div class="col-md-4 dms-form-group br">
                             <label for="fiscal_year">Fiscal Year</label>
                             <input id="fiscal_year" type="text" formControlName="fiscal_year">
                         </div><!--
 
-                        --><div class="col-md-6 dms-form-group br">
+                        --><div class="col-md-8 dms-form-group br">
                             <label for="freetext">Freetext</label>
                             <input id="freetext" id="freetext" type="text" formControlName="freetext">
                         </div>
@@ -149,8 +149,8 @@
 
                     </div> <!-- /workbenchfreetextgroup -->
 
-                    <button type="submit" class="btn btn-default btn-save-all-inline col-md-3" [disabled]="!form.valid">Search</button>
-                    <button class="btn btn-default btn-save-all-inline col-md-3" (click)="clearFilter()">Clear</button>
+                    <button type="submit" class="btn btn-default btn-save-all-inline col-md-1" [disabled]="!form.valid">Search</button>
+                    <button class="btn btn-default btn-save-all-inline col-md-1" (click)="clearFilter()">Clear</button>
 
                 </div> <!-- /row -->
             </div> <!-- /dms-group noheaders -->
