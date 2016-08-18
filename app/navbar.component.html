@@ -1,15 +1,12 @@
 <nav [hidden]="hideNavbar">
     <div style="float: left;">
-        <!-- <a [routerLink]="['/workbench']">Workbench</a> -->
-        <a href="/workbench">Workbench</a>
+        <a [routerLink]="['/workbench']" [queryParams]="{home: true}">Workbench</a>
         <a href="../../cbra/cbrarequests/">Create Case</a>
         <a [routerLink]="['/reports']">Reports</a>
         <a [routerLink]="['/tags']">Tags</a>
     </div>
     <div style="float: right;">
-        <!-- <input type="text">
-        <button>Search</button>
-        <button>Reset</button> -->
-        <b class="nav-user">User: {{ first_name }} {{ last_name }}</b> <a [routerLink]="['/logout']" (click)="onLogout()">Logout <i class="fa fa-sign-out"></i></a>
+        <b class="nav-user">User: {{ first_name }} {{ last_name }}</b>
+        <a (click)="onLogout()">Logout <i class="fa fa-sign-out"></i></a>
     </div>
 </nav>

@@ -59,8 +59,9 @@
                         <div class="col-md-4">
                             <div class="file-group">
                                 <label class="half-label fifty" for="casefiles">Case Files</label><!--
+                                --><label class="bb" style="width:25%" *ngIf="myCase.status != 'Awaiting Final Letter'"></label><!--
                                 --><label class="file-upload-label" for="fileselect">Upload New</label><!--
-                                --><label class="file-upload-label" for="draftletter">Draft Letter</label>
+                                --><label class="file-upload-label" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter'">Draft Letter</label>
                                 <div class="col-md-12">
                                     <div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>
                                 </div>

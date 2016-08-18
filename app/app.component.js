@@ -18,13 +18,9 @@ var requester_service_1 = require('./requesters/requester.service');
 var authentication_service_1 = require('./authentication/authentication.service');
 var is_loggedin_1 = require('./authentication/is-loggedin');
 var AppComponent = (function () {
-    function AppComponent(auth, router) {
-        this.auth = auth;
+    function AppComponent(router) {
         this.router = router;
     }
-    AppComponent.prototype.onLogout = function () {
-        this.auth.logout();
-    };
     AppComponent.prototype.ngOnInit = function () {
         if (!is_loggedin_1.isLoggedin()) {
             this.router.navigate(['/login']);
@@ -44,7 +40,7 @@ var AppComponent = (function () {
                 authentication_service_1.AuthenticationService
             ]
         }), 
-        __metadata('design:paramtypes', [authentication_service_1.AuthenticationService, router_1.Router])
+        __metadata('design:paramtypes', [router_1.Router])
     ], AppComponent);
     return AppComponent;
 }());

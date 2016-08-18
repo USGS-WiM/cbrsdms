@@ -9,7 +9,7 @@ import {Tag}               from './tag';
 @Component({
     directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NavbarComponent],
     providers: [HTTP_PROVIDERS, TagService],
-    templateUrl: '/app/tags/tag-list.component.html'
+    templateUrl: 'app/tags/tag-list.component.html'
 })
 export class TagListComponent {
     error: Boolean = false;

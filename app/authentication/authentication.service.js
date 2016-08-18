@@ -11,15 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var Observable_1 = require('rxjs/Observable');
 var http_1 = require('@angular/http');
+var router_1 = require('@angular/router');
 var app_settings_1 = require('../app.settings');
 var AuthenticationService = (function () {
-    function AuthenticationService(http) {
-        this.http = http;
+    function AuthenticationService(_http, _router) {
+        this._http = _http;
+        this._router = _router;
     }
     AuthenticationService.prototype.login = function (username, password) {
         var _this = this;
         var options = new http_1.RequestOptions({ headers: new http_1.Headers({ "Authorization": "Basic " + btoa(username + ":" + password) }) });
-        return this.http.post(app_settings_1.APP_SETTINGS.AUTH_URL, null, options)
+        return this._http.post(app_settings_1.APP_SETTINGS.AUTH_URL, null, options)
             .map(function (res) {
             _this.user = res.json();
             if (_this.user.is_staff) {
@@ -37,6 +39,7 @@ var AuthenticationService = (function () {
         });
     };
     AuthenticationService.prototype.logout = function () {
+        this._router.navigate(['/login']);
         this.user = undefined;
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('password');
@@ -48,7 +51,7 @@ var AuthenticationService = (function () {
     };
     AuthenticationService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, router_1.Router])
     ], AuthenticationService);
     return AuthenticationService;
 }());

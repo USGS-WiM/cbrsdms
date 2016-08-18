@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
+import {Router, ROUTER_DIRECTIVES}    from '@angular/router';
 import {APP_SETTINGS}   from '../app.settings';
 import {User} from './user'
 
@@ -8,12 +9,12 @@ import {User} from './user'
 export class AuthenticationService {
     user: User;
 
-    constructor(private http: Http) {}
+    constructor(private _http: Http, private _router: Router) {}
 
     login(username: string, password: string) {
         let options = new RequestOptions({headers: new Headers({ "Authorization": "Basic " + btoa(username + ":" + password)})});
         
-        return this.http.post(APP_SETTINGS.AUTH_URL, null, options)
+        return this._http.post(APP_SETTINGS.AUTH_URL, null, options)
             .map((res : any) => {
                 this.user = res.json();
                 if (this.user.is_staff) {
@@ -34,6 +35,7 @@ export class AuthenticationService {
 
   logout() {
 
+      this._router.navigate(['/login']);
       this.user = undefined;
       sessionStorage.removeItem('username');
       sessionStorage.removeItem('password');
