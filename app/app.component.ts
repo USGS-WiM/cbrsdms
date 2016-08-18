@@ -24,11 +24,7 @@ import {isLoggedin}        from './authentication/is-loggedin';
 })
 export class AppComponent implements OnInit{
 
-    constructor(public auth: AuthenticationService, public router: Router) {
-    }
-
-    onLogout() {
-        this.auth.logout();
+    constructor(public router: Router) {
     }
 
     ngOnInit() {

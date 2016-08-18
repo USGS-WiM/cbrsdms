@@ -11,9 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var router_1 = require('@angular/router');
+var authentication_service_1 = require('./authentication/authentication.service');
 var is_loggedin_1 = require('./authentication/is-loggedin');
 var NavbarComponent = (function () {
-    function NavbarComponent() {
+    function NavbarComponent(auth) {
+        this.auth = auth;
         this.hideNavbar = false;
     }
     NavbarComponent.prototype.ngOnInit = function () {
@@ -21,14 +23,17 @@ var NavbarComponent = (function () {
         this.first_name = sessionStorage.getItem('first_name');
         this.last_name = sessionStorage.getItem('last_name');
     };
+    NavbarComponent.prototype.onLogout = function () {
+        this.auth.logout();
+    };
     NavbarComponent = __decorate([
         core_1.Component({
             selector: 'navbar',
             templateUrl: 'app/navbar.component.html',
             directives: [router_1.ROUTER_DIRECTIVES],
-            providers: [http_1.HTTP_PROVIDERS]
+            providers: [http_1.HTTP_PROVIDERS, authentication_service_1.AuthenticationService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [authentication_service_1.AuthenticationService])
     ], NavbarComponent);
     return NavbarComponent;
 }());

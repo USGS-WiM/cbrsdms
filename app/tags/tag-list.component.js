@@ -88,7 +88,7 @@ var TagListComponent = (function () {
         core_1.Component({
             directives: [router_1.ROUTER_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES, navbar_component_1.NavbarComponent],
             providers: [http_1.HTTP_PROVIDERS, tag_service_1.TagService],
-            templateUrl: '/app/tags/tag-list.component.html'
+            templateUrl: 'app/tags/tag-list.component.html'
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder, tag_service_1.TagService, router_1.Router])
     ], TagListComponent);
