@@ -1,14 +1,14 @@
-import {RouterConfig} from '@angular/router';
+import {Routes} from '@angular/router';
 import {AuthenticationGuard}    from '../authentication/authentication.guard';
 import {WorkbenchComponent} from './workbench.component';
 import {WorkbenchDetailComponent} from './workbench-detail.component';
 import {WorkbenchListComponent} from './workbench-list.component';
 
-export const WorkbenchRoutes: RouterConfig = [
+export const WorkbenchRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'workbench',
-        terminal: true
+        redirectTo: '/workbench',
+        pathMatch: 'full'
     },
     {
         path: 'workbench',

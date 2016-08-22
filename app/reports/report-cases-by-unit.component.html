@@ -10,5 +10,5 @@
         <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
         <button class="btn btn-default reports-export-btn" (click)="exportToCSV()"><i class="fa fa-download"></i> Export CSV</button>
     </div>
-    <grid [rows]="cases_properties" [columns]="columns"></grid>
+    <report-grid [rows]="cases_properties" [columns]="columns"></report-grid>
 </div>

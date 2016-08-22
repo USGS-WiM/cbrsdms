@@ -9,7 +9,7 @@ export class CaseService {
     constructor (private http: Http) {}
 
     getCase (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
         return this.http.get(APP_SETTINGS.CASES_URL+id+'/', options)
             .map(res => <Case> res.json())
@@ -17,7 +17,7 @@ export class CaseService {
     }
     
     getCases (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.CASES_URL, options)
             .map(res => <Case[]> res.json())

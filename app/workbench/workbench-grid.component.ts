@@ -3,7 +3,7 @@ import {Grid}   from '../grid/grid';
 import {Router} from '@angular/router';
 
 @Component({
-    selector: 'grid',
+    selector: 'workbench-grid',
     inputs: ['rows: rows','columns: columns'],
     templateUrl: 'app/workbench/workbench-grid.component.html',
     styles: ['.gridHeader {cursor:pointer;}']

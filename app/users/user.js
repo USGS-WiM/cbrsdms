@@ -1,6 +1,7 @@
 "use strict";
 var User = (function () {
-    function User(username, first_name, last_name, email, groups, user_permissions, is_superuser, is_staff, is_active, id) {
+    function User(id, username, first_name, last_name, email, groups, user_permissions, is_superuser, is_staff, is_active) {
+        this.id = id;
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -10,7 +11,6 @@ var User = (function () {
         this.is_superuser = is_superuser;
         this.is_staff = is_staff;
         this.is_active = is_active;
-        this.id = id;
     }
     return User;
 }());

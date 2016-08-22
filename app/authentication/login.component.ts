@@ -6,22 +6,7 @@ import {AuthenticationService} from './authentication.service';
 @Component({
     selector: 'login',
     directives: [ REACTIVE_FORM_DIRECTIVES ],
-    template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="login-form">
-        <div *ngIf="error">Check your password</div>
-        <div>
-            <label for="username">Username</label>
-            <input type="text" formControlName="username">
-        </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" formControlName="password">
-        </div>
-        <div class="form-group">
-            <button type="submit" [disabled]="!form.valid">Login</button>
-        </div>
-    </form>
-    `
+    templateUrl: 'app/authentication/login.component.html'
 })
 
 export class LoginComponent {
@@ -38,7 +23,7 @@ export class LoginComponent {
         if (sessionStorage.getItem('username')) {this.auth.logout();}
         this.auth.login(value.username, value.password)
             .subscribe(
-                (user: any) => this.router.navigate(['/workbench']),
+                (user: any) => this.router.navigateByUrl('workbench'),
                 () => { this.error = true; }
             );
     }

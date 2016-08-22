@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
-import {HTTP_PROVIDERS}    from '@angular/http';
 import {WorkbenchFilter}      from './workbench-filter';
 import {Tag}               from '../tags/tag';
 import {Systemunit}        from '../systemunits/systemunit';
@@ -15,13 +14,7 @@ import {APP_SETTINGS}      from '../app.settings';
     selector: 'workbench-filter',
     templateUrl: 'app/workbench/workbench-filter.component.html',
     directives: [REACTIVE_FORM_DIRECTIVES],
-    providers: [
-        HTTP_PROVIDERS,
-        CaseService,
-        TagService,
-        SystemunitService,
-        UserService
-    ]
+    providers: [CaseService, TagService, SystemunitService, UserService]
 })
 
 export class WorkbenchFilterComponent implements OnInit {

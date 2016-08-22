@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import {HTTP_PROVIDERS, URLSearchParams} from '@angular/http';
+import {URLSearchParams} from '@angular/http';
 import {Case}              from '../cases/case';
 import {CaseService}       from '../cases/case.service';
 import {Systemunit}        from '../systemunits/systemunit';
@@ -12,7 +12,7 @@ import {APP_DATETIME, downloadCSV, dynamicSortMultiple} from '../app.utilities';
 @Component({
     templateUrl: 'app/reports/report-cases-by-unit.component.html',
     directives:[ROUTER_DIRECTIVES, ReportGridComponent],
-    providers: [HTTP_PROVIDERS, CaseService, SystemunitService]
+    providers: [CaseService, SystemunitService]
 })
 
 export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
@@ -41,7 +41,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
                     this._getCases(urlSearchParams);
                     this._getSystemunits();
                     this._getColumns();
-                    delete params['units'];
+                    //delete params['units'];
                 }
                 else {
                     this._getCases();

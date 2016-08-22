@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var http_1 = require('@angular/http');
 var systemunit_service_1 = require('../systemunits/systemunit.service');
 var ReportListComponent = (function () {
     function ReportListComponent(_router, _systemunitService) {
@@ -34,7 +33,7 @@ var ReportListComponent = (function () {
         core_1.Component({
             templateUrl: 'app/reports/report-list.component.html',
             directives: [router_1.ROUTER_DIRECTIVES],
-            providers: [http_1.HTTP_PROVIDERS, systemunit_service_1.SystemunitService]
+            providers: [systemunit_service_1.SystemunitService]
         }), 
         __metadata('design:paramtypes', [router_1.Router, systemunit_service_1.SystemunitService])
     ], ReportListComponent);

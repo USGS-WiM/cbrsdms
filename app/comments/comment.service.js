@@ -17,13 +17,13 @@ var CommentService = (function () {
         this.http = http;
     }
     CommentService.prototype.getComment = function (id) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
         return this.http.get(app_settings_1.APP_SETTINGS.COMMENTS_URL + id + '/', options)
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     CommentService.prototype.getComments = function (searchArgs) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
         return this.http.get(app_settings_1.APP_SETTINGS.COMMENTS_URL, options)
             .map(function (res) { return res.json(); })
             .catch(this.handleError);

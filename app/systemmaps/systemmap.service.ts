@@ -9,7 +9,7 @@ export class SystemmapService {
     constructor (private http: Http) {}
 
     getSystemmap (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
         
         return this.http.get(APP_SETTINGS.SYSTEMMAPS_URL+id+'/', options)
             .map(res => <Systemmap> res.json())
@@ -17,7 +17,7 @@ export class SystemmapService {
     }
   
     getSystemmaps (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
         
         return this.http.get(APP_SETTINGS.SYSTEMMAPS_URL, options)
             .map(res => <Systemmap[]> res.json())

@@ -9,7 +9,7 @@ export class ProhibitiondateService {
     constructor (private http: Http) {}
 
     getProhibitiondate (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
         
         return this.http.get(APP_SETTINGS.SYSTEMUNITPROHIBITIONDATES_URL+id+'/', options)
             .map(res => <Prohibitiondate> res.json())
@@ -17,7 +17,7 @@ export class ProhibitiondateService {
     }
   
     getProhibitiondates (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
         
         return this.http.get(APP_SETTINGS.SYSTEMUNITPROHIBITIONDATES_URL, options)
             .map(res => <Prohibitiondate[]> res.json())

@@ -16,7 +16,7 @@ var CasefileService = (function () {
         this.http = http;
     }
     CasefileService.prototype.getCasefiles = function (searchArgs) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
         return this.http.get(app_settings_1.APP_SETTINGS.CASEFILES_URL, options)
             .toPromise()
             .then(function (res) { return res.json(); })

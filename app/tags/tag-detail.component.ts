@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy}         from '@angular/core';
 import {ROUTER_DIRECTIVES, Router, ActivatedRoute} from '@angular/router';
-import {HTTP_PROVIDERS, URLSearchParams}    from '@angular/http';
+import {URLSearchParams}    from '@angular/http';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
 import {NavbarComponent}   from '../navbar.component';
 import {CaseService}       from '../cases/case.service';
@@ -9,7 +9,7 @@ import {Tag}               from './tag';
 
 @Component({
     directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NavbarComponent],
-    providers: [HTTP_PROVIDERS, TagService],
+    providers: [TagService],
     templateUrl: '/app/tags/tag-detail.component.html'
 })
 export class TagDetailComponent implements OnInit, OnDestroy {

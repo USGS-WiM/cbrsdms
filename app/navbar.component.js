@@ -9,13 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
 var router_1 = require('@angular/router');
 var authentication_service_1 = require('./authentication/authentication.service');
 var is_loggedin_1 = require('./authentication/is-loggedin');
 var NavbarComponent = (function () {
-    function NavbarComponent(auth) {
+    function NavbarComponent(auth, _router) {
         this.auth = auth;
+        this._router = _router;
         this.hideNavbar = false;
     }
     NavbarComponent.prototype.ngOnInit = function () {
@@ -31,9 +31,9 @@ var NavbarComponent = (function () {
             selector: 'navbar',
             templateUrl: 'app/navbar.component.html',
             directives: [router_1.ROUTER_DIRECTIVES],
-            providers: [http_1.HTTP_PROVIDERS, authentication_service_1.AuthenticationService]
+            providers: [authentication_service_1.AuthenticationService]
         }), 
-        __metadata('design:paramtypes', [authentication_service_1.AuthenticationService])
+        __metadata('design:paramtypes', [authentication_service_1.AuthenticationService, router_1.Router])
     ], NavbarComponent);
     return NavbarComponent;
 }());
