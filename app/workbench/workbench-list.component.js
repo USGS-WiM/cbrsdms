@@ -16,6 +16,7 @@ var workbench_filter_component_1 = require('./workbench-filter.component');
 var workbench_grid_component_1 = require('./workbench-grid.component');
 var column_1 = require('../grid/column');
 var app_utilities_1 = require('../app.utilities');
+var forms_1 = require('@angular/forms');
 var WorkbenchListComponent = (function () {
     function WorkbenchListComponent(_router, _caseService) {
         this._router = _router;
@@ -40,7 +41,6 @@ var WorkbenchListComponent = (function () {
                 var urlSearchParams = 'view=workbench&tags=' + params['tags'];
                 _this._getCases(urlSearchParams);
                 _this._getColumns();
-                delete params['tags'];
             }
             else {
                 _this._getCases();
@@ -139,7 +139,7 @@ var WorkbenchListComponent = (function () {
         core_1.Component({
             templateUrl: 'app/workbench/workbench-list.component.html',
             directives: [router_1.ROUTER_DIRECTIVES, workbench_grid_component_1.WorkbenchGridComponent, workbench_filter_component_1.WorkbenchFilterComponent],
-            providers: [http_1.HTTP_PROVIDERS, case_service_1.CaseService]
+            providers: [case_service_1.CaseService, forms_1.FormBuilder]
         }), 
         __metadata('design:paramtypes', [router_1.Router, case_service_1.CaseService])
     ], WorkbenchListComponent);

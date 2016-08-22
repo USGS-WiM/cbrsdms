@@ -7,7 +7,7 @@ export class CasefileService {
     constructor (private http: Http) {}
 
     getCasefiles (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.CASEFILES_URL, options)
             .toPromise()

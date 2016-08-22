@@ -9,7 +9,7 @@ export class RequesterService {
     constructor (private http: Http) {}
 
     getRequester (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
         return this.http.get(APP_SETTINGS.REQUESTERS_URL+id+'/', options)
             .map(res => <Requester> res.json())
@@ -17,7 +17,7 @@ export class RequesterService {
     }
   
     getRequesters (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.REQUESTERS_URL, options)
 		    .map(res => <Requester[]> res.json())

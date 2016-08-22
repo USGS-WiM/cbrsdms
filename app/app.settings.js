@@ -97,6 +97,12 @@ var APP_SETTINGS = (function () {
         configurable: true
     });
     ;
+    Object.defineProperty(APP_SETTINGS, "MIN_JSON_HEADERS", {
+        get: function () { return new http_1.Headers({ 'Accept': 'application/json' }); },
+        enumerable: true,
+        configurable: true
+    });
+    ;
     Object.defineProperty(APP_SETTINGS, "JSON_HEADERS", {
         get: function () { return new http_1.Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }); },
         enumerable: true,
@@ -105,6 +111,16 @@ var APP_SETTINGS = (function () {
     ;
     Object.defineProperty(APP_SETTINGS, "AUTH_HEADERS", {
         get: function () { return new http_1.Headers({ 'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')) }); },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "MIN_AUTH_JSON_HEADERS", {
+        get: function () {
+            return new http_1.Headers({
+                'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')),
+                'Accept': 'application/json' });
+        },
         enumerable: true,
         configurable: true
     });

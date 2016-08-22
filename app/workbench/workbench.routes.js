@@ -6,8 +6,8 @@ var workbench_list_component_1 = require('./workbench-list.component');
 exports.WorkbenchRoutes = [
     {
         path: '',
-        redirectTo: 'workbench',
-        terminal: true
+        redirectTo: '/workbench',
+        pathMatch: 'full'
     },
     {
         path: 'workbench',

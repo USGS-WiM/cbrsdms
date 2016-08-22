@@ -7,7 +7,7 @@ exports.ReportRoutes = [
     {
         path: '',
         redirectTo: 'reports',
-        terminal: true
+        pathMatch: 'full'
     },
     {
         path: 'reports',

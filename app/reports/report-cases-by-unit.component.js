@@ -34,7 +34,6 @@ var ReportCasesByUnitComponent = (function () {
                 _this._getCases(urlSearchParams);
                 _this._getSystemunits();
                 _this._getColumns();
-                delete params['units'];
             }
             else {
                 _this._getCases();
@@ -125,7 +124,7 @@ var ReportCasesByUnitComponent = (function () {
         core_1.Component({
             templateUrl: 'app/reports/report-cases-by-unit.component.html',
             directives: [router_1.ROUTER_DIRECTIVES, report_grid_component_1.ReportGridComponent],
-            providers: [http_1.HTTP_PROVIDERS, case_service_1.CaseService, systemunit_service_1.SystemunitService]
+            providers: [case_service_1.CaseService, systemunit_service_1.SystemunitService]
         }), 
         __metadata('design:paramtypes', [router_1.Router, case_service_1.CaseService, systemunit_service_1.SystemunitService])
     ], ReportCasesByUnitComponent);

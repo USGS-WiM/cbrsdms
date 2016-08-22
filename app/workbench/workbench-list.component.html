@@ -2,5 +2,5 @@
 <div [hidden]="notready">
     <button class="filter-cases-btn" (click)="toggleFilter()"><i class="fa fa-filter"></i> Filter Cases</button>
     <workbench-filter [hidden]="hideFilter" (onFilter)="onFilter($event)"></workbench-filter>
-    <grid [rows]="cases_properties" [columns]="columns"></grid>
+    <workbench-grid [rows]="cases_properties" [columns]="columns"></workbench-grid>
 </div>

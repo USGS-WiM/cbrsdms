@@ -1,17 +1,18 @@
 import {Component, OnInit, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES}    from '@angular/router';
-import {HTTP_PROVIDERS, URLSearchParams}    from '@angular/http';
+import {URLSearchParams}    from '@angular/http';
 import {Case}              from '../cases/case';
 import {CaseService}       from '../cases/case.service';
 import {WorkbenchFilterComponent} from './workbench-filter.component';
 import {WorkbenchGridComponent}   from './workbench-grid.component';
 import {Column}            from '../grid/column';
 import {dynamicSortMultiple} from '../app.utilities';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
     templateUrl: 'app/workbench/workbench-list.component.html',
     directives:[ROUTER_DIRECTIVES, WorkbenchGridComponent, WorkbenchFilterComponent],
-    providers: [HTTP_PROVIDERS, CaseService]
+    providers: [CaseService, FormBuilder]
 })
 
 export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -49,7 +50,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
                     let urlSearchParams = 'view=workbench&tags=' + params['tags'];
                     this._getCases(urlSearchParams);
                     this._getColumns();
-                    delete params['tags'];
+                    //delete params['tags'];
                 }
                 else {
                     this._getCases();

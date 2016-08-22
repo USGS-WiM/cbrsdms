@@ -9,7 +9,7 @@ export class DeterminationService {
     constructor (private http: Http) {}
 
     getDetermination (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
         
         return this.http.get(APP_SETTINGS.DETERMINATIONS_URL+id+'/', options)
             .map(res => <Determination> res.json())
@@ -17,7 +17,7 @@ export class DeterminationService {
     }
   
     getDeterminations (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
         
         return this.http.get(APP_SETTINGS.DETERMINATIONS_URL, options)
             .map(res => <Determination[]> res.json())

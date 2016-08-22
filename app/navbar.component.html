@@ -1,9 +1,9 @@
 <nav [hidden]="hideNavbar">
     <div style="float: left;">
-        <a [routerLink]="['/workbench']" [queryParams]="{home: true}">Workbench</a>
+        <a routerLink="/workbench" [queryParams]="{home: true}">Workbench</a>
         <a href="../../cbra/cbrarequests/">Create Case</a>
-        <a [routerLink]="['/reports']">Reports</a>
-        <a [routerLink]="['/tags']">Tags</a>
+        <a routerLink="/reports">Reports</a>
+        <a routerLink="/tags">Tags</a>
     </div>
     <div style="float: right;">
         <b class="nav-user">User: {{ first_name }} {{ last_name }}</b>

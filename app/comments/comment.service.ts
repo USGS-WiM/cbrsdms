@@ -9,7 +9,7 @@ export class CommentService {
     constructor (private http: Http) {}
 
     getComment (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
         
         return this.http.get(APP_SETTINGS.COMMENTS_URL+id+'/', options)
             .map(res => <Comment> res.json())
@@ -17,7 +17,7 @@ export class CommentService {
     }
   
     getComments (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
         
         return this.http.get(APP_SETTINGS.COMMENTS_URL, options)
             .map(res => <Comment[]> res.json())

@@ -27,7 +27,7 @@ var ReportGridComponent = (function (_super) {
     };
     ReportGridComponent = __decorate([
         core_1.Component({
-            selector: 'grid',
+            selector: 'report-grid',
             inputs: ['rows: rows', 'columns: columns'],
             templateUrl: 'app/reports/report-grid.component.html',
             styles: ['.gridHeader {cursor:pointer;}']

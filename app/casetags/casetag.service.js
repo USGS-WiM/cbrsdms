@@ -17,13 +17,13 @@ var CasetagService = (function () {
         this.http = http;
     }
     CasetagService.prototype.getCasetag = function (id) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
         return this.http.get(app_settings_1.APP_SETTINGS.CASETAGS_URL + id + '/', options)
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     CasetagService.prototype.getCasetags = function (searchArgs) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
         return this.http.get(app_settings_1.APP_SETTINGS.CASETAGS_URL, options)
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
@@ -48,7 +48,7 @@ var CasetagService = (function () {
             .catch(this.handleError);
     };
     CasetagService.prototype.deleteCasetag = function (id) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
         return this.http.delete(app_settings_1.APP_SETTINGS.CASETAGS_URL + id + '/', options);
     };
     CasetagService.prototype.handleError = function (error) {

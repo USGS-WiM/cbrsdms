@@ -9,30 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
 var router_1 = require('@angular/router');
 var case_service_1 = require('./cases/case.service');
 var casefile_service_1 = require('./casefiles/casefile.service');
 var property_service_1 = require('./properties/property.service');
 var requester_service_1 = require('./requesters/requester.service');
 var authentication_service_1 = require('./authentication/authentication.service');
+var login_component_1 = require('./authentication/login.component');
 var is_loggedin_1 = require('./authentication/is-loggedin');
 var AppComponent = (function () {
     function AppComponent(router) {
         this.router = router;
     }
     AppComponent.prototype.ngOnInit = function () {
-        if (!is_loggedin_1.isLoggedin()) {
-            this.router.navigate(['/login']);
-        }
+        var _this = this;
+        //if (!isLoggedin()) {this.router.navigateByUrl('login');}
+        setTimeout(function () { if (!is_loggedin_1.isLoggedin()) {
+            _this.router.navigateByUrl('login');
+        } }, 500);
     };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
-            directives: [router_1.ROUTER_DIRECTIVES],
+            directives: [router_1.ROUTER_DIRECTIVES, login_component_1.LoginComponent],
             providers: [
-                http_1.HTTP_PROVIDERS,
                 property_service_1.PropertyService,
                 requester_service_1.RequesterService,
                 case_service_1.CaseService,

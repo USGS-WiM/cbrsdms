@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import {Router, ROUTER_DIRECTIVES}    from '@angular/router';
 import {APP_SETTINGS}   from '../app.settings';
-import {User} from './user'
+import {User} from '../users/user'
 
 @Injectable()
 export class AuthenticationService {

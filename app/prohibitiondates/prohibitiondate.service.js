@@ -17,13 +17,13 @@ var ProhibitiondateService = (function () {
         this.http = http;
     }
     ProhibitiondateService.prototype.getProhibitiondate = function (id) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
         return this.http.get(app_settings_1.APP_SETTINGS.SYSTEMUNITPROHIBITIONDATES_URL + id + '/', options)
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     ProhibitiondateService.prototype.getProhibitiondates = function (searchArgs) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
         return this.http.get(app_settings_1.APP_SETTINGS.SYSTEMUNITPROHIBITIONDATES_URL, options)
             .map(function (res) { return res.json(); })
             .catch(this.handleError);

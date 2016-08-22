@@ -9,7 +9,7 @@ export class TagService {
     constructor (private http: Http) {}
 
     getTag (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
         return this.http.get(APP_SETTINGS.TAGS_URL+id+'/', options)
             .map(res => <Tag> res.json())
@@ -17,7 +17,7 @@ export class TagService {
     }
   
     getTags (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.TAGS_URL, options)
             .map(res => <Tag[]> res.json())
@@ -47,11 +47,11 @@ export class TagService {
     }
 
     deleteTag (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
-        return this.http.delete(APP_SETTINGS.TAGS_URL+id+'/', options)
-            .map(res => console.log(res))
-            .catch(this.handleError);
+        return this.http.delete(APP_SETTINGS.TAGS_URL+id+'/', options);
+            //.map(res => console.log(res))
+            //.catch(this.handleError);
     }
 
     private handleError (error: Response) {

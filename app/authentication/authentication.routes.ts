@@ -1,16 +1,9 @@
-import {RouterConfig} from '@angular/router';
-import {AuthenticationGuard}    from '../authentication/authentication.guard';
+import {Routes} from '@angular/router';
 import {LoginComponent}    from '../authentication/login.component';
-import {LogoutComponent}   from '../authentication/logout.component';
 
-export const AuthenticationRoutes: RouterConfig = [
+export const AuthenticationRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent
-    },
-    {
-        path: 'logout',
-        component: LogoutComponent,
-        canActivate: [AuthenticationGuard]
     }
 ];

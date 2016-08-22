@@ -1,13 +1,12 @@
 import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES, Router} from '@angular/router';
-import {HTTP_PROVIDERS} from '@angular/http';
 import {Systemunit}        from '../systemunits/systemunit';
 import {SystemunitService} from '../systemunits/systemunit.service';
 
 @Component({
     templateUrl: 'app/reports/report-list.component.html',
     directives:[ROUTER_DIRECTIVES],
-    providers: [HTTP_PROVIDERS, SystemunitService]
+    providers: [SystemunitService]
 })
 
 export class ReportListComponent  {

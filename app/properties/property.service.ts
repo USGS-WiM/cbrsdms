@@ -9,7 +9,7 @@ export class PropertyService {
     constructor (private http: Http) {}
 
     getProperty (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
         return this.http.get(APP_SETTINGS.PROPERTIES_URL+id+'/',options)
             .map(res => <Property> res.json())
@@ -17,7 +17,7 @@ export class PropertyService {
     }
   
     getProperties (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.PROPERTIES_URL, options)
             .map(res => <Property[]> res.json())

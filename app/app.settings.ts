@@ -21,8 +21,13 @@ export class APP_SETTINGS {
     public static get DETERMINATIONS_URL(): string { return this._API_ENDPOINT+'determinations/' };
     public static get SYSTEMUNITPROHIBITIONDATES_URL(): string { return this._API_ENDPOINT+'systemunitprohibitiondates/' };
 
+    public static get MIN_JSON_HEADERS() { return new Headers({ 'Accept': 'application/json' }) };
     public static get JSON_HEADERS() { return new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) };
     public static get AUTH_HEADERS() { return new Headers({ 'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password'))}) };
+    public static get MIN_AUTH_JSON_HEADERS() { return new Headers({
+        'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')),
+        'Accept': 'application/json' }
+    )};
     public static get AUTH_JSON_HEADERS() { return new Headers({
         'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')),
         'Accept': 'application/json', 'Content-Type': 'application/json' }

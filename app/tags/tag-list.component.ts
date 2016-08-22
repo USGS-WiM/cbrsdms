@@ -1,14 +1,14 @@
 import {Component}         from '@angular/core';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
 import {ROUTER_DIRECTIVES, Router} from '@angular/router';
-import {HTTP_PROVIDERS, URLSearchParams}    from '@angular/http';
+import {URLSearchParams}    from '@angular/http';
 import {NavbarComponent}   from '../navbar.component';
 import {TagService}        from './tag.service';
 import {Tag}               from './tag';
 
 @Component({
     directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NavbarComponent],
-    providers: [HTTP_PROVIDERS, TagService],
+    providers: [TagService],
     templateUrl: 'app/tags/tag-list.component.html'
 })
 export class TagListComponent {

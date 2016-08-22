@@ -27,7 +27,7 @@ var WorkbenchGridComponent = (function (_super) {
     };
     WorkbenchGridComponent = __decorate([
         core_1.Component({
-            selector: 'grid',
+            selector: 'workbench-grid',
             inputs: ['rows: rows', 'columns: columns'],
             templateUrl: 'app/workbench/workbench-grid.component.html',
             styles: ['.gridHeader {cursor:pointer;}']

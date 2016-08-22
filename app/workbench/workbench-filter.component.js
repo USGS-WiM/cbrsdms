@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
 var workbench_filter_1 = require('./workbench-filter');
 var case_service_1 = require('../cases/case.service');
 var tag_service_1 = require('../tags/tag.service');
@@ -123,13 +122,7 @@ var WorkbenchFilterComponent = (function () {
             selector: 'workbench-filter',
             templateUrl: 'app/workbench/workbench-filter.component.html',
             directives: [forms_1.REACTIVE_FORM_DIRECTIVES],
-            providers: [
-                http_1.HTTP_PROVIDERS,
-                case_service_1.CaseService,
-                tag_service_1.TagService,
-                systemunit_service_1.SystemunitService,
-                user_service_1.UserService
-            ]
+            providers: [case_service_1.CaseService, tag_service_1.TagService, systemunit_service_1.SystemunitService, user_service_1.UserService]
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder, case_service_1.CaseService, tag_service_1.TagService, systemunit_service_1.SystemunitService, user_service_1.UserService])
     ], WorkbenchFilterComponent);

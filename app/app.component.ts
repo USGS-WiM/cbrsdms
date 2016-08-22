@@ -1,20 +1,19 @@
 import {Component, OnInit, OnChanges, SimpleChange} from '@angular/core';
-import {HTTP_PROVIDERS}    from '@angular/http';
 import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 import {CaseService}       from './cases/case.service';
 import {CasefileService}   from './casefiles/casefile.service';
 import {PropertyService}   from './properties/property.service';
 import {RequesterService}  from './requesters/requester.service';
 import {AuthenticationService} from './authentication/authentication.service';
+import {LoginComponent} from './authentication/login.component';
 
 import {isLoggedin}        from './authentication/is-loggedin';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
-    directives: [ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES, LoginComponent],
     providers: [
-        HTTP_PROVIDERS,
         PropertyService,
         RequesterService,
         CaseService,
@@ -28,7 +27,8 @@ export class AppComponent implements OnInit{
     }
 
     ngOnInit() {
-        if (!isLoggedin()) {this.router.navigate(['/login']);}
+        //if (!isLoggedin()) {this.router.navigateByUrl('login');}
+        setTimeout(()=> { if (!isLoggedin()) {this.router.navigateByUrl('login');} }, 500);
     }
 
 }

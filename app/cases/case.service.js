@@ -17,13 +17,13 @@ var CaseService = (function () {
         this.http = http;
     }
     CaseService.prototype.getCase = function (id) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
         return this.http.get(app_settings_1.APP_SETTINGS.CASES_URL + id + '/', options)
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     CaseService.prototype.getCases = function (searchArgs) {
-        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.AUTH_JSON_HEADERS, search: searchArgs });
+        var options = new http_1.RequestOptions({ headers: app_settings_1.APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
         return this.http.get(app_settings_1.APP_SETTINGS.CASES_URL, options)
             .map(function (res) { return res.json(); })
             .catch(this.handleError);

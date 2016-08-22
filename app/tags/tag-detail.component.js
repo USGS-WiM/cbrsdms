@@ -92,7 +92,7 @@ var TagDetailComponent = (function () {
     TagDetailComponent = __decorate([
         core_1.Component({
             directives: [router_1.ROUTER_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES, navbar_component_1.NavbarComponent],
-            providers: [http_1.HTTP_PROVIDERS, tag_service_1.TagService],
+            providers: [tag_service_1.TagService],
             templateUrl: '/app/tags/tag-detail.component.html'
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.ActivatedRoute, router_1.Router, case_service_1.CaseService, tag_service_1.TagService])

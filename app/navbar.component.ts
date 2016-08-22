@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HTTP_PROVIDERS}    from '@angular/http';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 import {AuthenticationService} from './authentication/authentication.service';
 
 import {isLoggedin}        from './authentication/is-loggedin';
@@ -9,14 +8,15 @@ import {isLoggedin}        from './authentication/is-loggedin';
     selector: 'navbar',
     templateUrl: 'app/navbar.component.html',
     directives: [ROUTER_DIRECTIVES],
-    providers: [HTTP_PROVIDERS, AuthenticationService]
+    providers: [AuthenticationService]
 })
 export class NavbarComponent implements OnInit {
     hideNavbar:Boolean = false;
     first_name: string;
     last_name: string;
 
-    constructor(public auth: AuthenticationService) {}
+    constructor(public auth: AuthenticationService, private _router: Router) {
+    }
 
     ngOnInit() {
         this.hideNavbar = !isLoggedin();
