@@ -60,7 +60,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     onFilter(unit: number) {
         this.notready = false;
         this.selected_unit = unit;
-        let urlSearchParams = (unit == '') ? null : 'view=report&cbrs_unit=' + unit.toString();
+        let urlSearchParams = (unit.toString() == '') ? null : 'view=report&cbrs_unit=' + unit.toString();
         this._getCases(urlSearchParams);
     }
 

@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/of';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import {Router, ROUTER_DIRECTIVES}    from '@angular/router';
 import {APP_SETTINGS}   from '../app.settings';
