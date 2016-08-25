@@ -1,7 +1,9 @@
 import {Injectable}     from '@angular/core';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import {Systemunit}     from './systemunit';
-import {Observable}     from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import {APP_SETTINGS}   from '../app.settings';
 
 @Injectable()

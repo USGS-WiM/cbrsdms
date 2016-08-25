@@ -628,6 +628,7 @@ export class WorkbenchDetailComponent{
     generateLetter () {
         this._caseService.createFinalLeter(this.case_ID)
             .then(function(data) {
+                let saveAs:any;
                 let blob = new Blob([data[0]],{ type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
                 saveAs(blob, data[1]);
             });

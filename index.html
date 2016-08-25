@@ -14,22 +14,29 @@
         <link rel="stylesheet" href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' type="text/css">
         <link rel="stylesheet" href="styles.css" type="text/css">
 
+        <!-- build:vendor -->
         <script src="node_modules/core-js/client/shim.min.js"></script>
         <script src="node_modules/zone.js/dist/zone.js"></script>
         <script src="node_modules/reflect-metadata/Reflect.js"></script>
         <script src="node_modules/systemjs/dist/system.src.js"></script>
-
         <script src="node_modules/filesaver.js/FileSaver.min.js"></script>
+        <!-- endbuild -->
 
+        <!-- build:app -->
         <script src="systemjs.config.js"></script>
         <script>
             System.import('app').catch(function(err){ console.error(err); });
         </script>
+        <!-- endbuild -->
     </head>
 
     <body>
         <div id="cbra-form-body">
-            <my-app><span class="loading-message">Loading...<br><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br><br><br><br></span></my-app>
+            <my-app>
+                <span class="loading-message">
+                    Loading...<br><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br><br><br><br>
+                </span>
+            </my-app>
         </div>
     </body>
 
