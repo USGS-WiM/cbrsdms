@@ -82,6 +82,7 @@ System.register(['@angular/core', '@angular/router', '@angular/http', '../cases/
                     this._getCases();
                 };
                 ReportCasesByUnitComponent.prototype.exportToCSV = function () {
+                    var downloadCSV;
                     var headers = [];
                     this.columns.forEach(function (item) { headers.push(item.descr); });
                     var filename = '';
@@ -148,7 +149,7 @@ System.register(['@angular/core', '@angular/router', '@angular/http', '../cases/
                         templateUrl: 'app/reports/report-cases-by-unit.component.html',
                         directives: [router_1.ROUTER_DIRECTIVES, report_grid_component_1.ReportGridComponent],
                         providers: [case_service_1.CaseService, systemunit_service_1.SystemunitService]
-                    }), 
+                    }),
                     __metadata('design:paramtypes', [router_1.Router, case_service_1.CaseService, systemunit_service_1.SystemunitService])
                 ], ReportCasesByUnitComponent);
                 return ReportCasesByUnitComponent;

@@ -1,6 +1,6 @@
 <div class="container cbra-form">
 
-    <div [hidden]="!filternotready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
+    <div [hidden]="!filternotready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div [hidden]="filternotready">
 
         <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
@@ -80,7 +80,7 @@
                                     <label for="tags">Tag</label>
                                     <select id="tags" formControlName="tags">
                                         <option value=""></option>
-                                        <option *ngFor="let tag of myTags" [value]="tag.id" [selected]="tag.id == myWorkbenchFilter.tags">{{tag.name}}</option>
+                                        <option *ngFor="let tag of myTags" [value]="tag.id" [selected]="tag.id == selectedTag">{{tag.name}}</option>
                                     </select>
                                 </div>
 

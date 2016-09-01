@@ -22,6 +22,7 @@ export class WorkbenchFilterComponent implements OnInit {
 
     //private _case_property_fields = ["status", "case_number", "request_date_after", "request_date_before", "distance_from", "distance_to", "analyst", "qc_reviewer", "cbrs_unit", "tags", "street", "city", "priority", "on_hold", "invalid"];
     myWorkbenchFilter = new WorkbenchFilter();
+    selectedTag: number;
     myWorkbenchFreeText = {fiscal_year: undefined, freetext: undefined};
     myStatuses: string[] = APP_SETTINGS.STATUSES;
     myTags: Tag[];
@@ -34,6 +35,7 @@ export class WorkbenchFilterComponent implements OnInit {
     private _workbenchFreeText_fields = Object.keys(this.myWorkbenchFreeText);
     private _workbenchFreeTextControls;
     workbenchfreetextgroup: FormGroup;
+    cleared: Boolean = false;
 
     active = true;
     filternotready: Boolean = true;
@@ -75,6 +77,7 @@ export class WorkbenchFilterComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.selectedTag = typeof this.myWorkbenchFilter.tags !== 'undefined' && this.myWorkbenchFilter.tags.length > 0 ? this.myWorkbenchFilter.tags[0] : null;
         setTimeout(() => this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, this.myWorkbenchFilter), 0);
         this.filternotready = false;
     }
@@ -107,6 +110,7 @@ export class WorkbenchFilterComponent implements OnInit {
     }
 
     clearFilter() {
+        this.cleared = true;
         this.myWorkbenchFilter = new WorkbenchFilter();
         this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, this.myWorkbenchFilter);
         this._updateControls(this._workbenchFreeText_fields, this._workbenchFreeTextControls, this.myWorkbenchFreeText);
@@ -116,7 +120,7 @@ export class WorkbenchFilterComponent implements OnInit {
 
     onSubmit(form) {
         // check each FormControl for changes
-        if (form.dirty) {
+        if (form.dirty || this.cleared) {
             this.filternotready = true;
             let urlSearchParams = 'view=workbench';
             for (let i = 0, j = this._myWorkbenchFilter_fields.length; i < j; i++) {
@@ -134,6 +138,7 @@ export class WorkbenchFilterComponent implements OnInit {
             this.filternotready = false;
             this.onFilter.emit(urlSearchParams);
         }
+        this.cleared = false;
 
         // reset the form
         //this.active = false;

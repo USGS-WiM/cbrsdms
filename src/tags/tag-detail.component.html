@@ -1,7 +1,7 @@
 <navbar></navbar>
 <div class="container">
     <h3>Tag #{{tag_ID}}</h3>
-    <div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
+    <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div [hidden]="notready">
         <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
             <div *ngIf="error" class="alert alert-danger">That tag name already exists</div>

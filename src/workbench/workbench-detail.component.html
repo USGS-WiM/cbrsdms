@@ -3,7 +3,7 @@
     <h3 class="form-main-header">Edit Case #{{ myCase.id || case_ID }}</h3>
     <h4 class="form-main-header">Current Status: {{ myCase.status }}</h4>
 
-    <div [hidden]="!notready" align="center" id="loading-spinner"><img class="loader" [src]="'loading.gif'" /></div>
+    <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div [hidden]="notready">
 
         <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">

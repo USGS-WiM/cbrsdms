@@ -6,7 +6,7 @@ import {CaseService}       from '../cases/case.service';
 import {WorkbenchFilterComponent} from './workbench-filter.component';
 import {WorkbenchGridComponent}   from './workbench-grid.component';
 import {Column}            from '../grid/column';
-import {dynamicSortMultiple} from '../app.utilities';
+import {APP_UTILITIES} from '../app.utilities';
 import {FormBuilder} from '@angular/forms';
 
 @Component({
@@ -148,7 +148,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
     private _sortAndShow() {
-        //this.cases_properties.sort(dynamicSortMultiple(['-priority', '-status']));
+        //this.cases_properties.sort(APP_UTILITIES.dynamicSortMultiple(['-priority', '-status']));
         this.notready = false;
     }
 

@@ -7,7 +7,7 @@ import {Systemunit}        from '../systemunits/systemunit';
 import {SystemunitService} from '../systemunits/systemunit.service';
 import {ReportGridComponent} from './report-grid.component';
 import {Column}            from '../grid/column';
-import {APP_DATETIME, downloadCSV, dynamicSortMultiple} from '../app.utilities';
+import {APP_UTILITIES} from '../app.utilities';
 
 @Component({
     templateUrl: 'report-cases-by-unit.component.html',
@@ -77,12 +77,12 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
         if (this.selected_unit) {
             let id = this.selected_unit;
             let unit = this.systemunits.filter(function( obj ) {return obj.id == id;});
-            filename = 'Report_CasesByUnit_' + unit[0].system_unit_number + '_' + APP_DATETIME.TODAY + '.csv';
+            filename = 'Report_CasesByUnit_' + unit[0].system_unit_number + '_' + APP_UTILITIES.TODAY + '.csv';
         }
         else {
-            filename = 'Report_CasesByUnit_' + APP_DATETIME.TODAY + '.csv';
+            filename = 'Report_CasesByUnit_' + APP_UTILITIES.TODAY + '.csv';
         }
-        downloadCSV({filename: filename, data: this.cases_properties, headers: headers});
+        APP_UTILITIES.downloadCSV({filename: filename, data: this.cases_properties, headers: headers});
     }
 
     private _getCases(newUrlSearchParams?) {
@@ -136,7 +136,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     }
 
     private _sortAndShow() {
-        //this.cases_properties.sort(dynamicSortMultiple(['id']));
+        //this.cases_properties.sort(UTILS.dynamicSortMultiple(['id']));
         this.notready = false;
     }
 
