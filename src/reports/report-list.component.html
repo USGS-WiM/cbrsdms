@@ -1,5 +1,6 @@
 <div class="container">
     <h3 class="subheader"><b>Reports</b></h3>
+    <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div [hidden]="notready">
         <ul class="reports-ul">
             <li>
