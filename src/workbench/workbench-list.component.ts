@@ -1,13 +1,13 @@
 import {Component, OnInit, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES}    from '@angular/router';
-import {URLSearchParams}    from '@angular/http';
+import {URLSearchParams}   from '@angular/http';
 import {Case}              from '../cases/case';
 import {CaseService}       from '../cases/case.service';
 import {WorkbenchFilterComponent} from './workbench-filter.component';
 import {WorkbenchGridComponent}   from './workbench-grid.component';
 import {Column}            from '../grid/column';
-import {APP_UTILITIES} from '../app.utilities';
-import {FormBuilder} from '@angular/forms';
+import {APP_UTILITIES}     from '../app.utilities';
+import {FormBuilder}       from '@angular/forms';
 
 @Component({
     templateUrl: 'workbench-list.component.html',
@@ -19,7 +19,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     @ViewChild(WorkbenchFilterComponent)
     filterComponent: WorkbenchFilterComponent;
 
-    t: number;
+    tag_ID: number;
     private _params: any;
     private _cases: Case[];
     cases_properties = [];
@@ -46,7 +46,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
         // this._params = this._route.params
             .subscribe(params => {
                 if (params['tags']) {
-                    this.t = params['tags'];
+                    this.tag_ID = params['tags'];
                     let urlSearchParams = 'view=workbench&tags=' + params['tags'];
                     this._getCases(urlSearchParams);
                     this._getColumns();
@@ -70,7 +70,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     ngAfterViewInit() {
-        this.filterComponent.myWorkbenchFilter.tags = [+this.t];
+        this.filterComponent.myWorkbenchFilter.tags = [+this.tag_ID];
     }
 
     toggleFilter() {

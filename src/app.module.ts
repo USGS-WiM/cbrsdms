@@ -30,7 +30,8 @@ import {ReportComponent}   from './reports/report.component';
 import {ReportListComponent}   from './reports/report-list.component';
 import {ReportGridComponent}   from './reports/report-grid.component';
 import {ReportCasesByUnitComponent}   from './reports/report-cases-by-unit.component';
-import {routing, appRoutingProviders} from './app.routing';
+import {routing, appRoutingProviders} from './app.routing'
+
 
 @NgModule({
     imports: [
