@@ -5,10 +5,13 @@ import {CasefileService}   from './casefiles/casefile.service';
 import {PropertyService}   from './properties/property.service';
 import {RequesterService}  from './requesters/requester.service';
 import {AuthenticationService} from './authentication/authentication.service';
-import {LoginComponent} from './authentication/login.component';
+import {LoginComponent}    from './authentication/login.component';
 import {isLoggedin}        from './authentication/is-loggedin';
-
 //import './styles.css';
+
+// Use Filesaver.js to save binary to file
+// https://github.com/eligrey/FileSaver.js/
+//export const fileSaver = require('./assets/FileSaver.min.js');
 
 @Component({
     selector: 'my-app',
