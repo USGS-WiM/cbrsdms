@@ -14,7 +14,10 @@ export class AuthenticationService {
     constructor(private _http: Http, private _router: Router) {}
 
     login(username: string, password: string) {
-        let options = new RequestOptions({headers: new Headers({ "Authorization": "Basic " + btoa(username + ":" + password)})});
+        let options = new RequestOptions(
+            {headers: new Headers(
+                { "Authorization": "Basic " + btoa(username + ":" + password), 'Accept': 'application/json'})
+            });
 
         return this._http.post(APP_SETTINGS.AUTH_URL, null, options)
             .map((res : any) => {
