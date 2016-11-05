@@ -1,5 +1,5 @@
 import {Component}         from '@angular/core';
-import {ActivatedRoute}    from '@angular/router';
+import {ActivatedRoute, Router}    from '@angular/router';
 import {URLSearchParams}   from '@angular/http';
 import {Case}              from '../cases/case';
 import {Property}          from '../properties/property'
@@ -26,7 +26,7 @@ import {FieldofficeService} from '../fieldoffices/fieldoffice.service';
 import {UserService}       from '../users/user.service';
 import {DeterminationService} from '../determinations/determination.service';
 import {ProhibitiondateService} from '../prohibitiondates/prohibitiondate.service';
-import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup, FormControl, FormArray} from '@angular/forms';
+import {FormBuilder, Validators, FormGroup, FormControl, FormArray} from '@angular/forms';
 import {APP_SETTINGS}      from '../app.settings';
 import {APP_UTILITIES}     from '../app.utilities';
 //import {fileSaver}         from '../app.component';
@@ -38,7 +38,6 @@ let fileSaver = require('../assets/FileSaver.min.js');
 
 @Component({
     templateUrl: 'workbench-detail.component.html',
-    directives: [REACTIVE_FORM_DIRECTIVES],
     providers: [
         PropertyService,
         RequesterService,
@@ -60,16 +59,25 @@ export class WorkbenchDetailComponent{
     mapsfound: boolean = true;
     private _filesToUpload: File[] = [];
     filesToUploadDetails: Object[] = [];
+    private _finalletterToUpload: File;
+    finalletterToUploadDetails: Object;
+    finalletterShow: Boolean = false;
+    caseFileClass: string = "col-md-4";
     active = true;
     notready: Boolean = true;
     noxhr: Boolean = true;
+    isOnHold: Boolean = false;
     isreadonly_prohibitiondate: Boolean = false;
     commentUnique: Boolean = true;
+    private _isNewCase: Boolean = false;
     private _errorMessage: string;
 
     private _userFields:string[] = ['analyst', 'qc_reviewer', 'fws_reviewer'];
     private _debug: Boolean = false;
 
+    private _newCase: Case;
+    private _newProperty: Property;
+    private _newRequester: Requester;
     myCase = new Case();
     myProperty = new Property();
     myRequester = new Requester();
@@ -98,9 +106,9 @@ export class WorkbenchDetailComponent{
     states: string[] = APP_SETTINGS.US_STATES;
     myCasefiles = [];
 
-    private _myCase_fields = Object.keys(this.myCase);
-    private _myProperty_fields = Object.keys(this.myProperty);
-    private _myRequester_fields = Object.keys(this.myRequester);
+    private _myCase_fields;
+    private _myProperty_fields;
+    private _myRequester_fields;
 
     form: FormGroup;
     private _caseControls;
@@ -117,22 +125,41 @@ export class WorkbenchDetailComponent{
     private _makeControls(fields) {
         let controls = {};
         for (let i = 0, j = fields.length; i < j; i++) {
-            //if (fields[i] == "zipcode") {controls[fields[i]] = new FormControl("", Validators.maxLength(5));}
-            //else {controls[fields[i]] = new FormControl("");}
-            controls[fields[i]] = new FormControl("");
+            // add a validator for zipcode fields
+            if (fields[i] == 'zipcode') {
+                controls[fields[i]] = new FormControl({value: "", disabled: false}, Validators.maxLength(5));
+            }
+            // add validator for property control required fields: street, city, state)
+            // although we don't know the source of the submitted fields,
+            // we can determine if they are from a property object by testing if a uniquely property field is present
+            if (['legal_description'].indexOf(fields) > -1) {
+                if (['street', 'city', 'state'].indexOf(fields) > -1) {
+                    controls[fields[i]] = new FormControl({value: "", disabled: false}, Validators.required);
+                }
+            }
+            // add validator for requester control required fields: first_name, last_name, email
+            // although we don't know the source of the submitted fields,
+            // we can determine if they are from a requester object by testing if a uniquely requester field is present
+            else if (['email'].indexOf(fields) > -1) {
+                if (['first_name', 'last_name', 'email'].indexOf(fields) > -1) {
+                    controls[fields[i]] = new FormControl({value: "", disabled: false}, Validators.required);
+                }
+            }
+            // otherwise don't impose any validators
+            else {controls[fields[i]] = new FormControl({value: "", disabled: false});}
         }
         return controls;
     }
 
     private _updateControls(fields, controls, values): void {
         for (let i = 0, j = fields.length; i < j; i++) {
-            controls[fields[i]].updateValue(values[fields[i]]);
+            controls[fields[i]].setValue(values[fields[i]]);
         }
     }
 
     private _updateControl(field, fields, controls, values): void {
         let i = fields.indexOf(field);
-        controls[fields[i]].updateValue(values[fields[i]]);
+        controls[fields[i]].setValue(values[fields[i]]);
     }
 
     private _updateValues(fields, controls, values): void {
@@ -143,16 +170,16 @@ export class WorkbenchDetailComponent{
     }
 
     private updateCaseControlValue(formControl, value) {
-        this._caseControls[formControl].updateValue(value);
+        this._caseControls[formControl].setValue(value);
         if (this._userFields.indexOf(formControl) > -1) { this._buildUserOptions(formControl, value); }
     }
 
     private updatePropertyControlValue(formControl, value) {
-        this._propertyControls[formControl].updateValue(value);
+        this._propertyControls[formControl].setValue(value);
     }
 
     private updateRequesterControlValue(formControl, value) {
-        this._requesterControls[formControl].updateValue(value);
+        this._requesterControls[formControl].setValue(value);
     }
 
     private _addCommentControl(value): void {
@@ -165,6 +192,7 @@ export class WorkbenchDetailComponent{
 
     constructor (fb: FormBuilder,
                  private _route: ActivatedRoute,
+                 private _router: Router,
                  private _caseService: CaseService,
                  private _casefileService: CasefileService,
                  private _propertyService: PropertyService,
@@ -182,16 +210,28 @@ export class WorkbenchDetailComponent{
 
         if(this._debug){console.log("0: "+APP_UTILITIES.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
 
+        // append a temporary "final_letter" field to a case object so that it can be a control in the form
+        let case_with_final_letter: any = this.myCase;
+        case_with_final_letter.final_letter = null;
+
+        // get the fields for each object type
+        this._myCase_fields = Object.keys(case_with_final_letter);
+        this._myProperty_fields = Object.keys(this.myProperty);
+        this._myRequester_fields = Object.keys(this.myRequester);
+
+        // make the controls for each control group
         this._caseControls = this._makeControls(this._myCase_fields);
         this._propertyControls = this._makeControls(this._myProperty_fields);
         this._requesterControls = this._makeControls(this._myRequester_fields);
 
+        // populate the control groups with the controls
         this.casegroup = new FormGroup(this._caseControls);
         this.propertygroup = new FormGroup(this._propertyControls);
         this.requestergroup = new FormGroup(this._requesterControls);
         this.commentgroup = new FormArray(this._commentsControls);
         this.taggroup = new FormArray(this._casetagsControls);
 
+        // build the form
         this.form = fb.group({
             casegroup: this.casegroup,
             propertygroup: this.propertygroup,
@@ -200,25 +240,36 @@ export class WorkbenchDetailComponent{
             taggroup: this.taggroup
         });
 
+        // get the Case ID from the route
         this._route.params.subscribe(params => this.case_ID = +params['id']);
-        this._getCase(this.case_ID);
-        this._getCasefiles(this.case_ID);
-        this._getProperties(this.case_ID);
-        this._getRequesters(this.case_ID);
-        this._getComments(this.case_ID);
-        this._getCasetags(this.case_ID);
+        // if the Case ID exists, get the case details
+        if (this.case_ID) {
+            this._isNewCase = false;
+            this._getCase(this.case_ID);
+            this._getCasefiles(this.case_ID);
+            this._getProperties(this.case_ID);
+            this._getRequesters(this.case_ID);
+            this._getComments(this.case_ID);
+            this._getCasetags(this.case_ID);
+        }
+        // otherwise this is a new case, so get user values for the select inputs
+        else {
+            this._isNewCase = true;
+            this._getUsers();
+        }
+        // get values for the select inputs
         this._getSystemunits();
         this._getFieldoffices();
         this._getDeterminations();
 
-        // check of the browser supports XHR2, which allows file drag and drop
+        // check if the browser supports XHR2, which allows file drag and drop
         let xhr = new XMLHttpRequest();
 	    if (xhr.upload) {
             this.noxhr = false;
         }
 
-        // TODO: Discover and fix the underlying issue and remove this hack.
-        // This is a hack to get the Map Number select box to properly select the case's map number.
+        // TODO: Discover and fix the underlying issue and remove this workaround.
+        // This is a workaround to get the Map Number select box to properly select the case's map number.
         // During debugging, the select box actually does make the proper selection, but then for some reason
         // it de-selects, leaving the selected value null, and I can't figure out why. Maybe it's losing a race
         // condition between the page load and the system unit select box load???
@@ -226,7 +277,7 @@ export class WorkbenchDetailComponent{
             //this._updateControl("map_number", this._myCase_fields, this._caseControls, this.mySystemmaps);
             this.selectedMap = this.myCase.map_number;
             if(this._debug){console.log("6: "+APP_UTILITIES.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
-            console.log("map_number hack");
+            //console.log("map_number workaround");
         }, 3000);
 
 /*
@@ -242,6 +293,7 @@ export class WorkbenchDetailComponent{
             .subscribe(
                 acase => {
                     this.myCase = acase;
+                    this._checkFinalletterStatus();
                     if(this._debug){console.log("1: "+APP_UTILITIES.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
                     //this.selectedMap = this.myCase.map_number;
                     this.selectedAnalyst = acase.analyst;
@@ -368,10 +420,10 @@ export class WorkbenchDetailComponent{
     }
 
     public getSystemmapdate(mapID) {
-        if (!mapID) {this._caseControls["cbrs_map_date"].updateValue("");}
+        if (!mapID) {this._caseControls["cbrs_map_date"].setValue("");}
         else {
             let maps = this.mySystemmaps.filter(function (map) {return map.id == mapID;});
-            this._caseControls["cbrs_map_date"].updateValue(maps[0].map_date);
+            this._caseControls["cbrs_map_date"].setValue(maps[0].map_date);
             if(this._debug){console.log("5: "+APP_UTILITIES.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
             //this.updateControl("cbrs_map_date", this.myCase_fields, this.caseControls, this.mySystemmaps);
         }
@@ -379,11 +431,103 @@ export class WorkbenchDetailComponent{
 
     public toggleReadOnlyProhibitionDate(determination) {
         if (determination == 2 || determination == 4) {
-            this._caseControls["prohibition_date"].updateValue(null);
+            // calling both reset and setValue is a workaround
+            // because Angular2 currently does not expose any other way of toggling the disabled property of a control
+            //this._caseControls["prohibition_date"].reset({value: "", disabled: true});
+            //this._caseControls["prohibition_date"].setValue(null);
             this.isreadonly_prohibitiondate = true;
         }
         else {
+            //this._caseControls["prohibition_date"].reset({value: "", disabled: false});
+            //this._caseControls["prohibition_date"].setValue(null);
             this.isreadonly_prohibitiondate = false;
+        }
+    }
+
+    public toggleOnHold() {
+        this.isOnHold = !this.isOnHold;
+    }
+
+    public validateDate(thisDateControl, thisDate) {
+        // ensure the date value is a valid date by converting it to a date object and testing the constituent date values
+        // (the date value is sent from the form in ISO format ('YYYY-MM-DD'))
+        let thisDateAsDate = new Date(thisDate);
+        if (thisDateAsDate.getFullYear() < 1000  || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 1 || thisDateAsDate.getMonth() > 12 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
+            alert(thisDateAsDate.toISOString().substr(0,10) + " is not a valid date. Please enter a valid date.");
+            return false;
+        }
+        // establish two parallel arrays of the date controls and their labels
+        let dateControls = ["request_date","fws_fo_received_date","fws_hq_received_date","analyst_signoff_date","qc_reviewer_signoff_date","fws_reviewer_signoff_date","final_letter_date","close_date"];
+        let dateControlLabels = ["Request Date","Field Office Received Date","Headquarters Received Date","Analyst Signoff Date","Level 1 QC Signoff Date","Level 2 QC Signoff Date","Final Letter Date","Close Date"];
+        // determine the index of the current date control within the date control array
+        let thisDateControlIndex = dateControls.indexOf(thisDateControl);
+        // declare variables for potential use
+        let prevDateControl, prevDate, nextDateControl, nextDate;
+        // if this date control is the last or a middle date control in the array (i.e., not the first)
+        if (thisDateControlIndex != 0) {
+            // determine the previous date control and its value
+            prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
+            prevDate = this._caseControls[prevDateControl].value;
+            // if the previous date has not been entered, the user can not be allowed to enter a value in the current date control
+            if (!prevDate) {
+                // warn the user of the invalid date selection
+                alert(dateControlLabels[thisDateControlIndex] + " can not be entered until " + dateControlLabels[thisDateControlIndex-1] + " has been entered!");
+                // clear the current date control value
+                this.updateCaseControlValue(thisDateControl, null);
+                // short circuit this validation function and exit
+                return false;
+            }
+            //alert(prevDateControl + ": " + prevDate);
+        }
+        // if this date control is the first or a middle date control in the array (i.e., not the last)
+        if (thisDateControlIndex != dateControls.length-1) {
+            // determine the next date control and its value
+            nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+1];
+            nextDate = this._caseControls[nextDateControl].value;
+            // (note that it is possible (and expected, in a normal workflow) that the next date does not yet exist, which is perfectly valid
+        }
+
+        // finally, validate the chronology of the entered dates
+
+        // if this date control is the last date control in the array,
+        // check if the current date is not null and predates the previous date (which is invalid)
+        // (note that the previous date MUST exist)
+        if (thisDate && thisDateControlIndex == dateControls.length-1 && (thisDate < prevDate)) {
+            // warn the user of the invalid date selection
+            alert(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!");
+            // clear the current date control value
+            this.updateCaseControlValue(thisDateControl, null);
+        }
+        // if this date control is the first date control in the array
+        // check if the current date postdates the next date (which is invalid)
+        // (note that the next date MAY OR MAY NOT exist)
+        else if (thisDateControlIndex == 0 && nextDate && (thisDate > nextDate)) {
+            // warn the user of the invalid date selection
+            alert(dateControlLabels[thisDateControlIndex] + " can not be later than " + dateControlLabels[thisDateControlIndex+1] + "!");
+            // clear the current date control value
+            this.updateCaseControlValue(thisDateControl, null);
+        }
+        // else it is a middle date control in the array
+        // (note that the next date MAY OR MAY NOT exist)
+        else {
+            // if the next date does not yet exist, which is perfectly valid, check if the current date is not null and predates the previous date (which is invalid)
+            if (!nextDate && thisDate && (thisDate < prevDate)) {
+                // warn the user of the invalid date selection
+                alert(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!");
+                // clear the current date control value
+                this.updateCaseControlValue(thisDateControl, null);
+            }
+            // else check if the current date is not null and predates the previous date, or postdates the next date (both of which are invalid)
+            else if ((thisDate && (thisDate < prevDate)) || thisDate > nextDate) {
+                // warn the user of the invalid date selection
+                alert(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 1] + "!");
+                // clear the current date control value
+                this.updateCaseControlValue(thisDateControl, null);
+            }
+            // else all is well!
+            else {
+                return false;
+            }
         }
     }
 
@@ -572,23 +716,23 @@ export class WorkbenchDetailComponent{
     setSignoffDateToday(field: string) {
         let controlName = field + "_signoff_date";
         //if (this._userFields.indexOf(field) > -1) {
-        //    this.caseControls[controlName].updateValue(this._today);
+        //    this.caseControls[controlName].setValue(this._today);
         //}
         if (this.casegroup.contains(controlName)) {
-            this._caseControls[controlName].updateValue(APP_UTILITIES.TODAY);
+            this._caseControls[controlName].setValue(APP_UTILITIES.TODAY);
         }
     }
 
     setFinalLetterDate(checked) {
         if(checked) {
-            this._caseControls["final_letter_date"].updateValue(APP_UTILITIES.TODAY);
+            this._caseControls["final_letter_date"].setValue(APP_UTILITIES.TODAY);
             let close_case = confirm("Do you also want to close this case?");
             if (close_case) {
-                this._caseControls["close_date"].updateValue(APP_UTILITIES.TODAY);
+                this._caseControls["close_date"].setValue(APP_UTILITIES.TODAY);
             }
-            else {this._caseControls["close_date"].updateValue("");}
+            else {this._caseControls["close_date"].setValue("");}
         }
-        else {this._caseControls["final_letter_date"].updateValue("");}
+        else {this._caseControls["final_letter_date"].setValue("");}
     }
 
     fileDragHover(fileInput) {
@@ -597,7 +741,7 @@ export class WorkbenchDetailComponent{
         //fileInput.target.className = (fileInput.type == "dragover" ? "hover" : "");
     }
 
-    fileSelectHandler(fileInput: any){
+    casefileSelectHandler(fileInput: any){
         this.fileDragHover(fileInput);
         let selectedFiles = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;
         for (let i = 0, j = selectedFiles.length; i < j; i++) {
@@ -609,9 +753,20 @@ export class WorkbenchDetailComponent{
         }
     }
 
+    finalletterSelectHandler(fileInput: any){
+        this.fileDragHover(fileInput);
+        this._finalletterToUpload = <File> fileInput.target.files[0] || fileInput.dataTransfer.files[0];
+        this.finalletterToUploadDetails = {'name': this._finalletterToUpload.name, 'size': ((this._finalletterToUpload.size)/1024/1024).toFixed(3)};
+    }
+
     removeCasefile(index: number) {
         this._filesToUpload.splice(index, 1);
         this.filesToUploadDetails.splice(index, 1);
+    }
+
+    removeFinalLetter() {
+        this._finalletterToUpload = undefined;
+        this.finalletterToUploadDetails = undefined;
     }
 
     private _callCreateCasefiles () {
@@ -620,11 +775,46 @@ export class WorkbenchDetailComponent{
             .then(
                 (result) => {
                     //console.log(result);
+                    this._getCasefiles(this.myCase.id);
+                    this._filesToUpload.length = 0;
+                    this.filesToUploadDetails.length = 0;
+                    if (this._finalletterToUpload) {
+                        this._callCreateFinalLetter();
+                    }
+                    else if (this._isNewCase) {
+                        this._isNewCase = false;
+                        this._router.navigate( ['/workbench/' + this.case_ID] );
+                    }
                 },
                 (error) => {
                     console.error(error);
                 }
             );
+    }
+
+    private _callCreateFinalLetter () {
+        // create the new final letter
+        let uploadFiles = [this._finalletterToUpload];
+        this._casefileService.createCasefiles(this.myCase.id, uploadFiles, true)
+            .then(
+                (result) => {
+                    //console.log(result);
+                    this._getCasefiles(this.myCase.id);
+                    this._finalletterToUpload = undefined;
+                    this.filesToUploadDetails = undefined;
+                    if (this._isNewCase) {
+                        this._isNewCase = false;
+                        this._router.navigate( ['/workbench/' + this.case_ID] );
+                    }
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+    }
+
+    private _checkFinalletterStatus() {
+        this.finalletterShow = (this.myCase.status == 'Awaiting Final Letter' || this.myCase.status == 'Final' || this.myCase.status == 'Closed with no Final Letter');
     }
 
     generateLetter () {
@@ -670,45 +860,270 @@ export class WorkbenchDetailComponent{
             let changedPropertyGroup = form.controls.propertygroup;
             let changedRequesterGroup = form.controls.requestergroup;
 
-            if (changedCaseGroup.dirty) {
-                this._caseService.updateCase(changedCaseGroup.value)
-                    .subscribe(
-                        acase => {
-                            this._getCase(this.case_ID);
-                            if (this._filesToUpload) {
-                                this._callCreateCasefiles();
-                            }
-                        },
-                        error => this._errorMessage = <any>error
-                    );
+            // check if this is a create or update (case_number will only exist if this is an update)
+            if (this.myCase.case_number) {
+
+                if (changedCaseGroup.dirty) {
+                    // for each date field, replace empty string with null (Django Date fields don't allow empty strings)
+                    if (changedCaseGroup.controls.request_date.value === "") {changedCaseGroup.controls.request_date.setValue(null);}
+                    if (changedCaseGroup.controls.cbrs_map_date.value === "") {changedCaseGroup.controls.cbrs_map_date.setValue(null);}
+                    if (changedCaseGroup.controls.prohibition_date.value === "") {changedCaseGroup.controls.prohibition_date.setValue(null);}
+                    if (changedCaseGroup.controls.fws_fo_received_date.value === "") {changedCaseGroup.controls.fws_fo_received_date.setValue(null);}
+                    if (changedCaseGroup.controls.fws_hq_received_date.value === "") {changedCaseGroup.controls.fws_hq_received_date.setValue(null);}
+                    if (changedCaseGroup.controls.final_letter_date.value === "") {changedCaseGroup.controls.final_letter_date.setValue(null);}
+                    if (changedCaseGroup.controls.close_date.value === "") {changedCaseGroup.controls.close_date.setValue(null);}
+                    if (changedCaseGroup.controls.analyst_signoff_date.value === "") {changedCaseGroup.controls.analyst_signoff_date.setValue(null);}
+                    if (changedCaseGroup.controls.qc_reviewer_signoff_date.value === "") {changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(null);}
+                    if (changedCaseGroup.controls.fws_reviewer_signoff_date.value === "") {changedCaseGroup.controls.fws_reviewer_signoff_date.setValue(null);}
+                    this._caseService.updateCase(changedCaseGroup.value)
+                        .subscribe(
+                            acase => {
+                                //this._getCase(this.case_ID);
+                                this.myCase = acase;
+                                this._checkFinalletterStatus();
+                                //this._caseControls['priority'].setValue(this.myCase.priority);
+                                this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
+                                if (this._filesToUpload) {
+                                    this._callCreateCasefiles();
+                                }
+                                if (this._finalletterToUpload) {
+                                    this._callCreateFinalLetter();
+                                }
+                            },
+                            error => this._errorMessage = <any>error
+                        );
+                }
+
+
+                if (changedPropertyGroup.dirty) {
+                    this._propertyService.updateProperty(changedPropertyGroup.value)
+                        .subscribe(
+                            property => {
+                                //this._getProperties(this.case_ID);
+                                this.myProperty = property;
+                                this._updateControls(this._myProperty_fields, this._propertyControls, this.myProperty);
+                            },
+                            error => this._errorMessage = <any>error
+                        );
+                }
+
+
+                if (changedRequesterGroup.dirty) {
+                    this._requesterService.updateRequester(changedRequesterGroup.value)
+                        .subscribe(
+                            requester => {
+                                //this._getRequesters(this.case_ID);
+                                this.myRequester = requester;
+                                this._updateControls(this._myRequester_fields, this._requesterControls, this.myRequester);
+                            },
+                            error => this._errorMessage = <any>error
+                        );
+                }
             }
 
-
-            if (changedPropertyGroup.dirty) {
-                this._propertyService.updateProperty(changedPropertyGroup.value)
-                    .subscribe(
-                        property => {
-                            this._getProperties(this.case_ID);
-                        },
-                        error => this._errorMessage = <any>error
-                    );
+            else {
+                this._createCase(form);
             }
 
-
-            if (changedRequesterGroup.dirty) {
-                this._requesterService.updateRequester(changedRequesterGroup.value)
-                    .subscribe(
-                        requester => {
-                            this._getRequesters(this.case_ID);
-                        },
-                        error => this._errorMessage = <any>error
-                    );
-            }
         }
 
         // reset the form
         this.active = false;
         setTimeout(()=> { this.notready = false; this.active=true; }, 1000);
+    }
+
+    private _createCase(form) {
+        // adapted from cbrarequests: https://github.com/USGS-WiM/CBRARequests/blob/master/src/app.component.ts
+
+        let changedPropertyGroup = form.controls.propertygroup;
+        let changedRequesterGroup = form.controls.requestergroup;
+
+        // ensure required fields have values
+        // TODO remove the console logging and replace with proper user notification
+        if (!changedPropertyGroup.controls.street && !changedPropertyGroup.controls.city  && !changedPropertyGroup.controls.state)
+            {console.log("Warning: couldn't find the property street and/or city and/or state"); return;}
+        if (!changedRequesterGroup.controls.first_name && !changedRequesterGroup.controls.last_name && !changedRequesterGroup.controls.email)
+            {console.log("Warning: couldn't find the requester first name and/or last name and/or email"); return;}
+
+        // ensure no property fields are null (use empty strings if null)
+        for (let group of changedPropertyGroup) {
+            for (let key of group) {
+                if (!changedPropertyGroup[key]) {
+                    changedPropertyGroup[key] = "";
+                }
+            }
+        }
+
+        // ensure no requester fields are null (use empty strings if null)
+        for (let group of changedRequesterGroup) {
+            for (let key of group) {
+                if (!changedRequesterGroup[key]) {
+                    changedRequesterGroup[key] = "";
+                }
+            }
+        }
+
+        // create the local models
+        this._newCase = new Case();
+        this._newProperty = new Property(
+            changedPropertyGroup.controls.street.value, changedPropertyGroup.controls.city.value, changedPropertyGroup.controls.state.value,
+            changedPropertyGroup.controls.zipcode.value, changedPropertyGroup.controls.unit.value, changedPropertyGroup.controls.legal_description.value,
+            changedPropertyGroup.controls.subdivision.value, changedPropertyGroup.controls.policy_number.value);
+        this._newRequester = new Requester(
+            changedRequesterGroup.controls.first_name.value, changedRequesterGroup.controls.last_name.value,
+            changedRequesterGroup.controls.salutation.value, changedRequesterGroup.controls.organization.value,
+            changedRequesterGroup.controls.email.value, changedRequesterGroup.controls.street.value, changedRequesterGroup.controls.unit.value,
+            changedRequesterGroup.controls.city.value, changedRequesterGroup.controls.state.value, changedRequesterGroup.controls.zipcode.value);
+
+        // check if the property, requester, or case already exist, and create them as necessary
+        this.__getProperties(this._newProperty);
+
+    }
+
+    //////
+    //
+    // _createCase functions
+    //
+    //////
+
+    private __getCases(propertyID: number, requesterID: number) {
+        this._caseService.getCases(new URLSearchParams('property='+propertyID+'&requester='+requesterID))
+            .subscribe(
+                cases => {
+                    if (cases.length > 0) {
+                        // inform the user that the request already exists and show the summary
+                        this._newCase.id = cases[0].id;
+                        // TODO: replace this alert with a better UX, like a modal
+                        alert("That case already exists! Loading the case details...");
+                        this.__goToCase(this._newCase.id);
+                        this.notready = false;
+                    }
+                    else {
+                        // send the new request to the DB
+                        this.__createRequest();
+                    }
+                },
+                error => console.error(<any>error));
+    }
+
+    private __getProperties(property: Property) {
+        this._propertyService.getProperties(
+            new URLSearchParams(
+                'street='+property.street
+                +'&unit='+property.unit
+                +'&city='+property.city
+                +'&state='+property.state
+                +'&zipcode='+property.zipcode
+                //+'&legal_description='+property.legal_description
+            ))
+            .subscribe(
+                properties => {
+                    if (properties.length > 0) {this._newProperty.id = properties[0].id;}
+                    this.__getRequesters(this._newRequester);
+                },
+                error => console.error(<any>error));
+    }
+
+    private __getRequesters(requester: Requester) {
+        this._requesterService.getRequesters(
+            new URLSearchParams(
+                'salutation='+requester.salutation
+                +'&first_name='+requester.first_name
+                +'&last_name='+requester.last_name
+                +'&organization='+requester.organization
+                +'&email='+requester.email
+                +'&street='+requester.street
+                +'&unit='+requester.unit
+                +'&city='+requester.city
+                +'&state='+requester.state
+                +'&zipcode='+requester.zipcode
+            ))
+            .subscribe(
+                requesters => {
+                    if (requesters.length > 0) {this._newRequester.id = requesters[0].id;}
+                    if (this._newProperty.id && this._newRequester.id) {
+                        this.__getCases(this._newProperty.id, this._newRequester.id);
+                    }
+                    else {
+                        // send the new request to the DB
+                        this.__createRequest();
+                    }
+                },
+                error => console.error(<any>error));
+    }
+
+    private __createRequest () {
+        if (this._newRequester.id && this._newProperty.id) {
+            this.__assignRequesterID();
+            this.__assignPropertyID();
+            this.__callCreateCase();
+        }
+        else if (this._newRequester.id && !this._newProperty.id) {
+            this.__assignRequesterID();
+            this.__callCreatePropertyAndCase();
+        }
+        else {
+            this.__callCreateRequesterAndPropertyAndCase();
+        }
+    }
+
+    private __assignRequesterID () {
+        this._newCase.requester = this._newRequester.id;
+    }
+
+    private __assignPropertyID () {
+        this._newCase.property = this._newProperty.id;
+    }
+
+    private __callCreateRequesterAndPropertyAndCase () {
+        // create the requester object, then grab its ID for the relation to the case
+        this._requesterService.createRequester(this._newRequester)
+            .subscribe(
+                newrequester => {
+                    this._newRequester = newrequester;
+                    this.__assignRequesterID();
+                    // create the property object, then grab its ID for the relation to the case
+                    this.__callCreatePropertyAndCase();
+                },
+                error =>  console.error(<any>error));
+    }
+
+    private __callCreatePropertyAndCase () {
+        // create the property object, then grab its ID for the relation to the case
+        this._propertyService.createProperty(this._newProperty)
+            .subscribe(
+                newproperty => {
+                    this._newProperty = newproperty;
+                    this.__assignPropertyID();
+                    // create the new case
+                    this.__callCreateCase();
+                },
+                error =>  console.error(<any>error));
+    }
+
+    private __callCreateCase () {
+        // create the new case
+        this._caseService.createCase(this._newCase)
+            .subscribe(
+                newcase => {
+                    this._newCase = newcase;
+                    if (this._filesToUpload) {
+                        this._callCreateCasefiles();
+                    }
+                    if (this._finalletterToUpload) {
+                        this._callCreateFinalLetter();
+                    }
+                    else {
+                        this.__goToCase(this._newCase.id);
+                        this.notready = false;
+                    }
+                },
+                error =>  console.error(<any>error)
+            );
+    }
+
+    private __goToCase(caseID: number | string) {
+        this._router.navigate( ['/workbench/'+caseID] );
     }
 
 }

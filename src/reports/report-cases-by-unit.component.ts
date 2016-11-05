@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {URLSearchParams} from '@angular/http';
 import {Case}              from '../cases/case';
 import {CaseService}       from '../cases/case.service';
@@ -11,7 +11,6 @@ import {APP_UTILITIES} from '../app.utilities';
 
 @Component({
     templateUrl: 'report-cases-by-unit.component.html',
-    directives:[ROUTER_DIRECTIVES, ReportGridComponent],
     providers: [CaseService, SystemunitService]
 })
 
@@ -27,13 +26,13 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     private _errorMessage: string;
 
     constructor (
-        private _router: Router,
+        private _route: ActivatedRoute,
         private _caseService: CaseService,
         private _systemunitService: SystemunitService
     ) {}
 
     ngOnInit() {
-        this._params = this._router.routerState.queryParams
+        this._params = this._route.queryParams
             .subscribe(params => {
                 if (params['units']) {
                     let urlSearchParams = 'view=report&cbrs_unit=' + params['units'];

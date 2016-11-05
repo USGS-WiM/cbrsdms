@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {Systemunit}        from '../systemunits/systemunit';
 import {SystemunitService} from '../systemunits/systemunit.service';
 
 @Component({
     templateUrl: 'report-list.component.html',
-    directives:[ROUTER_DIRECTIVES],
     providers: [SystemunitService]
 })
 

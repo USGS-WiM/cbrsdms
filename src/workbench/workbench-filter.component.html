@@ -29,6 +29,11 @@
                                 </div>
 
                                 <div class="col-md-2 dms-form-group bb br">
+                                    <label for="case_reference">Case Reference</label>
+                                    <input id="case_reference" type="text" formControlName="case_reference">
+                                </div>
+
+                                <div class="col-md-2 dms-form-group bb br">
                                     <label for="request_date_after">Request Date After</label>
                                     <input id="request_date_after" type="date" formControlName="request_date_after">
                                 </div>
@@ -38,12 +43,12 @@
                                     <input id="request_date_before" type="date" formControlName="request_date_before">
                                 </div>
 
-                                <div class="col-md-2 dms-form-group bb br">
+                                <div class="col-md-1 dms-form-group bb br">
                                     <label for="distance_from">Distance From</label>
                                     <input id="distance_from" type="text" formControlName="distance_from">
                                 </div>
 
-                                <div class="col-md-2 dms-form-group bb br">
+                                <div class="col-md-1 dms-form-group bb br">
                                     <label for="distance_to">Distance To</label>
                                     <input id="distance_to" type="text" formControlName="distance_to">
                                 </div>
@@ -99,29 +104,25 @@
                         </div> <!-- /col-md-10 -->
 
                         <div class="col-md-2">
-
-                            <div class="row">
-                                <div class="chx-group">
-                                    <label for="priority">Priority</label><!--
-                                    --><div class="chx">
-                                        <input id="priority" type="checkbox" formControlName="priority">
-                                    </div>
-                                </div><!--
-                                    --><div class="chx-group">
-                                    <label for="on_hold">On Hold</label><!--
-                                    --><div class="chx">
-                                        <input id="on_hold" type="checkbox" formControlName="on_hold">
-                                    </div>
-                                </div><!--
-                                    --><div class="chx-group">
-                                    <label for="invalid">Invalid</label><!--
-                                    --><div class="chx">
-                                        <input id="invalid" type="checkbox" formControlName="invalid">
-                                    </div>
+                            <div class="chx-group">
+                                <label for="priority">Priority</label><!--
+                                --><div class="chx">
+                                    <input id="priority" type="checkbox" formControlName="priority">
+                                </div>
+                            </div><!--
+                                --><div class="chx-group">
+                                <label for="on_hold">On Hold</label><!--
+                                --><div class="chx">
+                                    <input id="on_hold" type="checkbox" formControlName="on_hold">
+                                </div>
+                            </div><!--
+                                --><div class="chx-group">
+                                <label for="invalid">Invalid</label><!--
+                                --><div class="chx">
+                                    <input id="invalid" type="checkbox" formControlName="invalid">
                                 </div>
                             </div>
-
-                        </div> <!-- /col-md-4 -->
+                        </div> <!-- /col-md-2 -->
 
                     </div> <!-- /workbenchfiltergroup -->
 

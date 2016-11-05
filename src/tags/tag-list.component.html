@@ -19,19 +19,24 @@
                         </tr>
                     </tbody>
                 </table>
-                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="add-tag-form">
-                    <div *ngIf="error" class="alert alert-danger">That tag name already exists</div>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" formControlName="name">
+                <div align="center">
+                    <button type="button" class="btn btn-default" (click)="toggleCreateTagForm()">Create a Tag</button><br /><br />
+                    <div [hidden]="nottoggled">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="add-tag-form">
+                            <div *ngIf="error" class="alert alert-danger">That tag name already exists</div>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" formControlName="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" id="description" formControlName="description">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" [disabled]="!form.valid">Submit</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="text" id="description" formControlName="description">
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" [disabled]="!form.valid">Create a Tag</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>

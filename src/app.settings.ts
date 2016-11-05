@@ -4,9 +4,10 @@ import {Headers}           from '@angular/http';
 @Injectable()
 export class APP_SETTINGS {
 
-    private static _environment: string = 'production';
+    private static _environment: string = 'development';
     //private static _API_ENDPOINT: string = APP_SETTINGS._environment == 'production' ? 'http://' + window.location.hostname + '/cbra/cbraservices/' : 'http://localhost:8000/cbraservices/';
 	private static _API_ENDPOINT: string = 'https://' + window.location.hostname + '/cbra/cbraservices/';
+	//private static _API_ENDPOINT: string = 'http://' + window.location.hostname + ':8000/cbraservices/';
     public static set environment (env: string) { this._environment = env };
 
     public static get AUTH_URL(): string { return this._API_ENDPOINT+'auth/' };
@@ -36,7 +37,7 @@ export class APP_SETTINGS {
         'Accept': 'application/json', 'Content-Type': 'application/json' }
     )};
 
-    public static get STATUSES(): string[] { return ["Closed with no Final Letter", "Final", "Awaiting Final Letter", "Awaiting FWS Review", "Awaiting QC", "Received"] }
+    public static get STATUSES(): string[] { return ["Closed with no Final Letter", "Final", "Awaiting Final Letter", "Awaiting Level 2 QC", "Awaiting Level 1 QC", "Received"] }
     public static get SALUTATIONS(): string[] { return ["Mr.", "Ms.", "Dr."] };
     public static get US_STATES(): string[] { return ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"] };
     public static get CONTENT_TYPES(): string[] { return ["application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/pdf", "text/plain", "image/jpeg", "image/png", "image/gif", "image/tiff", "image/bmp", "application/zip", "application/x-bzip", "application/x-bzip2"] };
