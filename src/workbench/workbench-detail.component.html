@@ -1,13 +1,20 @@
 <div class="container cbra-form">
 
-    <div id="main-header" *ngIf="myCase.case_number || case_ID">
-        <h3 class="form-main-header">Case ID: {{ myCase.case_number || case_ID }}</h3>
-        <h4 class="form-main-header">Case Reference ID: {{ myCase.case_hash || "None" }}</h4>
-        <h4 class="form-main-header">Current Status: {{ myCase.status }}</h4>
-    </div>
-
     <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div [hidden]="notready">
+
+        <div id="main-header" align="center" *ngIf="myCase.case_number || case_ID">
+            <div class="row">
+                <h4 class="form-main-header">
+                    <div class="col-md-3"></div><div class="col-md-2">Case ID</div><div class="col-md-2">Case Reference ID</div><div class="col-md-2">Current Status</div><div class="col-md-3"></div>
+                </h4>
+            </div>
+            <div class="row">
+                <h3 class="form-main-header">
+                    <div class="col-md-3"></div><div class="col-md-2">{{ myCase.case_number || case_ID }}</div><div class="col-md-2">{{ myCase.case_hash || "None" }}</div><div class="col-md-2">{{ myCase.status }}</div><div class="col-md-3"></div>
+                </h3>
+            </div>
+        </div><br /><br />
 
         <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
 
@@ -174,37 +181,35 @@
 
                     <div class="row" id="dates">
                         <div class="col-md-2">
-                            <div class="dms-form-group br bb">
+                            <div class="dms-form-group br">
                                 <label for="request_date">Request Date</label>
                                 <input id="request_date" type="date" formControlName="request_date" (blur)="validateDate(newRequestDate.id, newRequestDate.value)" #newRequestDate>
                             </div>
                         </div>
 
                         <div class="col-md-3">
-                            <div class="dms-form-group br bb">
+                            <div class="dms-form-group br">
                                 <label for="fws_fo_received_date">Field Office Received Date</label>
                                 <input id="fws_fo_received_date" type="date" formControlName="fws_fo_received_date" (blur)="validateDate(newFODate.id, newFODate.value)" #newFODate>
                             </div>
                         </div>
 
                         <div class="col-md-3">
-                            <div class="dms-form-group br bb">
+                            <div class="dms-form-group br">
                                 <label for="fws_hq_received_date">Headquarters Received Date</label>
                                 <input id="fws_hq_received_date" type="date" formControlName="fws_hq_received_date" (blur)="validateDate(newHQDate.id, newHQDate.value)" #newHQDate>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
-                            <div class="dms-form-group br bb">
                                 <label for="final_letter_date">Final Letter Date</label>
                                 <input *ngIf="!isOnHold" id="final_letter_date" type="date" class="form-control" formControlName="final_letter_date" (blur)="validateDate(newFinalLetterDate.id, newFinalLetterDate.value)" #newFinalLetterDate>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
-                            <div class="dms-form-group bb">
                                 <label for="close_date">Close Date</label>
                                 <input *ngIf="!isOnHold" id="close_date" type="date" class="form-control" formControlName="close_date" (blur)="validateDate(newCloseDate.id, newCloseDate.value)" #newCloseDate>
                             </div>
@@ -310,13 +315,19 @@
                             <input id="zipcode" type="text" formControlName="zipcode">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="dms-form-group br">
+                            <label for="legal_description">Legal Description</label>
+                            <input id="legal_description" type="text" formControlName="legal_description">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="dms-form-group br">
                             <label for="subdivision">Subdivision</label>
                             <input id="subdivision" type="text" formControlName="subdivision">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="dms-form-group">
                             <label for="policy_number">Policy Number</label>
                             <input id="policy_number" type="text" formControlName="policy_number">
