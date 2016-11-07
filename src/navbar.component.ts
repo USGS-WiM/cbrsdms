@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {AuthenticationService} from './authentication/authentication.service';
 
 import {isLoggedin}        from './authentication/is-loggedin';
@@ -7,7 +7,6 @@ import {isLoggedin}        from './authentication/is-loggedin';
 @Component({
     selector: 'navbar',
     templateUrl: 'navbar.component.html',
-    directives: [ROUTER_DIRECTIVES],
     providers: [AuthenticationService]
 })
 export class NavbarComponent implements OnInit {

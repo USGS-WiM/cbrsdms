@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
-import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup} from '@angular/forms';
+import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthenticationService} from './authentication.service';
 
 @Component({
     selector: 'login',
-    directives: [ REACTIVE_FORM_DIRECTIVES ],
     templateUrl: 'login.component.html'
 })
 

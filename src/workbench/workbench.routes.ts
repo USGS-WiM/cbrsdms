@@ -15,6 +15,11 @@ export const WorkbenchRoutes: Routes = [
         component: WorkbenchComponent,
         children: [
             {
+                path: 'new',
+                component: WorkbenchDetailComponent,
+                canActivate: [AuthenticationGuard]
+            },
+            {
                 path: ':id',
                 component: WorkbenchDetailComponent,
                 canActivate: [AuthenticationGuard]

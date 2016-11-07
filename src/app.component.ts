@@ -1,5 +1,5 @@
 import {Component, OnInit, OnChanges, SimpleChange} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {CaseService}       from './cases/case.service';
 import {CasefileService}   from './casefiles/casefile.service';
 import {PropertyService}   from './properties/property.service';
@@ -17,7 +17,6 @@ import {isLoggedin}        from './authentication/is-loggedin';
     selector: 'my-app',
     templateUrl: 'app.component.html',
     //styleUrls: ['./styles.css'],
-    directives: [ROUTER_DIRECTIVES, LoginComponent],
     providers: [
         PropertyService,
         RequesterService,

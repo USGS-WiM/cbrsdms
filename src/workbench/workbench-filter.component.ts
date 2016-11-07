@@ -7,20 +7,19 @@ import {CaseService}       from '../cases/case.service';
 import {TagService}        from '../tags/tag.service';
 import {SystemunitService} from '../systemunits/systemunit.service';
 import {UserService}       from '../users/user.service';
-import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
+import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
 import {APP_SETTINGS}      from '../app.settings';
 
 @Component({
     selector: 'workbench-filter',
     templateUrl: 'workbench-filter.component.html',
-    directives: [REACTIVE_FORM_DIRECTIVES],
     providers: [CaseService, TagService, SystemunitService, UserService]
 })
 
 export class WorkbenchFilterComponent implements OnInit {
     @Output() onFilter = new EventEmitter<string>();
 
-    //private _case_property_fields = ["status", "case_number", "request_date_after", "request_date_before", "distance_from", "distance_to", "analyst", "qc_reviewer", "cbrs_unit", "tags", "street", "city", "priority", "on_hold", "invalid"];
+    //private _case_property_fields = ["status", "case_number", "case_reference", "request_date_after", "request_date_before", "distance_from", "distance_to", "analyst", "qc_reviewer", "cbrs_unit", "tags", "street", "city", "priority", "on_hold", "invalid"];
     myWorkbenchFilter = new WorkbenchFilter();
     selectedTag: number;
     myWorkbenchFreeText = {fiscal_year: undefined, freetext: undefined};
@@ -51,7 +50,7 @@ export class WorkbenchFilterComponent implements OnInit {
 
     private _updateControls(fields, controls, values): void {
         for (let i = 0, j = fields.length; i < j; i++) {
-            controls[fields[i]].updateValue(values[fields[i]]);
+            controls[fields[i]].setValue(values[fields[i]]);
         }
     }
 
@@ -114,8 +113,8 @@ export class WorkbenchFilterComponent implements OnInit {
         this.myWorkbenchFilter = new WorkbenchFilter();
         this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, this.myWorkbenchFilter);
         this._updateControls(this._workbenchFreeText_fields, this._workbenchFreeTextControls, this.myWorkbenchFreeText);
-        //this._workbenchFreeTextControls["fiscal_year"].updateValue("");
-        //this._workbenchFreeTextControls["freetext"].updateValue("");
+        //this._workbenchFreeTextControls["fiscal_year"].setValue("");
+        //this._workbenchFreeTextControls["freetext"].setValue("");
     }
 
     onSubmit(form) {

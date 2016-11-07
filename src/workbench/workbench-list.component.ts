@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES}    from '@angular/router';
+import {ActivatedRoute, Router}    from '@angular/router';
 import {URLSearchParams}   from '@angular/http';
 import {Case}              from '../cases/case';
 import {CaseService}       from '../cases/case.service';
@@ -11,7 +11,6 @@ import {FormBuilder}       from '@angular/forms';
 
 @Component({
     templateUrl: 'workbench-list.component.html',
-    directives:[ROUTER_DIRECTIVES, WorkbenchGridComponent, WorkbenchFilterComponent],
     providers: [CaseService, FormBuilder]
 })
 
@@ -29,6 +28,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     private _errorMessage: string;
 
     constructor (
+        private _route: ActivatedRoute,
         private _router: Router,
         private _caseService: CaseService
     ) {
@@ -42,7 +42,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     ngOnInit() {
-        this._params = this._router.routerState.queryParams
+        this._params = this._route.queryParams
         // this._params = this._route.params
             .subscribe(params => {
                 if (params['tags']) {
@@ -135,6 +135,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             new Column('status', 'Status'),
             new Column('request_date','Request Date'),
             new Column('id', 'Case Number'),
+            new Column('case_hash', 'Case Reference'),
             new Column('distance', 'Distance'),
             new Column('analyst_string', 'Analyst'),
             new Column('qc_reviewer_string', 'QC Review'),
@@ -144,7 +145,6 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             new Column('priority', 'Priority'),
         ];
     }
-
 
 
     private _sortAndShow() {

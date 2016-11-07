@@ -18,12 +18,15 @@ export class CasefileService {
             .catch(this.handleError);
     }
 
-    createCasefiles(caseid: number, files: Array<File>) {
+    createCasefiles(caseid: number, files: Array<File>, final_letter?: Boolean) {
         return new Promise((resolve, reject) => {
             for (let i = 0; i < files.length; i++) {
                 let formData: any = new FormData();
                 formData.append("case", caseid);
                 formData.append("file", files[i]);
+                if (final_letter) {
+                    formData.append("final_letter", final_letter);
+                }
                 let xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4) {
