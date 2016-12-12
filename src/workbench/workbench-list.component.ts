@@ -88,7 +88,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     // }
 
     private _getCases(newUrlSearchParams?) {
-        let urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'view=workbench';
+        let urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'view=workbench&status=Open';
         this._caseService.getCases(new URLSearchParams(urlSearchParams))
             .subscribe(
                 cases => {
