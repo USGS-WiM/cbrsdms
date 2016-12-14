@@ -22,7 +22,7 @@ export class AuthenticationService {
         return this._http.post(APP_SETTINGS.AUTH_URL, null, options)
             .map((res : any) => {
                 this.user = res.json();
-                if (this.user.is_staff) {
+                if (this.user.is_active) {
                     sessionStorage.setItem('username', username);
                     sessionStorage.setItem('password', password);
                     sessionStorage.setItem('first_name', this.user.first_name);
