@@ -535,7 +535,7 @@ export class WorkbenchDetailComponent{
         this._userService.getUsers()
             .subscribe(
                 users => {
-                    this.myUsers = users;
+                    this.myUsers = users.sort(APP_UTILITIES.dynamicSort('username'));
                     this._buildUserOptions();
                 },
                 error => this._errorMessage = <any>error);
