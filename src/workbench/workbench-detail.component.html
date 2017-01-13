@@ -6,12 +6,12 @@
         <div id="main-header" align="center" *ngIf="myCase.case_number || case_ID">
             <div class="row">
                 <h4 class="form-main-header">
-                    <div class="col-md-3"></div><div class="col-md-2">Case ID</div><div class="col-md-2">Case Reference ID</div><div class="col-md-2">Current Status</div><div class="col-md-3"></div>
+                    <div class="col-md-2"></div><div *ngIf="myCase.legacy_case_number" class="col-md-2">Legacy Case ID</div><div class="col-md-2">Case ID</div><div class="col-md-2">Case Reference ID</div><div class="col-md-2">Current Status</div><div class="col-md-2"></div>
                 </h4>
             </div>
             <div class="row">
                 <h3 class="form-main-header">
-                    <div class="col-md-3"></div><div class="col-md-2">{{ myCase.case_number || case_ID }}</div><div class="col-md-2">{{ myCase.case_hash || "None" }}</div><div class="col-md-2">{{ myCase.status }}</div><div class="col-md-3"></div>
+                    <div class="col-md-2"></div><div *ngIf="myCase.legacy_case_number" class="col-md-2">{{ myCase.legacy_case_number }}</div><div class="col-md-2">{{ myCase.case_number || case_ID }}</div><div class="col-md-2">{{ myCase.case_hash || "None" }}</div><div class="col-md-2">{{ myCase.status }}</div><div class="col-md-2"></div>
                 </h3>
             </div>
         </div><br /><br />
@@ -289,7 +289,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br bb">
-                            <label for="unit">Unit</label>
+                            <label for="unit">Suite/Apt #</label>
                             <input id="unit" type="text" formControlName="unit">
                         </div>
                     </div>
@@ -385,7 +385,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br">
-                            <label for="unit">Unit</label>
+                            <label for="unit">Suite/Apt #</label>
                             <input id="unit" type="text" formControlName="unit">
                         </div>
                     </div>
@@ -437,6 +437,7 @@
 
                         <div class="add-comment-wrap">
                             <select class="new-comment-input new-comment-select" #newTag>
+                                <option value=""></option>
                                 <option *ngFor="let tag of availableTags" [value]="tag.id">{{tag.name}}</option>
                             </select><!--
                             --><button class="btn-add-comment" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>

@@ -65,8 +65,20 @@ export class APP_UTILITIES {
         link.click();
     }
 
-    // the following function found here: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
-    public static dynamicSortMultiple() {
+    // the following functions found here: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
+    public static dynamicSort(property) {
+        let sortOrder = 1;
+        if (property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a, b) {
+            let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
+    }
+
+    public static dynamicSortMultiple(args) {
         function dynamicSort(property) {
             let sortOrder = 1;
             if (property[0] === "-") {
@@ -84,7 +96,8 @@ export class APP_UTILITIES {
          * note that arguments object is an array-like object
          * consisting of the names of the properties to sort by
          */
-        let props = arguments;
+        //let props = arguments;
+        let props = args;
         return function (obj1, obj2) {
             let i = 0, result = 0, numberOfProperties = props.length;
             /* try getting a different result from 0 (equal)

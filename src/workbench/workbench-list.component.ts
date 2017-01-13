@@ -47,7 +47,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             .subscribe(params => {
                 if (params['tags']) {
                     this.tag_ID = params['tags'];
-                    let urlSearchParams = 'view=workbench&tags=' + params['tags'];
+                    let urlSearchParams = 'view=workbench&status=Open&tags=' + params['tags'];
                     this._getCases(urlSearchParams);
                     this._getColumns();
                     //delete params['tags'];
@@ -134,7 +134,8 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
         this.columns = [
             new Column('status', 'Status'),
             new Column('request_date','Request Date'),
-            new Column('id', 'Case Number'),
+            new Column('legacy_case_number', 'Legacy Case ID'),
+            new Column('id', 'Case ID'),
             new Column('case_hash', 'Case Reference'),
             new Column('distance', 'Distance'),
             new Column('analyst_string', 'Analyst'),
@@ -148,7 +149,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
     private _sortAndShow() {
-        //this.cases_properties.sort(APP_UTILITIES.dynamicSortMultiple(['-priority', '-status']));
+        this.cases_properties.sort(APP_UTILITIES.dynamicSortMultiple(['-priority', 'id']));
         this.notready = false;
     }
 

@@ -122,6 +122,9 @@ export class WorkbenchFilterComponent implements OnInit {
         if (form.dirty || this.cleared) {
             this.filternotready = true;
             let urlSearchParams = 'view=workbench';
+            if (form.controls.workbenchfiltergroup.controls['status'].value === undefined) {
+                urlSearchParams += '&status=Open';
+            }
             for (let i = 0, j = this._myWorkbenchFilter_fields.length; i < j; i++) {
                 let field = form.controls.workbenchfiltergroup.controls[this._myWorkbenchFilter_fields[i]];
                 if (field.dirty && field.value != null && field.value != '') {

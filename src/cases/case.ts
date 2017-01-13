@@ -5,6 +5,7 @@ export class Case {
         public property_string?: string,
         public case_number?: string,
         public case_hash?: string,
+        public legacy_case_number?: string,
         public status?: string,
         public request_date?: Date,
         public casefiles?: string[],
