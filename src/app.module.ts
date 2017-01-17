@@ -30,6 +30,7 @@ import {ReportComponent}   from './reports/report.component';
 import {ReportListComponent}   from './reports/report-list.component';
 import {ReportGridComponent}   from './reports/report-grid.component';
 import {ReportCasesByUnitComponent}   from './reports/report-cases-by-unit.component';
+import {ReportDaysToResolution}   from './reports/report-days-to-resolution.component';
 import {routing, appRoutingProviders} from './app.routing'
 
 
@@ -40,7 +41,7 @@ import {routing, appRoutingProviders} from './app.routing'
     declarations: [
         AppComponent, NavbarComponent, LoginComponent, TagListComponent, TagDetailComponent,
         WorkbenchComponent, WorkbenchListComponent, WorkbenchGridComponent, WorkbenchFilterComponent, WorkbenchDetailComponent,
-        ReportComponent, ReportListComponent, ReportGridComponent, ReportCasesByUnitComponent
+        ReportComponent, ReportListComponent, ReportGridComponent, ReportCasesByUnitComponent, ReportDaysToResolution
     ],
     providers: [
         appRoutingProviders, CaseService, CasefileService, CasetagService, PropertyService, RequesterService, AuthenticationService,

@@ -134,9 +134,8 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
         this.columns = [
             new Column('status', 'Status'),
             new Column('request_date','Request Date'),
-            new Column('legacy_case_number', 'Legacy Case ID'),
             new Column('id', 'Case ID'),
-            new Column('case_hash', 'Case Reference'),
+            new Column('case_reference', 'Case Reference'),
             new Column('distance', 'Distance'),
             new Column('analyst_string', 'Analyst'),
             new Column('qc_reviewer_string', 'QC Review'),

@@ -17,7 +17,7 @@ export class CaseService {
             .map(res => <Case> res.json())
             .catch(this.handleError);
     }
-    
+
     getCases (searchArgs?: URLSearchParams) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
@@ -25,7 +25,7 @@ export class CaseService {
             .map(res => <Case[]> res.json())
             .catch(this.handleError);
     }
-    
+
     createCase (acase: Case) : Observable<Case> {
         let body = JSON.stringify(acase);
         let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
@@ -34,7 +34,7 @@ export class CaseService {
             .map(res => <Case> res.json())
             .catch(this.handleError)
     }
-    
+
     updateCase (acase: Case) : Observable<Case> {
         // pull out the ID
         let id = acase.id;

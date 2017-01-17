@@ -3,6 +3,7 @@ import {AuthenticationGuard}    from '../authentication/authentication.guard';
 import {ReportComponent} from './report.component';
 import {ReportListComponent} from './report-list.component';
 import {ReportCasesByUnitComponent} from './report-cases-by-unit.component';
+import {ReportDaysToResolution} from './report-days-to-resolution.component';
 
 export const ReportRoutes: Routes = [
     {
@@ -17,6 +18,11 @@ export const ReportRoutes: Routes = [
             {
                 path: 'casesbyunit',
                 component: ReportCasesByUnitComponent,
+                canActivate: [AuthenticationGuard]
+            },
+            {
+                path: 'daystoresolution',
+                component: ReportDaysToResolution,
                 canActivate: [AuthenticationGuard]
             },
             {

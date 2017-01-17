@@ -9,6 +9,7 @@ import {SystemunitService} from '../systemunits/systemunit.service';
 import {UserService}       from '../users/user.service';
 import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
 import {APP_SETTINGS}      from '../app.settings';
+import {APP_UTILITIES}     from '../app.utilities';
 
 @Component({
     selector: 'workbench-filter',
@@ -103,7 +104,7 @@ export class WorkbenchFilterComponent implements OnInit {
         this._userService.getUsers()
             .subscribe(
                 users => {
-                    this.myUsers = users;
+                    this.myUsers = users.sort(APP_UTILITIES.dynamicSort('username'));;
                 },
                 error => this._errorMessage = <any>error);
     }

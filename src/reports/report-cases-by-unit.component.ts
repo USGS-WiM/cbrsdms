@@ -1,8 +1,8 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {URLSearchParams} from '@angular/http';
-import {Case}              from '../cases/case';
-import {CaseService}       from '../cases/case.service';
+import {ReportCase}              from './report-case';
+import {ReportCaseService}       from './report-case.service';
 import {Systemunit}        from '../systemunits/systemunit';
 import {SystemunitService} from '../systemunits/systemunit.service';
 import {ReportGridComponent} from './report-grid.component';
@@ -11,13 +11,13 @@ import {APP_UTILITIES} from '../app.utilities';
 
 @Component({
     templateUrl: 'report-cases-by-unit.component.html',
-    providers: [CaseService, SystemunitService]
+    providers: [ReportCaseService, SystemunitService]
 })
 
 export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
 
     private _params: any;
-    private _cases: Case[];
+    private _reportcases: ReportCase[];
     cases_properties = [];
     systemunits: Systemunit[];
     selected_unit: number;
@@ -27,7 +27,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
 
     constructor (
         private _route: ActivatedRoute,
-        private _caseService: CaseService,
+        private _reportCaseService: ReportCaseService,
         private _systemunitService: SystemunitService
     ) {}
 
@@ -35,15 +35,15 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
         this._params = this._route.queryParams
             .subscribe(params => {
                 if (params['units']) {
-                    let urlSearchParams = 'view=report&cbrs_unit=' + params['units'];
+                    let urlSearchParams = 'report=casesbyunit&cbrs_unit=' + params['units'];
                     this.selected_unit = Number(params['units']);
-                    this._getCases(urlSearchParams);
+                    this._getReportCases(urlSearchParams);
                     this._getSystemunits();
                     this._getColumns();
                     //delete params['units'];
                 }
                 else {
-                    this._getCases();
+                    this._getReportCases();
                     this._getSystemunits();
                     this._getColumns();
                 }
@@ -59,14 +59,14 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     onFilter(unit: number) {
         this.notready = false;
         this.selected_unit = unit;
-        let urlSearchParams = (unit.toString() == '') ? null : 'view=report&cbrs_unit=' + unit.toString();
-        this._getCases(urlSearchParams);
+        let urlSearchParams = (unit.toString() == '') ? null : 'report=casesbyunit&cbrs_unit=' + unit.toString();
+        this._getReportCases(urlSearchParams);
     }
 
     clearFilter() {
         this.notready = true;
         this.selected_unit = null;
-        this._getCases();
+        this._getReportCases();
     }
 
     exportToCSV() {
@@ -84,22 +84,22 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
         APP_UTILITIES.downloadCSV({filename: filename, data: this.cases_properties, headers: headers});
     }
 
-    private _getCases(newUrlSearchParams?) {
-        let urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'view=report';
-        this._caseService.getCases(new URLSearchParams(urlSearchParams))
+    private _getReportCases(newUrlSearchParams?) {
+        let urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=casesbyunit';
+        this._reportCaseService.getReportCases(new URLSearchParams(urlSearchParams))
             .subscribe(
                 cases => {
-                    this._cases = cases;
+                    this._reportcases = cases;
                     this.cases_properties.length = 0;
                     if (cases.length > 0) {
-                        for (let i = 0, j = this._cases.length; i < j; i++) {
-                            let case_property: any = this._cases[i];
+                        for (let i = 0, j = this._reportcases.length; i < j; i++) {
+                            let case_property: any = this._reportcases[i];
                             let address = case_property.property_string.split(',');
                             //address[1] === "" ? case_property.street_address = address[0] : case_property.street_address = address[1] + ", " + address[0];
                             case_property.street_address = address[0];
                             delete case_property['property_string'];
                             this.cases_properties.push(case_property);
-                            if (this._cases.length == this.cases_properties.length) {
+                            if (this._reportcases.length == this.cases_properties.length) {
                                 this._sortAndShow();
                             }
                         }
@@ -116,7 +116,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
         this._systemunitService.getSystemunits()
             .subscribe(
                 systemunits => {
-                    this.systemunits = systemunits;
+                    this.systemunits = systemunits.sort(APP_UTILITIES.dynamicSort('system_unit_number'));
                 },
                 error => this._errorMessage = <any>error);
     }
@@ -135,7 +135,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     }
 
     private _sortAndShow() {
-        //this.cases_properties.sort(UTILS.dynamicSortMultiple(['id']));
+        this.cases_properties.sort(APP_UTILITIES.dynamicSort('id'));
         this.notready = false;
     }
 
