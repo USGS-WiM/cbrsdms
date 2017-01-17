@@ -86,6 +86,7 @@ export class WorkbenchDetailComponent{
     myTag = new Tag();
     myComments: Comment[];
     myCasetags: Casetag[];
+    myCaseIDs = [];
     myTags: Tag[];
     availableTags = [];
     mySystemunits: Systemunit[];
@@ -258,6 +259,7 @@ export class WorkbenchDetailComponent{
             this._getUsers();
         }
         // get values for the select inputs
+        this._getCaseIDs();
         this._getSystemunits();
         this._getFieldoffices();
         this._getDeterminations();
@@ -311,6 +313,18 @@ export class WorkbenchDetailComponent{
                 casefiles => {
                     this.myCasefiles = casefiles;
                     //this.updateControls(this.myCase_fields, this.caseControls, this.myCase);
+                },
+                error => this._errorMessage = <any>error);
+    }
+
+    private _getCaseIDs() {
+        this._caseService.getCases(new URLSearchParams('view=caseid'))
+            .subscribe(
+                cases => {
+                    this.myCaseIDs.length = 0;
+                    for (let i = 0, j = cases.length; i < j; i++) {
+                        this.myCaseIDs.push(cases[i]);
+                    }
                 },
                 error => this._errorMessage = <any>error);
     }
@@ -742,21 +756,26 @@ export class WorkbenchDetailComponent{
     }
 
     casefileSelectHandler(fileInput: any){
+        //this.notready = true;
         this.fileDragHover(fileInput);
         let selectedFiles = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;
         for (let i = 0, j = selectedFiles.length; i < j; i++) {
-            this._filesToUpload.push(selectedFiles[i]);
-        }
-        for (let i = 0, f; f = this._filesToUpload[i]; i++) {
-            let fileDetails = {'name': f.name, 'size': ((f.size)/1024/1024).toFixed(3)};
+            let f = selectedFiles[i];
+            this._filesToUpload.push(f);
+            let fileDetails = {'name': f.name};//, 'size': ((f.size)/1024/1024).toFixed(3)};
             this.filesToUploadDetails.push(fileDetails);
+            // if (i == j) {
+            //     this.notready = false;
+            // }
         }
     }
 
     finalletterSelectHandler(fileInput: any){
+        //this.notready = true;
         this.fileDragHover(fileInput);
         this._finalletterToUpload = <File> fileInput.target.files[0] || fileInput.dataTransfer.files[0];
-        this.finalletterToUploadDetails = {'name': this._finalletterToUpload.name, 'size': ((this._finalletterToUpload.size)/1024/1024).toFixed(3)};
+        this.finalletterToUploadDetails = {'name': this._finalletterToUpload.name};//, 'size': ((this._finalletterToUpload.size)/1024/1024).toFixed(3)};
+        //this.notready = false;
     }
 
     removeCasefile(index: number) {

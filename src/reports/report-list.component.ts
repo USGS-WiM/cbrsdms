@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {Systemunit}        from '../systemunits/systemunit';
 import {SystemunitService} from '../systemunits/systemunit.service';
+import {APP_UTILITIES} from '../app.utilities';
 
 @Component({
     templateUrl: 'report-list.component.html',
@@ -22,7 +23,7 @@ export class ReportListComponent  {
         this._systemunitService.getSystemunits()
             .subscribe(
                 systemunits => {
-                    this.systemunits = systemunits;
+                    this.systemunits = systemunits.sort(APP_UTILITIES.dynamicSort('system_unit_number'));
                     this.notready = false;
                 },
                 error => this._errorMessage = <any>error);

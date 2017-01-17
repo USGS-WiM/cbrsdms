@@ -4,10 +4,10 @@ import {Headers}           from '@angular/http';
 @Injectable()
 export class APP_SETTINGS {
 
-    private static _environment: string = 'production';
-    //private static _API_ENDPOINT: string = APP_SETTINGS._environment == 'production' ? 'http://' + window.location.hostname + '/cbra/cbraservices/' : 'http://localhost:8000/cbraservices/';
+    private static _environment: string = 'dev';
+    private static _API_ENDPOINT: string = APP_SETTINGS._environment == 'production' ? 'http://' + window.location.hostname + '/cbra/cbraservices/' : 'http://localhost:8000/cbraservices/';
 	//private static _API_ENDPOINT: string = 'http://cbradev.wim.usgs.gov/cbra/cbraservices/';
-	private static _API_ENDPOINT: string = 'https://' + window.location.hostname + '/cbra/cbraservices/';
+	//private static _API_ENDPOINT: string = 'https://' + window.location.hostname + '/cbra/cbraservices/';
     public static set environment (env: string) { this._environment = env };
 
     public static get AUTH_URL(): string { return this._API_ENDPOINT+'auth/' };
@@ -24,6 +24,7 @@ export class APP_SETTINGS {
     public static get USERS_URL(): string { return this._API_ENDPOINT+'users/' };
     public static get DETERMINATIONS_URL(): string { return this._API_ENDPOINT+'determinations/' };
     public static get SYSTEMUNITPROHIBITIONDATES_URL(): string { return this._API_ENDPOINT+'systemunitprohibitiondates/' };
+    public static get REPORTCASES_URL(): string { return this._API_ENDPOINT+'reportcases/' };
 
     public static get MIN_JSON_HEADERS() { return new Headers({ 'Accept': 'application/json' }) };
     public static get JSON_HEADERS() { return new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) };

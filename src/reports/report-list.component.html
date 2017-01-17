@@ -11,8 +11,11 @@
                     <option *ngFor="let unit of systemunits" [value]="unit.id">{{unit.system_unit_number}}</option>
                 </select>
             </li>
+
+            <li>
+                <a [routerLink]="['/reports/daystoresolution']">Days to Resolution</a>
+            </li>
             <p>...more to come...</p>
-            <li>Total Time to Resolution</li>
             <li>Time from Request to each status complete</li>
             <li>Total Number of Cases by Status</li>
         </ul>

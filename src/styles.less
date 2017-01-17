@@ -622,11 +622,11 @@ button.reports-export-btn{
 
             label{
                 display: inline-block;
-                width: 140px;
-                width: calc(~'100% - 40px');
-                height: 45px;
+                width: 90px;
+                width: calc(~'100% - 140px');
+                height: 33px;
                 vertical-align: top;
-                line-height: 45px;
+                line-height: 33px;
                 margin: 0 auto;
                 background-color: #3d4360;
                 border-bottom: 1px solid @black;
@@ -636,15 +636,34 @@ button.reports-export-btn{
             }
 
             .chx{
-                height: 45px;
-                width: 40px;
-                line-height: 45px;
+                height: 33px;
+                width: 140px;
+                line-height: 33px;
                 vertical-align: top;
                 background-color: @black;
                 display: inline-block;
                 text-align: center;
                 border-bottom: 1px solid darken(@black, 10%);
                 input[type="checkbox"]{
+                    position: relative;
+                    top: 0px;
+
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .slct{
+                height: 33px;
+                width: 140px;
+                line-height: 33px;
+                vertical-align: top;
+                background-color: @black;
+                display: inline-block;
+                text-align: center;
+                border-bottom: 1px solid darken(@black, 10%);
+                input[type="select"]{
                     position: relative;
                     top: 0px;
 
