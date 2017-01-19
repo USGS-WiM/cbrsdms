@@ -25,6 +25,7 @@ export class APP_SETTINGS {
     public static get DETERMINATIONS_URL(): string { return this._API_ENDPOINT+'determinations/' };
     public static get SYSTEMUNITPROHIBITIONDATES_URL(): string { return this._API_ENDPOINT+'systemunitprohibitiondates/' };
     public static get REPORTCASES_URL(): string { return this._API_ENDPOINT+'reportcases/' };
+    public static get REPORTCASECOUNTS_URL(): string { return this._API_ENDPOINT+'reportcasecounts/' };
 
     public static get MIN_JSON_HEADERS() { return new Headers({ 'Accept': 'application/json' }) };
     public static get JSON_HEADERS() { return new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) };
