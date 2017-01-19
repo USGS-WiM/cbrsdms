@@ -8,7 +8,7 @@ import {Column}            from '../grid/column';
 import {APP_UTILITIES} from '../app.utilities';
 
 @Component({
-    templateUrl: 'report-days.component.html',
+    templateUrl: 'report-detail.component.html',
     providers: [ReportCaseService]
 })
 
@@ -45,7 +45,6 @@ export class ReportDaysToResolution implements OnInit {
         this._reportCaseService.getReportCases(new URLSearchParams(urlSearchParams))
             .subscribe(
                 reportcases => {
-                    console.log(reportcases);
                     this.reportcases = reportcases;
                     this._sortAndShow();
                 },
@@ -58,21 +57,13 @@ export class ReportDaysToResolution implements OnInit {
             new Column('id', 'Case Number'),
             new Column('case_reference', 'Case Reference'),
             new Column('request_date','Request Date'),
-            new Column('analyst_signoff_date','Awaiting Level 1 QC'),
-            new Column('analyst_signoff_days','Days to Level 1 QC'),
-            new Column('qc_reviewer_signoff_date','Awaiting Level 2 QC Date'),
-            new Column('qc_reviewer_days','Days to Awaiting Level 2 QC'),
-            new Column('fws_reviewer_signoff_date','Awaiting Final Letter Date'),
-            new Column('fws_reviewer_days','Days to Awaiting Final Letter'),
-            new Column('final_letter_date','Final Letter Date'),
-            new Column('final_letter_days','Days to Final Letter'),
             new Column('close_date','Close Date'),
             new Column('close_days','Days to Close'),
         ];
     }
 
     private _sortAndShow() {
-        this.reportcases.sort(APP_UTILITIES.dynamicSortMultiple(['-close_days','id']));
+        this.reportcases.sort(APP_UTILITIES.dynamicSort('-close_days'));
         this.notready = false;
     }
 

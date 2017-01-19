@@ -8,11 +8,11 @@ import {Column}            from '../grid/column';
 import {APP_UTILITIES} from '../app.utilities';
 
 @Component({
-    templateUrl: 'report-days.component.html',
+    templateUrl: 'report-detail.component.html',
     providers: [ReportCaseService]
 })
 
-export class ReportDaysToResolution implements OnInit {
+export class ReportDaysToEachStatus implements OnInit {
 
     private _params: any;
     reportcases: ReportCase[];
@@ -36,12 +36,12 @@ export class ReportDaysToResolution implements OnInit {
     exportToCSV() {
         let headers = [];
         this.columns.forEach(function(item){headers.push(item.descr);});
-        let filename = 'Report_DaysToResolution_' + APP_UTILITIES.TODAY + '.csv';
+        let filename = 'Report_DaysToEachStatus_' + APP_UTILITIES.TODAY + '.csv';
         APP_UTILITIES.downloadCSV({filename: filename, data: this.reportcases, headers: headers});
     }
 
     private _getCases(newUrlSearchParams?) {
-        let urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=daystoresolution';
+        let urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=daystoeachstatus';
         this._reportCaseService.getReportCases(new URLSearchParams(urlSearchParams))
             .subscribe(
                 cases => {
@@ -71,7 +71,7 @@ export class ReportDaysToResolution implements OnInit {
     }
 
     private _sortAndShow() {
-        this.reportcases.sort(APP_UTILITIES.dynamicSortMultiple(['-close_days','id']));
+        this.reportcases.sort(APP_UTILITIES.dynamicSort('-close_days'));
         this.notready = false;
     }
 
