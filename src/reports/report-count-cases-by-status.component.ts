@@ -33,10 +33,10 @@ export class ReportCountCasesByStatus implements OnInit {
     }
 
     exportToCSV() {
-        let headers = [];
-        this.columns.forEach(function(item){headers.push(item.descr);});
+        //let headers = [];
+        //this.columns.forEach(function(item){headers.push(item.descr});});
         let filename = 'Report_CountCasesByStatus_' + APP_UTILITIES.TODAY + '.csv';
-        APP_UTILITIES.downloadCSV({filename: filename, data: this.reportcases, headers: headers});
+        APP_UTILITIES.downloadCSV({filename: filename, data: this.reportcases, headers: this.columns});
     }
 
     private _getCaseCounts() {
