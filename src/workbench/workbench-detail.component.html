@@ -506,8 +506,20 @@
                             <span *ngIf="!commentUnique" class="alert alert-danger">That comment already exists for this case.</span>
                         </div>
 
+                        <span *ngIf="!commentOwner" class="alert alert-danger">You do not have permission edit this comment since you did not create it.</span>
+
                         <ul class="comment-ul">
-                            <p *ngFor="let comment of myComments">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</p>
+                            <div *ngFor="let comment of myComments">
+                                <div *ngIf="!editingComment || editCommentID != comment.id" (click)="editComment(comment.id)">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</div>
+                                <br /><br />
+                                <div *ngIf="editingComment && editCommentID == comment.id">
+                                    <div class="add-comment-wrap">
+                                        <input type="text" class="new-comment-input" style="width:50%" value={{comment.comment}} #editedComment><!--
+                                        --><button class="btn-add-comment" style="width:20%" type="button" (click)="updateComment(editedComment.value);">Update comment</button>
+                                        <button class="btn-add-comment" style="width:10%; background-color: burlywood" type="button" (click)="cancelEditComment();">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
                         </ul>
 
                     </div>
