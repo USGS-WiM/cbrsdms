@@ -34,10 +34,20 @@ export class ReportDaysToResolution implements OnInit {
     }
 
     exportToCSV() {
-        let headers = [];
-        this.columns.forEach(function(item){headers.push(item.descr);});
+        //let headers = [];
+        let data = [];
+        //this.columns.forEach(function(item){headers.push(item.descr);});
+        this.reportcases.forEach(item => {
+            let newitem = {};
+            newitem['id'] = item.id;
+            newitem['case_reference'] = item.case_reference;
+            newitem['request_date'] = item.request_date;
+            newitem['close_date'] = item.close_date;
+            newitem['close_days'] = item.close_days;
+            data.push(newitem);
+        });
         let filename = 'Report_DaysToResolution_' + APP_UTILITIES.TODAY + '.csv';
-        APP_UTILITIES.downloadCSV({filename: filename, data: this.reportcases, headers: headers});
+        APP_UTILITIES.downloadCSV({filename: filename, data: data, headers: this.columns});
     }
 
     private _getReportCases(newUrlSearchParams?) {
