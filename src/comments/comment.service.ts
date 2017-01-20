@@ -12,22 +12,22 @@ export class CommentService {
 
     getComment (id: number | string) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
-        
+
         return this.http.get(APP_SETTINGS.COMMENTS_URL+id+'/', options)
             .map(res => <Comment> res.json())
             .catch(this.handleError);
     }
-  
+
     getComments (searchArgs?: URLSearchParams) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
-        
+
         return this.http.get(APP_SETTINGS.COMMENTS_URL, options)
             .map(res => <Comment[]> res.json())
             .catch(this.handleError);
     }
 
     createComment (comment: Comment) : Observable<Comment> {
-        let acomment = {'case': comment.caseid, 'comment': comment.comment};
+        let acomment = {'acase': comment.acase, 'comment': comment.comment};
         let body = JSON.stringify(acomment);
         let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
         //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
@@ -36,15 +36,16 @@ export class CommentService {
             .map(res => <Comment> res.json())
             .catch(this.handleError)
     }
-    
+
     updateComment (comment: Comment) : Observable<Comment> {
         // pull out the ID
         let id = comment.id;
         delete comment['id'];
-        
-        let body = JSON.stringify(comment);
+        let acomment = {'acase': comment.acase, 'comment': comment.comment, 'created_by': comment.created_by};
+
+        let body = JSON.stringify(acomment);
         let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
-        
+
         return this.http.put(APP_SETTINGS.COMMENTS_URL+id+'/', body, options)
             .map(res => <Comment> res.json())
             .catch(this.handleError)

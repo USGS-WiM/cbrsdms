@@ -69,6 +69,9 @@ export class WorkbenchDetailComponent{
     isOnHold: Boolean = false;
     isreadonly_prohibitiondate: Boolean = false;
     commentUnique: Boolean = true;
+    commentOwner: Boolean = true;
+    editingComment: Boolean = false;
+    editCommentID: number;
     private _isNewCase: Boolean = false;
     private _errorMessage: string;
 
@@ -701,6 +704,46 @@ export class WorkbenchDetailComponent{
                     comment => {
                         this.myComments.push(comment);
                         this._addCommentControl(comment.comment);
+                    },
+                    error => this._errorMessage = <any>error);
+        }
+    }
+
+    editComment(commentID) {
+        let oldcomment = this.myComments.filter(function(comment) {return comment.id == commentID})[0];
+        if (oldcomment.created_by_string == sessionStorage.getItem('username')){
+            this.commentOwner = true;
+            this.editingComment = true;
+            this.editCommentID = commentID;
+        }
+        else {
+            this.commentOwner = false;
+            setTimeout(()=> {
+                this.commentOwner = true;
+            }, 5000);
+        }
+    }
+
+    cancelEditComment(){
+        this.editingComment = false;
+    }
+
+    updateComment(newcomment) {
+        if (!this.editCommentID || !newcomment) {return;}
+        let commentID = this.editCommentID;
+        let matchingComment = this.myComments.filter(function (comment) {return comment.comment == newcomment;});
+        if (matchingComment[0]) { this.commentUnique = false; return; }
+        else {
+            this.commentUnique = true;
+            let oldcomment = this.myComments.filter(function(comment) {return comment.id == commentID})[0];
+            //let me = this.myUsers.filter(function(user) {return user.username == newcomment.created_by_string})[0];
+            this._commentService.updateComment(new Comment(oldcomment.acase, newcomment, oldcomment.created_by, oldcomment.created_by_string, oldcomment.created_date, oldcomment.id))
+                .subscribe(
+                    comment => {
+                        let ndx = this.myComments.indexOf(oldcomment);
+                        this.myComments.splice(ndx, 1, comment);
+                        this._addCommentControl(comment.comment);
+                        this.editingComment = false;
                     },
                     error => this._errorMessage = <any>error);
         }
