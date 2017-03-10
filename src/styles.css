@@ -163,45 +163,15 @@ nav b.nav-user {
 span.app-header {
   display: block;
   text-align: center;
-  text-transform: uppercase;
-  font-size: 16pt;
+  text-transform: none;
   font-weight: bolder;
   box-sizing: border-box;
-  padding: 25px 0;
-  line-height: 0.5em;
-}
-span.app-header h1 {
-  display: block;
-  margin: 0 auto;
-  font-size: 42pt;
-  font-weight: bolder;
-  letter-spacing: -2px;
-  padding: 0;
-  text-align: center;
-  line-height: 0.95em;
-}
-span.app-header h2 {
-  display: block;
-  margin: 0 auto;
-  font-size: 13.5pt;
-  font-weight: bolder;
-  line-height: 0.4em;
-  letter-spacing: -0.8px;
-  padding: 0;
-  text-align: center;
-  box-sizing: border-box;
-  padding-left: 7px;
-}
-span.app-header h3 {
-  display: block;
-  margin: 0 auto;
-  font-size: 15.5pt;
-  font-weight: bolder;
-  letter-spacing: -0.8px;
-  padding: 0;
-  text-align: center;
-  box-sizing: border-box;
-  padding-left: 7px;
+  padding: 95px 0 25px 0;
+  font-size: 20px;
+  letter-spacing: -0.25px;
+  font-weight: 400;
+  color: #2D3146;
+  line-height: 24px;
 }
 h3.subheader {
   display: block;
@@ -546,11 +516,12 @@ button.reports-export-btn i.fa-filter {
   padding: 0;
 }
 .cbra-form .dms-group .chx-group {
-  display: block;
-  width: 100%;
+  display: inline;
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
+  border-top: 8px solid #2D3146;
+  border-bottom: 8px solid #2D3146;
 }
 .cbra-form .dms-group .chx-group label {
   display: inline-block;
@@ -560,11 +531,11 @@ button.reports-export-btn i.fa-filter {
   vertical-align: top;
   line-height: 33px;
   margin: 0 auto;
-  background-color: #3d4360;
-  border-bottom: 1px solid #2D3146;
+  background-color: #2D3146;
   color: #FFF;
   box-sizing: border-box;
-  padding: 0 0 0 6px;
+  text-align: right;
+  padding: 0 8px 0 0;
 }
 .cbra-form .dms-group .chx-group .chx {
   height: 33px;
@@ -573,12 +544,11 @@ button.reports-export-btn i.fa-filter {
   vertical-align: top;
   background-color: #2D3146;
   display: inline-block;
-  text-align: center;
-  border-bottom: 1px solid #191b27;
+  text-align: left;
 }
 .cbra-form .dms-group .chx-group .chx input[type="checkbox"] {
   position: relative;
-  top: 0px;
+  top: -2px;
 }
 .cbra-form .dms-group .chx-group .chx input[type="checkbox"]:hover {
   cursor: pointer;
@@ -868,4 +838,31 @@ div.col-md-10 {
   margin: 0 auto;
   display: block;
   vertical-align: middle;
+}
+.cbraToast {
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background-color: #2D3146;
+  color: #FFF;
+  font-size: 12px;
+  font-weight: 600;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  letter-spacing: 0.75px;
+  min-height: 49px;
+  line-height: 20px;
+  box-sizing: border-box;
+  padding: 6px 15px;
+  box-shadow: 0 -1px -3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  display: none;
+  z-index: 100000;
+}
+.cbraToast.toastVisible {
+  display: flex !important;
+}
+.nopadd {
+  padding: 0;
 }

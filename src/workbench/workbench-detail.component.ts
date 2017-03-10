@@ -155,6 +155,18 @@ export class WorkbenchDetailComponent{
         return controls;
     }
 
+    // Show toast
+    // Set innerHTML of toast element before showing
+    // toast.innerHTML = dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!";
+    private showToast() {
+        let toast = <HTMLElement> document.querySelector("#cbra_toast");
+        toast.className = "cbraToast toastVisible";
+        setTimeout(function(){ 
+            toast.className = "cbraToast";
+            toast.innerHTML = "";
+        }, 3000);
+    }
+
     private _updateControls(fields, controls, values): void {
         for (let i = 0, j = fields.length; i < j; i++) {
             controls[fields[i]].setValue(values[fields[i]]);
