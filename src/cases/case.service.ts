@@ -1,6 +1,7 @@
 import {Injectable}     from '@angular/core';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import {Case}           from './case';
+import {AuthenticationService} from '../authentication/authentication.service';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -8,7 +9,7 @@ import {APP_SETTINGS}   from '../app.settings';
 
 @Injectable()
 export class CaseService {
-    constructor (private http: Http) {}
+    constructor (private http: Http, private _authenticationService: AuthenticationService) {}
 
     getCase (id: number | string) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
@@ -69,7 +70,7 @@ export class CaseService {
             };
             xhr.responseType = "blob";
             xhr.open("GET", APP_SETTINGS.CASES_URL+"?case_number="+caseid+"&format=docx", true);
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(sessionStorage.getItem('username') + ":" + sessionStorage.getItem('password')));
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(this._authenticationService.user.username + ":" + this._authenticationService.user.password));
             xhr.send();
         });
     }

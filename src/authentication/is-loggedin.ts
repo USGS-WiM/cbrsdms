@@ -1,3 +1,3 @@
-export function isLoggedin() {
-    return (!!sessionStorage.getItem('username') && !!sessionStorage.getItem('password'));
-}
+// export function isLoggedin() {
+//     return (!!sessionStorage.getItem('username') && !!sessionStorage.getItem('password'));
+// }

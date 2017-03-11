@@ -1,5 +1,6 @@
 import {Injectable}     from '@angular/core';
 import {Http, RequestOptions, URLSearchParams} from '@angular/http';
+import {AuthenticationService} from '../authentication/authentication.service';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
@@ -7,7 +8,7 @@ import {APP_SETTINGS}   from '../app.settings';
 
 @Injectable()
 export class CasefileService {
-    constructor (private http: Http) {}
+    constructor (private http: Http, private _authenticationService: AuthenticationService) {}
 
     getCasefiles (searchArgs?: URLSearchParams) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
@@ -38,7 +39,7 @@ export class CasefileService {
                     }
                 };
                 xhr.open("POST", APP_SETTINGS.CASEFILES_URL, true);
-                xhr.setRequestHeader("Authorization", "Basic " + btoa(sessionStorage.getItem('username') + ":" + sessionStorage.getItem('password')));
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(this._authenticationService.user.username + ":" + this._authenticationService.user.password));
                 xhr.send(formData);
             }
         });

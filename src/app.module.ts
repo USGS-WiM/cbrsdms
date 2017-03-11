@@ -16,7 +16,9 @@ import {UserService}       from './users/user.service';
 import {PropertyService}   from './properties/property.service';
 import {RequesterService}  from './requesters/requester.service';
 import {AuthenticationService} from './authentication/authentication.service';
+import {WorkbenchFilterService} from './workbench/workbench-filter.service';
 import {AppComponent}   from './app.component';
+import {Grid}   from './grid/grid';
 import {NavbarComponent}   from './navbar.component';
 import {LoginComponent}   from './authentication/login.component';
 import {TagListComponent}   from './tags/tag-list.component';
@@ -41,13 +43,13 @@ import {routing, appRoutingProviders} from './app.routing'
         routing, BrowserModule, FormsModule, ReactiveFormsModule, RouterModule, HttpModule
     ],
     declarations: [
-        AppComponent, NavbarComponent, LoginComponent, TagListComponent, TagDetailComponent,
+        AppComponent, Grid, NavbarComponent, LoginComponent, TagListComponent, TagDetailComponent,
         WorkbenchComponent, WorkbenchListComponent, WorkbenchGridComponent, WorkbenchFilterComponent, WorkbenchDetailComponent,
         ReportComponent, ReportListComponent, ReportGridComponent, ReportCasesByUnitComponent, ReportDaysToResolution, ReportDaysToEachStatus, ReportCountCasesByStatus
     ],
     providers: [
         appRoutingProviders, CaseService, CasefileService, CasetagService, PropertyService, RequesterService, AuthenticationService,
-        CommentService, DeterminationService, FieldofficeService, ProhibitiondateService, SystemmapService, SystemunitService, UserService
+        CommentService, DeterminationService, FieldofficeService, ProhibitiondateService, SystemmapService, SystemunitService, UserService, WorkbenchFilterService
     ],
     bootstrap: [AppComponent]
 })
