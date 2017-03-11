@@ -26,14 +26,16 @@ import {FieldofficeService} from '../fieldoffices/fieldoffice.service';
 import {UserService}       from '../users/user.service';
 import {DeterminationService} from '../determinations/determination.service';
 import {ProhibitiondateService} from '../prohibitiondates/prohibitiondate.service';
+import {AuthenticationService} from '../authentication/authentication.service';
 import {FormBuilder, Validators, FormGroup, FormControl, FormArray} from '@angular/forms';
 import {APP_SETTINGS}      from '../app.settings';
 import {APP_UTILITIES}     from '../app.utilities';
+import * as FileSaver from 'file-saver';
 //import {fileSaver}         from '../app.component';
 
 // Use Filesaver.js to save binary to file
 // https://github.com/eligrey/FileSaver.js/
-let fileSaver = require('../assets/FileSaver.min.js');
+//let fileSaver = require('../assets/FileSaver.min.js');
 
 
 @Component({
@@ -51,7 +53,8 @@ let fileSaver = require('../assets/FileSaver.min.js');
         FieldofficeService,
         UserService,
         DeterminationService,
-        ProhibitiondateService],
+        ProhibitiondateService,
+        AuthenticationService],
     styles: ['.error {color:red;}']
 })
 export class WorkbenchDetailComponent{
@@ -209,7 +212,8 @@ export class WorkbenchDetailComponent{
                  private _fieldofficeService: FieldofficeService,
                  private _userService: UserService,
                  private _determinationService: DeterminationService,
-                 private _prohibitiondateService: ProhibitiondateService
+                 private _prohibitiondateService: ProhibitiondateService,
+                 private _authenticationService: AuthenticationService
     ){
 
         if(this._debug){console.log("0: "+APP_UTILITIES.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
@@ -328,6 +332,7 @@ export class WorkbenchDetailComponent{
                     for (let i = 0, j = cases.length; i < j; i++) {
                         this.myCaseIDs.push(cases[i]);
                     }
+                    this.myCaseIDs.sort(APP_UTILITIES.dynamicSort('id'));
                 },
                 error => this._errorMessage = <any>error);
     }
@@ -404,7 +409,7 @@ export class WorkbenchDetailComponent{
         this._systemunitService.getSystemunits()
             .subscribe(
                 systemunits => {
-                    this.mySystemunits = systemunits;
+                    this.mySystemunits = systemunits.sort(APP_UTILITIES.dynamicSort('system_unit_number'));
                     if(this._debug){console.log("2: "+APP_UTILITIES.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
                     //let unitID = (this.myCase.cbrs_unit ? this.myCase.cbrs_unit : this.mySystemunits[0].id);
                     //this.getSystemmaps(unitID);
@@ -594,9 +599,9 @@ export class WorkbenchDetailComponent{
                 break;
         }
 
-        // allow each select list to contain any unused users
+        // allow each select list to contain any unused users who are current (active) employees
         for (let i = 0, j = this.myUsers.length; i < j; i++) {
-            if (usedUserIDs.indexOf(this.myUsers[i].id) < 0) {
+            if (usedUserIDs.indexOf(this.myUsers[i].id) < 0 && this.myUsers[i].is_active) {
                 this.availableAnalysts.push(this.myUsers[i]);
                 this.availableQCReviewers.push(this.myUsers[i]);
                 this.availableFWSReviewers.push(this.myUsers[i]);
@@ -711,7 +716,7 @@ export class WorkbenchDetailComponent{
 
     editComment(commentID) {
         let oldcomment = this.myComments.filter(function(comment) {return comment.id == commentID})[0];
-        if (oldcomment.created_by_string == sessionStorage.getItem('username')){
+        if (oldcomment.created_by_string == this._authenticationService.user.username){
             this.commentOwner = true;
             this.editingComment = true;
             this.editCommentID = commentID;
@@ -884,7 +889,7 @@ export class WorkbenchDetailComponent{
             .then(function(data) {
                 //let saveAs:any;
                 let blob = new Blob([data[0]],{ type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
-                fileSaver.saveAs(blob, data[1]);
+                FileSaver.saveAs(blob, data[1]);
             });
 
         // this._caseService.createFinalLeter(this.case_ID)

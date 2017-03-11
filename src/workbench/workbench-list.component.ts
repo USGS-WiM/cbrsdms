@@ -5,13 +5,14 @@ import {Case}              from '../cases/case';
 import {CaseService}       from '../cases/case.service';
 import {WorkbenchFilterComponent} from './workbench-filter.component';
 import {WorkbenchGridComponent}   from './workbench-grid.component';
+import {WorkbenchFilterService} from './workbench-filter.service';
 import {Column}            from '../grid/column';
 import {APP_UTILITIES}     from '../app.utilities';
 import {FormBuilder}       from '@angular/forms';
 
 @Component({
     templateUrl: 'workbench-list.component.html',
-    providers: [CaseService, FormBuilder]
+    providers: [WorkbenchFilterService, CaseService, FormBuilder]
 })
 
 export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -30,7 +31,8 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     constructor (
         private _route: ActivatedRoute,
         private _router: Router,
-        private _caseService: CaseService
+        private _caseService: CaseService,
+        private _workbenchFilterService: WorkbenchFilterService
     ) {
         // this._params = this._router.routerState.queryParams
         //     .subscribe(params => {
@@ -47,10 +49,19 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             .subscribe(params => {
                 if (params['tags']) {
                     this.tag_ID = params['tags'];
-                    let urlSearchParams = 'view=workbench&status=Open&tags=' + params['tags'];
+                    let urlSearchParams = 'view=workbench&tags=' + params['tags'];
                     this._getCases(urlSearchParams);
                     this._getColumns();
                     //delete params['tags'];
+                }
+                // else if (this._workbenchFilterService.getUrlSearchParams()) {
+                //     console.log(this._workbenchFilterService.getUrlSearchParams());
+                //     this._getCases(this._workbenchFilterService.getUrlSearchParams());
+                //     this._getColumns();
+                // }
+                else if (sessionStorage.getItem('filterUrlSearchParams')) {
+                    this._getCases(sessionStorage.getItem('filterUrlSearchParams'));
+                    this._getColumns();
                 }
                 else {
                     this._getCases();
@@ -71,6 +82,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
 
     ngAfterViewInit() {
         this.filterComponent.myWorkbenchFilter.tags = [+this.tag_ID];
+        //this.filterComponent.myWorkbenchFilter = this._workbenchFilterService.getFilter();
     }
 
     toggleFilter() {
@@ -93,22 +105,24 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             .subscribe(
                 cases => {
                     this._cases = cases;
-                    this.cases_properties.length = 0;
-                    for (let i = 0, j = this._cases.length; i < j; i++) {
-                        //this.getProperties(this.cases[i].id);
-                        let case_property: any = this._cases[i];
-                        let address = case_property.property_string.split(',');
-                        case_property.street = address[0];
-                        case_property.city = address[2];
-                        this.cases_properties.push(case_property);
-                        if (this._cases.length == this.cases_properties.length) {
-                            // if (this._params) {
-                            //     delete this._params._subscriptions[0].subject.value.tag;
-                            // }
-                            if (!newUrlSearchParams) {this._router.navigate(['/workbench']);}
-                            this._sortAndShow();
+                    if (this._cases.length > 0) {
+                        this.cases_properties.length = 0;
+                        for (let i = 0, j = this._cases.length; i < j; i++) {
+                            //this.getProperties(this.cases[i].id);
+                            let case_property: any = this._cases[i];
+                            let address = case_property.property_string.split(',');
+                            case_property.street = address[0];
+                            case_property.city = address[2];
+                            this.cases_properties.push(case_property);
+                            if (this._cases.length == this.cases_properties.length) {
+                                // if (this._params) {
+                                //     delete this._params._subscriptions[0].subject.value.tag;
+                                // }
+                                if (!newUrlSearchParams) {this._router.navigate(['/workbench']);}
+                            }
                         }
                     }
+                    this._sortAndShow();
                 },
                 error => this._errorMessage = <any>error
             );
