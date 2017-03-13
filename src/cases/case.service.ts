@@ -70,7 +70,7 @@ export class CaseService {
             };
             xhr.responseType = "blob";
             xhr.open("GET", APP_SETTINGS.CASES_URL+"?case_number="+caseid+"&format=docx", true);
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(this._authenticationService.user.username + ":" + this._authenticationService.user.password));
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(sessionStorage.getItem('username') + ":" + sessionStorage.getItem('password')));
             xhr.send();
         });
     }
