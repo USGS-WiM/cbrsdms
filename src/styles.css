@@ -886,3 +886,8 @@ div.col-md-10 {
   background-color: rgba(45, 49, 70, 0.8);
   transition: 0.15s;
 }
+.filepad {
+  padding: 10px 15px 25px 15px !important;
+  display: block;
+  box-sizing: border-box;
+}

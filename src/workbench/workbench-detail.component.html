@@ -30,7 +30,7 @@
                                 --><label class="bb" style="width:25%"></label><!--
                                 --><label class="file-upload-label" for="casefileSelect">Upload Files</label>
                                 <div class="col-md-12" *ngIf="!noxhr">
-                                    <div id="casefiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">or drop files here</div>
+                                    <div id="casefiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">or drop files here <br/><br/></div>
                                 </div>
 
                                 <div class="col-md-12">
@@ -104,9 +104,9 @@
                                     --><label class="bb" style="width:25%"></label><!--
                                     --><label class="file-upload-label" for="casefileSelect">Upload</label>
 
-                                    <div style="color: lightgray; text-align: center; padding-top: 10px;">or drop files here</div>
+                                    <div style="color: lightgray; text-align: center; padding-top: 10px;">or drop files here<br/><br/></div>
 
-                                    <div class="col-md-1">
+                                    <div class="col-xs-12 col-md-6 filepad">
                                         <ul id="casefiles" *ngIf="myCasefiles.length > 0">
                                             <li *ngFor="let casefile of myCasefiles">
                                                 <a target="_blank" [href]="casefile.file" *ngIf="!casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
@@ -114,7 +114,7 @@
                                         </ul>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-xs-12 col-md-2 filepad">
                                         <div id="casefilesToUpload">
                                             <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
                                                 <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>
@@ -133,9 +133,9 @@
                                     --><label class="bb" style="width:25%"></label><!--
                                     --><label class="file-upload-label" for="casefileSelect">Upload</label>
 
-                                    <div style="color: lightgray; text-align: center; padding-top:10px;">or drop files here</div>
+                                    <div style="color: lightgray; text-align: center; padding-top:10px;">or drop files here<br/><br/></div>
 
-                                    <div class="col-md-1">
+                                    <div class="col-xs-12 col-md-6 filepad">
                                         <ul id="casefiles" *ngIf="myCasefiles.length > 0">
                                             <li *ngFor="let casefile of myCasefiles">
                                                 <a target="_blank" [href]="casefile.file" *ngIf="!casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
@@ -143,7 +143,7 @@
                                         </ul>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-xs-12 col-md-6 filepad">
                                         <div id="casefilesToUpload">
                                             <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
                                                 <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>
@@ -167,9 +167,9 @@
                                 --><label class="bb" style="width:25%" *ngIf="myCase.status != 'Awaiting Final Letter'"></label><!--
                                 --><label class="file-upload-label" style="width:25%" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter'">Draft</label>
 
-                                <div style="color: lightgray; text-align: center; padding-top:10px;">or drop file here</div>
+                                <div style="color: lightgray; text-align: center; padding-top:10px;">or drop file here<br/><br/></div>
 
-                                <div class="col-md-1">
+                                <div class="col-xs-12 col-md-6 filepad">
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
                                         <li *ngFor="let casefile of myCasefiles">
                                             <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
@@ -177,7 +177,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="col-md-1">
+                                <div class="col-xs-12 col-md-6 filepad">
                                     <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">
                                         <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }} MBs</span>
                                         <button type="button" (click)="removeFinalLetter()">-</button>
@@ -196,9 +196,9 @@
                                 --><label class="bb" style="width:25%" *ngIf="myCase.status != 'Awaiting Final Letter'"></label><!--
                                 --><label class="file-upload-label" style="width:25%" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter'">Draft Letter</label>
 
-                                <div style="color: lightgray; padding-top:10px; text-align: center;">or drop file here</div>
+                                <div style="color: lightgray; padding-top:10px; text-align: center;">or drop file here<br/><br/></div>
 
-                                <div class="col-md-6 col-xs-12">
+                                <div class="col-md-6 col-xs-12 filepad">
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
                                         <li *ngFor="let casefile of myCasefiles">
                                             <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
@@ -206,7 +206,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="col-md-6 col-xs-12">
+                                <div class="col-md-6 col-xs-12 filepad">
                                     <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">
                                         <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }} MBs</span>
                                         <button type="button" (click)="removeFinalLetter()">-</button>
