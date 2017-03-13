@@ -165,7 +165,7 @@
                                     <label class="label fifty" for="finalletter">Final Letter</label><!--
                                     --><label class="file-upload-label" style="width:25%" for="finalLetterSelect">Upload</label><!--
                                     --><label class="bb" style="width:25%" *ngIf="myCase.status != 'Awaiting Final Letter'"></label><!--
-                                    --><label class="file-upload-label" style="width:25%" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter'">Draft</label>
+                                    --><label class="file-upload-label" style="width:25%" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'">Draft</label>
 
                                     <div style="color: lightgray; text-align: right;">or drop file here</div>
 
@@ -185,7 +185,7 @@
                                     </div>
 
                                     <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
-                                    <input class="custom-file-input" id="draftletter" type="button" style="background-color: whitesmoke" *ngIf="myCase.status == 'Awaiting Final Letter'" (click)="generateLetter()" />
+                                    <input class="custom-file-input" id="draftletter" type="button" style="background-color: whitesmoke" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'" (click)="generateLetter()" />
                                 </div>
                             </div>
 
@@ -194,7 +194,7 @@
                                     <label class="label fifty" for="finalletter">Final Letter</label><!--
                                     --><label class="file-upload-label" style="width:25%" for="finalLetterSelect">Upload Letter</label><!--
                                     --><label class="bb" style="width:25%" *ngIf="myCase.status != 'Awaiting Final Letter'"></label><!--
-                                    --><label class="file-upload-label" style="width:25%" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter'">Draft Letter</label>
+                                    --><label class="file-upload-label" style="width:25%" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'">Draft Letter</label>
 
                                     <div style="color: lightgray; text-align: right;">or drop file here</div>
 
@@ -214,7 +214,7 @@
                                     </div>
 
                                     <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
-                                    <input class="custom-file-input" id="draftletter" type="button" *ngIf="myCase.status == 'Awaiting Final Letter'" (click)="generateLetter()" />
+                                    <input class="custom-file-input" id="draftletter" type="button" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'" (click)="generateLetter()" />
                                 </div>
                             </div>
 

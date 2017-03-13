@@ -881,7 +881,7 @@ export class WorkbenchDetailComponent{
     }
 
     private _checkFinalletterStatus() {
-        this.finalletterShow = (this.myCase.status == 'Awaiting Final Letter' || this.myCase.status == 'Final' || this.myCase.status == 'Closed with no Final Letter');
+        this.finalletterShow = (this.myCase.status == 'Awaiting Level 2 QC' || this.myCase.status == 'Awaiting Final Letter' || this.myCase.status == 'Final' || this.myCase.status == 'Closed with no Final Letter');
     }
 
     generateLetter () {
