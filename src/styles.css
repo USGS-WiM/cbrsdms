@@ -880,6 +880,7 @@ div.col-md-10 {
   color: #FFFFFF;
   margin-left: 2px;
   padding-right: 11px;
+  border-radius: 3px;
 }
 .removeCaseFileButton:hover {
   cursor: pointer;
