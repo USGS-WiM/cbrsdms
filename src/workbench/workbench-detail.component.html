@@ -1,4 +1,4 @@
-<div class="container cbra-form">
+<div class="container cbra-form" (dragover)="expandDropZone($event)">
 
     <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div [hidden]="notready">

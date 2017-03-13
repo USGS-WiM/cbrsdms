@@ -891,3 +891,13 @@ div.col-md-10 {
   display: block;
   box-sizing: border-box;
 }
+.fullScreenFileDrag {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  background-color: #FFF;
+  position: fixed;
+  top: 0;
+  left: 0;
+}

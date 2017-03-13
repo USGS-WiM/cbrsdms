@@ -804,13 +804,36 @@ export class WorkbenchDetailComponent{
         else {this._caseControls["final_letter_date"].setValue("");}
     }
 
+    // Fullscreen file drag on dragover
+    // Show the dropzone when dragging files (not folders or page
+    // elements). The dropzone is hidden after a timer to prevent 
+    // flickering to occur as `dragleave` is fired constantly.
+    // var dragTimer;
+    // $(document).on('dragover', function(e) {
+    //     var dt = e.originalEvent.dataTransfer;
+    //     if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('Files'))) {
+    //         document.getElementById("casefiledrag").className = "fullScreenFileDrag";
+    //         window.clearTimeout(dragTimer);
+    //     }
+    // });
+    // $(document).on('dragleave', function(e) {
+    //     dragTimer = window.setTimeout(function() {
+    //         document.getElementById("casefiledrag").className = "";
+    //     }, 25);
+    // });
+    expandDropZone() {
+        document.getElementById("casefiledrag").className = "fullScreenFileDrag";
+    }
+
     fileDragHover(fileInput) {
         fileInput.stopPropagation();
         fileInput.preventDefault();
+        // document.getElementById("casefiledrag").className = "fullScreenFileDrag";
         //fileInput.target.className = (fileInput.type == "dragover" ? "hover" : "");
     }
 
     casefileSelectHandler(fileInput: any){
+        document.getElementById("casefiledrag").className = "";
         //this.notready = true;
         this.fileDragHover(fileInput);
         let selectedFiles = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;
