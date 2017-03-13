@@ -971,3 +971,24 @@ div.col-md-10{
 .nopadd{
     padding: 0;
 }
+
+.removeCaseFileButton{
+    background-color: transparent;
+    border: none;
+    width: 15px;
+    height: 15px;
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: @black;
+        transition: 0.15s;
+    color: #FFFFFF;
+    margin-left: 2px;
+    padding-right: 11px;
+    &:hover{
+        cursor: pointer;
+        background-color: fade(@black, 80%);
+        transition: 0.15s;
+    }
+}
