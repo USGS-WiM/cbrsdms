@@ -11,7 +11,7 @@ import {AuthenticationService} from './authentication.service';
 export class LoginComponent {
     form: FormGroup;
     error: boolean = false;
-    constructor(fb: FormBuilder, public auth: AuthenticationService, public router: Router) {
+    constructor(fb: FormBuilder, public _authenticationService: AuthenticationService, public router: Router) {
         this.form = fb.group({
             username:  ['', Validators.required],
             password:  ['', Validators.required]
@@ -19,10 +19,10 @@ export class LoginComponent {
     }
 
     onSubmit(value: any) {
-        if (sessionStorage.getItem('username')) {this.auth.logout();}
-        this.auth.login(value.username, value.password)
+        if (sessionStorage.getItem('username')) {this._authenticationService.logout();}
+        this._authenticationService.login(value.username, value.password)
             .subscribe(
-                (user: any) => this.router.navigateByUrl('workbench'),
+                (user: any) => {this.router.navigateByUrl('workbench')},
                 () => { this.error = true; }
             );
     }

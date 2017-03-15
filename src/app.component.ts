@@ -6,7 +6,8 @@ import {PropertyService}   from './properties/property.service';
 import {RequesterService}  from './requesters/requester.service';
 import {AuthenticationService} from './authentication/authentication.service';
 import {LoginComponent}    from './authentication/login.component';
-import {isLoggedin}        from './authentication/is-loggedin';
+//import {isLoggedin}        from './authentication/is-loggedin';
+import {APP_SETTINGS}      from './app.settings';
 //import './styles.css';
 
 // Use Filesaver.js to save binary to file
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit{
 
     ngOnInit() {
         //if (!isLoggedin()) {this.router.navigateByUrl('login');}
-        setTimeout(()=> { if (!isLoggedin()) {this.router.navigateByUrl('login');} }, 500);
+        setTimeout(()=> { if (!APP_SETTINGS.IS_LOGGEDIN) {this.router.navigateByUrl('login');} }, 500);
     }
 
 }

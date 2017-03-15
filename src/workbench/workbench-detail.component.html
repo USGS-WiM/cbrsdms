@@ -182,12 +182,17 @@
                                         <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }} MBs</span>
                                         <button type="button" (click)="removeFinalLetter()">-</button>
                                     </div>
+
+                                    <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
+                                    <input class="custom-file-input" id="draftletter" type="button" style="background-color: whitesmoke" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'" (click)="generateLetter()" />
                                 </div>
 
                                 <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
                                 <input class="custom-file-input" id="draftletter" type="button" style="background-color: white" *ngIf="myCase.status == 'Awaiting Final Letter'" (click)="generateLetter()" />
                             </div>
                         </div>
+
+
 
                         <div *ngIf="noxhr" class="col-xs-12" style="background-color: white">
                             <div class="file-group" *ngIf="finalletterShow">
@@ -211,6 +216,9 @@
                                         <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }} MBs</span>
                                         <button type="button" (click)="removeFinalLetter()">-</button>
                                     </div>
+
+                                    <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
+                                    <input class="custom-file-input" id="draftletter" type="button" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'" (click)="generateLetter()" />
                                 </div>
 
                                 <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
