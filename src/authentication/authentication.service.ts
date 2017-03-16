@@ -5,7 +5,9 @@ import 'rxjs/observable/of';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import {Router}    from '@angular/router';
 import {APP_SETTINGS}   from '../app.settings';
-import {User} from '../users/user'
+import {User} from '../users/user';
+import {IMyOptions} from 'mydatepicker';
+
 
 @Injectable()
 export class AuthenticationService {
@@ -42,7 +44,7 @@ export class AuthenticationService {
     }
 
     getUser() {
-        alert("Auth.getUser: " + this.user.first_name);
+        console.log("Auth.getUser: " + this.user.first_name);
         return this.user;
     }
 

@@ -12,6 +12,7 @@ import {UserService}       from '../users/user.service';
 import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
 import {APP_SETTINGS}      from '../app.settings';
 import {APP_UTILITIES}     from '../app.utilities';
+import {IMyOptions} from 'mydatepicker';
 
 @Component({
     selector: 'workbench-filter',
@@ -54,7 +55,14 @@ export class WorkbenchFilterComponent implements OnInit {
 
     private _updateControls(fields, controls, values): void {
         for (let i = 0, j = fields.length; i < j; i++) {
-            controls[fields[i]].setValue(values[fields[i]]);
+            let field = fields[i];
+            if (field.slice(-4) == "date" && values[field] != null) {
+                let thisDate = new Date(values[field]);
+                controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
+            }
+            else {
+                controls[field].setValue(values[field]);
+            }
         }
     }
 
@@ -140,6 +148,10 @@ export class WorkbenchFilterComponent implements OnInit {
                 error => this._errorMessage = <any>error);
     }
 
+    myDatePickerOptions: IMyOptions = {
+        dateFormat: 'mm/dd/yyyy',
+    };
+
     defaultFilter() {
         this.myWorkbenchFilter = new WorkbenchFilter();
         this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, this.myWorkbenchFilter);
@@ -173,6 +185,9 @@ export class WorkbenchFilterComponent implements OnInit {
             for (let i = 0, j = this._myWorkbenchFilter_fields.length; i < j; i++) {
                 let field = form.controls.workbenchfiltergroup.controls[this._myWorkbenchFilter_fields[i]];
                 if (field.dirty && field.value != null && field.value != '') {
+                    if (this._myWorkbenchFilter_fields[i] == "request_date_after" || this._myWorkbenchFilter_fields[i] == "request_date_after") {
+                        field.value = ("0" + field.value.year).slice(-4) + "-" + ("0" + field.value.month).slice(-2) + "-" + ("0" + field.value.day).slice(-2);
+                    }
                     wbf[this._myWorkbenchFilter_fields[i]] = field.value;
                     urlSearchParams += '&' + this._myWorkbenchFilter_fields[i]  + '=' + field.value;
                 }
