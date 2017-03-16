@@ -1,4 +1,3 @@
-//out: styles.css, sourcemap: false, compress: true
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700');
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css');
@@ -178,50 +177,15 @@ nav{
 span.app-header{
     display: block;
     text-align: center;
-    text-transform: uppercase;
-    font-size: 16pt;
+    text-transform: none;
     font-weight: bolder;
     box-sizing: border-box;
-    padding: 25px 0;
-    line-height: 0.5em;
-
-    h1{
-        display: block;
-        margin: 0 auto;
-        padding: 0;
-        font-size: 42pt;
-        font-weight: bolder;
-        letter-spacing: -2px;
-        padding: 0;
-        text-align: center;
-        line-height: 0.95em;
-    }
-    h2{
-        display: block;
-        margin: 0 auto;
-        padding: 0;
-        font-size: 13.5pt;
-        font-weight: bolder;
-        line-height: 0.4em;
-        letter-spacing: -0.8px;
-        padding: 0;
-        text-align: center;
-        box-sizing: border-box;
-        padding-left: 7px;
-    }
-    h3{
-        display: block;
-        margin: 0 auto;
-        padding: 0;
-        font-size: 15.5pt;
-        font-weight: bolder;
-        letter-spacing: -0.8px;
-        padding: 0;
-        text-align: center;
-        box-sizing: border-box;
-        padding-left: 7px;
-    }
-
+    padding: 95px 0 25px 0;
+    font-size: 20px;
+    letter-spacing: -0.25px;
+    font-weight: 400;
+    color: @black;
+    line-height: 24px;
 }
 
 h3.subheader{
@@ -614,11 +578,13 @@ button.reports-export-btn{
         }
 
         .chx-group{
-            display: block;
-            width: 100%;
+            display: inline;
+            // width: 100%;
             margin: 0 auto;
             padding: 0;
             box-sizing: border-box;
+            border-top: 8px solid @black;
+            border-bottom: 8px solid @black;
 
             label{
                 display: inline-block;
@@ -628,11 +594,11 @@ button.reports-export-btn{
                 vertical-align: top;
                 line-height: 33px;
                 margin: 0 auto;
-                background-color: #3d4360;
-                border-bottom: 1px solid @black;
+                background-color: @black;
                 color: @white;
                 box-sizing: border-box;
-                padding: 0 0 0 6px;
+                text-align: right;
+                padding: 0 8px 0 0;
             }
 
             .chx{
@@ -642,11 +608,10 @@ button.reports-export-btn{
                 vertical-align: top;
                 background-color: @black;
                 display: inline-block;
-                text-align: center;
-                border-bottom: 1px solid darken(@black, 10%);
+                text-align: left;
                 input[type="checkbox"]{
                     position: relative;
-                    top: 0px;
+                    top: -2px;
 
                     &:hover{
                         cursor: pointer;
@@ -973,4 +938,78 @@ div.col-md-10{
     margin: 0 auto;
     display: block;
     vertical-align: middle;
+}
+
+
+// Cbra Toast
+.cbraToast{
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: @black;
+    color: @white;
+    font-size: 12px;
+    font-weight: 600;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    letter-spacing: 0.75px;
+    min-height: 49px;
+    line-height: 20px;
+    box-sizing: border-box;
+    padding: 6px 15px;
+    box-shadow: 0 -1px -3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    display: none;
+    z-index: 100000;
+    &.toastVisible{
+        display: flex !important;
+    }
+}
+
+// Misc classes
+.nopadd{
+    padding: 0;
+}
+
+.removeCaseFileButton{
+    background-color: transparent;
+    border: none;
+    width: 15px;
+    height: 15px;
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: @black;
+        transition: 0.15s;
+    color: #FFFFFF;
+    margin-left: 2px;
+    padding-right: 11px;
+    border-radius:3px;
+    &:hover{
+        cursor: pointer;
+        background-color: fade(@black, 80%);
+        transition: 0.15s;
+    }
+}
+
+
+
+.filepad{
+    padding: 10px 15px 25px 15px !important;
+    display: block;
+    box-sizing: border-box;
+}
+
+
+.fullScreenFileDrag{
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    background-color: @white;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
