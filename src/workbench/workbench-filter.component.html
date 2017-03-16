@@ -35,12 +35,12 @@
 
                                 <div class="col-md-2 dms-form-group bb br">
                                     <label for="request_date_after">Request Date After</label>
-                                    <input id="request_date_after" type="date" formControlName="request_date_after">
+                                    <my-date-picker id="request_date_after" [options]="myDatePickerOptions" formControlName="request_date_after"></my-date-picker>
                                 </div>
 
                                 <div class="col-md-2 dms-form-group bb br">
                                     <label for="request_date_before">Request Date Before</label>
-                                    <input id="request_date_before" type="date" formControlName="request_date_before">
+                                    <my-date-picker id="request_date_before" [options]="myDatePickerOptions" formControlName="request_date_before"></my-date-picker>
                                 </div>
 
                                 <div class="col-md-1 dms-form-group bb br">

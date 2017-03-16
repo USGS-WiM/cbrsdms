@@ -36,11 +36,12 @@ import {ReportDaysToResolution}   from './reports/report-days-to-resolution.comp
 import {ReportDaysToEachStatus} from './reports/report-days-to-each-status.component';
 import {ReportCountCasesByStatus} from './reports/report-count-cases-by-status.component';
 import {routing, appRoutingProviders} from './app.routing'
+import {MyDatePickerModule} from 'mydatepicker';
 
 
 @NgModule({
     imports: [
-        routing, BrowserModule, FormsModule, ReactiveFormsModule, RouterModule, HttpModule
+        routing, BrowserModule, FormsModule, ReactiveFormsModule, RouterModule, HttpModule, MyDatePickerModule
     ],
     declarations: [
         AppComponent, Grid, NavbarComponent, LoginComponent, TagListComponent, TagDetailComponent,
