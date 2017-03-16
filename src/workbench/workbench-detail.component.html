@@ -1,155 +1,298 @@
 <div class="container cbra-form">
 
-    <h3 class="form-main-header">Edit Case #{{ myCase.id || case_ID }}</h3>
-    <h4 class="form-main-header">Current Status: {{ myCase.status }}</h4>
-
     <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div [hidden]="notready">
 
+        <div id="cbra_toast"></div>
+
+        <div id="main-header" align="center" *ngIf="myCase.case_number || case_ID">
+            <div class="row">
+                <h4 class="form-main-header">
+                    <div class="col-md-3"></div><div class="col-md-2">Case ID</div><div class="col-md-2">Case Reference ID</div><div class="col-md-2">Current Status</div><div class="col-md-3"></div>
+                </h4>
+            </div>
+            <div class="row">
+                <h3 class="form-main-header">
+                    <div class="col-md-3"></div><div class="col-md-2">{{ myCase.case_number || case_ID }}</div><div class="col-md-2">{{ myCase.case_reference || "None" }}</div><div class="col-md-2">{{ myCase.status }}</div><div class="col-md-3"></div>
+                </h3>
+            </div>
+        </div><br /><br />
+
         <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
+
+            <button type="submit" class="btn btn-default btn-save-all" [disabled]="!form.valid">Save</button><br /><br />
 
             <div formGroupName="casegroup">
 
-                <div class="dms-group noheader">
+                <div class="dms-group noheader" *ngIf="!case_ID">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-4 dms-form-group bb br">
-                                    <label for="cbrs_unit">CBRS Unit</label>
-                                    <select id="cbrs_unit" formControlName="cbrs_unit" (change)="getSystemmaps(newUnit.value); getProhibitiondates(newUnit.value); updateCaseControlValue(newUnit.id, newUnit.value)" #newUnit>
-                                        <option value=""></option>
-                                        <option *ngFor="let unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myCase.cbrs_unit">{{unit.system_unit_number}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 dms-form-group bb br">
-                                    <label for="map_number">Map Number</label>
-                                    <select id="map_number" formControlName="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
-                                        <option value=""></option>
-                                        <option *ngFor="let map of mySystemmaps" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.map_number}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 dms-form-group bb">
-                                    <label for="cbrs_map_date">Map Date</label>
-                                    <input id="cbrs_map_date" type="date" formControlName="cbrs_map_date" readonly>
-                                    <!--<select id="cbrs_map_date" class="form-control">-->
-                                    <!--    <option *ngFor="let mapdate of availableSystemmapdates" [value]="mapdate.id">{{mapdate.map_date}}</option>-->
-                                    <!--</select>-->
-                                </div>
-                                <div class="col-md-4 dms-form-group br">
-                                    <label for="determination">Determination</label>
-                                    <select id="determination" formControlName="determination" (change)="toggleReadOnlyProhibitionDate(newDetermination.value); updateCaseControlValue(newDetermination.id, newDetermination.value)" #newDetermination>
-                                        <option value=""></option>
-                                        <option *ngFor="let determination of myDeterminations" [value]="determination.id" [selected]="determination.id == myCase.determination">{{determination.determination}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 dms-form-group br">
-                                    <label for="prohibition_date">Prohibition Date</label>
-                                    <select id="prohibition_date" formControlName="prohibition_date" [disabled]="isreadonly_prohibitiondate" (change)="updateCaseControlValue(newProhibitionDate.id, newProhibitionDate.value)" #newProhibitionDate>
-                                        <option value=""></option>
-                                        <option *ngFor="let prohibitiondate of myProhibitiondates" [value]="prohibitiondate.prohibition_date" [selected]="prohibitiondate.prohibition_date == myCase.prohibition_date">{{prohibitiondate.prohibition_date}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 dms-form-group">
-                                    <label for="distance">Distance</label>
-                                    <input id="distance" type="number" formControlName="distance">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="file-group">
                                 <label class="half-label fifty" for="casefiles">Case Files</label><!--
-                                --><label class="bb" style="width:25%" *ngIf="myCase.status != 'Awaiting Final Letter'"></label><!--
-                                --><label class="file-upload-label" for="fileselect">Upload New</label><!--
-                                --><label class="file-upload-label" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter'">Draft Letter</label>
-                                <div class="col-md-12">
-                                    <div id="filedrag" [hidden]="noxhr" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="fileSelectHandler($event)">or drop files here</div>
-                                </div>
-                                <div class="col-md-4">
-                                    <ul id="casefiles" *ngIf="myCasefiles.length > 0">
-                                        <li *ngFor="let casefile of myCasefiles">
-                                            <a target="_blank" [href]="casefile.file">{{ casefile.name }}</a>&nbsp;&nbsp;
-                                        </li>
-                                    </ul>
+                                --><label class="bb" style="width:25%"></label><!--
+                                --><label class="file-upload-label" for="casefileSelect">Upload Files</label>
+                                <div class="col-md-12" *ngIf="!noxhr">
+                                    <div id="casefiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">or drop files here</div>
                                 </div>
 
-                                <div class="col-md-2">
+                                <div class="col-md-12">
                                     <div id="casefilesToUpload">
                                         <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
                                             <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span>
                                             <button type="button" (click)="removeCasefile(i)">-</button>
-                                            <input *ngIf="myCase.status == 'Awaiting Final Letter'" id="signed" type="checkbox" (change)="setFinalLetterDate(signed.checked)" #signed> Signed Letter<!-- [checked]="signed" formControlName="signed"> -->
                                         </p>
                                     </div>
                                 </div>
-                                <input class="custom-file-input" id="fileselect" type="file" multiple (change)="fileSelectHandler($event)" formControlName="casefiles" />
-                                <input class="custom-file-input" id="draftletter" type="button" *ngIf="myCase.status == 'Awaiting Final Letter'" (click)="generateLetter()" />
+                                <input class="custom-file-input" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />
                             </div>
                         </div>
+                    </div>
+                </div>
 
+                <div class="dms-group noheader" *ngIf="case_ID">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2 dms-form-group bb br">
+                                <label for="cbrs_unit">CBRS Unit</label>
+                                <select id="cbrs_unit" formControlName="cbrs_unit" (change)="getSystemmaps(newUnit.value); getProhibitiondates(newUnit.value); updateCaseControlValue(newUnit.id, newUnit.value)" #newUnit>
+                                    <option value=""></option>
+                                    <option *ngFor="let unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myCase.cbrs_unit">{{unit.system_unit_number}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 dms-form-group bb br">
+                                <label for="map_number">Map Number</label>
+                                <select id="map_number" formControlName="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
+                                    <option value=""></option>
+                                    <option *ngFor="let map of mySystemmaps" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.map_number}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 dms-form-group bb">
+                                <label for="cbrs_map_date">Map Date</label>
+                                <input id="cbrs_map_date" type="date" formControlName="cbrs_map_date" readonly>
+                                <!--<select id="cbrs_map_date" class="form-control">-->
+                                <!--    <option *ngFor="let mapdate of availableSystemmapdates" [value]="mapdate.id">{{mapdate.map_date}}</option>-->
+                                <!--</select>-->
+                            </div>
+                            <div class="col-md-2 dms-form-group bb br">
+                                <label for="determination">Determination</label>
+                                <select id="determination" formControlName="determination" (change)="toggleReadOnlyProhibitionDate(newDetermination.value); updateCaseControlValue(newDetermination.id, newDetermination.value)" #newDetermination>
+                                    <option value=""></option>
+                                    <option *ngFor="let determination of myDeterminations" [value]="determination.id" [selected]="determination.id == myCase.determination">{{determination.determination}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 dms-form-group bb br" [style.background-color]="isreadonly_prohibitiondate ? 'lightgray' : ''">
+                                <label for="prohibition_date">Prohibition Date</label>
+                                <select *ngIf="!isreadonly_prohibitiondate" id="prohibition_date" formControlName="prohibition_date" (change)="updateCaseControlValue(newProhibitionDate.id, newProhibitionDate.value)" #newProhibitionDate>
+                                    <option value=""></option>
+                                    <option *ngFor="let prohibitiondate of myProhibitiondates" [value]="prohibitiondate.prohibition_date" [selected]="prohibitiondate.prohibition_date == myCase.prohibition_date">{{prohibitiondate.prohibition_date}}</option>
+                                </select>
+                                <!-- <select *ngIf="isreadonly_prohibitiondate" [style.background-color]="isreadonly_prohibitiondate ? 'black' : 'gray'"></select> -->
+                            </div>
+                            <div class="col-md-2 dms-form-group bb">
+                                <label for="distance">Distance</label>
+                                <input id="distance" type="number" formControlName="distance">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-8">
+
+                            <div *ngIf="!noxhr" style="background-color: whitesmoke" id="casefiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">
+                                <div class="file-group">
+                                    <label class="half-label fifty" for="casefiles">Case Files</label><!--
+                                    --><label class="bb" style="width:25%"></label><!--
+                                    --><label class="file-upload-label" for="casefileSelect">Upload</label>
+
+                                    <div style="color: lightgray; text-align: right;">or drop files here</div>
+
+                                    <div class="col-md-1">
+                                        <ul id="casefiles" *ngIf="myCasefiles.length > 0">
+                                            <li *ngFor="let casefile of myCasefiles">
+                                                <a target="_blank" [href]="casefile.file" *ngIf="!casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div id="casefilesToUpload">
+                                            <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
+                                                <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>
+                                                <button type="button" (click)="removeCasefile(i)">-</button>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <input class="custom-file-input" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />
+                                </div>
+                            </div>
+
+                            <div *ngIf="noxhr" style="background-color: whitesmoke">
+                                <div class="file-group">
+                                    <label class="half-label fifty" for="casefiles">Case Files</label><!--
+                                    --><label class="bb" style="width:25%"></label><!--
+                                    --><label class="file-upload-label" for="casefileSelect">Upload</label>
+
+                                    <div style="color: lightgray; text-align: right;">or drop files here</div>
+
+                                    <div class="col-md-1">
+                                        <ul id="casefiles" *ngIf="myCasefiles.length > 0">
+                                            <li *ngFor="let casefile of myCasefiles">
+                                                <a target="_blank" [href]="casefile.file" *ngIf="!casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div id="casefilesToUpload">
+                                            <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
+                                                <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>
+                                                <button type="button" (click)="removeCasefile(i)">-</button>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <input class="custom-file-input" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <div *ngIf="!noxhr" style="background-color: whitesmoke" id="finalletterfiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="finalletterSelectHandler($event)">
+                                <div class="file-group" *ngIf="finalletterShow">
+                                    <label class="label fifty" for="finalletter">Final Letter</label><!--
+                                    --><label class="file-upload-label" style="width:25%" for="finalLetterSelect">Upload</label><!--
+                                    --><label class="bb" style="width:25%" *ngIf="myCase.status != 'Awaiting Final Letter'"></label><!--
+                                    --><label class="file-upload-label" style="width:25%" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'">Draft</label>
+
+                                    <div style="color: lightgray; text-align: right;">or drop file here</div>
+
+                                    <div class="col-md-1">
+                                        <ul id="finalletter" *ngIf="myCasefiles.length > 0">
+                                            <li *ngFor="let casefile of myCasefiles">
+                                                <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">
+                                            <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }} MBs</span>
+                                            <button type="button" (click)="removeFinalLetter()">-</button>
+                                        </div>
+                                    </div>
+
+                                    <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
+                                    <input class="custom-file-input" id="draftletter" type="button" style="background-color: whitesmoke" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'" (click)="generateLetter()" />
+                                </div>
+                            </div>
+
+                            <div *ngIf="noxhr" style="background-color: whitesmoke">
+                                <div class="file-group" *ngIf="finalletterShow">
+                                    <label class="label fifty" for="finalletter">Final Letter</label><!--
+                                    --><label class="file-upload-label" style="width:25%" for="finalLetterSelect">Upload Letter</label><!--
+                                    --><label class="bb" style="width:25%" *ngIf="myCase.status != 'Awaiting Final Letter'"></label><!--
+                                    --><label class="file-upload-label" style="width:25%" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'">Draft Letter</label>
+
+                                    <div style="color: lightgray; text-align: right;">or drop file here</div>
+
+                                    <div class="col-md-1">
+                                        <ul id="finalletter" *ngIf="myCasefiles.length > 0">
+                                            <li *ngFor="let casefile of myCasefiles">
+                                                <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">
+                                            <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }} MBs</span>
+                                            <button type="button" (click)="removeFinalLetter()">-</button>
+                                        </div>
+                                    </div>
+
+                                    <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
+                                    <input class="custom-file-input" id="draftletter" type="button" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'" (click)="generateLetter()" />
+                                </div>
+                            </div>
+
+                        </div>
 
                         <div class="col-md-2">
                             <div class="chx-group">
                                 <label for="priority">Priority</label><!--
                                 --><div class="chx">
-                                    <input id="priority" type="checkbox" [checked]="priority" formControlName="priority">
+                                    <input id="priority" type="checkbox" formControlName="priority">
                                 </div>
                             </div><!--
                                 --><div class="chx-group">
                                 <label for="on_hold">On Hold</label><!--
                                 --><div class="chx">
-                                    <input id="on_hold" type="checkbox" [checked]="on_hold" formControlName="on_hold">
+                                    <input id="on_hold" type="checkbox" (change)="toggleOnHold();" formControlName="on_hold">
                                 </div>
                             </div><!--
                                 --><div class="chx-group">
                                 <label for="invalid">Invalid</label><!--
                                 --><div class="chx">
-                                    <input id="invalid" type="checkbox" [checked]="invalid" formControlName="invalid">
+                                    <input id="invalid" type="checkbox" formControlName="invalid">
+                                </div>
+                            </div><!--
+                                --><div class="chx-group">
+                                <label for="duplicate">Duplicate of</label><!--
+                                --><div class="slct">
+                                    <select id="duplicate" formControlName="duplicate" style="width:120px">
+                                        <option value=""></option>
+                                        <option *ngFor="let caseID of myCaseIDs" [value]="caseID.id" [selected]="caseID.id == myCase.duplicate">{{caseID.id}}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
 
                     </div>
 
-                    <div class="row" id="case_messages" [hidden]="mapsfound"><pre>No maps found for this unit.</pre></div>
+                    <div class="row" id="case_messages" *ngIf="!mapsfound"><pre>No maps found for this unit.</pre></div>
                 </div>
 
-                <div class="dms-group">
+                <div class="dms-group" *ngIf="case_ID">
                     <h2 class="dms-group-header">Important Dates</h2>
 
                     <div class="row" id="dates">
-                        <div class="col-md-4">
-                            <div class="dms-form-group br bb">
+                        <div class="col-md-2">
+                            <div class="dms-form-group br">
                                 <label for="request_date">Request Date</label>
-                                <input id="request_date" type="date" formControlName="request_date">
+                                <my-date-picker id="request_date" formControlName="request_date" [options]="myDatePickerOptions" (change)="validateDate(newRequestDate.elem.nativeElement.id, newRequestDate.selectedDate)" (inputFieldChanged)="validateDate(newRequestDate.elem.nativeElement.id, newRequestDate.selectedDate)" #newRequestDate></my-date-picker>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="dms-form-group br bb">
+                        <div class="col-md-3">
+                            <div class="dms-form-group br">
                                 <label for="fws_fo_received_date">Field Office Received Date</label>
-                                <input id="fws_fo_received_date" type="date" formControlName="fws_fo_received_date">
+                                <my-date-picker id="fws_fo_received_date" formControlName="fws_fo_received_date" [options]="myDatePickerOptions" (change)="validateDate(newFODate.elem.nativeElement.id, newFODate.selectedDate)" (inputFieldChanged)="validateDate(newFODate.elem.nativeElement.id, newFODate.selectedDate)" #newFODate></my-date-picker>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="dms-form-group bb">
+                        <div class="col-md-3">
+                            <div class="dms-form-group br">
                                 <label for="fws_hq_received_date">Headquarters Received Date</label>
-                                <input id="fws_hq_received_date" type="date" formControlName="fws_hq_received_date">
+                                <my-date-picker id="fws_hq_received_date" formControlName="fws_hq_received_date" [options]="myDatePickerOptions" (change)="validateDate(newHQDate.elem.nativeElement.id, newHQDate.selectedDate)" (inputFieldChanged)="validateDate(newHQDate.elem.nativeElement.id, newHQDate.selectedDate)" #newHQDate></my-date-picker>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="dms-form-group br">
+                        <div class="col-md-2">
+                            <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="final_letter_date">Final Letter Date</label>
-                                <input id="final_letter_date" type="date" class="form-control" formControlName="final_letter_date">
+                                <my-date-picker *ngIf="!isOnHold" id="final_letter_date" formControlName="final_letter_date" [options]="myDatePickerOptions" (change)="validateDate(newFinalLetterDate.elem.nativeElement.id, newFinalLetterDate.selectedDate)" (inputFieldChanged)="validateDate(newFinalLetterDate.elem.nativeElement.id, newFinalLetterDate.selectedDate)" #newFinalLetterDate></my-date-picker>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="dms-form-group br">
+                        <div class="col-md-2">
+                            <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="close_date">Close Date</label>
-                                <input id="close_date" type="date" class="form-control" formControlName="close_date">
+                                <my-date-picker *ngIf="!isOnHold" id="close_date" formControlName="close_date" [options]="myDatePickerOptions" (change)="validateDate(newCloseDate.elem.nativeElement.id, newCloseDate.selectedDate)" (inputFieldChanged)="validateDate(newCloseDate.elem.nativeElement.id, newCloseDate.selectedDate)" #newCloseDate></my-date-picker>
                             </div>
                         </div>
 
@@ -157,55 +300,55 @@
 
                 </div>
 
-                <div class="dms-group">
-                    <h2 class="dms-group-header">CASE SIGNOFF</h2>
+                <div class="dms-group" *ngIf="case_ID">
+                    <h2 class="dms-group-header">CASE ASSIGNMENT & SIGNOFF</h2>
 
                     <div class="row" id="signoff">
                         <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="analyst">Analyst</label>
-                                <select id="analyst" formControlName="analyst" (change)="setSignoffDateToday(newAnalyst.id); updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>
+                                <select id="analyst" formControlName="analyst" (change)="updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>
                                     <option value=""></option>
                                     <option *ngFor="let analyst of availableAnalysts" [value]="analyst.id" [selected]="analyst.id == selectedAnalyst">{{analyst.username}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="dms-form-group br">
-                                <label for="analyst_signoff_date">Date</label>
-                                <input id="analyst_signoff_date" type="date" formControlName="analyst_signoff_date">
+                            <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
+                                <label for="analyst_signoff_date">Analyst Signoff Date</label>
+                                <my-date-picker *ngIf="!isOnHold" id="analyst_signoff_date" formControlName="analyst_signoff_date" [options]="myDatePickerOptions" (change)="validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)" (inputFieldChanged)="validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)" #newAnalystDate></my-date-picker>
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="dms-form-group br">
-                                <label for="qc_reviewer">QC Reviewer</label>
-                                <select id="qc_reviewer" formControlName="qc_reviewer" (change)="setSignoffDateToday(newQCReviewer.id); updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)" #newQCReviewer>
+                                <label for="qc_reviewer">Level 1 QC</label>
+                                <select id="qc_reviewer" formControlName="qc_reviewer" (change)="updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)" #newQCReviewer>
                                     <option value=""></option>
                                     <option *ngFor="let qc_reviewer of availableQCReviewers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == selectedQCReviewer">{{qc_reviewer.username}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="dms-form-group br">
-                                <label for="qc_reviewer_signoff_date">Date</label>
-                                <input id="qc_reviewer_signoff_date" type="date" formControlName="qc_reviewer_signoff_date">
+                            <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
+                                <label for="qc_reviewer_signoff_date">Level 1 QC Signoff Date</label>
+                                <my-date-picker *ngIf="!isOnHold" id="qc_reviewer_signoff_date" formControlName="qc_reviewer_signoff_date" [options]="myDatePickerOptions" (change)="validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)" (inputFieldChanged)="validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)" #newQC1Date></my-date-picker>
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="dms-form-group br">
-                                <label for="fws_reviewer">FWS Reviewer</label>
-                                <select id="fws_reviewer" formControlName="fws_reviewer" (change)="setSignoffDateToday(newFWSReviewer.id); updateCaseControlValue(newFWSReviewer.id, newFWSReviewer.value)" #newFWSReviewer>
+                                <label for="fws_reviewer">Level 2 QC</label>
+                                <select id="fws_reviewer" formControlName="fws_reviewer" (change)="updateCaseControlValue(newFWSReviewer.id, newFWSReviewer.value)" #newFWSReviewer>
                                     <option value=""></option>
                                     <option *ngFor="let fws_reviewer of availableFWSReviewers" [value]="fws_reviewer.id" [selected]="fws_reviewer.id == selectedFWSReviewer">{{fws_reviewer.username}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="dms-form-group">
-                                <label for="fws_reviewer_signoff_date">Date</label>
-                                <input id="fws_reviewer_signoff_date" type="date" formControlName="fws_reviewer_signoff_date">
+                            <div class="dms-form-group" [style.background-color]="isOnHold ? 'lightgray' : ''">
+                                <label for="fws_reviewer_signoff_date">Level 2 QC Signoff Date</label>
+                                <my-date-picker *ngIf="!isOnHold" id="fws_reviewer_signoff_date" formControlName="fws_reviewer_signoff_date" [options]="myDatePickerOptions" (change)="validateDate(newQC2Date.elem.nativeElement.id, newQC2Date.selectedDate)" (inputFieldChanged)="validateDate(newQC2Date.elem.nativeElement.id, newQC2Date.selectedDate)" #newQC2Date></my-date-picker>
                             </div>
                         </div>
 
@@ -227,7 +370,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br bb">
-                            <label for="unit">Unit</label>
+                            <label for="unit">Suite/Apt #</label>
                             <input id="unit" type="text" formControlName="unit">
                         </div>
                     </div>
@@ -240,9 +383,9 @@
                     <div class="col-md-2">
                         <div class="dms-form-group br bb">
                             <label for="state">State</label>
-                            <select id="state" formControlName="state" (change)="updatePropertyControlValue(newState.id, newState.value)" #newState>
+                            <select id="state" formControlName="state" (change)="updatePropertyControlValue(newPState.id, newPState.value)" #newPState>
                                 <option value=""></option>
-                                <option *ngFor="let state of states" [value]="state" [selected]="state == myRequester.state">{{state}}</option>
+                                <option *ngFor="let state of states" [value]="state" [selected]="state == myProperty.state">{{state}}</option>
                             </select>
                         </div>
                     </div>
@@ -253,13 +396,19 @@
                             <input id="zipcode" type="text" formControlName="zipcode">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="dms-form-group br">
+                            <label for="legal_description">Legal Description</label>
+                            <input id="legal_description" type="text" formControlName="legal_description">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="dms-form-group br">
                             <label for="subdivision">Subdivision</label>
                             <input id="subdivision" type="text" formControlName="subdivision">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="dms-form-group">
                             <label for="policy_number">Policy Number</label>
                             <input id="policy_number" type="text" formControlName="policy_number">
@@ -317,7 +466,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="dms-form-group br">
-                            <label for="unit">Unit</label>
+                            <label for="unit">Suite/Apt #</label>
                             <input id="unit" type="text" formControlName="unit">
                         </div>
                     </div>
@@ -330,7 +479,7 @@
                     <div class="col-md-2">
                         <div class="dms-form-group br">
                             <label for="state">State</label>
-                            <select id="state" formControlName="state" (change)="updateRequesterControlValue(newState.id, newState.value)" #newState>
+                            <select id="state" formControlName="state" (change)="updateRequesterControlValue(newRState.id, newRState.value)" #newRState>
                                 <option value=""></option>
                                 <option *ngFor="let state of states" [value]="state" [selected]="state == myRequester.state">{{state}}</option>
                             </select>
@@ -348,7 +497,7 @@
 
             </div>
 
-            <div class="dms-group noheader">
+            <div class="dms-group noheader" *ngIf="case_ID">
                 <div class="row">
                     <div class="col-md-6" style="border-right: 1px solid #E8E8E8">
                         <h2 class="dms-group-header">Comments</h2>
@@ -356,11 +505,23 @@
                         <div class="add-comment-wrap">
                             <input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment><!--
                             --><button class="btn-add-comment" type="button" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
-                            <span [hidden]="commentUnique" class="alert alert-danger">That comment already exists for this case.</span>
+                            <span *ngIf="!commentUnique" class="alert alert-danger">That comment already exists for this case.</span>
                         </div>
 
+                        <span *ngIf="!commentOwner" class="alert alert-danger">You do not have permission edit this comment since you did not create it.</span>
+
                         <ul class="comment-ul">
-                            <p *ngFor="let comment of myComments">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</p>
+                            <div *ngFor="let comment of myComments">
+                                <div *ngIf="!editingComment || editCommentID != comment.id" (click)="editComment(comment.id)">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</div>
+                                <br /><br />
+                                <div *ngIf="editingComment && editCommentID == comment.id">
+                                    <div class="add-comment-wrap">
+                                        <input type="text" class="new-comment-input" style="width:50%" value={{comment.comment}} #editedComment><!--
+                                        --><button class="btn-add-comment" style="width:20%" type="button" (click)="updateComment(editedComment.value);">Update comment</button>
+                                        <button class="btn-add-comment" style="width:10%; background-color: burlywood" type="button" (click)="cancelEditComment();">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
                         </ul>
 
                     </div>
@@ -369,6 +530,7 @@
 
                         <div class="add-comment-wrap">
                             <select class="new-comment-input new-comment-select" #newTag>
+                                <option value=""></option>
                                 <option *ngFor="let tag of availableTags" [value]="tag.id">{{tag.name}}</option>
                             </select><!--
                             --><button class="btn-add-comment" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>

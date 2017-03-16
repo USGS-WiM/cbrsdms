@@ -1,6 +1,7 @@
 import {Injectable}     from '@angular/core';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import {Case}           from './case';
+import {AuthenticationService} from '../authentication/authentication.service';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -8,7 +9,7 @@ import {APP_SETTINGS}   from '../app.settings';
 
 @Injectable()
 export class CaseService {
-    constructor (private http: Http) {}
+    constructor (private http: Http, private _authenticationService: AuthenticationService) {}
 
     getCase (id: number | string) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
@@ -17,7 +18,7 @@ export class CaseService {
             .map(res => <Case> res.json())
             .catch(this.handleError);
     }
-    
+
     getCases (searchArgs?: URLSearchParams) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
@@ -25,7 +26,7 @@ export class CaseService {
             .map(res => <Case[]> res.json())
             .catch(this.handleError);
     }
-    
+
     createCase (acase: Case) : Observable<Case> {
         let body = JSON.stringify(acase);
         let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
@@ -34,7 +35,7 @@ export class CaseService {
             .map(res => <Case> res.json())
             .catch(this.handleError)
     }
-    
+
     updateCase (acase: Case) : Observable<Case> {
         // pull out the ID
         let id = acase.id;

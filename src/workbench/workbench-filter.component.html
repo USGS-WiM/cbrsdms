@@ -1,7 +1,7 @@
 <div class="container cbra-form">
 
-    <div [hidden]="!filternotready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
-    <div [hidden]="filternotready">
+    <div *ngIf="filternotready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"></div>
+    <div *ngIf="!filternotready">
 
         <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
 
@@ -19,7 +19,7 @@
                                     <label for="status">Status</label>
                                     <select id="status" formControlName="status">
                                         <option value=""></option>
-                                        <option *ngFor="let status of myStatuses" [value]="status">{{status}}</option>
+                                        <option *ngFor="let status of myStatuses" [value]="status" [selected]="status == myWorkbenchFilter.status">{{status}}</option>
                                     </select>
                                 </div>
 
@@ -29,21 +29,26 @@
                                 </div>
 
                                 <div class="col-md-2 dms-form-group bb br">
+                                    <label for="case_reference">Case Reference</label>
+                                    <input id="case_reference" type="text" formControlName="case_reference">
+                                </div>
+
+                                <div class="col-md-2 dms-form-group bb br">
                                     <label for="request_date_after">Request Date After</label>
-                                    <input id="request_date_after" type="date" formControlName="request_date_after">
+                                    <my-date-picker id="request_date_after" [options]="myDatePickerOptions" formControlName="request_date_after"></my-date-picker>
                                 </div>
 
                                 <div class="col-md-2 dms-form-group bb br">
                                     <label for="request_date_before">Request Date Before</label>
-                                    <input id="request_date_before" type="date" formControlName="request_date_before">
+                                    <my-date-picker id="request_date_before" [options]="myDatePickerOptions" formControlName="request_date_before"></my-date-picker>
                                 </div>
 
-                                <div class="col-md-2 dms-form-group bb br">
+                                <div class="col-md-1 dms-form-group bb br">
                                     <label for="distance_from">Distance From</label>
                                     <input id="distance_from" type="text" formControlName="distance_from">
                                 </div>
 
-                                <div class="col-md-2 dms-form-group bb br">
+                                <div class="col-md-1 dms-form-group bb br">
                                     <label for="distance_to">Distance To</label>
                                     <input id="distance_to" type="text" formControlName="distance_to">
                                 </div>
@@ -56,7 +61,7 @@
                                     <label for="analyst">Analyst</label>
                                     <select id="analyst" formControlName="analyst">
                                         <option value=""></option>
-                                        <option *ngFor="let analyst of myUsers" [value]="analyst.id">{{analyst.username}}</option>
+                                        <option *ngFor="let analyst of myUsers" [value]="analyst.id" [selected]="analyst.id == myWorkbenchFilter.analyst">{{analyst.username}}</option>
                                     </select>
                                 </div>
 
@@ -64,7 +69,7 @@
                                     <label for="qc_reviewer">QC Reviewer</label>
                                     <select id="qc_reviewer" formControlName="qc_reviewer">
                                         <option value=""></option>
-                                        <option *ngFor="let qc_reviewer of myUsers" [value]="qc_reviewer.id">{{qc_reviewer.username}}</option>
+                                        <option *ngFor="let qc_reviewer of myUsers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == myWorkbenchFilter.qc_reviewer">{{qc_reviewer.username}}</option>
                                     </select>
                                 </div>
 
@@ -72,7 +77,7 @@
                                     <label for="cbrs_unit">CBRS Unit</label>
                                     <select id="cbrs_unit" formControlName="cbrs_unit">
                                         <option value=""></option>
-                                        <option *ngFor="let unit of mySystemunits" [value]="unit.id">{{unit.system_unit_number}}</option>
+                                        <option *ngFor="let unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myWorkbenchFilter.cbrs_unit">{{unit.system_unit_number}}</option>
                                     </select>
                                 </div>
 
@@ -80,7 +85,7 @@
                                     <label for="tags">Tag</label>
                                     <select id="tags" formControlName="tags">
                                         <option value=""></option>
-                                        <option *ngFor="let tag of myTags" [value]="tag.id" [selected]="tag.id == selectedTag">{{tag.name}}</option>
+                                        <option *ngFor="let tag of myTags" [value]="tag.id" [selected]="tag.id == myWorkbenchFilter.tags[0]">{{tag.name}}</option>
                                     </select>
                                 </div>
 
@@ -99,29 +104,34 @@
                         </div> <!-- /col-md-10 -->
 
                         <div class="col-md-2">
-
-                            <div class="row">
-                                <div class="chx-group">
-                                    <label for="priority">Priority</label><!--
-                                    --><div class="chx">
-                                        <input id="priority" type="checkbox" formControlName="priority">
-                                    </div>
-                                </div><!--
-                                    --><div class="chx-group">
-                                    <label for="on_hold">On Hold</label><!--
-                                    --><div class="chx">
-                                        <input id="on_hold" type="checkbox" formControlName="on_hold">
-                                    </div>
-                                </div><!--
-                                    --><div class="chx-group">
-                                    <label for="invalid">Invalid</label><!--
-                                    --><div class="chx">
-                                        <input id="invalid" type="checkbox" formControlName="invalid">
-                                    </div>
+                            <div class="chx-group">
+                                <label for="priority">Priority</label><!--
+                                --><div class="chx">
+                                    <input id="priority" type="checkbox" formControlName="priority">
+                                </div>
+                            </div><!--
+                                --><div class="chx-group">
+                                <label for="on_hold">On Hold</label><!--
+                                --><div class="chx">
+                                    <input id="on_hold" type="checkbox" formControlName="on_hold">
+                                </div>
+                            </div><!--
+                                --><div class="chx-group">
+                                <label for="invalid">Invalid</label><!--
+                                --><div class="chx">
+                                    <input id="invalid" type="checkbox" formControlName="invalid">
+                                </div>
+                            </div><!--
+                                --><div class="chx-group">
+                                <label for="duplicate">Duplicate of</label><!--
+                                --><div class="slct">
+                                    <select id="duplicate" formControlName="duplicate" style="width:120px">
+                                        <option value=""></option>
+                                        <option *ngFor="let caseID of myCaseIDs" [value]="caseID.id" [selected]="caseID.id == myWorkbenchFilter.case_number">{{caseID.id}}</option>
+                                    </select>
                                 </div>
                             </div>
-
-                        </div> <!-- /col-md-4 -->
+                        </div> <!-- /col-md-2 -->
 
                     </div> <!-- /workbenchfiltergroup -->
 
@@ -136,12 +146,12 @@
                     <div formGroupName="workbenchfreetextgroup" class="col-md-10">
 
 
-                        <div class="col-md-4 dms-form-group br">
+                        <div class="col-md-2 dms-form-group br">
                             <label for="fiscal_year">Fiscal Year</label>
                             <input id="fiscal_year" type="text" formControlName="fiscal_year">
                         </div><!--
 
-                        --><div class="col-md-8 dms-form-group br">
+                        --><div class="col-md-10 dms-form-group br">
                             <label for="freetext">Freetext</label>
                             <input id="freetext" id="freetext" type="text" formControlName="freetext">
                         </div>
@@ -150,7 +160,7 @@
                     </div> <!-- /workbenchfreetextgroup -->
 
                     <button type="submit" class="btn btn-default btn-save-all-inline col-md-1" [disabled]="!form.valid">Search</button>
-                    <button class="btn btn-default btn-save-all-inline col-md-1" (click)="clearFilter()">Clear</button>
+                    <button type=""button class="btn btn-default btn-save-all-inline col-md-1" (click)="clearFilter()">Clear</button>
 
                 </div> <!-- /row -->
             </div> <!-- /dms-group noheaders -->

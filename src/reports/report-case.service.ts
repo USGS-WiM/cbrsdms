@@ -1,28 +1,20 @@
 import {Injectable}     from '@angular/core';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {User}           from './user';
+import {ReportCase}           from './report-case';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {APP_SETTINGS}   from '../app.settings';
 
 @Injectable()
-export class UserService {
+export class ReportCaseService {
     constructor (private http: Http) {}
 
-    getUser (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
-
-        return this.http.get(APP_SETTINGS.USERS_URL+id+'/', options)
-            .map(res => <User> res.json())
-            .catch(this.handleError);
-    }
-
-    getUsers (searchArgs?: URLSearchParams) {
+    getReportCases (searchArgs?: URLSearchParams) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
-        return this.http.get(APP_SETTINGS.USERS_URL, options)
-            .map(res => <User[]> res.json())
+        return this.http.get(APP_SETTINGS.REPORTCASES_URL, options)
+            .map(res => <ReportCase[]> res.json()['results'])
             .catch(this.handleError);
     }
 

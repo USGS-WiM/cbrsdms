@@ -1,5 +1,6 @@
 import {Injectable}     from '@angular/core';
 import {Http, RequestOptions, URLSearchParams} from '@angular/http';
+import {AuthenticationService} from '../authentication/authentication.service';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
@@ -7,7 +8,7 @@ import {APP_SETTINGS}   from '../app.settings';
 
 @Injectable()
 export class CasefileService {
-    constructor (private http: Http) {}
+    constructor (private http: Http, private _authenticationService: AuthenticationService) {}
 
     getCasefiles (searchArgs?: URLSearchParams) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
@@ -18,12 +19,15 @@ export class CasefileService {
             .catch(this.handleError);
     }
 
-    createCasefiles(caseid: number, files: Array<File>) {
+    createCasefiles(caseid: number, files: Array<File>, final_letter?: Boolean) {
         return new Promise((resolve, reject) => {
             for (let i = 0; i < files.length; i++) {
                 let formData: any = new FormData();
                 formData.append("case", caseid);
                 formData.append("file", files[i]);
+                if (final_letter) {
+                    formData.append("final_letter", final_letter);
+                }
                 let xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4) {
@@ -35,7 +39,7 @@ export class CasefileService {
                     }
                 };
                 xhr.open("POST", APP_SETTINGS.CASEFILES_URL, true);
-                xhr.setRequestHeader("Authorization", "Basic " + btoa(sessionStorage.getItem('username') + ":" + sessionStorage.getItem('password')));
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(this._authenticationService.user.username + ":" + this._authenticationService.user.password));
                 xhr.send(formData);
             }
         });

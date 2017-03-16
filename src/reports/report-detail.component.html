@@ -1,0 +1,7 @@
+<div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
+<div [hidden]="notready">
+    <div align="center">
+        <button class="btn btn-default reports-export-btn" (click)="exportToCSV()"><i class="fa fa-download"></i> Export CSV</button>
+    </div>
+    <report-grid [rows]="reportcases" [columns]="columns"></report-grid>
+</div>

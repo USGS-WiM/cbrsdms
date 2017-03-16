@@ -1,14 +1,14 @@
 import {Component}         from '@angular/core';
-import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
+import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
+import {Router} from '@angular/router';
 import {URLSearchParams}    from '@angular/http';
 import {NavbarComponent}   from '../navbar.component';
 import {TagService}        from './tag.service';
 import {Tag}               from './tag';
+import {CaseService}       from '../cases/case.service';
 
 @Component({
-    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NavbarComponent],
-    providers: [TagService],
+    providers: [TagService, CaseService],
     templateUrl: 'tag-list.component.html'
 })
 export class TagListComponent {
@@ -17,10 +17,12 @@ export class TagListComponent {
     name: FormControl = new FormControl("", Validators.required);
     description: FormControl = new FormControl("");
     notready: Boolean = true;
+    nottoggled: Boolean = true;
     private _errorMessage: string;
     tags: Tag[];
+    private _caseCount: number;
 
-    constructor(fb: FormBuilder, private _tagService: TagService, private _router: Router) {
+    constructor(fb: FormBuilder, private _tagService: TagService, private _caseService: CaseService, private _router: Router) {
         this.form = fb.group({
             "name": this.name,
             "description": this.description
@@ -42,12 +44,21 @@ export class TagListComponent {
     deleteTag(tag) {
         this.error = false;
         if (window.confirm("Are you sure you want to delete this tag?")) {
-            this._tagService.deleteTag(tag)
+            this._caseService.getCases(new URLSearchParams('tags='+tag))
                 .subscribe(
-                    tag => {
-                        this._getTags();
+                    cases => {
+                        if (cases.length > 0) {
+                            alert("This tag cannot be removed because it is assigned to one or more determination cases.");
+                        }
+                        else {
+                            this._tagService.deleteTag(tag)
+                                .subscribe(
+                                    tag => {this._getTags();},
+                                    error => this._errorMessage = <any>error);
+                        }
                     },
                     error => this._errorMessage = <any>error);
+
         }
     }
 
@@ -58,6 +69,10 @@ export class TagListComponent {
     goToCases(tag: any) {
         this._router.navigate( ['/workbench'], {queryParams: {'tags': tag}} );
         //this._router.navigate( ['/workbench', {'tag': tag}] );
+    }
+
+    toggleCreateTagForm() {
+        this.nottoggled = !this.nottoggled;
     }
 
     onSubmit(value: any) {
@@ -76,6 +91,7 @@ export class TagListComponent {
                     }
                     else {
                         this._createTag(tag);
+                        this.toggleCreateTagForm();
                         this.notready = false;
                     }
                 },
@@ -88,8 +104,8 @@ export class TagListComponent {
                 tag => {
                     this._getTags();
                     // reset the form
-                    this.name.updateValue(null);
-                    this.description.updateValue(null);
+                    this.name.setValue(null);
+                    this.description.setValue(null);
                 },
                 error => this._errorMessage = <any>error
             );

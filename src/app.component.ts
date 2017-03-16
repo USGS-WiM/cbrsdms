@@ -1,12 +1,13 @@
 import {Component, OnInit, OnChanges, SimpleChange} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {CaseService}       from './cases/case.service';
 import {CasefileService}   from './casefiles/casefile.service';
 import {PropertyService}   from './properties/property.service';
 import {RequesterService}  from './requesters/requester.service';
 import {AuthenticationService} from './authentication/authentication.service';
 import {LoginComponent}    from './authentication/login.component';
-import {isLoggedin}        from './authentication/is-loggedin';
+//import {isLoggedin}        from './authentication/is-loggedin';
+import {APP_SETTINGS}      from './app.settings';
 //import './styles.css';
 
 // Use Filesaver.js to save binary to file
@@ -17,7 +18,6 @@ import {isLoggedin}        from './authentication/is-loggedin';
     selector: 'my-app',
     templateUrl: 'app.component.html',
     //styleUrls: ['./styles.css'],
-    directives: [ROUTER_DIRECTIVES, LoginComponent],
     providers: [
         PropertyService,
         RequesterService,
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit{
 
     ngOnInit() {
         //if (!isLoggedin()) {this.router.navigateByUrl('login');}
-        setTimeout(()=> { if (!isLoggedin()) {this.router.navigateByUrl('login');} }, 500);
+        setTimeout(()=> { if (!APP_SETTINGS.IS_LOGGEDIN) {this.router.navigateByUrl('login');} }, 500);
     }
 
 }

@@ -2,6 +2,7 @@ export class WorkbenchFilter {
     constructor(
         public status?: string,
         public case_number?: string,
+        public case_reference?: string,
         public request_date_after?: Date,
         public request_date_before?: Date,
         public distance_from?: number,
@@ -15,6 +16,7 @@ export class WorkbenchFilter {
         public priority?: Boolean,
         public on_hold?: Boolean,
         public invalid?: Boolean,
+        public duplicate?: number,
         public id?: number
     ) {}
 }

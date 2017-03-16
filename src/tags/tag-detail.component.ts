@@ -1,14 +1,13 @@
 import {Component, OnInit, OnDestroy}         from '@angular/core';
-import {ROUTER_DIRECTIVES, Router, ActivatedRoute} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {URLSearchParams}    from '@angular/http';
-import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
+import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
 import {NavbarComponent}   from '../navbar.component';
 import {CaseService}       from '../cases/case.service';
 import {TagService}        from './tag.service';
 import {Tag}               from './tag';
 
 @Component({
-    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NavbarComponent],
     providers: [TagService],
     templateUrl: 'tag-detail.component.html'
 })
@@ -66,8 +65,8 @@ export class TagDetailComponent implements OnInit, OnDestroy {
             .subscribe(
                 tag => {
                     this.myTag = tag;
-                    this.editName.updateValue(this.myTag.name);
-                    this.editDescription.updateValue(this.myTag.description);
+                    this.editName.setValue(this.myTag.name);
+                    this.editDescription.setValue(this.myTag.description);
                     this.notready = false;
                 },
                 error => this._errorMessage = <any>error);

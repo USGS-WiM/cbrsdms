@@ -4,6 +4,8 @@ export class Case {
         public property?: number,
         public property_string?: string,
         public case_number?: string,
+        public case_reference?: string,
+        public duplicate?: number,
         public status?: string,
         public request_date?: Date,
         public casefiles?: string[],

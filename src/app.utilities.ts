@@ -7,7 +7,9 @@ export class APP_UTILITIES {
     public static get TIME(): string {return new Date().toISOString().substr(14, 22);}
 
     public static convertArrayOfObjectsToCSV(args: any) {
-        let result, counter, keys, columnDelimiter, lineDelimiter, data;
+        let result, counter, keys, columnDelimiter, lineDelimiter, data, headers;
+
+        headers = [];
 
         data = args.data || null;
         if (data == null || !data.length) {
@@ -19,8 +21,24 @@ export class APP_UTILITIES {
 
         keys = Object.keys(data[0]);
 
+        // put the headers array in the same order as the data keys
+        keys.forEach(function(item){
+            let obj = args.headers.filter(function ( obj ) {
+                return obj.name == item;
+            })[0];
+            headers.push(obj.descr);
+        });
+
+        // remove keys that aren't in the headers array, ensuring those data columns won't be exported
+        // keys.forEach(function(item){
+        //     if (headers.indexOf(item) < 0) {
+        //         let ndx = keys.indexOf(item);
+        //         keys.splice(ndx, 1);
+        //     }
+        // });
+
         result = '';
-        result += (args.headers) ? args.headers.join(columnDelimiter) : keys.join(columnDelimiter);
+        result += (args.headers) ? headers.join(columnDelimiter) : keys.join(columnDelimiter);
         result += lineDelimiter;
 
         data.forEach(function (item) {
@@ -65,8 +83,20 @@ export class APP_UTILITIES {
         link.click();
     }
 
-    // the following function found here: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
-    public static dynamicSortMultiple() {
+    // the following functions found here: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
+    public static dynamicSort(property) {
+        let sortOrder = 1;
+        if (property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a, b) {
+            let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
+    }
+
+    public static dynamicSortMultiple(args) {
         function dynamicSort(property) {
             let sortOrder = 1;
             if (property[0] === "-") {
@@ -84,7 +114,8 @@ export class APP_UTILITIES {
          * note that arguments object is an array-like object
          * consisting of the names of the properties to sort by
          */
-        let props = arguments;
+        //let props = arguments;
+        let props = args;
         return function (obj1, obj2) {
             let i = 0, result = 0, numberOfProperties = props.length;
             /* try getting a different result from 0 (equal)
