@@ -78,6 +78,7 @@ export class WorkbenchDetailComponent{
     editCommentID: number;
     private _isNewCase: Boolean = false;
     private _errorMessage: string;
+    private _today = new Date();
 
     private _userFields:string[] = ['analyst', 'qc_reviewer', 'fws_reviewer'];
     private _debug: Boolean = false;
@@ -169,18 +170,6 @@ export class WorkbenchDetailComponent{
             else {controls[fields[i]] = new FormControl({value: "", disabled: false});}
         }
         return controls;
-    }
-
-    // Show toast
-    // Set innerHTML of toast element before showing
-    // toast.innerHTML = dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!";
-    private showToast() {
-        let toast = <HTMLElement> document.querySelector("#cbra_toast");
-        toast.className = "cbraToast toastVisible";
-        setTimeout(function(){ 
-            toast.className = "cbraToast";
-            toast.innerHTML = "";
-        }, 3000);
     }
 
     private _updateControls(fields, controls, values): void {
@@ -504,9 +493,11 @@ export class WorkbenchDetailComponent{
 
     myDatePickerOptions: IMyOptions = {
         dateFormat: 'mm/dd/yyyy',
+        disableSince: {year: this._today.getFullYear(), month: this._today.getMonth() + 1, day: this._today.getDate() + 1}
     };
 
     public validateDate(thisDateControl, thisDate) {
+        if (this.notready) {return false;}
         if (typeof thisDate === 'undefined') {return false;}
         if (typeof thisDate === 'object') {
             if (thisDate.year == 0) {return false;}
@@ -517,7 +508,7 @@ export class WorkbenchDetailComponent{
         let thisDateAsDate = new Date(thisDate);
         if (thisDateAsDate.getFullYear() < 1000  || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 1 || thisDateAsDate.getMonth() > 12 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
             //alert(thisDateAsDate.toISOString().substr(0,10) + " is not a valid date. Please enter a valid date.");
-            this._showToast(thisDateAsDate.toISOString().substr(0,10) + " is not a valid date. Please enter a valid date.");
+            this._showToast(thisDate + " (" + thisDateAsDate.toISOString().substr(0,10) + ") is not a valid date. Please enter a valid date.");
             return false;
         }
         // establish two parallel arrays of the date controls and their labels
@@ -851,7 +842,7 @@ export class WorkbenchDetailComponent{
 
     // Fullscreen file drag on dragover
     // Show the dropzone when dragging files (not folders or page
-    // elements). The dropzone is hidden after a timer to prevent 
+    // elements). The dropzone is hidden after a timer to prevent
     // flickering to occur as `dragleave` is fired constantly.
     // var dragTimer;
     // $(document).on('dragover', function(e) {
