@@ -17,6 +17,7 @@ export class Case {
         public determination?: number,
         public determination_string?: string,
         public prohibition_date?: Date,
+        public prohibition_date_mdy?: string,
         public distance?: number,
         public fws_fo_received_date?: Date,
         public fws_hq_received_date?: Date,

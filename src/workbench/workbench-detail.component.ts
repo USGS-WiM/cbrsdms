@@ -78,6 +78,7 @@ export class WorkbenchDetailComponent{
     editCommentID: number;
     private _isNewCase: Boolean = false;
     private _errorMessage: string;
+    private _today = new Date();
 
     private _userFields:string[] = ['analyst', 'qc_reviewer', 'fws_reviewer'];
     private _debug: Boolean = false;
@@ -492,9 +493,11 @@ export class WorkbenchDetailComponent{
 
     myDatePickerOptions: IMyOptions = {
         dateFormat: 'mm/dd/yyyy',
+        disableSince: {year: this._today.getFullYear(), month: this._today.getMonth() + 1, day: this._today.getDate() + 1}
     };
 
     public validateDate(thisDateControl, thisDate) {
+        if (this.notready) {return false;}
         if (typeof thisDate === 'undefined') {return false;}
         if (typeof thisDate === 'object') {
             if (thisDate.year == 0) {return false;}
@@ -505,7 +508,7 @@ export class WorkbenchDetailComponent{
         let thisDateAsDate = new Date(thisDate);
         if (thisDateAsDate.getFullYear() < 1000  || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 1 || thisDateAsDate.getMonth() > 12 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
             //alert(thisDateAsDate.toISOString().substr(0,10) + " is not a valid date. Please enter a valid date.");
-            this._showToast(thisDateAsDate.toISOString().substr(0,10) + " is not a valid date. Please enter a valid date.");
+            this._showToast(thisDate + " (" + thisDateAsDate.toISOString().substr(0,10) + ") is not a valid date. Please enter a valid date.");
             return false;
         }
         // establish two parallel arrays of the date controls and their labels
@@ -837,13 +840,36 @@ export class WorkbenchDetailComponent{
         else {this._caseControls["final_letter_date"].setValue("");}
     }
 
+    // Fullscreen file drag on dragover
+    // Show the dropzone when dragging files (not folders or page
+    // elements). The dropzone is hidden after a timer to prevent
+    // flickering to occur as `dragleave` is fired constantly.
+    // var dragTimer;
+    // $(document).on('dragover', function(e) {
+    //     var dt = e.originalEvent.dataTransfer;
+    //     if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('Files'))) {
+    //         document.getElementById("casefiledrag").className = "fullScreenFileDrag";
+    //         window.clearTimeout(dragTimer);
+    //     }
+    // });
+    // $(document).on('dragleave', function(e) {
+    //     dragTimer = window.setTimeout(function() {
+    //         document.getElementById("casefiledrag").className = "";
+    //     }, 25);
+    // });
+    expandDropZone() {
+        document.getElementById("casefiledrag").className = "fullScreenFileDrag";
+    }
+
     fileDragHover(fileInput) {
         fileInput.stopPropagation();
         fileInput.preventDefault();
+        // document.getElementById("casefiledrag").className = "fullScreenFileDrag";
         //fileInput.target.className = (fileInput.type == "dragover" ? "hover" : "");
     }
 
     casefileSelectHandler(fileInput: any){
+        document.getElementById("casefiledrag").className = "";
         //this.notready = true;
         this.fileDragHover(fileInput);
         let selectedFiles = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;
