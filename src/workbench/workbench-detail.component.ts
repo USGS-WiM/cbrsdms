@@ -137,10 +137,10 @@ export class WorkbenchDetailComponent{
     private _showToast(message: string, timeout?: number) {
         let toast = <HTMLElement> document.querySelector("#cbra_toast");
         toast.className = "cbraToast toastVisible";
+        toast.innerHTML = message;
         setTimeout(function(){
             toast.className = "cbraToast";
-            toast.innerHTML = message;
-        }, (timeout ? timeout : 3000));
+        }, (timeout ? timeout : 5000));
     }
 
     private _makeControls(fields) {
