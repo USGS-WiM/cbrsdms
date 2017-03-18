@@ -1060,6 +1060,14 @@ export class WorkbenchDetailComponent{
 
         }
 
+        else if (this._filesToUpload) {
+            this._callCreateCasefiles();
+        }
+
+        else if (this._finalletterToUpload) {
+            this._callCreateFinalLetter();
+        }
+
         // reset the form
         this.active = false;
         setTimeout(()=> { this.notready = false; this.active=true; }, 1000);
