@@ -194,11 +194,10 @@
 
 
                         <div *ngIf="!noxhr" class="col-xs-12 nopadd" style="background-color: white" id="finalletterfiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="finalletterSelectHandler($event)">
-                            <div class="file-group" *ngIf="finalletterShow">
+                            <div class="file-group">
                                 <label class="label fifty" style="border-top: 1px solid #E8E8E8;" for="finalletter">Final Letter</label><!--
                                 --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload</label><!--
-                                --><label class="bb" style="width:25%; border-top: 1px solid #E8E8E8;" *ngIf="myCase.status != 'Awaiting Final Letter' && myCase.status != 'Awaiting Level 2 QC'"></label><!--
-                                --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'">Draft</label>
+                                --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft</label>
 
                                 <div style="color: lightgray; text-align: center; padding-top:10px;">or drop file here<br/><br/></div>
 
@@ -217,7 +216,7 @@
                                     </div>
 
                                     <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
-                                    <input class="custom-file-input" id="draftletter" type="button" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'" (click)="generateLetter()" />
+                                    <input class="custom-file-input" id="draftletter" type="button" (click)="generateLetter()" />
                                 </div>
 
                             </div>
@@ -226,11 +225,10 @@
 
 
                         <div *ngIf="noxhr" class="col-xs-12" style="background-color: white">
-                            <div class="file-group" *ngIf="finalletterShow">
+                            <div class="file-group">
                                 <label class="label fifty" style="border-top: 1px solid #E8E8E8;" for="finalletter">Final Letter</label><!--
                                 --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload Letter</label><!--
-                                --><label class="bb" style="width:25%; border-top: 1px solid #E8E8E8;" *ngIf="myCase.status != 'Awaiting Final Letter' && myCase.status != 'Awaiting Level 2 QC'"></label><!--
-                                --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'">Draft Letter</label>
+                                --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft Letter</label>
 
                                 <div style="color: lightgray; padding-top:10px; text-align: center;">or drop file here<br/><br/></div>
 
@@ -249,7 +247,7 @@
                                     </div>
 
                                     <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
-                                    <input class="custom-file-input" id="draftletter" type="button" *ngIf="myCase.status == 'Awaiting Final Letter' || myCase.status == 'Awaiting Level 2 QC'" (click)="generateLetter()" />
+                                    <input class="custom-file-input" id="draftletter" type="button" (click)="generateLetter()" />
                                 </div>
 
                             </div>

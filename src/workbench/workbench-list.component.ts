@@ -24,8 +24,9 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     private _cases: Case[];
     cases_properties = [];
     columns: Column[];
-    notready: Boolean = true;
-    hideFilter: Boolean = true;
+    notready: boolean = true;
+    hideFilter: boolean = true;
+    noCasesFound: boolean = false;
     private _errorMessage: string;
 
     constructor (
@@ -121,6 +122,10 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
                                 if (!newUrlSearchParams) {this._router.navigate(['/workbench']);}
                             }
                         }
+                        this.noCasesFound = false;
+                    }
+                    else {
+                        this.noCasesFound = true;
                     }
                     this._sortAndShow();
                 },
@@ -157,6 +162,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             new Column('street', 'Street Address'),
             new Column('city', 'City'),
             new Column('priority', 'Priority'),
+            new Column('duplicate', 'Duplicate of'),
         ];
     }
 
