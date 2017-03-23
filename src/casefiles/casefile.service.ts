@@ -45,6 +45,8 @@ export class CasefileService {
         });
     }
 
+    deleteCaseFile() {}
+
     private handleError (error: any) {
         // TODO figure out a better error handler
         // in a real world app, we may send the server to some remote logging infrastructure

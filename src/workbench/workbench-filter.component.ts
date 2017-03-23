@@ -103,6 +103,7 @@ export class WorkbenchFilterComponent implements OnInit {
                 }
             }
         }
+        if (!this.myWorkbenchFilter.status) {this.myWorkbenchFilter.status = "Open";}
         this.selectedTag = typeof this.myWorkbenchFilter.tags !== 'undefined' && this.myWorkbenchFilter.tags.length > 0 ? this.myWorkbenchFilter.tags[0] : null;
         setTimeout(() => this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, this.myWorkbenchFilter), 0);
         this.filternotready = false;

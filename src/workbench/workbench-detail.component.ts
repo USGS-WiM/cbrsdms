@@ -65,7 +65,6 @@ export class WorkbenchDetailComponent{
     filesToUploadDetails: Object[] = [];
     private _finalletterToUpload: File;
     finalletterToUploadDetails: Object;
-    finalletterShow: Boolean = false;
     caseFileClass: string = "col-md-4";
     active = true;
     notready: Boolean = true;
@@ -323,7 +322,6 @@ export class WorkbenchDetailComponent{
             .subscribe(
                 acase => {
                     this.myCase = acase;
-                    this._checkFinalletterStatus();
                     if(this._debug){console.log("1: "+APP_UTILITIES.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
                     //this.selectedMap = this.myCase.map_number;
                     this.selectedAnalyst = acase.analyst;
@@ -498,16 +496,14 @@ export class WorkbenchDetailComponent{
 
     public validateDate(thisDateControl, thisDate) {
         if (this.notready) {return false;}
-        if (typeof thisDate === 'undefined') {return false;}
+        if (typeof thisDate === 'undefined' || thisDate === null || thisDate === "") {return false;}
         if (typeof thisDate === 'object') {
             if (thisDate.year == 0) {return false;}
-            else {thisDate = ("0" + thisDate.year).slice(-4) + "-" + ("0" + thisDate.month).slice(-2) + "-" + ("0" + thisDate.day).slice(-2);}
+            else {thisDate = ("0000" + thisDate.year).slice(-4) + "-" + ("00" + thisDate.month).slice(-2) + "-" + ("00" + thisDate.day).slice(-2);}
         }
         // ensure the date value is a valid date by converting it to a date object and testing the constituent date values
-        // (the date value is sent from the form in ISO format ('YYYY-MM-DD'))
         let thisDateAsDate = new Date(thisDate);
         if (thisDateAsDate.getFullYear() < 1000  || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 1 || thisDateAsDate.getMonth() > 12 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
-            //alert(thisDateAsDate.toISOString().substr(0,10) + " is not a valid date. Please enter a valid date.");
             this._showToast(thisDate + " (" + thisDateAsDate.toISOString().substr(0,10) + ") is not a valid date. Please enter a valid date.");
             return false;
         }
@@ -521,38 +517,108 @@ export class WorkbenchDetailComponent{
         // if this date control is the last or a middle date control in the array (i.e., not the first)
         if (thisDateControlIndex != 0) {
             // determine the previous date control and its value
-            prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
-            prevDate = this._caseControls[prevDateControl].value;
-            // if the previous date has not been entered, the user should not be allowed to enter a value in the current date control
-            if (!prevDate) {
-                // warn the user of the invalid date selection
-                //alert(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex-1] + " has been entered!");
-                this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex-1] + " has been entered!");
-                // clear the current date control value
-                //this.updateCaseControlValue(thisDateControl, null);
-                // short circuit this validation function and exit
-                return false;
+            // if the previous date has not been entered, the user should not be allowed to enter a value in the current date control,
+            // except for Close Date (Final Letter Date and/or Level 2 QC Signoff Date can be null) and Final Letter Date (Level 2 QC Signoff Date can be null)
+            if (thisDateControl == "close_date") {
+                prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
+                prevDate = this._caseControls[prevDateControl].value;
+                if (!prevDate) {
+                    prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-2];
+                    prevDate = this._caseControls[prevDateControl].value;
+                    if (!prevDate) {
+                        prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-3];
+                        prevDate = this._caseControls[prevDateControl].value;
+                        if (!prevDate) {
+                            // warn the user of the invalid date selection
+                            this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 3] + " has been entered!");
+                            // clear the current date control value
+                            //this.updateCaseControlValue(thisDateControl, null);
+                            // short circuit this validation function and exit
+                            return false;
+                        }
+                    }
+                }
             }
-            //alert(prevDateControl + ": " + prevDate);
-            //this._showToast(prevDateControl + ": " + prevDate);
+            else if (thisDateControl == "final_letter_date") {
+                prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
+                prevDate = this._caseControls[prevDateControl].value;
+                if (!prevDate) {
+                    prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-2];
+                    prevDate = this._caseControls[prevDateControl].value;
+                    if (!prevDate) {
+                        // warn the user of the invalid date selection
+                        this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 2] + " has been entered!");
+                        // clear the current date control value
+                        //this.updateCaseControlValue(thisDateControl, null);
+                        // short circuit this validation function and exit
+                        return false;
+                    }
+                }
+            }
+            else {
+                prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
+                prevDate = this._caseControls[prevDateControl].value;
+                if (!prevDate) {
+                    // warn the user of the invalid date selection
+                    this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 1] + " has been entered!");
+                    // clear the current date control value
+                    //this.updateCaseControlValue(thisDateControl, null);
+                    // short circuit this validation function and exit
+                    return false;
+                }
+            }
         }
+
         // if this date control is the first or a middle date control in the array (i.e., not the last)
         if (thisDateControlIndex != dateControls.length-1) {
             // determine the next date control and its value
-            nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+1];
-            nextDate = this._caseControls[nextDateControl].value;
+            if (thisDateControl == "close_date") {
+                nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+1];
+                nextDate = this._caseControls[nextDateControl].value;
+                if (!nextDate) {
+                    nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+2];
+                    nextDate = this._caseControls[nextDateControl].value;
+                    if (!nextDate) {
+                        nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+3];
+                        nextDate = this._caseControls[nextDateControl].value;
+                    }
+                }
+            }
+            else if (thisDateControl == "final_letter_date") {
+                nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+1];
+                nextDate = this._caseControls[nextDateControl].value;
+                if (!nextDate) {
+                    nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+2];
+                    nextDate = this._caseControls[nextDateControl].value;
+                }
+            }
+            else {
+                nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+1];
+                nextDate = this._caseControls[nextDateControl].value;
+            }
             // (note that it is possible (and expected, in a normal workflow) that the next date does not yet exist, which is perfectly valid
         }
 
         // finally, validate the chronology of the entered dates
 
+        // convert prevDate and nextDate to actual date values in order to properly compare them
+        if (typeof prevDate !== 'undefined' && prevDate !== null && prevDate !== "" && typeof prevDate === 'object') {
+            if (prevDate.date.year == 0) {return false;}
+            else {prevDate = ("0000" + prevDate.date.year).slice(-4) + "-" + ("00" + prevDate.date.month).slice(-2) + "-" + ("00" + prevDate.date.day).slice(-2);}
+        }
+        if (typeof nextDate !== 'undefined' && nextDate !== null && nextDate !== "" && typeof nextDate === 'object') {
+            if (nextDate.date.year == 0) {return false;}
+            else {nextDate = ("0000" + nextDate.date.year).slice(-4) + "-" + ("00" + nextDate.date.month).slice(-2) + "-" + ("00" + nextDate.date.day).slice(-2);}
+        }
+
         // if this date control is the last date control in the array,
         // check if the current date is not null and predates the previous date (which is invalid)
-        // (note that the previous date MUST exist (in all cases except Close Date and Awaiting Final Letter Date))
+        // (note that the previous date MUST exist (although it could be Final Letter Date, Level 2 QC Signoff Date, or Level 1 QC Signoff Date))
         if (thisDate && thisDateControlIndex == dateControls.length-1 && (thisDate < prevDate)) {
             // warn the user of the invalid date selection
-            //alert(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!");
-            this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!");
+            if (prevDateControl == "final_letter_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 3] + "!");}
+            if (prevDateControl == "fws_reviewer_signoff_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 2] + "!");}
+            else {this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 1] + "!");}
             // clear the current date control value
             //this.updateCaseControlValue(thisDateControl, null);
         }
@@ -561,7 +627,6 @@ export class WorkbenchDetailComponent{
         // (note that the next date MAY OR MAY NOT exist)
         else if (thisDateControlIndex == 0 && nextDate && (thisDate > nextDate)) {
             // warn the user of the invalid date selection
-            //alert(dateControlLabels[thisDateControlIndex] + " can not be later than " + dateControlLabels[thisDateControlIndex+1] + "!");
             this._showToast(dateControlLabels[thisDateControlIndex] + " can not be later than " + dateControlLabels[thisDateControlIndex+1] + "!");
             // clear the current date control value
             //this.updateCaseControlValue(thisDateControl, null);
@@ -572,16 +637,17 @@ export class WorkbenchDetailComponent{
             // if the next date does not yet exist, which is perfectly valid, check if the current date is not null and predates the previous date (which is invalid)
             if (!nextDate && thisDate && (thisDate < prevDate)) {
                 // warn the user of the invalid date selection
-                //alert(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!");
                 this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!");
                 // clear the current date control value
                 //this.updateCaseControlValue(thisDateControl, null);
             }
             // else check if the current date is not null and predates the previous date, or postdates the next date (both of which are invalid)
-            else if ((thisDate && (thisDate < prevDate)) || thisDate > nextDate) {
+            else if ((thisDate && (thisDate < prevDate)) || (nextDate && (thisDate > nextDate))) {
                 // warn the user of the invalid date selection
-                //alert(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 1] + "!");
-                this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 1] + "!");
+                if (thisDateControl == "qc_reviewer_signoff_date" && nextDateControl == "close_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 3] + "!");}
+                if (thisDateControl == "fws_reviewer_signoff_date" && nextDateControl == "close_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 2] + "!");}
+                if (thisDateControl == "final_letter_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 2] + " and " + dateControlLabels[thisDateControlIndex + 1] + "!");}
+                else {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 1] + "!");}
                 // clear the current date control value
                 //this.updateCaseControlValue(thisDateControl, null);
             }
@@ -946,10 +1012,6 @@ export class WorkbenchDetailComponent{
             );
     }
 
-    private _checkFinalletterStatus() {
-        this.finalletterShow = (this.myCase.status == 'Awaiting Level 2 QC' || this.myCase.status == 'Awaiting Final Letter' || this.myCase.status == 'Final' || this.myCase.status == 'Closed with no Final Letter');
-    }
-
     generateLetter () {
         this._caseService.createFinalLeter(this.case_ID)
             .then(function(data) {
@@ -984,10 +1046,11 @@ export class WorkbenchDetailComponent{
     //onSubmit () {this.updateValues(this.myCase_fields, this.caseControls, this.myCase)}
 
     onSubmit (form) {
+
+        this.notready = true;
+
         // check each formControl group for changes, then send the changed objects to their respective services
         if (form.dirty) {
-
-            this.notready = true;
 
             let changedCaseGroup = form.controls.casegroup;
             let changedPropertyGroup = form.controls.propertygroup;
@@ -998,22 +1061,84 @@ export class WorkbenchDetailComponent{
 
                 if (changedCaseGroup.dirty) {
                     // for each date field, replace empty string with null (Django Date fields don't allow empty strings)
-                    if (changedCaseGroup.controls.request_date.value === "") {changedCaseGroup.controls.request_date.setValue(null);}
-                    if (changedCaseGroup.controls.cbrs_map_date.value === "") {changedCaseGroup.controls.cbrs_map_date.setValue(null);}
-                    if (changedCaseGroup.controls.prohibition_date.value === "") {changedCaseGroup.controls.prohibition_date.setValue(null);}
-                    if (changedCaseGroup.controls.fws_fo_received_date.value === "") {changedCaseGroup.controls.fws_fo_received_date.setValue(null);}
-                    if (changedCaseGroup.controls.fws_hq_received_date.value === "") {changedCaseGroup.controls.fws_hq_received_date.setValue(null);}
-                    if (changedCaseGroup.controls.final_letter_date.value === "") {changedCaseGroup.controls.final_letter_date.setValue(null);}
-                    if (changedCaseGroup.controls.close_date.value === "") {changedCaseGroup.controls.close_date.setValue(null);}
-                    if (changedCaseGroup.controls.analyst_signoff_date.value === "") {changedCaseGroup.controls.analyst_signoff_date.setValue(null);}
-                    if (changedCaseGroup.controls.qc_reviewer_signoff_date.value === "") {changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(null);}
-                    if (changedCaseGroup.controls.fws_reviewer_signoff_date.value === "") {changedCaseGroup.controls.fws_reviewer_signoff_date.setValue(null);}
+                    // and for all date fields with values, reformat from mm/dd/yyyy to yyyy-mm-dd
+                    // note that cbrs_map_date and prohibition_date are slightly different, since they're plain text and not mydatepicker objects
+                    let thisDate = changedCaseGroup.controls.request_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.request_date.setValue(null);}
+                    else if (thisDate !== null) {
+                        thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
+                        changedCaseGroup.controls.request_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.cbrs_map_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.cbrs_map_date.setValue(null);}
+                    thisDate = changedCaseGroup.controls.prohibition_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.prohibition_date.setValue(null);}
+                    thisDate = changedCaseGroup.controls.fws_fo_received_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.fws_fo_received_date.setValue(null);}
+                    else if (thisDate !== null) {
+                       thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
+                        changedCaseGroup.controls.fws_fo_received_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.fws_hq_received_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.fws_hq_received_date.setValue(null);}
+                    else if (thisDate !== null) {
+                        thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
+                        changedCaseGroup.controls.fws_hq_received_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.final_letter_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.final_letter_date.setValue(null);}
+                    else if (thisDate !== null) {
+                        thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
+                        changedCaseGroup.controls.final_letter_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.close_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.close_date.setValue(null);}
+                    else if (thisDate !== null) {
+                        thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
+                        changedCaseGroup.controls.close_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.analyst_signoff_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.analyst_signoff_date.setValue(null);}
+                    else if (thisDate !== null) {
+                        thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
+                        changedCaseGroup.controls.analyst_signoff_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.qc_reviewer_signoff_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(null);}
+                    else if (thisDate !== null) {
+                        thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
+                        changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.fws_reviewer_signoff_date.value;
+                    if (thisDate === "") {changedCaseGroup.controls.fws_reviewer_signoff_date.setValue(null);}
+                    else if (thisDate !== null) {
+                        thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
+                        changedCaseGroup.controls.fws_reviewer_signoff_date.setValue(thisDate);
+                    }
+
+                    // if (changedCaseGroup.controls.cbrs_map_date.value === "") {changedCaseGroup.controls.cbrs_map_date.setValue(null);}
+                    // if (changedCaseGroup.controls.prohibition_date.value === "") {changedCaseGroup.controls.prohibition_date.setValue(null);}
+                    // if (changedCaseGroup.controls.fws_fo_received_date.value === "") {changedCaseGroup.controls.fws_fo_received_date.setValue(null);}
+                    // if (changedCaseGroup.controls.fws_hq_received_date.value === "") {changedCaseGroup.controls.fws_hq_received_date.setValue(null);}
+                    // if (changedCaseGroup.controls.final_letter_date.value === "") {changedCaseGroup.controls.final_letter_date.setValue(null);}
+                    // if (changedCaseGroup.controls.close_date.value === "") {changedCaseGroup.controls.close_date.setValue(null);}
+                    // if (changedCaseGroup.controls.analyst_signoff_date.value === "") {changedCaseGroup.controls.analyst_signoff_date.setValue(null);}
+                    // if (changedCaseGroup.controls.qc_reviewer_signoff_date.value === "") {changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(null);}
+                    // if (changedCaseGroup.controls.fws_reviewer_signoff_date.value === "") {changedCaseGroup.controls.fws_reviewer_signoff_date.setValue(null);}
+                    //
+                    // for (let ctl of changedCaseGroup.controls) {
+                    //     if (ctl.slice(-4) == "date" && changedCaseGroup.controls[ctl].value) {
+                    //         let val = changedCaseGroup.controls[ctl].value;
+                    //         let isoDate = val.year + "-" + val.month + "-" + val.day;
+                    //         changedCaseGroup.controls[ctl].setValue(isoDate);
+                    //     }
+                    // }
+
                     this._caseService.updateCase(changedCaseGroup.value)
                         .subscribe(
                             acase => {
                                 //this._getCase(this.case_ID);
                                 this.myCase = acase;
-                                this._checkFinalletterStatus();
                                 //this._caseControls['priority'].setValue(this.myCase.priority);
                                 this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                                 if (this._filesToUpload) {
@@ -1070,7 +1195,7 @@ export class WorkbenchDetailComponent{
 
         // reset the form
         this.active = false;
-        setTimeout(()=> { this.notready = false; this.active=true; }, 1000);
+        setTimeout(()=> { this.notready = false; this.active=true; }, 5000);
     }
 
     private _createCase(form) {
