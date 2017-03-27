@@ -42,8 +42,8 @@ export class ReportCountCasesByStatus implements OnInit {
     private _getCaseCounts() {
         this._reportCaseCountService.getReportCaseCounts()
             .subscribe(
-                casecounts => {
-                    this.reportcases = casecounts;
+                reportcases => {
+                    this.reportcases = reportcases;
                     this._show();
                 },
                 error => this._errorMessage = <any>error

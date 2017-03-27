@@ -45,7 +45,11 @@ export class CasefileService {
         });
     }
 
-    deleteCaseFile() {}
+    deleteCasefile(casefileid: number) {
+        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+
+        return this.http.delete(APP_SETTINGS.CASEFILES_URL+casefileid+'/', options);
+    }
 
     private handleError (error: any) {
         // TODO figure out a better error handler

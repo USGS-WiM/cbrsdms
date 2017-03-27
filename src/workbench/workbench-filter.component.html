@@ -127,6 +127,7 @@
                                 --><div class="slct">
                                     <select id="duplicate" formControlName="duplicate" style="width:120px">
                                         <option value=""></option>
+                                        <option value="none">None</option>
                                         <option *ngFor="let caseID of myCaseIDs" [value]="caseID.id" [selected]="caseID.id == myWorkbenchFilter.case_number">{{caseID.id}}</option>
                                     </select>
                                 </div>
