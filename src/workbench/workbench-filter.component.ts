@@ -180,9 +180,11 @@ export class WorkbenchFilterComponent implements OnInit {
             this.filternotready = true;
             let wbf = {};
             let urlSearchParams = 'view=workbench';
-            // if (form.controls.workbenchfiltergroup.controls['status'].value === undefined) {
-            //     urlSearchParams += '&status=Open';
-            // }
+            // the following check is a hack because the Status field is set to Open by default,
+            // meaning it doesn't make the form dirty because the field may not have changed value
+            if (form.controls.workbenchfiltergroup.controls['status'].value == 'Open') {
+                urlSearchParams += '&status=Open';
+            }
             for (let i = 0, j = this._myWorkbenchFilter_fields.length; i < j; i++) {
                 let field = form.controls.workbenchfiltergroup.controls[this._myWorkbenchFilter_fields[i]];
                 if (field.dirty && field.value != null && field.value != '') {

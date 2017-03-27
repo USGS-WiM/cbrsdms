@@ -98,9 +98,9 @@
                                     <option *ngFor="let map of mySystemmaps" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.map_number}}</option>
                                 </select>
                             </div>
-                            <div class="col-md-2 dms-form-group bb">
+                            <div class="col-md-2 dms-form-group bb br">
                                 <label for="cbrs_map_date">Map Date</label>
-                                <input id="cbrs_map_date" type="date" formControlName="cbrs_map_date" readonly>
+                                <input id="cbrs_map_date" formControlName="cbrs_map_date" readonly>
                                 <!--<select id="cbrs_map_date" class="form-control">-->
                                 <!--    <option *ngFor="let mapdate of availableSystemmapdates" [value]="mapdate.id">{{mapdate.map_date}}</option>-->
                                 <!--</select>-->
@@ -143,6 +143,7 @@
                                         <ul id="casefiles" *ngIf="myCasefiles.length > 0">
                                             <li *ngFor="let casefile of myCasefiles">
                                                 <a target="_blank" [href]="casefile.file" *ngIf="!casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                                <button type="button" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
                                             </li>
                                         </ul>
                                     </div>
@@ -172,6 +173,7 @@
                                         <ul id="casefiles" *ngIf="myCasefiles.length > 0">
                                             <li *ngFor="let casefile of myCasefiles">
                                                 <a target="_blank" [href]="casefile.file" *ngIf="!casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                                <button type="button" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
                                             </li>
                                         </ul>
                                     </div>
@@ -205,13 +207,14 @@
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
                                         <li *ngFor="let casefile of myCasefiles">
                                             <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                            <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
                                         </li>
                                     </ul>
                                 </div>
 
                                 <div class="col-xs-12 col-md-6 filepad">
                                     <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">
-                                        <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }} MBs</span>
+                                        <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }}</span>
                                         <button type="button" (click)="removeFinalLetter()">-</button>
                                     </div>
 
@@ -236,6 +239,7 @@
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
                                         <li *ngFor="let casefile of myCasefiles">
                                             <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                            <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
                                         </li>
                                     </ul>
                                 </div>

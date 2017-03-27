@@ -176,6 +176,7 @@ export class WorkbenchDetailComponent{
             let field = fields[i];
             if (field.slice(-4) == "date" && values[field] != null && field != "cbrs_map_date" && field != "prohibition_date") {
                 let thisDate = new Date(values[field]);
+                thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset()*60000));
                 controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
             }
             else {
@@ -503,6 +504,7 @@ export class WorkbenchDetailComponent{
         }
         // ensure the date value is a valid date by converting it to a date object and testing the constituent date values
         let thisDateAsDate = new Date(thisDate);
+        thisDateAsDate = new Date(thisDateAsDate.getTime() + Math.abs(thisDateAsDate.getTimezoneOffset()*60000));
         if (thisDateAsDate.getFullYear() < 1000  || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 1 || thisDateAsDate.getMonth() > 12 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
             this._showToast(thisDate + " (" + thisDateAsDate.toISOString().substr(0,10) + ") is not a valid date. Please enter a valid date.");
             return false;
@@ -518,7 +520,8 @@ export class WorkbenchDetailComponent{
         if (thisDateControlIndex != 0) {
             // determine the previous date control and its value
             // if the previous date has not been entered, the user should not be allowed to enter a value in the current date control,
-            // except for Close Date (Final Letter Date and/or Level 2 QC Signoff Date can be null) and Final Letter Date (Level 2 QC Signoff Date can be null)
+            // except for Close Date (Final Letter Date and/or Level 2 QC Signoff Date can be null), Final Letter Date (Level 2 QC Signoff Date can be null),
+            // and Headquarters Received Date (Field Office Received Date seems to be null in a majority of cases)
             if (thisDateControl == "close_date") {
                 prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
                 prevDate = this._caseControls[prevDateControl].value;
@@ -540,6 +543,22 @@ export class WorkbenchDetailComponent{
                 }
             }
             else if (thisDateControl == "final_letter_date") {
+                prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
+                prevDate = this._caseControls[prevDateControl].value;
+                if (!prevDate) {
+                    prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-2];
+                    prevDate = this._caseControls[prevDateControl].value;
+                    if (!prevDate) {
+                        // warn the user of the invalid date selection
+                        this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 2] + " has been entered!");
+                        // clear the current date control value
+                        //this.updateCaseControlValue(thisDateControl, null);
+                        // short circuit this validation function and exit
+                        return false;
+                    }
+                }
+            }
+            else if (thisDateControl == "fws_hq_received_date") {
                 prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
                 prevDate = this._caseControls[prevDateControl].value;
                 if (!prevDate) {
@@ -953,7 +972,7 @@ export class WorkbenchDetailComponent{
     finalletterSelectHandler(fileInput: any){
         //this.notready = true;
         this.fileDragHover(fileInput);
-        this._finalletterToUpload = <File> fileInput.target.files[0] || fileInput.dataTransfer.files[0];
+        this._finalletterToUpload = <Array<File>> fileInput.target.files[0] || fileInput.dataTransfer.files[0];
         this.finalletterToUploadDetails = {'name': this._finalletterToUpload.name};//, 'size': ((this._finalletterToUpload.size)/1024/1024).toFixed(3)};
         //this.notready = false;
     }
@@ -966,6 +985,13 @@ export class WorkbenchDetailComponent{
     removeFinalLetter() {
         this._finalletterToUpload = undefined;
         this.finalletterToUploadDetails = undefined;
+    }
+
+    deleteCasefile(casefileid) {
+        this._casefileService.deleteCasefile(casefileid)
+            .subscribe(
+                response => {this._getCasefiles(this.myCase.id);},
+                error => this._errorMessage = <any>error);
     }
 
     private _callCreateCasefiles () {

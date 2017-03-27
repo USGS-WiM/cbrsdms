@@ -1,14 +1,28 @@
 <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
 <div [hidden]="notready">
     <div align="center">
-        <label for="cbrs_unit">CBRS Unit</label>
-        <select id="cbrs_unit" (change)="onFilter(newUnit.value)" #newUnit>
+        <label for="cbrs_unit_top">CBRS Unit</label>
+        <select id="cbrs_unit_top" (change)="onFilter(newUnitTop.value)" #newUnitTop>
             <option value=""></option>
             <option *ngFor="let unit of systemunits" [value]="unit.id" [selected]="unit.id == selected_unit">{{unit.system_unit_number}}</option>
         </select>
         <br/><br/>
         <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
-        <button class="btn btn-default reports-export-btn" (click)="exportToCSV()"><i class="fa fa-download"></i> Export CSV</button>
+        <button class="btn btn-default reports-export-btn" (click)="prevPage(newUnitTop.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
+        <button class="btn btn-default reports-export-btn" (click)="exportToCSV(newUnitTop.value)"><i class="fa fa-download"></i> Export CSV</button>
+        <button class="btn btn-default reports-export-btn" (click)="nextPage(newUnitTop.value)">Next Page <i class="fa fa-arrow-right"></i></button>
     </div>
     <report-grid [rows]="cases_properties" [columns]="columns"></report-grid>
+    <div align="center">
+        <label for="cbrs_unit_bottom">CBRS Unit</label>
+        <select id="cbrs_unit_bottom" (change)="onFilter(newUnitBottom.value)" #newUnitBottom>
+            <option value=""></option>
+            <option *ngFor="let unit of systemunits" [value]="unit.id" [selected]="unit.id == selected_unit">{{unit.system_unit_number}}</option>
+        </select>
+        <br/><br/>
+        <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
+        <button class="btn btn-default reports-export-btn" (click)="prevPage(newUnitBottom.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
+        <button class="btn btn-default reports-export-btn" (click)="exportToCSV(newUnitBottom.value)"><i class="fa fa-download"></i> Export CSV</button>
+        <button class="btn btn-default reports-export-btn" (click)="nextPage(newUnitBottom.value)">Next Page <i class="fa fa-arrow-right"></i></button>
+    </div>
 </div>
