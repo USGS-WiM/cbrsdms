@@ -943,8 +943,20 @@ export class WorkbenchDetailComponent{
     //     }, 25);
     // });
     expandDropZone() {
-        document.getElementById("casefiledrag").className = "fullScreenFileDrag";
+        var dropzones = document.getElementsByClassName("filedropzone");
+
+        for(var i = 0; i < dropzones.length; ++i){
+            dropzones[i].setAttribute("class", "filedropzone fullScreenFileDrag");
+        }       
     }
+    shrinkDropZone() {
+         var dropzones = document.getElementsByClassName("filedropzone");
+
+        for(var i = 0; i < dropzones.length; ++i){
+            dropzones[i].setAttribute("class", "filedropzone");
+        } 
+    }
+
 
     fileDragHover(fileInput) {
         fileInput.stopPropagation();
@@ -954,7 +966,7 @@ export class WorkbenchDetailComponent{
     }
 
     casefileSelectHandler(fileInput: any){
-        document.getElementById("casefiledrag").className = "";
+        // document.getElementById("casefiledrag").className = "";
         //this.notready = true;
         this.fileDragHover(fileInput);
         let selectedFiles = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;

@@ -1,4 +1,4 @@
-<div class="container cbra-form" (dragover)="expandDropZone($event)">
+<div class="container cbra-form" (dragover)="expandDropZone($event)" (dragleave)="shrinkDropZone($event)">
 
     <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div [hidden]="notready">
@@ -30,7 +30,7 @@
                                 --><label class="bb" style="width:25%"></label><!--
                                 --><label class="file-upload-label" for="casefileSelect">Upload Files</label>
                                 <div class="col-md-12" *ngIf="!noxhr">
-                                    <div id="casefiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">or drop files here <br/><br/></div>
+                                    <div id="casefiledrag" class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">or drop files here <br/><br/></div>
                                 </div>
 
                                 <div class="col-md-12">
@@ -137,7 +137,7 @@
                                     --><label class="bb" style="width:25%"></label><!--
                                     --><label class="file-upload-label" for="casefileSelect">Upload</label>
 
-                                    <div style="color: lightgray; text-align: center; padding-top: 10px;">or drop files here<br/><br/></div>
+                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
 
                                     <div class="col-xs-12 col-md-6 filepad">
                                         <ul id="casefiles" *ngIf="myCasefiles.length > 0">
@@ -167,7 +167,7 @@
                                     --><label class="bb" style="width:25%"></label><!--
                                     --><label class="file-upload-label" for="casefileSelect">Upload</label>
 
-                                    <div style="color: lightgray; text-align: center; padding-top:10px;">or drop files here<br/><br/></div>
+                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
 
                                     <div class="col-xs-12 col-md-6 filepad">
                                         <ul id="casefiles" *ngIf="myCasefiles.length > 0">
@@ -201,7 +201,7 @@
                                 --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload</label><!--
                                 --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft</label>
 
-                                <div style="color: lightgray; text-align: center; padding-top:10px;">or drop file here<br/><br/></div>
+                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
 
                                 <div class="col-xs-12 col-md-6 filepad">
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
@@ -233,7 +233,7 @@
                                 --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload Letter</label><!--
                                 --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft Letter</label>
 
-                                <div style="color: lightgray; padding-top:10px; text-align: center;">or drop file here<br/><br/></div>
+                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
 
                                 <div class="col-md-6 col-xs-12 filepad">
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
