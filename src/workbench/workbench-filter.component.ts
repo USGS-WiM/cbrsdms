@@ -115,7 +115,9 @@ export class WorkbenchFilterComponent implements OnInit {
                 cases => {
                     this.myCaseIDs.length = 0;
                     for (let i = 0, j = cases.length; i < j; i++) {
-                        this.myCaseIDs.push(cases[i]);
+                        if (cases[i].duplicate) {
+                            this.myCaseIDs.push(cases[i]);
+                        }
                     }
                     this.myCaseIDs.sort(APP_UTILITIES.dynamicSort('id'));
                 },
