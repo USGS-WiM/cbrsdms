@@ -591,7 +591,7 @@ export class WorkbenchDetailComponent{
         // if this date control is the first or a middle date control in the array (i.e., not the last)
         if (thisDateControlIndex != dateControls.length-1) {
             // determine the next date control and its value
-            if (thisDateControl == "close_date") {
+            if (thisDateControl == "analyst_signoff_date") {
                 nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+1];
                 nextDate = this._caseControls[nextDateControl].value;
                 if (!nextDate) {
@@ -603,12 +603,23 @@ export class WorkbenchDetailComponent{
                     }
                 }
             }
-            else if (thisDateControl == "final_letter_date") {
+            else if (thisDateControl == "qc_reviewer_signoff_date") {
                 nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+1];
                 nextDate = this._caseControls[nextDateControl].value;
                 if (!nextDate) {
                     nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+2];
                     nextDate = this._caseControls[nextDateControl].value;
+                }
+            }
+            else if (thisDateControl == "final_letter_date") {
+                nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+1];
+                nextDate = this._caseControls[nextDateControl].value;
+                // if close_date is not already set, then set it equal to final_letter_date
+                if (!nextDate) {
+                    let thisDateObj = new Date(thisDate);
+                    thisDateObj = new Date(thisDateObj.getTime() + Math.abs(thisDateObj.getTimezoneOffset()*60000));
+                    this.updateCaseControlValue("close_date", {date: {year: thisDateObj.getFullYear(), month: thisDateObj.getMonth() + 1, day: thisDateObj.getDate()}});
+                    nextDate = thisDate;
                 }
             }
             else {
@@ -620,7 +631,11 @@ export class WorkbenchDetailComponent{
 
         // finally, validate the chronology of the entered dates
 
-        // convert prevDate and nextDate to actual date values in order to properly compare them
+        // convert thisDate, prevDate, and nextDate to actual date values in order to properly compare them
+        if (typeof thisDate !== 'undefined' && thisDate !== null && thisDate !== "" && typeof thisDate === 'object') {
+            if (thisDate.date.year == 0) {return false;}
+            else {thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);}
+        }
         if (typeof prevDate !== 'undefined' && prevDate !== null && prevDate !== "" && typeof prevDate === 'object') {
             if (prevDate.date.year == 0) {return false;}
             else {prevDate = ("0000" + prevDate.date.year).slice(-4) + "-" + ("00" + prevDate.date.month).slice(-2) + "-" + ("00" + prevDate.date.day).slice(-2);}
@@ -672,10 +687,10 @@ export class WorkbenchDetailComponent{
             }
             // else all is well!
             else {
-                // if this date control is Final Letter Date, then also close the case by setting the Close Date to the same date
-                if (thisDateControl == "final_letter_date") {
-                    this.updateCaseControlValue("close_date", thisDate);
-                }
+                // // if this date control is Final Letter Date, then also close the case by setting the Close Date to the same date
+                // if (thisDateControl == "final_letter_date") {
+                //     this.updateCaseControlValue("close_date", thisDate);
+                // }
                 return false;
             }
         }
@@ -947,14 +962,14 @@ export class WorkbenchDetailComponent{
 
         for(var i = 0; i < dropzones.length; ++i){
             dropzones[i].setAttribute("class", "filedropzone fullScreenFileDrag");
-        }       
+        }
     }
     shrinkDropZone() {
          var dropzones = document.getElementsByClassName("filedropzone");
 
         for(var i = 0; i < dropzones.length; ++i){
             dropzones[i].setAttribute("class", "filedropzone");
-        } 
+        }
     }
 
 
@@ -1132,8 +1147,11 @@ export class WorkbenchDetailComponent{
                     thisDate = changedCaseGroup.controls.close_date.value;
                     if (thisDate === "") {changedCaseGroup.controls.close_date.setValue(null);}
                     else if (thisDate !== null) {
-                        thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
-                        changedCaseGroup.controls.close_date.setValue(thisDate);
+                        // it is possible that close_date has already been set to be equal to final_letter_date, in which case it will be a string, otherwise it will be a mydatepicker object
+                        if (typeof thisDate != 'string') {
+                            thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
+                            changedCaseGroup.controls.close_date.setValue(thisDate);
+                        }
                     }
                     thisDate = changedCaseGroup.controls.analyst_signoff_date.value;
                     if (thisDate === "") {changedCaseGroup.controls.analyst_signoff_date.setValue(null);}
