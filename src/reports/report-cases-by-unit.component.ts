@@ -21,7 +21,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     page_size: number = 100;
     private _prevPage: string;
     private _nextPage: string;
-    private _reportcases: ReportCase[];
+    private _reportcases: ReportCase[] = [];
     cases_properties = [];
     systemunits: Systemunit[];
     selected_unit: number;
@@ -88,7 +88,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
                 ndxStart += 5;
                 let ndxEnd = this._prevPage.indexOf("&", ndxStart);
                 ndxEnd == -1 ? prevPageNum = this._prevPage.slice(ndxStart) : prevPageNum = this._prevPage.slice(ndxStart, ndxEnd);
-                let urlSearchParams = (unit.toString() == '') ? 'page='  + prevPageNum + '&report=casesbyunit&format=csv&page_size=' + this.page_size : 'page='  + prevPageNum + '&report=casesbyunit&format=csv&page_size=' + this.page_size + '&cbrs_unit=' + unit.toString();
+                let urlSearchParams = (unit.toString() == '') ? 'page='  + prevPageNum + '&report=casesbyunit' : 'page='  + prevPageNum + '&report=casesbyunit'
                 this._getReportCases(urlSearchParams);
             }
         }
@@ -104,7 +104,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
             let ndxStart = this._nextPage.indexOf("page=") + 5;
             let ndxEnd = this._nextPage.indexOf("&", ndxStart);
             ndxEnd == -1 ? nextPageNum = this._nextPage.slice(ndxStart) : nextPageNum = this._nextPage.slice(ndxStart, ndxEnd);
-            let urlSearchParams = (unit.toString() == '') ? 'page='  + nextPageNum + '&report=casesbyunit&format=csv&page_size=' + this.page_size : 'page='  + nextPageNum + '&report=casesbyunit&format=csv&page_size=' + this.page_size + '&cbrs_unit=' + unit.toString();
+            let urlSearchParams = (unit.toString() == '') ? 'page='  + nextPageNum + '&report=casesbyunit' : 'page='  + nextPageNum + '&report=casesbyunit' + '&cbrs_unit=' + unit.toString();
             this._getReportCases(urlSearchParams);
         }
     }
@@ -163,7 +163,9 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
                         this.page_size < 100 ? this.page_size = 100 : this.page_size;
                         this._prevPage = reportcases.previous;
                         this._nextPage = reportcases.next;
+                        this._reportcases.length = 0;
                         this._reportcases = reportcases.results;
+                        this.cases_properties.length = 0;
                         for (let i = 0, j = this._reportcases.length; i < j; i++) {
                             let case_property: any = this._reportcases[i];
                             let address = case_property.property_string.split(',');

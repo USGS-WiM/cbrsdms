@@ -15,6 +15,7 @@ import * as FileSaver from 'file-saver';
 
 export class ReportDaysToEachStatus implements OnInit {
 
+    paginated = false;
     private _params: any;
     reportcases: ReportCase[];
     page_size: number = 100;
