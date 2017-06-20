@@ -8,9 +8,9 @@
         </select>
         <br/><br/>
         <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
-        <button class="btn btn-default reports-export-btn" (click)="prevPage(newUnitTop.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
-        <button class="btn btn-default reports-export-btn" (click)="exportToCSV(newUnitTop.value)"><i class="fa fa-download"></i> Export CSV</button>
-        <button class="btn btn-default reports-export-btn" (click)="nextPage(newUnitTop.value)">Next Page <i class="fa fa-arrow-right"></i></button>
+        <button type="button" class="btn btn-default reports-export-btn" (click)="prevPage(newUnitTop.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
+        <button type="button" class="btn btn-default reports-export-btn" (click)="exportToCSV(newUnitTop.value)"><i class="fa fa-download"></i> Export CSV</button>
+        <button type="button" class="btn btn-default reports-export-btn" (click)="nextPage(newUnitTop.value)">Next Page <i class="fa fa-arrow-right"></i></button>
     </div>
     <report-grid [rows]="cases_properties" [columns]="columns"></report-grid>
     <div align="center">
@@ -21,8 +21,8 @@
         </select>
         <br/><br/>
         <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
-        <button class="btn btn-default reports-export-btn" (click)="prevPage(newUnitBottom.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
-        <button class="btn btn-default reports-export-btn" (click)="exportToCSV(newUnitBottom.value)"><i class="fa fa-download"></i> Export CSV</button>
-        <button class="btn btn-default reports-export-btn" (click)="nextPage(newUnitBottom.value)">Next Page <i class="fa fa-arrow-right"></i></button>
+        <button type="button" class="btn btn-default reports-export-btn" (click)="prevPage(newUnitBottom.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
+        <button type="button" class="btn btn-default reports-export-btn" (click)="exportToCSV(newUnitBottom.value)"><i class="fa fa-download"></i> Export CSV</button>
+        <button type="button" class="btn btn-default reports-export-btn" (click)="nextPage(newUnitBottom.value)">Next Page <i class="fa fa-arrow-right"></i></button>
     </div>
 </div>

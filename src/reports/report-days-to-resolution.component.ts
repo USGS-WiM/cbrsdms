@@ -15,6 +15,7 @@ import * as FileSaver from 'file-saver';
 
 export class ReportDaysToResolution implements OnInit {
 
+    paginated = false;
     private _params: any;
     page_size: number = 100;
     private _prevPage: string;
