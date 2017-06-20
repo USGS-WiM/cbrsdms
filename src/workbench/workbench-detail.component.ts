@@ -697,10 +697,10 @@ export class WorkbenchDetailComponent{
     }
 
     private _getUsers() {
-        this._userService.getUsers()
+        this._userService.getUsers(new URLSearchParams('used_users=True'))
             .subscribe(
                 users => {
-                    this.myUsers = users.sort(APP_UTILITIES.dynamicSort('username'));
+                    this.myUsers = users;//.sort(APP_UTILITIES.dynamicSort('username'));
                     this._buildUserOptions();
                 },
                 error => this._errorMessage = <any>error);
