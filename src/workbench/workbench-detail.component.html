@@ -176,7 +176,7 @@
                                             <div *ngFor="let casefile of myCasefiles">
                                                 <li *ngIf="!casefile.final_letter">
                                                     <a target="_blank" [href]="casefile.file">{{ casefile.name }}</a>&nbsp;&nbsp;
-                                                    <button type="button" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
+                                                    <button type="button" *ngIf="!casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
                                                 </li>
                                             </div>
                                         </ul>
@@ -313,7 +313,7 @@
                     <h2 class="dms-group-header">CASE ASSIGNMENT & SIGNOFF</h2>
 
                     <div class="row" id="signoff">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="dms-form-group br">
                                 <label for="analyst">Analyst</label>
                                 <select id="analyst" formControlName="analyst" (change)="updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>
@@ -322,42 +322,26 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="analyst_signoff_date">Analyst Signoff Date</label>
                                 <my-date-picker *ngIf="!isOnHold" id="analyst_signoff_date" formControlName="analyst_signoff_date" [options]="myDatePickerOptions" (change)="validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)" (inputFieldChanged)="validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)" #newAnalystDate></my-date-picker>
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="dms-form-group br">
-                                <label for="qc_reviewer">Level 1 QC</label>
+                                <label for="qc_reviewer">QC</label>
                                 <select id="qc_reviewer" formControlName="qc_reviewer" (change)="updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)" #newQCReviewer>
                                     <option value=""></option>
                                     <option *ngFor="let qc_reviewer of availableQCReviewers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == selectedQCReviewer">{{qc_reviewer.username}}</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="qc_reviewer_signoff_date">Level 1 QC Signoff Date</label>
                                 <my-date-picker *ngIf="!isOnHold" id="qc_reviewer_signoff_date" formControlName="qc_reviewer_signoff_date" [options]="myDatePickerOptions" (change)="validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)" (inputFieldChanged)="validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)" #newQC1Date></my-date-picker>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="dms-form-group br">
-                                <label for="fws_reviewer">Level 2 QC</label>
-                                <select id="fws_reviewer" formControlName="fws_reviewer" (change)="updateCaseControlValue(newFWSReviewer.id, newFWSReviewer.value)" #newFWSReviewer>
-                                    <option value=""></option>
-                                    <option *ngFor="let fws_reviewer of availableFWSReviewers" [value]="fws_reviewer.id" [selected]="fws_reviewer.id == selectedFWSReviewer">{{fws_reviewer.username}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="dms-form-group" [style.background-color]="isOnHold ? 'lightgray' : ''">
-                                <label for="fws_reviewer_signoff_date">Level 2 QC Signoff Date</label>
-                                <my-date-picker *ngIf="!isOnHold" id="fws_reviewer_signoff_date" formControlName="fws_reviewer_signoff_date" [options]="myDatePickerOptions" (change)="validateDate(newQC2Date.elem.nativeElement.id, newQC2Date.selectedDate)" (inputFieldChanged)="validateDate(newQC2Date.elem.nativeElement.id, newQC2Date.selectedDate)" #newQC2Date></my-date-picker>
                             </div>
                         </div>
 
