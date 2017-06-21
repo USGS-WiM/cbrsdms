@@ -999,7 +999,8 @@ export class WorkbenchDetailComponent{
     finalletterSelectHandler(fileInput: any){
         //this.notready = true;
         this.fileDragHover(fileInput);
-        this._finalletterToUpload = <Array<File>> fileInput.target.files[0] || fileInput.dataTransfer.files[0];
+        let selectedFiles = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;
+        this._finalletterToUpload = selectedFiles[0];
         this.finalletterToUploadDetails = {'name': this._finalletterToUpload.name};//, 'size': ((this._finalletterToUpload.size)/1024/1024).toFixed(3)};
         //this.notready = false;
     }
@@ -1026,7 +1027,7 @@ export class WorkbenchDetailComponent{
         this._casefileService.createCasefiles(this.myCase.id, this._filesToUpload)
             .then(
                 (result) => {
-                    //console.log(result);
+                    console.log(result);
                     this._getCasefiles(this.myCase.id);
                     this._filesToUpload.length = 0;
                     this.filesToUploadDetails.length = 0;
@@ -1053,7 +1054,7 @@ export class WorkbenchDetailComponent{
                     //console.log(result);
                     this._getCasefiles(this.myCase.id);
                     this._finalletterToUpload = undefined;
-                    this.filesToUploadDetails = undefined;
+                    this.finalletterToUploadDetails = undefined;
                     if (this._isNewCase) {
                         this._isNewCase = false;
                         this._router.navigate( ['/workbench/' + this.case_ID] );
@@ -1103,7 +1104,7 @@ export class WorkbenchDetailComponent{
         this.notready = true;
 
         // check each formControl group for changes, then send the changed objects to their respective services
-        if (form.dirty) {
+        if (form.dirty || this._filesToUpload || this._finalletterToUpload) {
 
             let changedCaseGroup = form.controls.casegroup;
             let changedPropertyGroup = form.controls.propertygroup;
@@ -1197,12 +1198,6 @@ export class WorkbenchDetailComponent{
                                 this.myCase = acase;
                                 //this._caseControls['priority'].setValue(this.myCase.priority);
                                 this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
-                                if (this._filesToUpload) {
-                                    this._callCreateCasefiles();
-                                }
-                                if (this._finalletterToUpload) {
-                                    this._callCreateFinalLetter();
-                                }
                             },
                             error => this._errorMessage = <any>error
                         );
@@ -1232,6 +1227,16 @@ export class WorkbenchDetailComponent{
                             },
                             error => this._errorMessage = <any>error
                         );
+                }
+
+
+                if (this._filesToUpload) {
+                    this._callCreateCasefiles();
+                }
+
+
+                if (this._finalletterToUpload) {
+                    this._callCreateFinalLetter();
                 }
             }
 
