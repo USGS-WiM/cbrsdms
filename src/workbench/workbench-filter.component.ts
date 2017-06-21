@@ -147,7 +147,6 @@ export class WorkbenchFilterComponent implements OnInit {
             .subscribe(
                 users => {
                     this.myUsers = users;//.sort(APP_UTILITIES.dynamicSort('username'));
-                    console.log(this.myUsers);
                 },
                 error => this._errorMessage = <any>error);
     }
