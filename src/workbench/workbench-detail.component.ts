@@ -79,7 +79,7 @@ export class WorkbenchDetailComponent{
     private _errorMessage: string;
     private _today = new Date();
 
-    private _userFields:string[] = ['analyst', 'qc_reviewer', 'fws_reviewer'];
+    private _userFields:string[] = ['analyst', 'qc_reviewer'];
     private _debug: Boolean = false;
 
     private _newCase: Case;
@@ -104,10 +104,8 @@ export class WorkbenchDetailComponent{
     myUsers: User[];
     availableAnalysts: User[] = [];
     availableQCReviewers: User[] = [];
-    availableFWSReviewers: User[] = [];
     selectedAnalyst: number;
     selectedQCReviewer: number;
-    selectedFWSReviewer: number;
     myDeterminations: Determination[];
     myProhibitiondates: Prohibitiondate[];
     salutations: string[] = APP_SETTINGS.SALUTATIONS;
@@ -327,7 +325,6 @@ export class WorkbenchDetailComponent{
                     //this.selectedMap = this.myCase.map_number;
                     this.selectedAnalyst = acase.analyst;
                     this.selectedQCReviewer = acase.qc_reviewer;
-                    this.selectedFWSReviewer = acase.fws_reviewer;
                     this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                     this._getUsers();
                 },
@@ -510,8 +507,8 @@ export class WorkbenchDetailComponent{
             return false;
         }
         // establish two parallel arrays of the date controls and their labels
-        let dateControls = ["request_date","fws_fo_received_date","fws_hq_received_date","analyst_signoff_date","qc_reviewer_signoff_date","fws_reviewer_signoff_date","final_letter_date","close_date"];
-        let dateControlLabels = ["Request Date","Field Office Received Date","Headquarters Received Date","Analyst Signoff Date","Level 1 QC Signoff Date","Level 2 QC Signoff Date","Final Letter Date","Close Date"];
+        let dateControls = ["request_date","fws_fo_received_date","fws_hq_received_date","analyst_signoff_date","qc_reviewer_signoff_date","final_letter_date","close_date"];
+        let dateControlLabels = ["Request Date","Field Office Received Date","Headquarters Received Date","Analyst Signoff Date","QC Signoff Date","Final Letter Date","Close Date"];
         // determine the index of the current date control within the date control array
         let thisDateControlIndex = dateControls.indexOf(thisDateControl);
         // declare variables for potential use
@@ -520,8 +517,7 @@ export class WorkbenchDetailComponent{
         if (thisDateControlIndex != 0) {
             // determine the previous date control and its value
             // if the previous date has not been entered, the user should not be allowed to enter a value in the current date control,
-            // except for Close Date (Final Letter Date and/or Level 2 QC Signoff Date can be null), Final Letter Date (Level 2 QC Signoff Date can be null),
-            // and Headquarters Received Date (Field Office Received Date seems to be null in a majority of cases)
+            // except for Close Date (Final Letter Date can be null), and Headquarters Received Date (Field Office Received Date seems to be null in a majority of cases)
             if (thisDateControl == "close_date") {
                 prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
                 prevDate = this._caseControls[prevDateControl].value;
@@ -529,28 +525,8 @@ export class WorkbenchDetailComponent{
                     prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-2];
                     prevDate = this._caseControls[prevDateControl].value;
                     if (!prevDate) {
-                        prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-3];
-                        prevDate = this._caseControls[prevDateControl].value;
-                        if (!prevDate) {
-                            // warn the user of the invalid date selection
-                            this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 3] + " has been entered!");
-                            // clear the current date control value
-                            //this.updateCaseControlValue(thisDateControl, null);
-                            // short circuit this validation function and exit
-                            return false;
-                        }
-                    }
-                }
-            }
-            else if (thisDateControl == "final_letter_date") {
-                prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-1];
-                prevDate = this._caseControls[prevDateControl].value;
-                if (!prevDate) {
-                    prevDateControl = dateControls[dateControls.indexOf(thisDateControl)-2];
-                    prevDate = this._caseControls[prevDateControl].value;
-                    if (!prevDate) {
                         // warn the user of the invalid date selection
-                        this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 2] + " has been entered!");
+                        this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 3] + " has been entered!");
                         // clear the current date control value
                         //this.updateCaseControlValue(thisDateControl, null);
                         // short circuit this validation function and exit
@@ -597,18 +573,6 @@ export class WorkbenchDetailComponent{
                 if (!nextDate) {
                     nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+2];
                     nextDate = this._caseControls[nextDateControl].value;
-                    if (!nextDate) {
-                        nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+3];
-                        nextDate = this._caseControls[nextDateControl].value;
-                    }
-                }
-            }
-            else if (thisDateControl == "qc_reviewer_signoff_date") {
-                nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+1];
-                nextDate = this._caseControls[nextDateControl].value;
-                if (!nextDate) {
-                    nextDateControl = dateControls[dateControls.indexOf(thisDateControl)+2];
-                    nextDate = this._caseControls[nextDateControl].value;
                 }
             }
             else if (thisDateControl == "final_letter_date") {
@@ -647,11 +611,10 @@ export class WorkbenchDetailComponent{
 
         // if this date control is the last date control in the array,
         // check if the current date is not null and predates the previous date (which is invalid)
-        // (note that the previous date MUST exist (although it could be Final Letter Date, Level 2 QC Signoff Date, or Level 1 QC Signoff Date))
+        // (note that the previous date MUST exist (although it could be Final Letter Date, or QC Signoff Date))
         if (thisDate && thisDateControlIndex == dateControls.length-1 && (thisDate < prevDate)) {
             // warn the user of the invalid date selection
-            if (prevDateControl == "final_letter_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 3] + "!");}
-            if (prevDateControl == "fws_reviewer_signoff_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 2] + "!");}
+            if (prevDateControl == "final_letter_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 2] + "!");}
             else {this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 1] + "!");}
             // clear the current date control value
             //this.updateCaseControlValue(thisDateControl, null);
@@ -678,9 +641,7 @@ export class WorkbenchDetailComponent{
             // else check if the current date is not null and predates the previous date, or postdates the next date (both of which are invalid)
             else if ((thisDate && (thisDate < prevDate)) || (nextDate && (thisDate > nextDate))) {
                 // warn the user of the invalid date selection
-                if (thisDateControl == "qc_reviewer_signoff_date" && nextDateControl == "close_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 3] + "!");}
-                if (thisDateControl == "fws_reviewer_signoff_date" && nextDateControl == "close_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 2] + "!");}
-                if (thisDateControl == "final_letter_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 2] + " and " + dateControlLabels[thisDateControlIndex + 1] + "!");}
+                if (thisDateControl == "qc_reviewer_signoff_date" && nextDateControl == "close_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 2] + "!");}
                 else {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 1] + "!");}
                 // clear the current date control value
                 //this.updateCaseControlValue(thisDateControl, null);
@@ -714,30 +675,21 @@ export class WorkbenchDetailComponent{
         // clear out the select lists for every user field in order to rebuild them with the latest application state information
         this.availableAnalysts.length = 0;
         this.availableQCReviewers.length = 0;
-        this.availableFWSReviewers.length = 0;
 
         // make a list of user IDs that are already in use ("usedUserIDs")
         // the content of this list depends on whether a formControl has just been updated (one of the switch cases) or not (default)
         switch (formControl) {
             case 'analyst':
                 if (this.myCase.qc_reviewer) {usedUserIDs.push(this.myCase.qc_reviewer);}
-                if (this.myCase.fws_reviewer) {usedUserIDs.push(this.myCase.fws_reviewer);}
                 if (userID && usedUserIDs.indexOf(userID) < 0) {usedUserIDs.push(Number(userID));}
                 break;
             case 'qc_reviewer':
                 if (this.myCase.analyst) {usedUserIDs.push(this.myCase.analyst);}
-                if (this.myCase.fws_reviewer) {usedUserIDs.push(this.myCase.fws_reviewer);}
-                if (userID && usedUserIDs.indexOf(userID) < 0) {usedUserIDs.push(Number(userID));}
-                break;
-            case 'fws_reviewer':
-                if (this.myCase.analyst) {usedUserIDs.push(this.myCase.analyst);}
-                if (this.myCase.qc_reviewer) {usedUserIDs.push(this.myCase.qc_reviewer);}
                 if (userID && usedUserIDs.indexOf(userID) < 0) {usedUserIDs.push(Number(userID));}
                 break;
             default:
                 if (this.myCase.analyst) {usedUserIDs.push(this.myCase.analyst);}
                 if (this.myCase.qc_reviewer) {usedUserIDs.push(this.myCase.qc_reviewer);}
-                if (this.myCase.fws_reviewer) {usedUserIDs.push(this.myCase.fws_reviewer);}
                 if (userID && usedUserIDs.indexOf(userID) < 0) {usedUserIDs.push(Number(userID));}
                 break;
         }
@@ -747,7 +699,6 @@ export class WorkbenchDetailComponent{
             if (usedUserIDs.indexOf(this.myUsers[i].id) < 0 && this.myUsers[i].is_active) {
                 this.availableAnalysts.push(this.myUsers[i]);
                 this.availableQCReviewers.push(this.myUsers[i]);
-                this.availableFWSReviewers.push(this.myUsers[i]);
 
                 // also store these unused/available user IDs ("availableUserIDs") for later comparison to avoid duplicates
                 availableUserIDs.push(this.myUsers[i].id);
@@ -784,20 +735,6 @@ export class WorkbenchDetailComponent{
             }
         }
 
-        // for the fws_reviewer select list only, add back the fws_reviewer assigned from the database and/or a user-selected fws_reviewer
-        let addFWSReviewerUserIDs = [];
-        let caseFWSReviewerUserID = this.myCase.fws_reviewer;
-        // if the fws_reviewer formControl was changed, add the selected value to the fws_reviewer select list
-        if (formControl == 'fws_reviewer') {addFWSReviewerUserIDs.push(Number(userID)); this.selectedFWSReviewer = userID;}
-        // otherwise, if the fws_reviewer formControl was not changed, add back the fws_reviewer assigned from the database
-        else if (caseFWSReviewerUserID) {addFWSReviewerUserIDs.push(caseFWSReviewerUserID); this.selectedFWSReviewer = caseFWSReviewerUserID;}
-        // if the fws_reviewer formControl was changed, but the selected value was not a user (i.e., null), and the fws_reviewer assigned from the database has not been re-assigned already, add back the fws_reviewer assigned from the database
-        if (formControl == 'fws_reviewer' && !userID) {if (caseFWSReviewerUserID && availableUserIDs.indexOf(caseFWSReviewerUserID) < 0) {addFWSReviewerUserIDs.push(caseFWSReviewerUserID);}}
-        for (let i = 0, j = this.myUsers.length; i < j; i++) {
-            if (addFWSReviewerUserIDs.indexOf(this.myUsers[i].id) > -1) {
-                this.availableFWSReviewers.push(this.myUsers[i]);
-            }
-        }
     }
 
     private _getDeterminations() {
@@ -817,20 +754,6 @@ export class WorkbenchDetailComponent{
                 },
                 error => this._errorMessage = <any>error);
     }
-
-    /*
-    buildSystemmapdateOptions(mapID) {
-        this.availableSystemmapdates.length = 0;
-        for (let i = 0, j = this.mySystemmaps.length; i < j; i++) {
-            if (this.mySystemmaps[i].id == mapID) {
-                if (this.availableSystemmapdates.indexOf(this.mySystemmaps[i].map_date) < 0) {
-                    let obj = {'id': this.mySystemmaps[i].id, 'map_date': this.mySystemmaps[i].map_date};
-                    this.availableSystemmapdates.push(obj);
-                }
-            }
-        }
-    }
-    */
 
     private _getFieldoffices() {
         this._fieldofficeService.getFieldoffices()
@@ -1166,30 +1089,6 @@ export class WorkbenchDetailComponent{
                         thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
                         changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(thisDate);
                     }
-                    thisDate = changedCaseGroup.controls.fws_reviewer_signoff_date.value;
-                    if (thisDate === "") {changedCaseGroup.controls.fws_reviewer_signoff_date.setValue(null);}
-                    else if (thisDate !== null) {
-                        thisDate = ("0000" + thisDate.date.year).slice(-4) + "-" + ("00" + thisDate.date.month).slice(-2) + "-" + ("00" + thisDate.date.day).slice(-2);
-                        changedCaseGroup.controls.fws_reviewer_signoff_date.setValue(thisDate);
-                    }
-
-                    // if (changedCaseGroup.controls.cbrs_map_date.value === "") {changedCaseGroup.controls.cbrs_map_date.setValue(null);}
-                    // if (changedCaseGroup.controls.prohibition_date.value === "") {changedCaseGroup.controls.prohibition_date.setValue(null);}
-                    // if (changedCaseGroup.controls.fws_fo_received_date.value === "") {changedCaseGroup.controls.fws_fo_received_date.setValue(null);}
-                    // if (changedCaseGroup.controls.fws_hq_received_date.value === "") {changedCaseGroup.controls.fws_hq_received_date.setValue(null);}
-                    // if (changedCaseGroup.controls.final_letter_date.value === "") {changedCaseGroup.controls.final_letter_date.setValue(null);}
-                    // if (changedCaseGroup.controls.close_date.value === "") {changedCaseGroup.controls.close_date.setValue(null);}
-                    // if (changedCaseGroup.controls.analyst_signoff_date.value === "") {changedCaseGroup.controls.analyst_signoff_date.setValue(null);}
-                    // if (changedCaseGroup.controls.qc_reviewer_signoff_date.value === "") {changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(null);}
-                    // if (changedCaseGroup.controls.fws_reviewer_signoff_date.value === "") {changedCaseGroup.controls.fws_reviewer_signoff_date.setValue(null);}
-                    //
-                    // for (let ctl of changedCaseGroup.controls) {
-                    //     if (ctl.slice(-4) == "date" && changedCaseGroup.controls[ctl].value) {
-                    //         let val = changedCaseGroup.controls[ctl].value;
-                    //         let isoDate = val.year + "-" + val.month + "-" + val.day;
-                    //         changedCaseGroup.controls[ctl].setValue(isoDate);
-                    //     }
-                    // }
 
                     this._caseService.updateCase(changedCaseGroup.value)
                         .subscribe(
