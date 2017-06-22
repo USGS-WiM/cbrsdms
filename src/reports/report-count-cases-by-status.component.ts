@@ -14,6 +14,7 @@ import {APP_UTILITIES} from '../app.utilities';
 export class ReportCountCasesByStatus implements OnInit {
 
     paginated = false;
+    allow_filter = false;
     private _params: any;
     reportcases: ReportCaseCount[];
     columns: Column[];

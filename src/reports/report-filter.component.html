@@ -1,0 +1,44 @@
+<div class="container cbra-form">
+
+    <div *ngIf="filternotready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"></div>
+    <div *ngIf="!filternotready">
+
+        <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
+
+            <div class="dms-group noheader">
+
+                <div class="row">
+
+                    <div class="col-md-3"></div>
+
+                    <div class="col-md-2 dms-form-group bb br">
+                        <label for="date_field">Date Field</label>
+                        <select id="date_field" formControlName="date_field">
+                            <option value=""></option>
+                            <option *ngFor="let dateField of myDateFields" [value]="dateField.name">{{dateField.label}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 dms-form-group bb br">
+                        <label for="from_date">From Date</label>
+                        <my-date-picker id="from_date" [options]="myDatePickerOptions" formControlName="from_date"></my-date-picker>
+                    </div>
+
+                    <div class="col-md-2 dms-form-group bb br">
+                        <label for="to_date">To Date</label>
+                        <my-date-picker id="to_date" [options]="myDatePickerOptions" formControlName="to_date"></my-date-picker>
+                    </div>
+
+                    <button type="submit" class="btn btn-default btn-save-all-inline col-md-1" [disabled]="!form.valid">Search</button>
+
+                    <div class="col-md-3"></div>
+
+                </div> <!-- /row -->
+
+            </div> <!-- /dms-group noheaders -->
+
+        </form>
+
+    </div> <!-- /filternotready -->
+
+</div> <!-- /container cbra-form -->
