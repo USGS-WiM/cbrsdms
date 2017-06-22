@@ -190,7 +190,7 @@ export class WorkbenchFilterComponent implements OnInit {
             for (let i = 0, j = this._myWorkbenchFilter_fields.length; i < j; i++) {
                 let field = form.controls.workbenchfiltergroup.controls[this._myWorkbenchFilter_fields[i]];
                 if (field.dirty && field.value != null && field.value != '') {
-                    if (this._myWorkbenchFilter_fields[i] == "request_date_after" || this._myWorkbenchFilter_fields[i] == "request_date_after") {
+                    if (this._myWorkbenchFilter_fields[i] == "request_date_after" || this._myWorkbenchFilter_fields[i] == "request_date_before") {
                         field.value = ("0" + field.value.year).slice(-4) + "-" + ("0" + field.value.month).slice(-2) + "-" + ("0" + field.value.day).slice(-2);
                     }
                     wbf[this._myWorkbenchFilter_fields[i]] = field.value;
