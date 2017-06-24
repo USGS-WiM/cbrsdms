@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {Systemunit}        from '../systemunits/systemunit';
+import {Systemunit} from '../systemunits/systemunit';
 import {SystemunitService} from '../systemunits/systemunit.service';
 import {APP_UTILITIES} from '../app.utilities';
 

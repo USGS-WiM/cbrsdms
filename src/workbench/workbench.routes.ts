@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {AuthenticationGuard}    from '../authentication/authentication.guard';
+import {AuthenticationGuard} from '../authentication/authentication.guard';
 import {WorkbenchComponent} from './workbench.component';
 import {WorkbenchDetailComponent} from './workbench-detail.component';
 import {WorkbenchListComponent} from './workbench-list.component';

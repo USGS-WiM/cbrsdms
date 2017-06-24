@@ -1,26 +1,26 @@
-import {Injectable}     from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {Systemunit}     from './systemunit';
+import {Injectable} from '@angular/core';
+import {Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
+import {Systemunit} from './systemunit';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {APP_SETTINGS}   from '../app.settings';
+import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class SystemunitService {
     constructor (private http: Http) {}
 
     getSystemunit (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
-        
-        return this.http.get(APP_SETTINGS.SYSTEMUNITS_URL+id+'/', options)
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+
+        return this.http.get(APP_SETTINGS.SYSTEMUNITS_URL + id + '/', options)
             .map(res => <Systemunit> res.json())
             .catch(this.handleError);
     }
-  
+
     getSystemunits (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
-        
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+
         return this.http.get(APP_SETTINGS.SYSTEMUNITS_URL, options)
             .map(res => <Systemunit[]> res.json())
             .catch(this.handleError);

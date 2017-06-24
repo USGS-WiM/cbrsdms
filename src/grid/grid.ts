@@ -4,18 +4,18 @@ import {Sorter} from './sorter';
 
 @Component({
     selector: 'grid',
-    inputs: ['rows: rows','columns: columns'],
+    inputs: ['rows: rows', 'columns: columns'],
     templateUrl: 'grid.html'
 })
-export class Grid{
-    columns:Array<Column>;
-    rows:Array<any>;
+export class Grid {
+    columns: Array<Column>;
+    rows: Array<any>;
     sorter: Sorter;
-    constructor(){
+    constructor() {
         this.sorter = new Sorter();
     }
 
-    sort(key){
+    sort(key) {
         this.sorter.sort(key, this.rows);
     }
 }

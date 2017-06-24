@@ -1,26 +1,26 @@
-import {Injectable}     from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {Systemmap}     from './systemmap';
+import {Injectable} from '@angular/core';
+import {Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
+import {Systemmap} from './systemmap';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {APP_SETTINGS}   from '../app.settings';
+import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class SystemmapService {
     constructor (private http: Http) {}
 
     getSystemmap (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
-        
-        return this.http.get(APP_SETTINGS.SYSTEMMAPS_URL+id+'/', options)
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+
+        return this.http.get(APP_SETTINGS.SYSTEMMAPS_URL + id + '/', options)
             .map(res => <Systemmap> res.json())
             .catch(this.handleError);
     }
-  
+
     getSystemmaps (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
-        
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+
         return this.http.get(APP_SETTINGS.SYSTEMMAPS_URL, options)
             .map(res => <Systemmap[]> res.json())
             .catch(this.handleError);

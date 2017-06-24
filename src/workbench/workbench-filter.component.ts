@@ -1,29 +1,27 @@
-import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
-import {WorkbenchFilter}      from './workbench-filter';
-import {URLSearchParams}   from '@angular/http';
-import {Tag}               from '../tags/tag';
-import {Systemunit}        from '../systemunits/systemunit';
-import {User}              from '../users/user';
+import {Component, EventEmitter, Output, OnInit} from '@angular/core';
+import {WorkbenchFilter} from './workbench-filter';
+import {URLSearchParams} from '@angular/http';
+import {Tag} from '../tags/tag';
+import {Systemunit} from '../systemunits/systemunit';
+import {User} from '../users/user';
 import {WorkbenchFilterService} from './workbench-filter.service';
-import {CaseService}       from '../cases/case.service';
-import {TagService}        from '../tags/tag.service';
+import {CaseService} from '../cases/case.service';
+import {TagService} from '../tags/tag.service';
 import {SystemunitService} from '../systemunits/systemunit.service';
-import {UserService}       from '../users/user.service';
-import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
-import {APP_SETTINGS}      from '../app.settings';
-import {APP_UTILITIES}     from '../app.utilities';
+import {UserService} from '../users/user.service';
+import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {APP_SETTINGS} from '../app.settings';
+import {APP_UTILITIES} from '../app.utilities';
 import {IMyOptions} from 'mydatepicker';
 
 @Component({
     selector: 'workbench-filter',
-    templateUrl: 'workbench-filter.component.html',
-    providers: [WorkbenchFilterService, CaseService, TagService, SystemunitService, UserService]
+    templateUrl: 'workbench-filter.component.html'
 })
 
 export class WorkbenchFilterComponent implements OnInit {
     @Output() onFilter = new EventEmitter<string>();
 
-    //private _case_property_fields = ["status", "case_number", "case_reference", "request_date_after", "request_date_before", "distance_from", "distance_to", "analyst", "qc_reviewer", "cbrs_unit", "tags", "street", "city", "priority", "on_hold", "invalid"];
     myWorkbenchFilter = new WorkbenchFilter();
     selectedTag: number;
     myWorkbenchFreeText = {fiscal_year: undefined, freetext: undefined};
@@ -39,28 +37,31 @@ export class WorkbenchFilterComponent implements OnInit {
     private _workbenchFreeText_fields = Object.keys(this.myWorkbenchFreeText);
     private _workbenchFreeTextControls;
     workbenchfreetextgroup: FormGroup;
-    cleared: boolean = false;
+    cleared = false;
 
     active = true;
     filternotready: Boolean = true;
     private _errorMessage: string;
 
+    myDatePickerOptions: IMyOptions = {
+        dateFormat: 'mm/dd/yyyy',
+    };
+
     private _makeControls(fields) {
-        let controls = {};
+        const controls = {};
         for (let i = 0, j = fields.length; i < j; i++) {
-            controls[fields[i]] = new FormControl("");
+            controls[fields[i]] = new FormControl('');
         }
         return controls;
     }
 
     private _updateControls(fields, controls, values): void {
         for (let i = 0, j = fields.length; i < j; i++) {
-            let field = fields[i];
-            if (field.slice(-4) == "date" && values[field] != null) {
-                let thisDate = new Date(values[field]);
+            const field = fields[i];
+            if (field.slice(-4) === 'date' && values[field] != null) {
+                const thisDate = new Date(values[field]);
                 controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
-            }
-            else {
+            } else {
                 controls[field].setValue(values[field]);
             }
         }
@@ -92,19 +93,17 @@ export class WorkbenchFilterComponent implements OnInit {
     }
 
     ngOnInit() {
-        // if (this._workbenchFilterService.getFilter()) {
-        //     console.log(this._workbenchFilterService.getFilter());
-        //     this.myWorkbenchFilter = this._workbenchFilterService.getFilter();
-        // }
-        if (sessionStorage.getItem("filterUrlSearchParams")) {
-            for (let prop in this.myWorkbenchFilter) {
+        if (sessionStorage.getItem('filterUrlSearchParams')) {
+            for (const prop in this.myWorkbenchFilter) {
                 if (sessionStorage.getItem(prop)) {
                     this.myWorkbenchFilter[prop] = sessionStorage.getItem(prop);
                 }
             }
         }
-        if (!this.myWorkbenchFilter.status) {this.myWorkbenchFilter.status = "Open";}
-        this.selectedTag = typeof this.myWorkbenchFilter.tags !== 'undefined' && this.myWorkbenchFilter.tags.length > 0 ? this.myWorkbenchFilter.tags[0] : null;
+        if (!this.myWorkbenchFilter.status) {this.myWorkbenchFilter.status = 'Open';}
+        this.selectedTag =
+            typeof this.myWorkbenchFilter.tags !== 'undefined' && this.myWorkbenchFilter.tags.length > 0 ?
+                this.myWorkbenchFilter.tags[0] : null;
         setTimeout(() => this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, this.myWorkbenchFilter), 0);
         this.filternotready = false;
     }
@@ -146,21 +145,15 @@ export class WorkbenchFilterComponent implements OnInit {
         this._userService.getUsers(new URLSearchParams('used_users=True'))
             .subscribe(
                 users => {
-                    this.myUsers = users;//.sort(APP_UTILITIES.dynamicSort('username'));
+                    this.myUsers = users;
                 },
                 error => this._errorMessage = <any>error);
     }
-
-    myDatePickerOptions: IMyOptions = {
-        dateFormat: 'mm/dd/yyyy',
-    };
 
     defaultFilter() {
         this.myWorkbenchFilter = new WorkbenchFilter();
         this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, this.myWorkbenchFilter);
         this._updateControls(this._workbenchFreeText_fields, this._workbenchFreeTextControls, this.myWorkbenchFreeText);
-        //this._workbenchFreeTextControls["fiscal_year"].setValue("");
-        //this._workbenchFreeTextControls["freetext"].setValue("");
         this._workbenchFilterService.deleteFilter();
         this._workbenchFilterService.deleteUrlSearchParams();
     }
@@ -168,7 +161,7 @@ export class WorkbenchFilterComponent implements OnInit {
     clearFilter() {
         this.cleared = true;
         this.filternotready = true;
-        let wbf = new WorkbenchFilter();
+        const wbf = new WorkbenchFilter();
         this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, wbf);
         this._updateControls(this._workbenchFreeText_fields, this._workbenchFreeTextControls, this.myWorkbenchFreeText);
         this._workbenchFilterService.deleteFilter();
@@ -180,26 +173,28 @@ export class WorkbenchFilterComponent implements OnInit {
         // check each FormControl for changes
         if (form.dirty || this.cleared) {
             this.filternotready = true;
-            let wbf = {};
+            const wbf = {};
             let urlSearchParams = 'view=workbench';
             // the following check is a hack because the Status field is set to Open by default,
             // meaning it doesn't make the form dirty because the field may not have changed value
-            if (form.controls.workbenchfiltergroup.controls['status'].value == 'Open') {
+            if (form.controls.workbenchfiltergroup.controls['status'].value === 'Open') {
                 urlSearchParams += '&status=Open';
             }
             for (let i = 0, j = this._myWorkbenchFilter_fields.length; i < j; i++) {
-                let field = form.controls.workbenchfiltergroup.controls[this._myWorkbenchFilter_fields[i]];
-                if (field.dirty && field.value != null && field.value != '') {
-                    if (this._myWorkbenchFilter_fields[i] == "request_date_after" || this._myWorkbenchFilter_fields[i] == "request_date_before") {
-                        field.value = ("0" + field.value.year).slice(-4) + "-" + ("0" + field.value.month).slice(-2) + "-" + ("0" + field.value.day).slice(-2);
+                const field = form.controls.workbenchfiltergroup.controls[this._myWorkbenchFilter_fields[i]];
+                if (field.dirty && field.value != null && field.value !== '') {
+                    if (this._myWorkbenchFilter_fields[i] == 'request_date_after' ||
+                        this._myWorkbenchFilter_fields[i] === 'request_date_before') {
+                        field.value = ('0' + field.value.year).slice(-4) + '-' +
+                            ('0' + field.value.month).slice(-2) + '-' + ('0' + field.value.day).slice(-2);
                     }
                     wbf[this._myWorkbenchFilter_fields[i]] = field.value;
                     urlSearchParams += '&' + this._myWorkbenchFilter_fields[i]  + '=' + field.value;
                 }
             }
             for (let i = 0, j = this._workbenchFreeText_fields.length; i < j; i++) {
-                let field = form.controls.workbenchfreetextgroup.controls[this._workbenchFreeText_fields[i]];
-                if (field.dirty && field.value != null && field.value != '') {
+                const field = form.controls.workbenchfreetextgroup.controls[this._workbenchFreeText_fields[i]];
+                if (field.dirty && field.value != null && field.value !== '') {
                     wbf[this._workbenchFreeText_fields[i]] = field.value;
                     urlSearchParams += '&' + this._workbenchFreeText_fields[i]  + '=' + field.value;
                 }
@@ -211,8 +206,5 @@ export class WorkbenchFilterComponent implements OnInit {
         }
         this.cleared = false;
 
-        // reset the form
-        //this.active = false;
-        //setTimeout(()=> { this.filternotready = false; this.active=true; }, 1000);
     }
 }

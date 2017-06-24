@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from './authentication/authentication.service';
-//import {isLoggedin}        from './authentication/is-loggedin';
-import {APP_SETTINGS}      from './app.settings';
+import {APP_SETTINGS} from './app.settings';
 
 @Component({
     selector: 'navbar',
@@ -10,7 +9,7 @@ import {APP_SETTINGS}      from './app.settings';
     providers: [AuthenticationService]
 })
 export class NavbarComponent implements OnInit {
-    hideNavbar: boolean = false;
+    hideNavbar = false;
     first_name: string;
     last_name: string;
 
