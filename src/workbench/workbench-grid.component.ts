@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Grid}   from '../grid/grid';
+import {Grid} from '../grid/grid';
 import {Router} from '@angular/router';
 
 @Component({
@@ -9,8 +9,8 @@ import {Router} from '@angular/router';
     styles: ['.gridHeader {cursor:pointer;}']
 
 })
-export class WorkbenchGridComponent extends Grid{
-    constructor(private _router: Router){
+export class WorkbenchGridComponent extends Grid {
+    constructor(private _router: Router) {
         super();
     }
 

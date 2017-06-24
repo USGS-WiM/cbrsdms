@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
+import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {IMyOptions} from 'mydatepicker';
 
 @Component({

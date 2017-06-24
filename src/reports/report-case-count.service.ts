@@ -1,17 +1,17 @@
-import {Injectable}     from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {ReportCaseCount}           from './report-case-count';
+import {Injectable} from '@angular/core';
+import {Http, Response, RequestOptions} from '@angular/http';
+import {ReportCaseCount} from './report-case-count';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {APP_SETTINGS}   from '../app.settings';
+import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class ReportCaseCountService {
     constructor (private http: Http) {}
 
     getReportCaseCounts () {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
         return this.http.get(APP_SETTINGS.REPORTCASECOUNTS_URL, options)
             .map(res => <ReportCaseCount[]> res.json())

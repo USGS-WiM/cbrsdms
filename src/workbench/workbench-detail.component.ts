@@ -1,71 +1,51 @@
-import {Component}         from '@angular/core';
-import {ActivatedRoute, Router}    from '@angular/router';
-import {URLSearchParams}   from '@angular/http';
-import {Case}              from '../cases/case';
-import {Property}          from '../properties/property'
-import {Requester}         from '../requesters/requester';
-import {Comment}           from '../comments/comment';
-import {Tag}               from '../tags/tag';
-import {Casetag}           from '../casetags/casetag';
-import {Systemmap}         from '../systemmaps/systemmap';
-import {Systemunit}        from '../systemunits/systemunit';
-import {Fieldoffice}       from '../fieldoffices/fieldoffice';
-import {User}              from '../users/user';
-import {Determination}     from '../determinations/determination';
-import {Prohibitiondate}   from '../prohibitiondates/prohibitiondate';
-import {CaseService}       from '../cases/case.service';
-import {CasefileService}   from '../casefiles/casefile.service';
-import {PropertyService}   from '../properties/property.service';
-import {RequesterService}  from '../requesters/requester.service';
-import {CommentService}    from '../comments/comment.service';
-import {TagService}        from '../tags/tag.service';
-import {CasetagService}    from '../casetags/casetag.service';
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {URLSearchParams} from '@angular/http';
+import {Case} from '../cases/case';
+import {Property} from '../properties/property'
+import {Requester} from '../requesters/requester';
+import {Comment} from '../comments/comment';
+import {Tag} from '../tags/tag';
+import {Casetag} from '../casetags/casetag';
+import {Systemmap} from '../systemmaps/systemmap';
+import {Systemunit} from '../systemunits/systemunit';
+import {Fieldoffice} from '../fieldoffices/fieldoffice';
+import {User} from '../users/user';
+import {Determination} from '../determinations/determination';
+import {Prohibitiondate} from '../prohibitiondates/prohibitiondate';
+import {CaseService} from '../cases/case.service';
+import {CasefileService} from '../casefiles/casefile.service';
+import {PropertyService} from '../properties/property.service';
+import {RequesterService} from '../requesters/requester.service';
+import {CommentService} from '../comments/comment.service';
+import {TagService} from '../tags/tag.service';
+import {CasetagService} from '../casetags/casetag.service';
 import {SystemunitService} from '../systemunits/systemunit.service';
-import {SystemmapService}  from '../systemmaps/systemmap.service';
+import {SystemmapService} from '../systemmaps/systemmap.service';
 import {FieldofficeService} from '../fieldoffices/fieldoffice.service';
-import {UserService}       from '../users/user.service';
+import {UserService} from '../users/user.service';
 import {DeterminationService} from '../determinations/determination.service';
 import {ProhibitiondateService} from '../prohibitiondates/prohibitiondate.service';
 import {AuthenticationService} from '../authentication/authentication.service';
 import {FormBuilder, Validators, FormGroup, FormControl, FormArray} from '@angular/forms';
-import {APP_SETTINGS}      from '../app.settings';
-import {APP_UTILITIES}     from '../app.utilities';
+import {APP_SETTINGS} from '../app.settings';
+import {APP_UTILITIES} from '../app.utilities';
 import {IMyOptions} from 'mydatepicker';
 import * as FileSaver from 'file-saver';
-//import {fileSaver}         from '../app.component';
-
-// Use Filesaver.js to save binary to file
-// https://github.com/eligrey/FileSaver.js/
-//let fileSaver = require('../assets/FileSaver.min.js');
 
 
 @Component({
     templateUrl: 'workbench-detail.component.html',
-    providers: [
-        PropertyService,
-        RequesterService,
-        CaseService,
-        CasefileService,
-        CommentService,
-        TagService,
-        CasetagService,
-        SystemunitService,
-        SystemmapService,
-        FieldofficeService,
-        UserService,
-        DeterminationService,
-        ProhibitiondateService,
-        AuthenticationService],
     styles: ['.error {color:red;}']
 })
 export class WorkbenchDetailComponent{
     case_ID: number;
-    mapsfound: boolean = true;
+    mapsfound = true;
     private _filesToUpload: File[] = [];
     filesToUploadDetails: Object[] = [];
     private _finalletterToUpload: File;
     finalletterToUploadDetails: Object;
-    caseFileClass: string = "col-md-4";
+    caseFileClass = 'col-md-4';
     active = true;
     notready: Boolean = true;
     noxhr: Boolean = true;
@@ -79,7 +59,7 @@ export class WorkbenchDetailComponent{
     private _errorMessage: string;
     private _today = new Date();
 
-    private _userFields:string[] = ['analyst', 'qc_reviewer'];
+    private _userFields: string[] = ['analyst', 'qc_reviewer'];
     private _debug: Boolean = false;
 
     private _newCase: Case;
@@ -128,15 +108,12 @@ export class WorkbenchDetailComponent{
     commentgroup: FormArray;
     taggroup: FormArray;
 
-    // Show toast
-    // Set innerHTML of toast element before showing
-    // toast.innerHTML = dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!";
     private _showToast(message: string, timeout?: number) {
-        let toast = <HTMLElement> document.querySelector("#cbra_toast");
-        toast.className = "cbraToast toastVisible";
+        const toast = <HTMLElement> document.querySelector('#cbra_toast');
+        toast.className = 'cbraToast toastVisible';
         toast.innerHTML = message;
         setTimeout(function(){
-            toast.className = "cbraToast";
+            toast.className = 'cbraToast';
         }, (timeout ? timeout : 5000));
     }
 

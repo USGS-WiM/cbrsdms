@@ -1,4 +1,4 @@
-import {Injectable}     from '@angular/core';
+import {Injectable} from '@angular/core';
 import {WorkbenchFilter} from './workbench-filter';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class WorkbenchFilterService {
 
     constructor () {
         this._myWorkbenchFilter = new WorkbenchFilter();
-        this._myWorkbenchFilterUrlSearchParams = "";
+        this._myWorkbenchFilterUrlSearchParams = '';
     }
 
     getFilter () {
@@ -28,7 +28,7 @@ export class WorkbenchFilterService {
 
     setUrlSearchParams (newUrlSearchParams: string) {
         this._myWorkbenchFilterUrlSearchParams = newUrlSearchParams;
-        sessionStorage.setItem("filterUrlSearchParams", newUrlSearchParams);
+        sessionStorage.setItem('filterUrlSearchParams', newUrlSearchParams);
     }
 
     deleteFilter() {
@@ -38,7 +38,7 @@ export class WorkbenchFilterService {
     }
 
     deleteUrlSearchParams() {
-        sessionStorage.removeItem("filterUrlSearchParams");
+        sessionStorage.removeItem('filterUrlSearchParams');
     }
 
 }

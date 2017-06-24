@@ -1,17 +1,15 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ReportCaseCount}              from './report-case-count';
-import {ReportCaseCountService}       from './report-case-count.service';
-import {ReportGridComponent} from './report-grid.component';
-import {Column}            from '../grid/column';
+import {ReportCaseCount} from './report-case-count';
+import {ReportCaseCountService} from './report-case-count.service';
+import {Column} from '../grid/column';
 import {APP_UTILITIES} from '../app.utilities';
 
-@Component({
-    templateUrl: 'report-detail.component.html',
-    providers: [ReportCaseCountService]
-})
 
-export class ReportCountCasesByStatus implements OnInit {
+@Component({
+    templateUrl: 'report-detail.component.html'
+})
+export class ReportCountCasesByStatusComponent implements OnInit {
 
     paginated = false;
     allow_filter = false;
@@ -35,9 +33,7 @@ export class ReportCountCasesByStatus implements OnInit {
     }
 
     exportToCSV() {
-        //let headers = [];
-        //this.columns.forEach(function(item){headers.push(item.descr});});
-        let filename = 'Report_CountCasesByStatus_' + APP_UTILITIES.TODAY + '.csv';
+        const filename = 'Report_CountCasesByStatus_' + APP_UTILITIES.TODAY + '.csv';
         APP_UTILITIES.downloadCSV({filename: filename, data: this.reportcases, headers: this.columns});
     }
 
@@ -56,10 +52,10 @@ export class ReportCountCasesByStatus implements OnInit {
         this.columns = [
             new Column('count_received', 'Count Received'),
             new Column('count_awaiting_level_1_qc', 'Count Awaiting Level 1 QC'),
-            new Column('count_awaiting_level_2_qc','Count Awaiting Level 2 QC'),
-            new Column('count_awaiting_final_letter','Count Awaiting Final Letter'),
-            new Column('count_closed','Count Closed'),
-            new Column('count_closed_no_final_letter','Count Closed with No Final Letter'),
+            new Column('count_awaiting_level_2_qc', 'Count Awaiting Level 2 QC'),
+            new Column('count_awaiting_final_letter', 'Count Awaiting Final Letter'),
+            new Column('count_closed', 'Count Closed'),
+            new Column('count_closed_no_final_letter', 'Count Closed with No Final Letter'),
         ];
     }
 

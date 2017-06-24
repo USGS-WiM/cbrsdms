@@ -8,12 +8,11 @@ import {Column} from '../grid/column';
 import {APP_UTILITIES} from '../app.utilities';
 import * as FileSaver from 'file-saver';
 
-@Component({
-    templateUrl: 'report-detail.component.html',
-    providers: [ReportCaseService]
-})
 
-export class ReportDaysToEachStatus implements OnInit {
+@Component({
+    templateUrl: 'report-detail.component.html'
+})
+export class ReportDaysToEachStatusComponent implements OnInit {
     @ViewChild(ReportFilterComponent)
     reportComponent: ReportFilterComponent;
 
@@ -111,13 +110,13 @@ export class ReportDaysToEachStatus implements OnInit {
         this._reportCaseService.getReportCases(new URLSearchParams(urlSearchParams))
             .subscribe(
                 reportcases => {
-                    if (Number(reportcases['count']) > 0) {
-                        this._showToast(reportcases['count'] + ' cases found.');
-                        const max_records = Math.ceil(Number(reportcases['count']) / 100) * 100;
+                    if (Number(reportcases.count) > 0) {
+                        this._showToast(reportcases.count + ' cases found.');
+                        const max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
                         this.page_size < 100 ? this.page_size = 100 : this.page_size = max_records;
-                        this._prevPage = reportcases['previous'];
-                        this._nextPage = reportcases['next'];
-                        this.reportcases = reportcases['results'];
+                        this._prevPage = reportcases.previous;
+                        this._nextPage = reportcases.next;
+                        this.reportcases = reportcases.results;
                         this._sortAndShow();
                     } else {
                         this.notready = false;

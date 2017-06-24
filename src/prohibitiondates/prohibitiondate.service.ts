@@ -1,26 +1,26 @@
-import {Injectable}     from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
 import {Prohibitiondate} from './prohibitiondate';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {APP_SETTINGS}   from '../app.settings';
+import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class ProhibitiondateService {
     constructor (private http: Http) {}
 
     getProhibitiondate (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
-        
-        return this.http.get(APP_SETTINGS.SYSTEMUNITPROHIBITIONDATES_URL+id+'/', options)
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+
+        return this.http.get(APP_SETTINGS.SYSTEMUNITPROHIBITIONDATES_URL + id + '/', options)
             .map(res => <Prohibitiondate> res.json())
             .catch(this.handleError);
     }
-  
+
     getProhibitiondates (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
-        
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+
         return this.http.get(APP_SETTINGS.SYSTEMUNITPROHIBITIONDATES_URL, options)
             .map(res => <Prohibitiondate[]> res.json())
             .catch(this.handleError);

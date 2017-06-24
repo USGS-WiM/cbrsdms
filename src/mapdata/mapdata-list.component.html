@@ -1,0 +1,11 @@
+<div>
+    <div *ngIf="notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
+    <div *ngIf="!notready" style="display: inline-block;">
+        <!--<div *ngIf="noSystemmapsFound" style="display:inline;" align="center"><br /><br />No maps found.</div>-->
+        <div *ngIf="!noSystemmapsFound" style="display:inline; width:50%; float:left;"><h4 align="center">Maps</h4><systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns"></systemmap-grid></div>
+        <!--<div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>-->
+        <div *ngIf="!noSystemunitsFound" style="display:inline; width:25%; float:left;"><h4 align="center">Units</h4><systemunit-grid [rows]="systemunits" [columns]="systemunitColumns"></systemunit-grid></div>
+        <!--<div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>-->
+        <div *ngIf="!noProhibitiondatesFound" style="display:inline; width:25%; float:left;"><h4 align="center">Prohibition Dates</h4><prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns"></prohibitiondate-grid></div>
+    </div>
+</div>

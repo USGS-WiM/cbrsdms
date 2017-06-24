@@ -1,5 +1,4 @@
-import {Component}         from '@angular/core';
-import {NavbarComponent}   from '../navbar.component';
+import {Component} from '@angular/core';
 
 @Component({
     template: `<navbar></navbar><router-outlet></router-outlet>`

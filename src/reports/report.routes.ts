@@ -1,11 +1,11 @@
 import {Routes} from '@angular/router';
-import {AuthenticationGuard}    from '../authentication/authentication.guard';
+import {AuthenticationGuard} from '../authentication/authentication.guard';
 import {ReportComponent} from './report.component';
 import {ReportListComponent} from './report-list.component';
 import {ReportCasesByUnitComponent} from './report-cases-by-unit.component';
-import {ReportDaysToResolution} from './report-days-to-resolution.component';
-import {ReportDaysToEachStatus} from './report-days-to-each-status.component';
-import {ReportCountCasesByStatus} from './report-count-cases-by-status.component';
+import {ReportDaysToResolutionComponent} from './report-days-to-resolution.component';
+import {ReportDaysToEachStatusComponent} from './report-days-to-each-status.component';
+import {ReportCountCasesByStatusComponent} from './report-count-cases-by-status.component';
 
 export const ReportRoutes: Routes = [
     {
@@ -24,17 +24,17 @@ export const ReportRoutes: Routes = [
             },
             {
                 path: 'daystoresolution',
-                component: ReportDaysToResolution,
+                component: ReportDaysToResolutionComponent,
                 canActivate: [AuthenticationGuard]
             },
             {
                 path: 'daystoeachstatus',
-                component: ReportDaysToEachStatus,
+                component: ReportDaysToEachStatusComponent,
                 canActivate: [AuthenticationGuard]
             },
             {
                 path: 'countcasesbystatus',
-                component: ReportCountCasesByStatus,
+                component: ReportCountCasesByStatusComponent,
                 canActivate: [AuthenticationGuard]
             },
             {

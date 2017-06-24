@@ -3,20 +3,19 @@ import {Grid} from '../grid/grid';
 import {Router} from '@angular/router';
 
 @Component({
-    selector: 'report-grid',
+    selector: 'prohibitiondate-grid',
     inputs: ['rows: rows', 'columns: columns'],
-    templateUrl: 'report-grid.component.html',
+    templateUrl: 'mapdata-grid.component.html',
     styles: ['.gridHeader {cursor:pointer;}']
 
 })
-export class ReportGridComponent extends Grid {
-
+export class ProhibitiondateGridComponent extends Grid {
     constructor(private _router: Router) {
         super();
     }
 
     onClick(row: any) {
-        this._router.navigate( ['/workbench', row.id]  );
+        // open editor somehow
+        alert('clicked prohibitiondate row ' + row);
     }
-
 }
