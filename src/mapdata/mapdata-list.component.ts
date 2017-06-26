@@ -41,6 +41,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemmaps(urlSearchParams?) {
+        console.log(urlSearchParams);
         this._systemmapService.getSystemmaps(new URLSearchParams(urlSearchParams))
             .subscribe(
                 res => {
@@ -58,6 +59,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemunits(urlSearchParams?) {
+        console.log(urlSearchParams);
         this._systemunitService.getSystemunits(new URLSearchParams(urlSearchParams))
             .subscribe(
                 res => {
@@ -75,6 +77,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getProhibitiondates(urlSearchParams?) {
+        console.log(urlSearchParams);
         this._prohibitiondateService.getProhibitiondates(new URLSearchParams(urlSearchParams))
             .subscribe(
                 res => {
@@ -96,7 +99,7 @@ export class MapdataListComponent implements OnInit {
             new Column('map_number', 'Map Number'),
             new Column('map_title', 'Map Title'),
             new Column('map_date', 'Map Date'),
-            new Column('system_unit', 'Unit ID'),
+            new Column('system_units', 'Unit ID'),
             new Column('current', 'Current'),
         ];
         this.systemunitColumns = [
@@ -108,6 +111,18 @@ export class MapdataListComponent implements OnInit {
             new Column('system_unit', 'Unit ID'),
             new Column('prohibition_date', 'Prohibition Date'),
         ];
+    }
+
+    filterSystemmaps(val: string) {
+        val ? this._getSystemmaps('freetext=' + val) : this._getSystemmaps();
+    }
+
+    filterSystemunits(val: string) {
+        val ? this._getSystemunits('freetext=' + val) : this._getSystemunits();
+    }
+
+    filterProhibitionDates(val: string) {
+        val ? this._getProhibitiondates('freetext=' + val) : this._getProhibitiondates();
     }
 
     private _sortAndShow() {
