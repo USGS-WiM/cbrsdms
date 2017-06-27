@@ -35,7 +35,7 @@ import {MapdataComponent} from './mapdata/mapdata.component';
 import {MapdataListComponent} from './mapdata/mapdata-list.component';
 import {SystemmapGridComponent} from './mapdata/systemmap-grid.component';
 import {SystemunitGridComponent} from './mapdata/systemunit-grid.component';
-import {ProhibitiondateGridComponent} from './mapdata/prohibition-grid.component';
+import {ProhibitiondateGridComponent} from './mapdata/prohibitiondate-grid.component';
 import {ReportComponent} from './reports/report.component';
 import {ReportListComponent} from './reports/report-list.component';
 import {ReportGridComponent} from './reports/report-grid.component';
@@ -44,6 +44,7 @@ import {ReportFilterComponent} from './reports/report-filter.component';
 import {ReportDaysToResolutionComponent} from './reports/report-days-to-resolution.component';
 import {ReportDaysToEachStatusComponent} from './reports/report-days-to-each-status.component';
 import {ReportCountCasesByStatusComponent} from './reports/report-count-cases-by-status.component';
+import {DisplayValuePipe} from './display-value.pipe';
 import {routing, appRoutingProviders} from './app.routing'
 import {MyDatePickerModule} from 'mydatepicker';
 
@@ -57,7 +58,7 @@ import {MyDatePickerModule} from 'mydatepicker';
         WorkbenchComponent, WorkbenchListComponent, WorkbenchGridComponent, WorkbenchFilterComponent, WorkbenchDetailComponent,
         MapdataComponent, MapdataListComponent, SystemmapGridComponent, SystemunitGridComponent, ProhibitiondateGridComponent,
         ReportComponent, ReportListComponent, ReportGridComponent, ReportFilterComponent, ReportCasesByUnitComponent,
-        ReportDaysToResolutionComponent, ReportDaysToEachStatusComponent, ReportCountCasesByStatusComponent
+        ReportDaysToResolutionComponent, ReportDaysToEachStatusComponent, ReportCountCasesByStatusComponent, DisplayValuePipe
     ],
     providers: [
         appRoutingProviders, CaseService, CasefileService, CasetagService, PropertyService, RequesterService, AuthenticationService,

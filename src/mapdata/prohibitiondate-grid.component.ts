@@ -4,12 +4,13 @@ import {Router} from '@angular/router';
 
 @Component({
     selector: 'prohibitiondate-grid',
-    inputs: ['rows: rows', 'columns: columns'],
+    inputs: ['rows: rows', 'columns: columns', 'displayLookup: displayLookup'],
     templateUrl: 'mapdata-grid.component.html',
     styles: ['.gridHeader {cursor:pointer;}']
 
 })
 export class ProhibitiondateGridComponent extends Grid {
+    displayLookup: Array<any>;
     constructor(private _router: Router) {
         super();
     }

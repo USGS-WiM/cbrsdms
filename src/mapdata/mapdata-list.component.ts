@@ -41,7 +41,6 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemmaps(urlSearchParams?) {
-        console.log(urlSearchParams);
         this._systemmapService.getSystemmaps(new URLSearchParams(urlSearchParams))
             .subscribe(
                 res => {
@@ -59,7 +58,6 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemunits(urlSearchParams?) {
-        console.log(urlSearchParams);
         this._systemunitService.getSystemunits(new URLSearchParams(urlSearchParams))
             .subscribe(
                 res => {
@@ -77,7 +75,6 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getProhibitiondates(urlSearchParams?) {
-        console.log(urlSearchParams);
         this._prohibitiondateService.getProhibitiondates(new URLSearchParams(urlSearchParams))
             .subscribe(
                 res => {
@@ -105,7 +102,7 @@ export class MapdataListComponent implements OnInit {
         this.systemunitColumns = [
             new Column('system_unit_number', 'Unit Number'),
             new Column('system_unit_name', 'Unit Name'),
-            new Column('field_office', 'Field Office'),
+            // new Column('field_office', 'Field Office'),
         ];
         this.prohibitiondateColumns = [
             new Column('system_unit', 'Unit ID'),

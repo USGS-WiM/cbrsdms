@@ -10,9 +10,9 @@
         <tbody>
             <tr *ngFor="let row of rows" (click)="onClick(row)">
                 <td *ngFor="let col of columns">
-                    <span *ngIf="row[col.name] !== true && row[col.name] !== false">{{row[col.name]}}</span>
-                    <span *ngIf="row[col.name] === true"><i class="fa fa-check true-false-icon"></i></span>
-                    <span *ngIf="row[col.name] === false"><i class="fa fa-close true-false-icon"></i></span>
+                    <!--<span>{{row[col.name]}}</span>-->
+                    <span *ngIf="col.name !== 'system_units' && col.name !== 'system_unit'">{{row[col.name]}}</span>
+                    <span *ngIf="col.name === 'system_units' || col.name === 'system_unit'">{{row[col.name] | displayValue:'system_unit_number':displayLookup}}</span>
                 </td>
             </tr>
         </tbody>
