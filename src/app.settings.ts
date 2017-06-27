@@ -6,7 +6,7 @@ export class APP_SETTINGS {
 
     private static _environment = 'production';
     private static _API_ENDPOINT = 'http://localhost:8000/cbraservices/';
-	// private static _API_ENDPOINT = 'http://cbradev.wim.usgs.gov/cbra/cbraservices/';
+	  // private static _API_ENDPOINT = 'http://cbradev.wim.usgs.gov/cbra/cbraservices/';
 	// private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbra/cbraservices/';
     public static set environment (env: string) { this._environment = env };
 

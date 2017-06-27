@@ -2,30 +2,32 @@
     <div *ngIf="notready" align="center" id="loading-spinner">
         <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
     </div>
-    <div *ngIf="!notready" style="display: inline-block;">
+    <div *ngIf="!notready" style="display: flex; justify-content: center;">
         <!--<div *ngIf="noSystemmapsFound" style="display:inline;" align="center"><br /><br />No maps found.</div>-->
-        <div *ngIf="!noSystemmapsFound" style="display:inline; width:50%; float:left;">
-            <div align="center">
-                <label for="systemmap-filter">Maps</label><br />
+        <div *ngIf="!noSystemmapsFound">
+            <div class="mapData-filter">
+                <label for="systemmap-filter">Maps</label>
                 <input id="systemmap-filter" placeholder="Filter" (keyup)="filterSystemmaps(systemmap.value)" #systemmap>
             </div>
-            <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits"></systemmap-grid>
+            <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" class="multi-table"></systemmap-grid>
         </div>
+
         <!--<div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>-->
-        <div *ngIf="!noSystemunitsFound" style="display:inline; width:15%; float:left;">
-            <div align="center">
-                <label for="systemunit-filter">Units</label><br />
+        <div *ngIf="!noSystemunitsFound">
+            <div class="mapData-filter">
+                <label for="systemunit-filter">Units</label>
                 <input id="systemunit-filter" placeholder="Filter" (keyup)="filterSystemunits(systemunit.value)" #systemunit>
             </div>
-            <systemunit-grid [rows]="systemunits" [columns]="systemunitColumns"></systemunit-grid>
+            <systemunit-grid class="multi-table" [rows]="systemunits" [columns]="systemunitColumns"></systemunit-grid>
         </div>
+
         <!--<div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>-->
-        <div *ngIf="!noProhibitiondatesFound" style="display:inline; width:15%; float:left;">
-            <div align="center">
-                <label for="prohibitiondates-filter">Prohibition Dates</label><br />
+        <div *ngIf="!noProhibitiondatesFound">
+            <div class="mapData-filter">
+                <label for="prohibitiondates-filter">Prohibition Dates</label>
                 <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterProhibitionDates(prohibitiondate.value)" #prohibitiondate>
             </div>
-            <prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits"></prohibitiondate-grid>
+            <prohibitiondate-grid class="multi-table" [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits"></prohibitiondate-grid>
         </div>
     </div>
 </div>
