@@ -3,44 +3,135 @@
         <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
     </div>
     <div *ngIf="!notready" style="display: inline-block;">
-        <!--<div *ngIf="noSystemmapsFound" style="display:inline;" align="center"><br /><br />No maps found.</div>-->
+        <div *ngIf="noSystemmapsFound" style="display:inline;" align="center"><br /><br />No maps found.</div>
         <div *ngIf="!noSystemmapsFound" style="display:inline; width:50%; float:left;">
             <div align="center">
                 <label for="systemmap-filter">Maps</label><br />
                 <input id="systemmap-filter" placeholder="Filter" (keyup)="filterSystemmaps(systemmap.value)" #systemmap>
-                <button type="button" (click)="openAddMap()">Add Map</button>
+                <button type="button" (click)="openModal('addMap')">Add Map</button>
             </div>
-            <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits"></systemmap-grid>
+            <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal('editMap', $event)"></systemmap-grid>
         </div>
-        <!--<div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>-->
-        <!--<div *ngIf="!noSystemunitsFound" style="display:inline; width:15%; float:left;">-->
-            <!--<div align="center">-->
-                <!--<label for="systemunit-filter">Units</label><br />-->
-                <!--<input id="systemunit-filter" placeholder="Filter" (keyup)="filterSystemunits(systemunit.value)" #systemunit>-->
-                <!--<button type="button" (click)="openAddUnit()">Add Unit</button>-->
-            <!--</div>-->
-            <!--<systemunit-grid [rows]="systemunits" [columns]="systemunitColumns"></systemunit-grid>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;<div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>&ndash;&gt;-->
-        <!--<div *ngIf="!noProhibitiondatesFound" style="display:inline; width:15%; float:left;">-->
-            <!--<div align="center">-->
-                <!--<label for="prohibitiondates-filter">Prohibition Dates</label><br />-->
-                <!--<input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterProhibitionDates(prohibitiondate.value)" #prohibitiondate>-->
-                <!--<button type="button" (click)="openAddDate()">Add Date</button>-->
-            <!--</div>-->
-            <!--<prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits"></prohibitiondate-grid>-->
-        <!--</div>-->
-        <br /><button (click)="openModal('custom-modal-1')">Open Modal 1</button>
-        <modal id="custom-modal-1">
-            <div class="modal">
-                <div class="modal-body">
-                    <h1>A Custom Modal!</h1>
-                    <p>Some text.</p>
-                    <button (click)="closeModal('custom-modal-1');">Close</button>
-                </div>
+        <div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>
+        <div *ngIf="!noSystemunitsFound" style="display:inline; width:15%; float:left;">
+            <div align="center">
+                <label for="systemunit-filter">Units</label><br />
+                <input id="systemunit-filter" placeholder="Filter" (keyup)="filterSystemunits(systemunit.value)" #systemunit>
+                <button type="button" (click)="openModal('addUnit')">Add Unit</button>
             </div>
-            <div class="modal-background"></div>
-        </modal>
+            <systemunit-grid [rows]="systemunits" [columns]="systemunitColumns"></systemunit-grid>
+        </div>
+        <div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>
+        <div *ngIf="!noProhibitiondatesFound" style="display:inline; width:15%; float:left;">
+            <div align="center">
+                <label for="prohibitiondates-filter">Prohibition Dates</label><br />
+                <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterProhibitionDates(prohibitiondate.value)" #prohibitiondate>
+                <button type="button" (click)="openModal('addDate')">Add Date</button>
+            </div>
+            <prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits"></prohibitiondate-grid>
+        </div>
     </div>
 </div>
 
+<modal id="addMap">
+    <div class="modal">
+        <div class="modal-body">
+            <div class="container cbra-form">
+                <form [formGroup]="addMapForm" (ngSubmit)="addMap(form)">
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="map_number">Map Number</label>
+                            <input id="map_number" type="text" formControlName="map_number">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="map_title">Map Title</label>
+                            <input id="map_title" type="text" formControlName="map_title">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="map_date">Map Date</label>
+                            <input id="map_date" type="text" formControlName="map_date">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="system_units">System Units</label>
+                            <input id="system_units" type="text" formControlName="system_units">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="current">Current</label>
+                            <input id="current" type="radio" style="display:inline;" formControlName="current">
+                            <label for="superceded">Superceded</label>
+                            <input id="superceded" type="radio" style="display:inline;" formControlName="current">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!addMapForm.valid">Save</button>
+                    <button type="button" class="btn btn-default" style="display:inline;" (click)="closeModal('addMap')">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+<modal id="addUnit">
+    <div class="modal">
+        <div class="modal-body">
+            <h1>Add Unit</h1>
+            <p>Some text.</p>
+            <button (click)="addUnit()">Save</button>
+            <button (click)="closeModal('addUnit')">Close</button>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+<modal id="addDate">
+    <div class="modal">
+        <div class="modal-body">
+            <h1>Add Date</h1>
+            <p>Some text.</p>
+            <button (click)="addDate()">Save</button>
+            <button (click)="closeModal('addDate')">Close</button>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+
+<modal id="editMap">
+    <div class="modal">
+        <div class="modal-body">
+            <div *ngIf="row">
+                <h1>Edit Map {{row.map_number}}</h1>
+                <p>{{row.map_title}}</p>
+                <p>{{row.map_date}}</p>
+                <p>{{row.system_units | displayValue:'system_unit_number':systemunits}}</p>
+                <button (click)="closeModal('editMap')">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+<modal id="editUnit">
+    <div class="modal">
+        <div class="modal-body">
+            <h1>Edit Unit</h1>
+            <p>Some text.</p>
+            <button (click)="closeModal('editUnit')">Cancel</button>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+<modal id="editDate">
+    <div class="modal">
+        <div class="modal-body">
+            <h1>Edit Date</h1>
+            <p>Some text.</p>
+            <button (click)="closeModal('editDate')">Cancel</button>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>

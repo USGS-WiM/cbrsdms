@@ -10,6 +10,7 @@ import { ModalService } from './modal.service';
 export class ModalComponent implements OnInit, OnDestroy {
     @Input() id: string;
     private element;
+    private className = 'modal-open';
 
     constructor(private modalService: ModalService, private el: ElementRef, @Inject(DOCUMENT) private document) {
         this.element = el.nativeElement;
@@ -40,16 +41,14 @@ export class ModalComponent implements OnInit, OnDestroy {
     // open modal
     open(): void {
         this.element.style.display = 'block';
-        this.document.body.className ? this.document.body.className += ' modal-open' : this.document.body.className += 'modal-open';
+        this.document.body.className ?
+            this.document.body.className += ' ' + this.className :
+            this.document.body.className += this.className;
     }
 
     // close modal
     close(): void {
         this.element.style.display = 'none';
-        const className = 'modal-open';
-        const currentClassName = this.document.body.className;
-        const ndx = currentClassName.indexOf(className);
-        const len = className.length;
-        this.document.body.className = currentClassName.slice(ndx, len);
+        this.document.body.className = this.document.body.className.replace(this.className, '');
     }
 }
