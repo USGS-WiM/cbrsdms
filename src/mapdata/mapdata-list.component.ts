@@ -9,6 +9,7 @@ import {ProhibitiondateService} from '../prohibitiondates/prohibitiondate.servic
 import {Column} from '../grid/column';
 import {APP_UTILITIES} from '../app.utilities';
 import {FormBuilder} from '@angular/forms';
+import {ModalService} from '../modal.service';
 
 
 @Component({
@@ -31,13 +32,22 @@ export class MapdataListComponent implements OnInit {
 
     constructor (private _systemmapService: SystemmapService,
                  private _systemunitService: SystemunitService,
-                 private _prohibitiondateService: ProhibitiondateService) {}
+                 private _prohibitiondateService: ProhibitiondateService,
+                 private _modalService: ModalService) {}
 
     ngOnInit() {
         this._getSystemmaps();
         this._getSystemunits();
         this._getProhibitiondates();
         this._getColumns();
+    }
+
+    openModal(id: string) {
+        this._modalService.open(id);
+    }
+
+    closeModal(id: string) {
+        this._modalService.close(id);
     }
 
     private _getSystemmaps(urlSearchParams?) {
@@ -120,6 +130,14 @@ export class MapdataListComponent implements OnInit {
 
     filterProhibitionDates(val: string) {
         val ? this._getProhibitiondates('freetext=' + val) : this._getProhibitiondates();
+    }
+
+    openAddMap() {
+
+    }
+
+    addMap() {
+        // add code
     }
 
     private _sortAndShow() {
