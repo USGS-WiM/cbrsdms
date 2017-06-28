@@ -931,7 +931,10 @@ modal .modal .modal-body {
   padding: 20px;
   background: #fff;
   /* margin exposes part of the modal background */
-  margin: 40px;
+  margin-top: 10%;
+  margin-right: 40%;
+  margin-bottom: 60%;
+  margin-left: 40%;
 }
 modal .modal-background {
   /* modal background fixed across whole screen */
