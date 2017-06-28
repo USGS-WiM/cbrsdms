@@ -45,6 +45,8 @@ import {ReportDaysToResolutionComponent} from './reports/report-days-to-resoluti
 import {ReportDaysToEachStatusComponent} from './reports/report-days-to-each-status.component';
 import {ReportCountCasesByStatusComponent} from './reports/report-count-cases-by-status.component';
 import {DisplayValuePipe} from './display-value.pipe';
+import {ModalService} from './modal.service';
+import {ModalComponent} from './modal.component';
 import {routing, appRoutingProviders} from './app.routing'
 import {MyDatePickerModule} from 'mydatepicker';
 
@@ -54,7 +56,7 @@ import {MyDatePickerModule} from 'mydatepicker';
         routing, BrowserModule, FormsModule, ReactiveFormsModule, RouterModule, HttpModule, MyDatePickerModule
     ],
     declarations: [
-        AppComponent, Grid, NavbarComponent, LoginComponent, TagListComponent, TagDetailComponent,
+        AppComponent, ModalComponent, Grid, NavbarComponent, LoginComponent, TagListComponent, TagDetailComponent,
         WorkbenchComponent, WorkbenchListComponent, WorkbenchGridComponent, WorkbenchFilterComponent, WorkbenchDetailComponent,
         MapdataComponent, MapdataListComponent, SystemmapGridComponent, SystemunitGridComponent, ProhibitiondateGridComponent,
         ReportComponent, ReportListComponent, ReportGridComponent, ReportFilterComponent, ReportCasesByUnitComponent,
@@ -63,7 +65,7 @@ import {MyDatePickerModule} from 'mydatepicker';
     providers: [
         appRoutingProviders, CaseService, CasefileService, CasetagService, PropertyService, RequesterService, AuthenticationService,
         CommentService, DeterminationService, FieldofficeService, ProhibitiondateService, SystemmapService, SystemunitService,
-        TagService, UserService, WorkbenchFilterService, ReportCaseService, ReportCaseCountService
+        TagService, UserService, WorkbenchFilterService, ReportCaseService, ReportCaseCountService, ModalService
     ],
     bootstrap: [AppComponent]
 })

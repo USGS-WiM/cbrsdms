@@ -8,24 +8,39 @@
             <div align="center">
                 <label for="systemmap-filter">Maps</label><br />
                 <input id="systemmap-filter" placeholder="Filter" (keyup)="filterSystemmaps(systemmap.value)" #systemmap>
+                <button type="button" (click)="openAddMap()">Add Map</button>
             </div>
             <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits"></systemmap-grid>
         </div>
         <!--<div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>-->
-        <div *ngIf="!noSystemunitsFound" style="display:inline; width:15%; float:left;">
-            <div align="center">
-                <label for="systemunit-filter">Units</label><br />
-                <input id="systemunit-filter" placeholder="Filter" (keyup)="filterSystemunits(systemunit.value)" #systemunit>
+        <!--<div *ngIf="!noSystemunitsFound" style="display:inline; width:15%; float:left;">-->
+            <!--<div align="center">-->
+                <!--<label for="systemunit-filter">Units</label><br />-->
+                <!--<input id="systemunit-filter" placeholder="Filter" (keyup)="filterSystemunits(systemunit.value)" #systemunit>-->
+                <!--<button type="button" (click)="openAddUnit()">Add Unit</button>-->
+            <!--</div>-->
+            <!--<systemunit-grid [rows]="systemunits" [columns]="systemunitColumns"></systemunit-grid>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>&ndash;&gt;-->
+        <!--<div *ngIf="!noProhibitiondatesFound" style="display:inline; width:15%; float:left;">-->
+            <!--<div align="center">-->
+                <!--<label for="prohibitiondates-filter">Prohibition Dates</label><br />-->
+                <!--<input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterProhibitionDates(prohibitiondate.value)" #prohibitiondate>-->
+                <!--<button type="button" (click)="openAddDate()">Add Date</button>-->
+            <!--</div>-->
+            <!--<prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits"></prohibitiondate-grid>-->
+        <!--</div>-->
+        <br /><button (click)="openModal('custom-modal-1')">Open Modal 1</button>
+        <modal id="custom-modal-1">
+            <div class="modal">
+                <div class="modal-body">
+                    <h1>A Custom Modal!</h1>
+                    <p>Some text.</p>
+                    <button (click)="closeModal('custom-modal-1');">Close</button>
+                </div>
             </div>
-            <systemunit-grid [rows]="systemunits" [columns]="systemunitColumns"></systemunit-grid>
-        </div>
-        <!--<div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>-->
-        <div *ngIf="!noProhibitiondatesFound" style="display:inline; width:15%; float:left;">
-            <div align="center">
-                <label for="prohibitiondates-filter">Prohibition Dates</label><br />
-                <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterProhibitionDates(prohibitiondate.value)" #prohibitiondate>
-            </div>
-            <prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits"></prohibitiondate-grid>
-        </div>
+            <div class="modal-background"></div>
+        </modal>
     </div>
 </div>
+
