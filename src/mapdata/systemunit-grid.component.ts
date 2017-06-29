@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {Grid} from '../grid/grid';
 import {Router} from '@angular/router';
 
@@ -10,12 +10,13 @@ import {Router} from '@angular/router';
 
 })
 export class SystemunitGridComponent extends Grid {
+    @Output() edit: EventEmitter<boolean>;
     constructor(private _router: Router) {
         super();
+        this.edit = new EventEmitter();
     }
 
     onClick(row: any) {
-        // open editor somehow
-        alert('clicked systemunit row ' + row);
+        this.edit.emit(row);
     }
 }
