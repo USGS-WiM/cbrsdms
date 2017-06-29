@@ -33,12 +33,9 @@ export class MapdataListComponent implements OnInit {
     private _myMap_fields;
     private _myUnit_fields;
     private _myDate_fields;
-    addMapForm: FormGroup;
-    addUnitForm: FormGroup;
-    addDateForm: FormGroup;
-    editMapForm: FormGroup;
-    editUnitForm: FormGroup;
-    editDateForm: FormGroup;
+    mapForm: FormGroup;
+    unitForm: FormGroup;
+    dateForm: FormGroup;
     private _mapControls;
     private _unitControls;
     private _dateControls;
@@ -73,12 +70,9 @@ export class MapdataListComponent implements OnInit {
         this._dateControls = this._makeControls(this._myDate_fields);
 
         // populate the forms with the controls
-        this.addMapForm = new FormGroup(this._mapControls);
-        this.addUnitForm = new FormGroup(this._unitControls);
-        this.addDateForm = new FormGroup(this._dateControls);
-        this.editMapForm = new FormGroup(this._mapControls);
-        this.editUnitForm = new FormGroup(this._unitControls);
-        this.editDateForm = new FormGroup(this._dateControls);
+        this.mapForm = new FormGroup(this._mapControls);
+        this.unitForm = new FormGroup(this._unitControls);
+        this.dateForm = new FormGroup(this._dateControls);
 
     }
 
@@ -171,9 +165,9 @@ export class MapdataListComponent implements OnInit {
         val ? this._getProhibitiondates('freetext=' + val) : this._getProhibitiondates();
     }
 
-    openModal(modalId: string, row?: any) {
+    openModal(modalID: string, row?: any) {
         this.row = row;
-        this._modalService.open(modalId);
+        this._modalService.open(modalID);
     }
 
     closeModal(id: string) {
@@ -181,19 +175,19 @@ export class MapdataListComponent implements OnInit {
         this._modalService.close(id);
     }
 
-    addMap(data: any) {
+    saveMap(form: any) {
         // add code
-        console.log(data);
+        console.log(form);
     }
 
-    addUnit(data: any) {
+    saveUnit(form: any) {
         // add code
-        console.log(data);
+        console.log(form);
     }
 
-    addDate(data: any) {
+    saveDate(form: any) {
         // add code
-        console.log(data);
+        console.log(form);
     }
 
     private _sortAndShow() {

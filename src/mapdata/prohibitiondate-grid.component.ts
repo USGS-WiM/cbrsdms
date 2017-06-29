@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {Grid} from '../grid/grid';
 import {Router} from '@angular/router';
 
@@ -10,13 +10,14 @@ import {Router} from '@angular/router';
 
 })
 export class ProhibitiondateGridComponent extends Grid {
+    @Output() edit: EventEmitter<boolean>;
     displayLookup: Array<any>;
     constructor(private _router: Router) {
         super();
+        this.edit = new EventEmitter();
     }
 
     onClick(row: any) {
-        // open editor somehow
-        alert('clicked prohibitiondate row ' + row);
+        this.edit.emit(row);
     }
 }

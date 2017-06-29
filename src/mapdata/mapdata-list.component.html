@@ -8,129 +8,131 @@
             <div align="center">
                 <label for="systemmap-filter">Maps</label><br />
                 <input id="systemmap-filter" placeholder="Filter" (keyup)="filterSystemmaps(systemmap.value)" #systemmap>
-                <button type="button" (click)="openModal('addMap')">Add Map</button>
+                <button type="button" (click)="openModal('modalMap')">Add Map</button>
             </div>
-            <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal('editMap', $event)"></systemmap-grid>
+            <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal('modalMap', $event)"></systemmap-grid>
         </div>
         <div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>
         <div *ngIf="!noSystemunitsFound" style="display:inline; width:15%; float:left;">
             <div align="center">
                 <label for="systemunit-filter">Units</label><br />
                 <input id="systemunit-filter" placeholder="Filter" (keyup)="filterSystemunits(systemunit.value)" #systemunit>
-                <button type="button" (click)="openModal('addUnit')">Add Unit</button>
+                <button type="button" (click)="openModal('modalUnit')">Add Unit</button>
             </div>
-            <systemunit-grid [rows]="systemunits" [columns]="systemunitColumns"></systemunit-grid>
+            <systemunit-grid [rows]="systemunits" [columns]="systemunitColumns" (edit)="openModal('modalUnit', $event)"></systemunit-grid>
         </div>
         <div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>
         <div *ngIf="!noProhibitiondatesFound" style="display:inline; width:15%; float:left;">
             <div align="center">
                 <label for="prohibitiondates-filter">Prohibition Dates</label><br />
                 <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterProhibitionDates(prohibitiondate.value)" #prohibitiondate>
-                <button type="button" (click)="openModal('addDate')">Add Date</button>
+                <button type="button" (click)="openModal('modalDate')">Add Date</button>
             </div>
-            <prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits"></prohibitiondate-grid>
+            <prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits" (edit)="openModal('modalDate', $event)"></prohibitiondate-grid>
         </div>
     </div>
 </div>
 
-<modal id="addMap">
+<modal id="modalMap">
     <div class="modal">
         <div class="modal-body">
             <div class="container cbra-form">
-                <form [formGroup]="addMapForm" (ngSubmit)="addMap(form)">
+                <h3 *ngIf="!row">Add Map</h3><h3 *ngIf="row">Edit Map {{row?.id}}</h3>
+                <form [formGroup]="mapForm" (ngSubmit)="saveMap(form)">
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="map_number">Map Number</label>
-                            <input id="map_number" type="text" formControlName="map_number">
+                            <input id="map_number" type="text" [value]="row?.map_number" formControlName="map_number">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="map_title">Map Title</label>
-                            <input id="map_title" type="text" formControlName="map_title">
+                            <input id="map_title" type="text" [value]="row?.map_title" formControlName="map_title">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="map_date">Map Date</label>
-                            <input id="map_date" type="text" formControlName="map_date">
+                            <input id="map_date" type="date" [value]="row?.map_date" formControlName="map_date">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="system_units">System Units</label>
-                            <input id="system_units" type="text" formControlName="system_units">
+                            <input id="system_units" type="text" [value]="row?.system_units" formControlName="system_units">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="current">Current</label>
-                            <input id="current" type="radio" style="display:inline;" formControlName="current">
+                            <input id="current" type="radio" style="display:inline;" [checked]="row?.current" formControlName="current">
                             <label for="superceded">Superceded</label>
-                            <input id="superceded" type="radio" style="display:inline;" formControlName="current">
+                            <input id="superceded" type="radio" style="display:inline;" [checked]="!row?.current" formControlName="current">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!addMapForm.valid">Save</button>
-                    <button type="button" class="btn btn-default" style="display:inline;" (click)="closeModal('addMap')">Cancel</button>
+                    <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!mapForm.valid">Save</button>
+                    <button type="button" class="btn btn-default" style="display:inline;" (click)="closeModal('modalMap')">Cancel</button>
                 </form>
             </div>
         </div>
     </div>
     <div class="modal-background"></div>
 </modal>
-<modal id="addUnit">
+<modal id="modalUnit">
     <div class="modal">
         <div class="modal-body">
-            <h1>Add Unit</h1>
-            <p>Some text.</p>
-            <button (click)="addUnit()">Save</button>
-            <button (click)="closeModal('addUnit')">Close</button>
-        </div>
-    </div>
-    <div class="modal-background"></div>
-</modal>
-<modal id="addDate">
-    <div class="modal">
-        <div class="modal-body">
-            <h1>Add Date</h1>
-            <p>Some text.</p>
-            <button (click)="addDate()">Save</button>
-            <button (click)="closeModal('addDate')">Close</button>
-        </div>
-    </div>
-    <div class="modal-background"></div>
-</modal>
-
-<modal id="editMap">
-    <div class="modal">
-        <div class="modal-body">
-            <div *ngIf="row">
-                <h1>Edit Map {{row.map_number}}</h1>
-                <p>{{row.map_title}}</p>
-                <p>{{row.map_date}}</p>
-                <p>{{row.system_units | displayValue:'system_unit_number':systemunits}}</p>
-                <button (click)="closeModal('editMap')">Cancel</button>
+            <div class="container cbra-form">
+                <h3 *ngIf="!row">Add Unit</h3><h3 *ngIf="row">Edit Unit {{row?.id}}</h3>
+                <form [formGroup]="unitForm" (ngSubmit)="saveUnit(form)">
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="system_unit_number">Unit Number</label>
+                            <input id="system_unit_number" type="text" [value]="row?.system_unit_number" formControlName="system_unit_number">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="system_unit_name">Unit Name</label>
+                            <input id="system_unit_name" type="text" [value]="row?.system_unit_name" formControlName="system_unit_name">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="field_office">Field Office</label>
+                            <input id="field_office" type="text" [value]="row?.field_office" formControlName="field_office">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!unitForm.valid">Save</button>
+                    <button type="button" class="btn btn-default" style="display:inline;" (click)="closeModal('modalUnit')">Cancel</button>
+                </form>
             </div>
         </div>
     </div>
     <div class="modal-background"></div>
 </modal>
-<modal id="editUnit">
+<modal id="modalDate">
     <div class="modal">
         <div class="modal-body">
-            <h1>Edit Unit</h1>
-            <p>Some text.</p>
-            <button (click)="closeModal('editUnit')">Cancel</button>
-        </div>
-    </div>
-    <div class="modal-background"></div>
-</modal>
-<modal id="editDate">
-    <div class="modal">
-        <div class="modal-body">
-            <h1>Edit Date</h1>
-            <p>Some text.</p>
-            <button (click)="closeModal('editDate')">Cancel</button>
+            <div class="container cbra-form">
+                <h3 *ngIf="!row">Add Prohibition Date</h3><h3 *ngIf="row">Edit Prohibition Date {{row?.id}}</h3>
+                <form [formGroup]="dateForm" (ngSubmit)="saveDate(form)">
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="system_unit">Unit Number</label>
+                            <input id="system_unit" type="text" [value]="row?.system_unit" formControlName="system_unit">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="prohibition_date">Prohibition Date</label>
+                            <input id="prohibition_date" type="date" [value]="row?.prohibition_date" formControlName="prohibition_date">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!dateForm.valid">Save</button>
+                    <button type="button" class="btn btn-default" style="display:inline;" (click)="closeModal('modalDate')">Cancel</button>
+                </form>
+            </div>
         </div>
     </div>
     <div class="modal-background"></div>
