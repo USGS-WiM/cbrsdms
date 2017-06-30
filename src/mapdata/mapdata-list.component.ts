@@ -30,9 +30,9 @@ export class MapdataListComponent implements OnInit {
     mySystemunit = new Systemunit();
     myProhibitiondate = new Prohibitiondate();
 
-    private _myMap_fields;
-    private _myUnit_fields;
-    private _myDate_fields;
+    private _mapFields;
+    private _unitFields;
+    private _dateFields;
     mapForm: FormGroup;
     unitForm: FormGroup;
     dateForm: FormGroup;
@@ -54,20 +54,27 @@ export class MapdataListComponent implements OnInit {
         return controls;
     }
 
+    private _updateControls(fields, controls, values): void {
+        for (let i = 0, j = fields.length; i < j; i++) {
+            const field = fields[i];
+            controls[field].setValue(values[field]);
+        }
+    }
+
     constructor (private _systemmapService: SystemmapService,
                  private _systemunitService: SystemunitService,
                  private _prohibitiondateService: ProhibitiondateService,
                  private _modalService: ModalService) {
 
         // get the fields for each object type
-        this._myMap_fields = Object.keys(this.mySystemmap);
-        this._myUnit_fields = Object.keys(this.mySystemunit);
-        this._myDate_fields = Object.keys(this.myProhibitiondate);
+        this._mapFields = Object.keys(this.mySystemmap);
+        this._unitFields = Object.keys(this.mySystemunit);
+        this._dateFields = Object.keys(this.myProhibitiondate);
 
         // make the controls for each control group
-        this._mapControls = this._makeControls(this._myMap_fields);
-        this._unitControls = this._makeControls(this._myUnit_fields);
-        this._dateControls = this._makeControls(this._myDate_fields);
+        this._mapControls = this._makeControls(this._mapFields);
+        this._unitControls = this._makeControls(this._unitFields);
+        this._dateControls = this._makeControls(this._dateFields);
 
         // populate the forms with the controls
         this.mapForm = new FormGroup(this._mapControls);
@@ -166,28 +173,124 @@ export class MapdataListComponent implements OnInit {
     }
 
     openModal(modalID: string, row?: any) {
-        this.row = row;
+        if (row) {
+            switch (modalID) {
+                case 'modalMap':
+                    this.row = <Systemmap>row;
+                    this._updateControls(this._mapFields, this._mapControls, <Systemmap>row);
+                    break;
+                case 'modalUnit':
+                    this.row = <Systemunit>row;
+                    this._updateControls(this._mapFields, this._mapControls, <Systemunit>row);
+                    break;
+                case 'modalDate':
+                    this.row = <Prohibitiondate>row;
+                    this._updateControls(this._mapFields, this._mapControls, <Prohibitiondate>row);
+                    break;
+                default:
+                    this.row = row;
+            }
+        }
         this._modalService.open(modalID);
     }
 
-    closeModal(id: string) {
+    closeModal(modalID: string) {
+        this._modalService.close(modalID);
         this.row = undefined;
-        this._modalService.close(id);
     }
 
-    saveMap(form: any) {
+    onSubmit(form: FormGroup, modalID: string) {
         // add code
-        console.log(form);
-    }
+        this.notready = true;
+        if (form.dirty) {
+            console.log(form.value);
 
-    saveUnit(form: any) {
-        // add code
-        console.log(form);
-    }
-
-    saveDate(form: any) {
-        // add code
-        console.log(form);
+            if (form.value.id) {
+                switch (modalID) {
+                    case 'modalMap':
+                        this._systemmapService.updateSystemmap(form.value)
+                            .subscribe(
+                                result => {
+                                    console.log(result);
+                                    this._getSystemmaps();
+                                    this.row = <Systemmap>result;
+                                    this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
+                                },
+                                error => this._errorMessage = <any>error
+                            );
+                    break;
+                case 'modalUnit':
+                    this._systemunitService.updateSystemunit(form.value)
+                            .subscribe(
+                                result => {
+                                    console.log(result);
+                                    this._getSystemunits();
+                                    this.row = <Systemunit>result;
+                                    this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
+                                },
+                                error => this._errorMessage = <any>error
+                            );
+                    break;
+                case 'modalDate':
+                    this._prohibitiondateService.updateProhibitiondate(form.value)
+                            .subscribe(
+                                result => {
+                                    console.log(result);
+                                    this._getProhibitiondates();
+                                    this.row = <Prohibitiondate>result;
+                                    this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>result);
+                                },
+                                error => this._errorMessage = <any>error
+                            );
+                    break;
+                default:
+                    break;
+                }
+            } else {
+                switch (modalID) {
+                    case 'modalMap':
+                        this._systemmapService.createSystemmap(form.value)
+                            .subscribe(
+                                result => {
+                                    console.log(result);
+                                    this._getSystemmaps();
+                                    this.row = <Systemmap>result;
+                                    this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
+                                },
+                                error => this._errorMessage = <any>error
+                            );
+                    break;
+                case 'modalUnit':
+                    this._systemunitService.createSystemunit(form.value)
+                            .subscribe(
+                                result => {
+                                    console.log(result);
+                                    this._getSystemunits();
+                                    this.row = <Systemunit>result;
+                                    this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
+                                },
+                                error => this._errorMessage = <any>error
+                            );
+                    break;
+                case 'modalDate':
+                    this._prohibitiondateService.createProhibitiondate(form.value)
+                            .subscribe(
+                                result => {
+                                    console.log(result);
+                                    this._getProhibitiondates();
+                                    this.row = <Prohibitiondate>result;
+                                    this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>result);
+                                },
+                                error => this._errorMessage = <any>error
+                            );
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        this.closeModal(modalID);
+        this.notready = false;
     }
 
     private _sortAndShow() {
