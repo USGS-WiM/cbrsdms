@@ -26,6 +26,28 @@ export class SystemunitService {
             .catch(this.handleError);
     }
 
+    createSystemunit (systemmap: Systemunit): Observable<Systemunit> {
+        const body = JSON.stringify(systemmap);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+
+        return this.http.post(APP_SETTINGS.SYSTEMUNITS_URL, body, options)
+            .map(res => <Systemunit> res.json())
+            .catch(this.handleError)
+    }
+
+    updateSystemunit (systemunit: Systemunit): Observable<Systemunit> {
+        // pull out the ID
+        const id = systemunit.id;
+        delete systemunit['id'];
+
+        const body = JSON.stringify(systemunit);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+
+        return this.http.put(APP_SETTINGS.SYSTEMUNITS_URL + id + '/', body, options)
+            .map(res => <Systemunit> res.json())
+            .catch(this.handleError)
+    }
+
     private handleError (error: Response) {
         // TODO figure out a better error handler
         // in a real world app, we may send the server to some remote logging infrastructure

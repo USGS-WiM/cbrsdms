@@ -38,29 +38,29 @@
         <div class="modal-body">
             <div class="container cbra-form">
                 <h3 *ngIf="!row">Add Map</h3><h3 *ngIf="row">Edit Map {{row?.id}}</h3>
-                <form [formGroup]="mapForm" (ngSubmit)="saveMap(form)">
+                <form [formGroup]="mapForm" (ngSubmit)="onSubmit(mapForm, 'modalMap')">
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="map_number">Map Number</label>
-                            <input id="map_number" type="text" [value]="row?.map_number" formControlName="map_number">
+                            <input id="map_number" type="text" formControlName="map_number">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="map_title">Map Title</label>
-                            <input id="map_title" type="text" [value]="row?.map_title" formControlName="map_title">
+                            <input id="map_title" type="text" formControlName="map_title">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="map_date">Map Date</label>
-                            <input id="map_date" type="date" [value]="row?.map_date" formControlName="map_date">
+                            <input id="map_date" type="date" formControlName="map_date">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="system_units">System Units</label>
-                            <input id="system_units" type="text" [value]="row?.system_units" formControlName="system_units">
+                            <input id="system_units" type="text" formControlName="system_units">
                         </div>
                     </div>
                     <div class="dms-group">
@@ -84,23 +84,23 @@
         <div class="modal-body">
             <div class="container cbra-form">
                 <h3 *ngIf="!row">Add Unit</h3><h3 *ngIf="row">Edit Unit {{row?.id}}</h3>
-                <form [formGroup]="unitForm" (ngSubmit)="saveUnit(form)">
+                <form [formGroup]="unitForm" (ngSubmit)="onSubmit(unitForm, 'modalUnit')">
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="system_unit_number">Unit Number</label>
-                            <input id="system_unit_number" type="text" [value]="row?.system_unit_number" formControlName="system_unit_number">
+                            <input id="system_unit_number" type="text" formControlName="system_unit_number">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="system_unit_name">Unit Name</label>
-                            <input id="system_unit_name" type="text" [value]="row?.system_unit_name" formControlName="system_unit_name">
+                            <input id="system_unit_name" type="text" formControlName="system_unit_name">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="field_office">Field Office</label>
-                            <input id="field_office" type="text" [value]="row?.field_office" formControlName="field_office">
+                            <input id="field_office" type="text" formControlName="field_office">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!unitForm.valid">Save</button>
@@ -116,17 +116,17 @@
         <div class="modal-body">
             <div class="container cbra-form">
                 <h3 *ngIf="!row">Add Prohibition Date</h3><h3 *ngIf="row">Edit Prohibition Date {{row?.id}}</h3>
-                <form [formGroup]="dateForm" (ngSubmit)="saveDate(form)">
+                <form [formGroup]="dateForm" (ngSubmit)="onSubmit(dateForm, 'modalDate')">
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="system_unit">Unit Number</label>
-                            <input id="system_unit" type="text" [value]="row?.system_unit" formControlName="system_unit">
+                            <input id="system_unit" type="text" formControlName="system_unit">
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="prohibition_date">Prohibition Date</label>
-                            <input id="prohibition_date" type="date" [value]="row?.prohibition_date" formControlName="prohibition_date">
+                            <input id="prohibition_date" type="date" formControlName="prohibition_date">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!dateForm.valid">Save</button>
