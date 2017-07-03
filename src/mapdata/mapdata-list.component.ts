@@ -7,7 +7,7 @@ import {SystemunitService} from '../systemunits/systemunit.service';
 import {Prohibitiondate} from '../prohibitiondates/prohibitiondate';
 import {ProhibitiondateService} from '../prohibitiondates/prohibitiondate.service';
 import {Column} from '../grid/column';
-import {FormGroup, FormControl} from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {APP_UTILITIES} from '../app.utilities';
 import {APP_SETTINGS} from '../app.settings';
 import {ModalService} from '../modal.service';
@@ -30,6 +30,7 @@ export class MapdataListComponent implements OnInit {
     mySystemunit = new Systemunit();
     myProhibitiondate = new Prohibitiondate();
 
+    private _requiredFields = ['map_number', ' map_date', 'system_unit_number', 'prohibition_date', 'system_unit'];
     private _mapFields;
     private _unitFields;
     private _dateFields;
@@ -46,10 +47,24 @@ export class MapdataListComponent implements OnInit {
     noProhibitiondatesFound = false;
     private _errorMessage: string;
 
+    private _showToast(message: string, timeout?: number) {
+        const toast = <HTMLElement> document.querySelector('#cbra_toast');
+        toast.className = 'cbraToast toastVisible';
+        toast.innerHTML = message;
+        setTimeout(function(){
+            toast.className = 'cbraToast';
+        }, (timeout ? timeout : 5000));
+    }
+
     private _makeControls(fields) {
-        let controls = {};
+        const controls = {};
         for (let i = 0, j = fields.length; i < j; i++) {
-            controls[fields[i]] = new FormControl({value: '', disabled: false});
+            // add a validator for required fields
+            if (this._requiredFields.indexOf(fields) > -1) {
+                controls[fields[i]] = new FormControl({value: '', disabled: false}, Validators.required);
+            } else {
+                controls[fields[i]] = new FormControl({value: '', disabled: false});
+            }
         }
         return controls;
     }
@@ -107,6 +122,30 @@ export class MapdataListComponent implements OnInit {
             );
     }
 
+    private _createSystemmap(map: Systemmap) {
+        this._systemmapService.createSystemmap(map)
+            .subscribe(
+                result => {
+                    this._getSystemmaps();
+                    this.row = <Systemmap>result;
+                    this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
+                },
+                error => this._showToast('ERROR: Could not create' + ': ' + error['non_field_errors'][0])
+            );
+    }
+
+    private _updateSystemmap(map: Systemmap) {
+        this._systemmapService.updateSystemmap(map)
+            .subscribe(
+                result => {
+                    this._getSystemmaps();
+                    this.row = <Systemmap>result;
+                    this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
+                },
+                error => this._showToast('ERROR: Could not update' + ': ' + error['non_field_errors'][0])
+            );
+    }
+
     private _getSystemunits(urlSearchParams?) {
         this._systemunitService.getSystemunits(new URLSearchParams(urlSearchParams))
             .subscribe(
@@ -124,6 +163,30 @@ export class MapdataListComponent implements OnInit {
             );
     }
 
+    private _createSystemunit(unit: Systemunit) {
+        this._systemunitService.createSystemunit(unit)
+            .subscribe(
+                result => {
+                    this._getSystemunits();
+                    this.row = <Systemunit>result;
+                    this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
+                },
+                error => this._showToast('ERROR: Could not create' + ': ' + error['non_field_errors'][0])
+            );
+    }
+
+    private _updateSystemunit(unit: Systemunit) {
+        this._systemunitService.updateSystemunit(unit)
+            .subscribe(
+                result => {
+                    this._getSystemunits();
+                    this.row = <Systemunit>result;
+                    this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
+                },
+                error => this._showToast('ERROR: Could not update' + ': ' + error['non_field_errors'][0])
+            );
+    }
+
     private _getProhibitiondates(urlSearchParams?) {
         this._prohibitiondateService.getProhibitiondates(new URLSearchParams(urlSearchParams))
             .subscribe(
@@ -138,6 +201,30 @@ export class MapdataListComponent implements OnInit {
                     }
                 },
                 error => this._errorMessage = <any>error
+            );
+    }
+
+    private _createProhibitiondate(date: Prohibitiondate) {
+        this._prohibitiondateService.createProhibitiondate(date)
+            .subscribe(
+                result => {
+                    this._getProhibitiondates();
+                    this.row = <Prohibitiondate>result;
+                    this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>result);
+                },
+                error => this._showToast('ERROR: Could not create' + ': ' + error['non_field_errors'][0])
+            );
+    }
+
+    private _updateProhibitiondate(date: Prohibitiondate) {
+        this._prohibitiondateService.updateProhibitiondate(date)
+            .subscribe(
+                result => {
+                    this._getProhibitiondates();
+                    this.row = <Prohibitiondate>result;
+                    this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>result);
+                },
+                error => this._showToast('ERROR: Could not update' + ': ' + error['non_field_errors'][0])
             );
     }
 
@@ -160,16 +247,18 @@ export class MapdataListComponent implements OnInit {
         ];
     }
 
-    filterSystemmaps(val: string) {
-        val ? this._getSystemmaps('freetext=' + val) : this._getSystemmaps();
-    }
-
-    filterSystemunits(val: string) {
-        val ? this._getSystemunits('freetext=' + val) : this._getSystemunits();
-    }
-
-    filterProhibitionDates(val: string) {
-        val ? this._getProhibitiondates('freetext=' + val) : this._getProhibitiondates();
+    filterGrid(filterID: string, filterValue: string) {
+        switch (filterID) {
+            case 'systemmap':
+                filterValue ? this._getSystemmaps('freetext=' + filterValue) : this._getSystemmaps();
+                break;
+            case 'systemunit':
+                filterValue ? this._getSystemunits('freetext=' + filterValue) : this._getSystemunits();
+                break;
+            case 'prohibitiondate':
+                filterValue ? this._getProhibitiondates('freetext=' + filterValue) : this._getProhibitiondates();
+                break;
+        }
     }
 
     openModal(modalID: string, row?: any) {
@@ -200,93 +289,44 @@ export class MapdataListComponent implements OnInit {
     }
 
     onSubmit(form: FormGroup, modalID: string) {
-        // add code
         this.notready = true;
         if (form.dirty) {
-            console.log(form.value);
-
-            if (form.value.id) {
-                switch (modalID) {
-                    case 'modalMap':
-                        this._systemmapService.updateSystemmap(form.value)
-                            .subscribe(
-                                result => {
-                                    console.log(result);
-                                    this._getSystemmaps();
-                                    this.row = <Systemmap>result;
-                                    this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
-                                },
-                                error => this._errorMessage = <any>error
-                            );
+            switch (modalID) {
+                case 'modalMap':
+                    const map = form.value;
+                    // validate that required fields have values
+                    if (!map.map_number || !map.map_date) {
+                        this._showToast('Map Number and Map Date must both have a value!');
+                    } else {
+                        if (map.id) {
+                            this._updateSystemmap(map);
+                        } else { this._createSystemmap(map); }
+                    }
                     break;
                 case 'modalUnit':
-                    this._systemunitService.updateSystemunit(form.value)
-                            .subscribe(
-                                result => {
-                                    console.log(result);
-                                    this._getSystemunits();
-                                    this.row = <Systemunit>result;
-                                    this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
-                                },
-                                error => this._errorMessage = <any>error
-                            );
+                    const unit = form.value;
+                    // validate that required fields have values
+                    if (!unit.system_unit_number) {
+                        this._showToast('Unit Number must have a value!');
+                    } else {
+                        if (unit.id) {
+                            this._updateSystemunit(unit);
+                        } else { this._createSystemunit(unit); }
+                    }
                     break;
                 case 'modalDate':
-                    this._prohibitiondateService.updateProhibitiondate(form.value)
-                            .subscribe(
-                                result => {
-                                    console.log(result);
-                                    this._getProhibitiondates();
-                                    this.row = <Prohibitiondate>result;
-                                    this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>result);
-                                },
-                                error => this._errorMessage = <any>error
-                            );
+                    const date = form.value;
+                    // validate that required fields have values
+                    if (!date.prohibition_date || !date.system_unit) {
+                        this._showToast('Unit Number and Prohibition Date must both have a value!');
+                    } else {
+                        if (date.id) {
+                            this._updateProhibitiondate(date);
+                        } else { this._createProhibitiondate(date); }
+                    }
                     break;
                 default:
                     break;
-                }
-            } else {
-                switch (modalID) {
-                    case 'modalMap':
-                        this._systemmapService.createSystemmap(form.value)
-                            .subscribe(
-                                result => {
-                                    console.log(result);
-                                    this._getSystemmaps();
-                                    this.row = <Systemmap>result;
-                                    this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
-                                },
-                                error => this._errorMessage = <any>error
-                            );
-                    break;
-                case 'modalUnit':
-                    this._systemunitService.createSystemunit(form.value)
-                            .subscribe(
-                                result => {
-                                    console.log(result);
-                                    this._getSystemunits();
-                                    this.row = <Systemunit>result;
-                                    this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
-                                },
-                                error => this._errorMessage = <any>error
-                            );
-                    break;
-                case 'modalDate':
-                    this._prohibitiondateService.createProhibitiondate(form.value)
-                            .subscribe(
-                                result => {
-                                    console.log(result);
-                                    this._getProhibitiondates();
-                                    this.row = <Prohibitiondate>result;
-                                    this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>result);
-                                },
-                                error => this._errorMessage = <any>error
-                            );
-                    break;
-                default:
-                    break;
-                }
             }
         }
         this.closeModal(modalID);

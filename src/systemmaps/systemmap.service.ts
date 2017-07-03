@@ -15,7 +15,7 @@ export class SystemmapService {
 
         return this.http.get(APP_SETTINGS.SYSTEMMAPS_URL + id + '/', options)
             .map(res => <Systemmap> res.json())
-            .catch(this.handleError);
+            .catch(err => this.handleError(err))
     }
 
     getSystemmaps (searchArgs?: URLSearchParams) {
@@ -23,7 +23,7 @@ export class SystemmapService {
 
         return this.http.get(APP_SETTINGS.SYSTEMMAPS_URL, options)
             .map(res => <Systemmap[]> res.json())
-            .catch(this.handleError);
+            .catch(err => this.handleError(err))
     }
 
     createSystemmap (systemmap: Systemmap): Observable<Systemmap> {
@@ -32,7 +32,7 @@ export class SystemmapService {
 
         return this.http.post(APP_SETTINGS.SYSTEMMAPS_URL, body, options)
             .map(res => <Systemmap> res.json())
-            .catch(this.handleError)
+            .catch(err => this.handleError(err))
     }
 
     updateSystemmap (systemmap: Systemmap): Observable<Systemmap> {
@@ -45,14 +45,13 @@ export class SystemmapService {
 
         return this.http.put(APP_SETTINGS.SYSTEMMAPS_URL + id + '/', body, options)
             .map(res => <Systemmap> res.json())
-            .catch(this.handleError)
+            .catch(err => this.handleError(err))
     }
 
     private handleError (error: Response) {
         // TODO figure out a better error handler
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
-        console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+        return Observable.throw(error.json() || 'Server error');
     }
 }
