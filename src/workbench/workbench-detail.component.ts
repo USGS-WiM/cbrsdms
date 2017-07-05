@@ -108,15 +108,6 @@ export class WorkbenchDetailComponent{
     commentgroup: FormArray;
     taggroup: FormArray;
 
-    private _showToast(message: string, timeout?: number) {
-        const toast = <HTMLElement> document.querySelector('#cbra_toast');
-        toast.className = 'cbraToast toastVisible';
-        toast.innerHTML = message;
-        setTimeout(function(){
-            toast.className = 'cbraToast';
-        }, (timeout ? timeout : 5000));
-    }
-
     private _makeControls(fields) {
         let controls = {};
         for (let i = 0, j = fields.length; i < j; i++) {
@@ -128,7 +119,8 @@ export class WorkbenchDetailComponent{
             // although we don't know the source of the submitted fields,
             // we can determine if they are from a property object by testing if a uniquely property field is present
             if (['legal_description'].indexOf(fields) > -1) {
-                if (['street', 'city', 'state'].indexOf(fields) > -1) {
+                console.log('legal_description');
+                if (['street', 'city', 'state'].indexOf(fields[i]) > -1) {
                     controls[fields[i]] = new FormControl({value: "", disabled: false}, Validators.required);
                 }
             }
@@ -136,7 +128,7 @@ export class WorkbenchDetailComponent{
             // although we don't know the source of the submitted fields,
             // we can determine if they are from a requester object by testing if a uniquely requester field is present
             else if (['email'].indexOf(fields) > -1) {
-                if (['first_name', 'last_name', 'email'].indexOf(fields) > -1) {
+                if (['first_name', 'last_name', 'email'].indexOf(fields[i]) > -1) {
                     controls[fields[i]] = new FormControl({value: "", disabled: false}, Validators.required);
                 }
             }
@@ -480,7 +472,7 @@ export class WorkbenchDetailComponent{
         let thisDateAsDate = new Date(thisDate);
         thisDateAsDate = new Date(thisDateAsDate.getTime() + Math.abs(thisDateAsDate.getTimezoneOffset()*60000));
         if (thisDateAsDate.getFullYear() < 1000  || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 1 || thisDateAsDate.getMonth() > 12 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
-            this._showToast(thisDate + " (" + thisDateAsDate.toISOString().substr(0,10) + ") is not a valid date. Please enter a valid date.");
+            APP_UTILITIES.showToast(thisDate + " (" + thisDateAsDate.toISOString().substr(0,10) + ") is not a valid date. Please enter a valid date.");
             return false;
         }
         // establish two parallel arrays of the date controls and their labels
@@ -503,7 +495,7 @@ export class WorkbenchDetailComponent{
                     prevDate = this._caseControls[prevDateControl].value;
                     if (!prevDate) {
                         // warn the user of the invalid date selection
-                        this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 3] + " has been entered!");
+                        APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 3] + " has been entered!");
                         // clear the current date control value
                         //this.updateCaseControlValue(thisDateControl, null);
                         // short circuit this validation function and exit
@@ -519,7 +511,7 @@ export class WorkbenchDetailComponent{
                     prevDate = this._caseControls[prevDateControl].value;
                     if (!prevDate) {
                         // warn the user of the invalid date selection
-                        this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 2] + " has been entered!");
+                        APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 2] + " has been entered!");
                         // clear the current date control value
                         //this.updateCaseControlValue(thisDateControl, null);
                         // short circuit this validation function and exit
@@ -532,7 +524,7 @@ export class WorkbenchDetailComponent{
                 prevDate = this._caseControls[prevDateControl].value;
                 if (!prevDate) {
                     // warn the user of the invalid date selection
-                    this._showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 1] + " has been entered!");
+                    APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + " should not be entered until " + dateControlLabels[thisDateControlIndex - 1] + " has been entered!");
                     // clear the current date control value
                     //this.updateCaseControlValue(thisDateControl, null);
                     // short circuit this validation function and exit
@@ -591,8 +583,8 @@ export class WorkbenchDetailComponent{
         // (note that the previous date MUST exist (although it could be Final Letter Date, or QC Signoff Date))
         if (thisDate && thisDateControlIndex == dateControls.length-1 && (thisDate < prevDate)) {
             // warn the user of the invalid date selection
-            if (prevDateControl == "final_letter_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 2] + "!");}
-            else {this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 1] + "!");}
+            if (prevDateControl == "final_letter_date") {APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 2] + "!");}
+            else {APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex - 1] + "!");}
             // clear the current date control value
             //this.updateCaseControlValue(thisDateControl, null);
         }
@@ -601,7 +593,7 @@ export class WorkbenchDetailComponent{
         // (note that the next date MAY OR MAY NOT exist)
         else if (thisDateControlIndex == 0 && nextDate && (thisDate > nextDate)) {
             // warn the user of the invalid date selection
-            this._showToast(dateControlLabels[thisDateControlIndex] + " can not be later than " + dateControlLabels[thisDateControlIndex+1] + "!");
+            APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + " can not be later than " + dateControlLabels[thisDateControlIndex+1] + "!");
             // clear the current date control value
             //this.updateCaseControlValue(thisDateControl, null);
         }
@@ -611,15 +603,15 @@ export class WorkbenchDetailComponent{
             // if the next date does not yet exist, which is perfectly valid, check if the current date is not null and predates the previous date (which is invalid)
             if (!nextDate && thisDate && (thisDate < prevDate)) {
                 // warn the user of the invalid date selection
-                this._showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!");
+                APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + " can not be earlier than " + dateControlLabels[thisDateControlIndex-1] + "!");
                 // clear the current date control value
                 //this.updateCaseControlValue(thisDateControl, null);
             }
             // else check if the current date is not null and predates the previous date, or postdates the next date (both of which are invalid)
             else if ((thisDate && (thisDate < prevDate)) || (nextDate && (thisDate > nextDate))) {
                 // warn the user of the invalid date selection
-                if (thisDateControl == "qc_reviewer_signoff_date" && nextDateControl == "close_date") {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 2] + "!");}
-                else {this._showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 1] + "!");}
+                if (thisDateControl == "qc_reviewer_signoff_date" && nextDateControl == "close_date") {APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 2] + "!");}
+                else {APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + " must be between " + dateControlLabels[thisDateControlIndex - 1] + " and " + dateControlLabels[thisDateControlIndex + 1] + "!");}
                 // clear the current date control value
                 //this.updateCaseControlValue(thisDateControl, null);
             }
@@ -861,7 +853,7 @@ export class WorkbenchDetailComponent{
 
 
 
-    
+
 
     fileDragHover(fileInput) {
         fileInput.stopPropagation();
@@ -1188,7 +1180,7 @@ export class WorkbenchDetailComponent{
                         this._newCase.id = cases[0].id;
                         // TODO: replace this alert with a better UX, like a modal
                         //alert("That case already exists! Loading the case details...");
-                        this._showToast("That case already exists! Loading the case details...");
+                        APP_UTILITIES.showToast("That case already exists! Loading the case details...");
                         this.__goToCase(this._newCase.id);
                         this.notready = false;
                     }

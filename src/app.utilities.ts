@@ -1,10 +1,19 @@
-import {Injectable}     from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class APP_UTILITIES {
-    public static get TODAY(): string {return new Date().toISOString().substr(0, 10);}
+    public static get TODAY(): string { return new Date().toISOString().substr(0, 10); }
 
-    public static get TIME(): string {return new Date().toISOString().substr(14, 22);}
+    public static get TIME(): string { return new Date().toISOString().substr(14, 22); }
+
+    public static showToast(message: string, timeout?: number) {
+        const toast = <HTMLElement> document.querySelector('#cbra_toast');
+        toast.className = 'cbraToast toastVisible';
+        toast.innerHTML = message;
+        setTimeout(function(){
+            toast.className = 'cbraToast';
+        }, (timeout ? timeout : 5000));
+    }
 
     public static convertArrayOfObjectsToCSV(args: any) {
         let result, counter, keys, columnDelimiter, lineDelimiter, data, headers;
@@ -23,8 +32,8 @@ export class APP_UTILITIES {
 
         // put the headers array in the same order as the data keys
         keys.forEach(function(item){
-            let obj = args.headers.filter(function ( obj ) {
-                return obj.name == item;
+            const obj = args.headers.filter(function ( obj ) {
+                return obj.name === item;
             })[0];
             headers.push(obj.descr);
         });
@@ -44,14 +53,14 @@ export class APP_UTILITIES {
         data.forEach(function (item) {
             counter = 0;
             keys.forEach(function (key) {
-                if (counter > 0) result += columnDelimiter;
+                if (counter > 0) {
+                    result += columnDelimiter;
+                }
                 if (item[key] == null) {
                     result += '';
-                }
-                else if (typeof item[key] === 'string' && item[key].includes(",")) {
+                } else if (typeof item[key] === 'string' && item[key].includes(',')) {
                     result += '"' + item[key] + '"';
-                }
-                else {
+                } else {
                     result += item[key];
                 }
                 counter++;
@@ -68,7 +77,7 @@ export class APP_UTILITIES {
             data: args.data,
             headers: args.headers
         });
-        if (csv == null) return;
+        if (csv == null) { return; }
 
         filename = args.filename || 'export.csv';
 
@@ -83,15 +92,16 @@ export class APP_UTILITIES {
         link.click();
     }
 
-    // the following functions found here: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
+    // the following functions found here:
+    // http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
     public static dynamicSort(property) {
         let sortOrder = 1;
-        if (property[0] === "-") {
+        if (property[0] === '-') {
             sortOrder = -1;
             property = property.substr(1);
         }
         return function (a, b) {
-            let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            const result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
             return result * sortOrder;
         }
     }
@@ -99,12 +109,12 @@ export class APP_UTILITIES {
     public static dynamicSortMultiple(args) {
         function dynamicSort(property) {
             let sortOrder = 1;
-            if (property[0] === "-") {
+            if (property[0] === '-') {
                 sortOrder = -1;
                 property = property.substr(1);
             }
             return function (a, b) {
-                let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+                const result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
                 return result * sortOrder;
             }
         }
@@ -114,10 +124,11 @@ export class APP_UTILITIES {
          * note that arguments object is an array-like object
          * consisting of the names of the properties to sort by
          */
-        //let props = arguments;
-        let props = args;
+        // let props = arguments;
+        const props = args;
         return function (obj1, obj2) {
-            let i = 0, result = 0, numberOfProperties = props.length;
+            let i = 0, result = 0;
+            const numberOfProperties = props.length;
             /* try getting a different result from 0 (equal)
              * as long as we have extra properties to compare
              */

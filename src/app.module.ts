@@ -48,12 +48,13 @@ import {DisplayValuePipe} from './display-value.pipe';
 import {ModalService} from './modal.service';
 import {ModalComponent} from './modal.component';
 import {routing, appRoutingProviders} from './app.routing'
+import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import {MyDatePickerModule} from 'mydatepicker';
 
 
 @NgModule({
     imports: [
-        routing, BrowserModule, FormsModule, ReactiveFormsModule, RouterModule, HttpModule, MyDatePickerModule
+        routing, BrowserModule, FormsModule, ReactiveFormsModule, RouterModule, HttpModule, MultiselectDropdownModule, MyDatePickerModule
     ],
     declarations: [
         AppComponent, ModalComponent, Grid, NavbarComponent, LoginComponent, TagListComponent, TagDetailComponent,

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {APP_UTILITIES} from '../app.utilities';
 import {IMyOptions} from 'mydatepicker';
 
 @Component({
@@ -37,15 +38,6 @@ export class ReportFilterComponent {
         this.filternotready = false;
     }
 
-    private _showToast(message: string, timeout?: number) {
-        const toast = <HTMLElement> document.querySelector('#cbra_toast');
-        toast.className = 'cbraToast toastVisible';
-        toast.innerHTML = message;
-        setTimeout(function(){
-            toast.className = 'cbraToast';
-        }, (timeout ? timeout : 5000));
-    }
-
     private convertDate(dateVal) {
         let convertedDate = ('0000' + dateVal.date.year).slice(-4);
         convertedDate += '-' + ('00' + dateVal.date.month).slice(-2);
@@ -69,10 +61,10 @@ export class ReportFilterComponent {
             if (to_date_val) {urlSearchParams += '&to_date=' + this.convertDate(to_date_val)}
 
             if (!date_field_val) {
-                this._showToast('You cannot filter without a date field selected.');
+                APP_UTILITIES.showToast('You cannot filter without a date field selected.');
                 this.filternotready = false;
             } else if (!from_date_val && !to_date_val) {
-                this._showToast('You cannot filter without at least one date value (from or to) selected.');
+                APP_UTILITIES.showToast('You cannot filter without at least one date value (from or to) selected.');
                 this.filternotready = false;
             } else {
                 this.filternotready = false;
