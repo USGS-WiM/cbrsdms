@@ -3,32 +3,29 @@
         <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
     </div>
     <div *ngIf="!notready" style="display: inline-block;">
-        <div *ngIf="noSystemmapsFound" style="display:inline;" align="center"><br /><br />No maps found.</div>
+        <!--<div *ngIf="noSystemmapsFound" style="display:inline;" align="center"><br /><br />No maps found.</div>-->
         <div *ngIf="!noSystemmapsFound" style="display:inline; width:50%; float:left;">
             <div align="center">
                 <label for="systemmap-filter">Maps</label><br />
-                <input id="systemmap-filter" placeholder="Filter" (keyup)="filterGrid(systemmap.id, systemmap.value)" #systemmap>
-                <button type="button" (click)="openModal('modalMap')">Add Map</button>
+                <input id="systemmap-filter" placeholder="Filter" (keyup)="filterSystemmaps(systemmap.value)" #systemmap>
             </div>
-            <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal('modalMap', $event)"></systemmap-grid>
+            <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal('modalMap', $event) class="multi-table""></systemmap-grid>
         </div>
-        <div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>
+        <!--<div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>-->
         <div *ngIf="!noSystemunitsFound" style="display:inline; width:15%; float:left;">
             <div align="center">
                 <label for="systemunit-filter">Units</label><br />
-                <input id="systemunit-filter" placeholder="Filter" (keyup)="filterGrid(systemunit.id, systemunit.value)" #systemunit>
-                <button type="button" (click)="openModal('modalUnit')">Add Unit</button>
+                <input id="systemunit-filter" placeholder="Filter" (keyup)="filterSystemunits(systemunit.value)" #systemunit>
             </div>
-            <systemunit-grid [rows]="systemunits" [columns]="systemunitColumns" (edit)="openModal('modalUnit', $event)"></systemunit-grid>
+            <systemunit-grid [rows]="systemunits" [columns]="systemunitColumns" (edit)="openModal('modalUnit', $event) class="multi-table""></systemunit-grid>
         </div>
-        <div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>
+        <!--<div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>-->
         <div *ngIf="!noProhibitiondatesFound" style="display:inline; width:15%; float:left;">
             <div align="center">
                 <label for="prohibitiondates-filter">Prohibition Dates</label><br />
-                <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterGrid(prohibitiondate.id, prohibitiondate.value)" #prohibitiondate>
-                <button type="button" (click)="openModal('modalDate')">Add Date</button>
+                <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterProhibitionDates(prohibitiondate.value)" #prohibitiondate>
             </div>
-            <prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits" (edit)="openModal('modalDate', $event)"></prohibitiondate-grid>
+            <prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits" (edit)="openModal('modalDate', $event) class="multi-table""></prohibitiondate-grid>
         </div>
     </div>
 </div>

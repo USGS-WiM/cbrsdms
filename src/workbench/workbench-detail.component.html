@@ -1,4 +1,4 @@
-<div class="container cbra-form" (dragover)="expandDropZone($event)" (dragleave)="shrinkDropZone($event)">
+<div class="container cbra-form">
 
     <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
     <div [hidden]="notready">
@@ -498,7 +498,7 @@
                         <div class="add-comment-wrap">
                             <input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment><!--
                             --><button class="btn-add-comment" type="button" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
-                            <span *ngIf="!commentUnique" class="alert alert-danger">That comment already exists for this case.</span>
+                            <span *ngIf="!commentUnique" style="position:relative;top:20px;" class="alert alert-danger">That comment already exists for this case.</span>
                         </div>
 
                         <span *ngIf="!commentOwner" class="alert alert-danger">You do not have permission edit this comment since you did not create it.</span>
