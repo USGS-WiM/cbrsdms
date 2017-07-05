@@ -20,4 +20,26 @@
         </div>
     </body>
 
+    <script>
+      var dropZone = document.getElementsByTagName("BODY")[0];
+      dropZone.addEventListener('dragover', function(e) {
+        var dropzones = document.getElementsByClassName("filedropzone");
+        for(var i = 0; i < dropzones.length; ++i){
+            dropzones[i].setAttribute("class", "filedropzone fullScreenFileDrag");
+        }
+      });
+      dropZone.addEventListener('drop', function(e) {
+        var dropzones = document.getElementsByClassName("filedropzone");
+         for(var i = 0; i < dropzones.length; ++i){
+             dropzones[i].setAttribute("class", "filedropzone");
+         }
+      });
+      dropZone.addEventListener('dragleave', function(e) {
+        var dropzones = document.getElementsByClassName("filedropzone");
+         for(var i = 0; i < dropzones.length; ++i){
+             dropzones[i].setAttribute("class", "filedropzone");
+         }
+      });
+    </script>
+
 </html>

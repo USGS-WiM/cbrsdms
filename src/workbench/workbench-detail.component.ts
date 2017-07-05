@@ -857,21 +857,11 @@ export class WorkbenchDetailComponent{
     //         document.getElementById("casefiledrag").className = "";
     //     }, 25);
     // });
-    expandDropZone() {
-        var dropzones = document.getElementsByClassName("filedropzone");
 
-        for(var i = 0; i < dropzones.length; ++i){
-            dropzones[i].setAttribute("class", "filedropzone fullScreenFileDrag");
-        }
-    }
-    shrinkDropZone() {
-         var dropzones = document.getElementsByClassName("filedropzone");
 
-        for(var i = 0; i < dropzones.length; ++i){
-            dropzones[i].setAttribute("class", "filedropzone");
-        }
-    }
 
+
+    
 
     fileDragHover(fileInput) {
         fileInput.stopPropagation();
