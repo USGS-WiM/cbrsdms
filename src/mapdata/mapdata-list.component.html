@@ -8,7 +8,7 @@
             <div align="center">
                 <label for="systemmap-filter">Maps</label><br />
                 <button type="button" (click)="openModal('modalMap')" class="btn btn-default btn-save-all">Add Map</button><br />
-                <input id="systemmap-filter" placeholder="Filter" (keyup)="filterSystemmaps(systemmap.value)" #systemmap>
+                <input id="systemmap-filter" placeholder="Filter" (keyup)="filterGrid(systemmap.id, systemmap.value)" #systemmap>
             </div>
             <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal('modalMap', $event)" class="multi-table"></systemmap-grid>
         </div>
@@ -17,7 +17,7 @@
             <div align="center">
                 <label for="systemunit-filter">Units</label><br />
                 <button type="button" (click)="openModal('modalUnit')" class="btn btn-default btn-save-all">Add Unit</button><br />
-                <input id="systemunit-filter" placeholder="Filter" (keyup)="filterSystemunits(systemunit.value)" #systemunit>
+                <input id="systemunit-filter" placeholder="Filter" (keyup)="filterGrid(systemunit.id, systemunit.value)" #systemunit>
             </div>
             <systemunit-grid [rows]="systemunits" [columns]="systemunitColumns" (edit)="openModal('modalUnit', $event)" class="multi-table"></systemunit-grid>
         </div>
@@ -26,7 +26,7 @@
             <div align="center">
                 <label for="prohibitiondates-filter">Prohibition Dates</label><br />
                 <button type="button" (click)="openModal('modalDate')" class="btn btn-default btn-save-all">Add Date</button><br />
-                <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterProhibitionDates(prohibitiondate.value)" #prohibitiondate>
+                <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterGrid(prohibitiondate.id, prohibitiondate.value)" #prohibitiondate>
             </div>
             <prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits" (edit)="openModal('modalDate', $event)" class="multi-table"></prohibitiondate-grid>
         </div>
@@ -54,21 +54,21 @@
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="map_date">Map Date</label>
-                            <input id="map_date" type="date" formControlName="map_date">
+                            <!--<input id="map_date" formControlName="map_date">-->
+                            <my-date-picker id="map_date" formControlName="map_date" [options]="myDatePickerOptions"></my-date-picker>
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="system_units">System Units</label>
-                            <input id="system_units" type="text" formControlName="system_units">
+                            <!--<input id="system_units" formControlName="system_units">-->
+                            <ss-multiselect-dropdown *ngIf="systemunits" id="system_units" formControlName="system_units" [options]="systemunitoptions" [settings]="systemunitsettings"></ss-multiselect-dropdown>
                         </div>
                     </div>
                     <div class="dms-group">
-                        <div class="dms-form-group">
-                            <label for="current">Current</label>
-                            <input id="current" type="radio" style="display:inline;" [checked]="row?.current" formControlName="current">
-                            <label for="superceded">Superceded</label>
-                            <input id="superceded" type="radio" style="display:inline;" [checked]="!row?.current" formControlName="current">
+                        <div class="dms-form-group" style="display: inline;">
+                            <label for="current" style="display: inline-block;">Current</label>
+                            <input id="current" name="current" type="checkbox" [checked]="row?.current" value="true" formControlName="current" style="display: inline-block;">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!mapForm.valid">Save</button>
@@ -115,18 +115,21 @@
     <div class="modal">
         <div class="modal-body">
             <div class="container cbra-form">
-                <h3 *ngIf="!row">Add Prohibition Date</h3><h3 *ngIf="row">Edit Prohibition Date {{row?.id}}</h3>
+                <h3 *ngIf="!row">Add Prohibition Date</h3><h3 *ngIf="row">Edit Prohib. Date {{row?.id}}</h3>
                 <form [formGroup]="dateForm" (ngSubmit)="onSubmit(dateForm, 'modalDate')">
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="system_unit">Unit Number</label>
-                            <input id="system_unit" type="text" formControlName="system_unit">
+                            <select id="system_unit" formControlName="system_unit">
+                                <option value=""></option>
+                                <option *ngFor="let unit of systemunits" [value]="unit.id" [selected]="unit.id == myProhibitiondate.system_unit_number">{{unit.system_unit_number}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group">
                             <label for="prohibition_date">Prohibition Date</label>
-                            <input id="prohibition_date" type="date" formControlName="prohibition_date">
+                            <my-date-picker id="prohibition_date" formControlName="prohibition_date" [options]="myDatePickerOptions"></my-date-picker>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!dateForm.valid">Save</button>

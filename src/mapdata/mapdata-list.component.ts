@@ -11,6 +11,8 @@ import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {APP_UTILITIES} from '../app.utilities';
 import {APP_SETTINGS} from '../app.settings';
 import {ModalService} from '../modal.service';
+import {IMultiSelectOption, IMultiSelectSettings} from 'angular-2-dropdown-multiselect';
+import {IMyOptions} from 'mydatepicker';
 
 
 @Component({
@@ -19,6 +21,14 @@ import {ModalService} from '../modal.service';
 export class MapdataListComponent implements OnInit {
 
     row: any;
+    systemunitoptions: IMultiSelectOption[] = [];
+    systemunitsettings: IMultiSelectSettings = {
+        enableSearch: true,
+        checkedStyle: 'fontawesome',
+        buttonClasses: 'btn btn-default btn-block',
+        dynamicTitleMaxItems: 3,
+        displayAllSelectedText: true
+    };
     systemmaps: Systemmap[];
     systemunits: Systemunit[];
     prohibitiondates: Prohibitiondate[];
@@ -42,19 +52,16 @@ export class MapdataListComponent implements OnInit {
     private _dateControls;
 
     notready = true;
-    noSystemmapsFound = false;
-    noSystemunitsFound = false;
-    noProhibitiondatesFound = false;
+    noSystemmapsFound = true;
+    noSystemunitsFound = true;
+    noProhibitiondatesFound = true;
     private _errorMessage: string;
+    private _today = new Date();
 
-    private _showToast(message: string, timeout?: number) {
-        const toast = <HTMLElement> document.querySelector('#cbra_toast');
-        toast.className = 'cbraToast toastVisible';
-        toast.innerHTML = message;
-        setTimeout(function(){
-            toast.className = 'cbraToast';
-        }, (timeout ? timeout : 5000));
-    }
+    myDatePickerOptions: IMyOptions = {
+        dateFormat: 'mm/dd/yyyy',
+        disableSince: {year: this._today.getFullYear(), month: this._today.getMonth() + 1, day: this._today.getDate() + 1}
+    };
 
     private _makeControls(fields) {
         const controls = {};
@@ -62,6 +69,10 @@ export class MapdataListComponent implements OnInit {
             // add a validator for required fields
             if (this._requiredFields.indexOf(fields) > -1) {
                 controls[fields[i]] = new FormControl({value: '', disabled: false}, Validators.required);
+            }
+            // special case for Multiselect field
+            else if (['system_units'].indexOf(fields[i]) > -1) {
+                controls[fields[i]] = new FormControl({value: [], disabled: false});
             } else {
                 controls[fields[i]] = new FormControl({value: '', disabled: false});
             }
@@ -72,7 +83,13 @@ export class MapdataListComponent implements OnInit {
     private _updateControls(fields, controls, values): void {
         for (let i = 0, j = fields.length; i < j; i++) {
             const field = fields[i];
-            controls[field].setValue(values[field]);
+            if (field.slice(-4) === 'date' && values[field] != null) {
+                let thisDate = new Date(values[field]);
+                thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset() * 60000));
+                controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
+            } else {
+                controls[field].setValue(values[field]);
+            }
         }
     }
 
@@ -103,6 +120,11 @@ export class MapdataListComponent implements OnInit {
         this._getSystemunits();
         this._getProhibitiondates();
         this._getColumns();
+
+        // this.mapForm.controls['system_units'].valueChanges
+        //     .subscribe((selectedOptions) => {
+        //         console.log(selectedOptions);
+        //     });
     }
 
     private _getSystemmaps(urlSearchParams?) {
@@ -130,7 +152,7 @@ export class MapdataListComponent implements OnInit {
                     this.row = <Systemmap>result;
                     this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
                 },
-                error => this._showToast('ERROR: Could not create' + ': ' + error['non_field_errors'][0])
+                error => APP_UTILITIES.showToast('ERROR: Could not create System Map' + ': ' + error['non_field_errors'][0], 10000)
             );
     }
 
@@ -142,7 +164,7 @@ export class MapdataListComponent implements OnInit {
                     this.row = <Systemmap>result;
                     this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
                 },
-                error => this._showToast('ERROR: Could not update' + ': ' + error['non_field_errors'][0])
+                error => APP_UTILITIES.showToast('ERROR: Could not update System Map' + ': ' + error['non_field_errors'][0], 10000)
             );
     }
 
@@ -152,6 +174,9 @@ export class MapdataListComponent implements OnInit {
                 res => {
                     this.systemunits = res;
                     if (this.systemunits.length > 0) {
+                        for (let i = 0, j = this.systemunits.length; i < j; i++) {
+                            this.systemunitoptions.push({id: this.systemunits[i].id, name: this.systemunits[i].system_unit_number});
+                        }
                         this.noSystemunitsFound = false;
                         this.notready = false;
                     } else {
@@ -171,7 +196,7 @@ export class MapdataListComponent implements OnInit {
                     this.row = <Systemunit>result;
                     this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
                 },
-                error => this._showToast('ERROR: Could not create' + ': ' + error['non_field_errors'][0])
+                error => APP_UTILITIES.showToast('ERROR: Could not create System Unit' + ': ' + error['non_field_errors'][0], 10000)
             );
     }
 
@@ -183,7 +208,7 @@ export class MapdataListComponent implements OnInit {
                     this.row = <Systemunit>result;
                     this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
                 },
-                error => this._showToast('ERROR: Could not update' + ': ' + error['non_field_errors'][0])
+                error => APP_UTILITIES.showToast('ERROR: Could not update System Unit' + ': ' + error['non_field_errors'][0], 10000)
             );
     }
 
@@ -212,7 +237,7 @@ export class MapdataListComponent implements OnInit {
                     this.row = <Prohibitiondate>result;
                     this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>result);
                 },
-                error => this._showToast('ERROR: Could not create' + ': ' + error['non_field_errors'][0])
+                error => APP_UTILITIES.showToast('ERROR: Could not create Prohibition Date' + ': ' + error['non_field_errors'][0], 10000)
             );
     }
 
@@ -224,7 +249,7 @@ export class MapdataListComponent implements OnInit {
                     this.row = <Prohibitiondate>result;
                     this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>result);
                 },
-                error => this._showToast('ERROR: Could not update' + ': ' + error['non_field_errors'][0])
+                error => APP_UTILITIES.showToast('ERROR: Could not update Prohibition Date' + ': ' + error['non_field_errors'][0], 10000)
             );
     }
 
@@ -248,7 +273,8 @@ export class MapdataListComponent implements OnInit {
     }
 
     filterGrid(filterID: string, filterValue: string) {
-        switch (filterID) {
+        const filterClass = filterID.slice(0, -7);
+        switch (filterClass) {
             case 'systemmap':
                 filterValue ? this._getSystemmaps('freetext=' + filterValue) : this._getSystemmaps();
                 break;
@@ -270,11 +296,28 @@ export class MapdataListComponent implements OnInit {
                     break;
                 case 'modalUnit':
                     this.row = <Systemunit>row;
-                    this._updateControls(this._mapFields, this._mapControls, <Systemunit>row);
+                    this._updateControls(this._unitFields, this._unitControls, <Systemunit>row);
                     break;
                 case 'modalDate':
                     this.row = <Prohibitiondate>row;
-                    this._updateControls(this._mapFields, this._mapControls, <Prohibitiondate>row);
+                    this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>row);
+                    break;
+                default:
+                    this.row = row;
+            }
+        } else {
+            switch (modalID) {
+                case 'modalMap':
+                    this.row = undefined;
+                    this._updateControls(this._mapFields, this._mapControls, new Systemmap());
+                    break;
+                case 'modalUnit':
+                    this.row = undefined;
+                    this._updateControls(this._unitFields, this._unitControls, new Systemunit());
+                    break;
+                case 'modalDate':
+                    this.row = undefined;
+                    this._updateControls(this._dateFields, this._dateControls, new Prohibitiondate());
                     break;
                 default:
                     this.row = row;
@@ -296,8 +339,14 @@ export class MapdataListComponent implements OnInit {
                     const map = form.value;
                     // validate that required fields have values
                     if (!map.map_number || !map.map_date) {
-                        this._showToast('Map Number and Map Date must both have a value!');
+                        APP_UTILITIES.showToast('System Map NOT saved:\nMap Number and Map Date must both have a value!');
                     } else {
+                        let thisDate = map.map_date;
+                        if (thisDate === '') { map.map_date = null; }
+                        if (thisDate !== null) {
+                            thisDate = ('0000' + thisDate.date.year).slice(-4) + '-' + ('00' + thisDate.date.month).slice(-2) + '-' + ('00' + thisDate.date.day).slice(-2);
+                            map.map_date = thisDate;
+                        }
                         if (map.id) {
                             this._updateSystemmap(map);
                         } else { this._createSystemmap(map); }
@@ -307,7 +356,7 @@ export class MapdataListComponent implements OnInit {
                     const unit = form.value;
                     // validate that required fields have values
                     if (!unit.system_unit_number) {
-                        this._showToast('Unit Number must have a value!');
+                        APP_UTILITIES.showToast('System Unit NOT saved:\nUnit Number must have a value!');
                     } else {
                         if (unit.id) {
                             this._updateSystemunit(unit);
@@ -318,7 +367,7 @@ export class MapdataListComponent implements OnInit {
                     const date = form.value;
                     // validate that required fields have values
                     if (!date.prohibition_date || !date.system_unit) {
-                        this._showToast('Unit Number and Prohibition Date must both have a value!');
+                        APP_UTILITIES.showToast('Prohibition Date NOT saved:\nUnit Number and Prohibition Date must both have a value!');
                     } else {
                         if (date.id) {
                             this._updateProhibitiondate(date);

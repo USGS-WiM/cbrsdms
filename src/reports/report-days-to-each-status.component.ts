@@ -41,18 +41,9 @@ export class ReportDaysToEachStatusComponent implements OnInit {
             });
     }
 
-    private _showToast(message: string, timeout?: number) {
-        const toast = <HTMLElement> document.querySelector('#cbra_toast');
-        toast.className = 'cbraToast toastVisible';
-        toast.innerHTML = message;
-        setTimeout(function(){
-            toast.className = 'cbraToast';
-        }, (timeout ? timeout : 5000));
-    }
-
     prevPage() {
         if (this._prevPage == null) {
-            this._showToast('This is the first page.');
+            APP_UTILITIES.showToast('This is the first page.');
         } else {
             this.notready = true;
             let prevPageNum;
@@ -72,7 +63,7 @@ export class ReportDaysToEachStatusComponent implements OnInit {
 
     nextPage() {
         if (this._nextPage == null) {
-            this._showToast('This is the last page.');
+            APP_UTILITIES.showToast('This is the last page.');
         } else {
             this.notready = true;
             let nextPageNum;
@@ -111,7 +102,7 @@ export class ReportDaysToEachStatusComponent implements OnInit {
             .subscribe(
                 reportcases => {
                     if (Number(reportcases.count) > 0) {
-                        this._showToast(reportcases.count + ' cases found.');
+                        APP_UTILITIES.showToast(reportcases.count + ' cases found.');
                         const max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
                         this.page_size < 100 ? this.page_size = 100 : this.page_size = max_records;
                         this._prevPage = reportcases.previous;
