@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {URLSearchParams} from '@angular/http';
 import {Systemmap} from '../systemmaps/systemmap';
 import {SystemmapService} from '../systemmaps/systemmap.service';
+import {Systemunitmap} from '../systemunitmaps/systemunitmap';
+import {SystemunitmapService} from '../systemunitmaps/systemunitmap.service';
 import {Systemunit} from '../systemunits/systemunit';
 import {SystemunitService} from '../systemunits/systemunit.service';
 import {Prohibitiondate} from '../prohibitiondates/prohibitiondate';
@@ -83,10 +85,14 @@ export class MapdataListComponent implements OnInit {
     private _updateControls(fields, controls, values): void {
         for (let i = 0, j = fields.length; i < j; i++) {
             const field = fields[i];
-            if (field.slice(-4) === 'date' && values[field] != null) {
-                let thisDate = new Date(values[field]);
-                thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset() * 60000));
-                controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
+            if (field.slice(-4) === 'date') {
+                if (values[field] !== undefined && values[field] !== null) {
+                    let thisDate = new Date(values[field]);
+                    thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset() * 60000));
+                    controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
+                } else {
+                    controls[field].setValue('');
+                }
             } else {
                 controls[field].setValue(values[field]);
             }
@@ -94,6 +100,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     constructor (private _systemmapService: SystemmapService,
+                 private _systemunitmapService: SystemunitmapService,
                  private _systemunitService: SystemunitService,
                  private _prohibitiondateService: ProhibitiondateService,
                  private _modalService: ModalService) {
@@ -145,9 +152,11 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _createSystemmap(map: Systemmap) {
+        const system_units = map.system_units;
         this._systemmapService.createSystemmap(map)
             .subscribe(
                 result => {
+                    if (system_units) {this._createSystemunitmap(result.id, system_units)}
                     this._getSystemmaps();
                     this.row = <Systemmap>result;
                     this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
@@ -157,15 +166,27 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _updateSystemmap(map: Systemmap) {
+        const system_units = map.system_units;
         this._systemmapService.updateSystemmap(map)
             .subscribe(
                 result => {
+                    if (system_units) {this._createSystemunitmap(result.id, system_units)}
                     this._getSystemmaps();
                     this.row = <Systemmap>result;
                     this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
                 },
                 error => APP_UTILITIES.showToast('ERROR: Could not update System Map' + ': ' + error['non_field_errors'][0], 10000)
             );
+    }
+
+    private _createSystemunitmap(mapID: number, unitIDs: number[]) {
+        for (const unitID of unitIDs) {
+            this._systemunitmapService.createSystemunitmap(new Systemunitmap(unitID, mapID))
+                .subscribe(
+                    result => console.log(result),
+                    error => console.log(error)
+                );
+        }
     }
 
     private _getSystemunits(urlSearchParams?) {
@@ -306,29 +327,21 @@ export class MapdataListComponent implements OnInit {
                     this.row = row;
             }
         } else {
-            switch (modalID) {
-                case 'modalMap':
-                    this.row = undefined;
-                    this._updateControls(this._mapFields, this._mapControls, new Systemmap());
-                    break;
-                case 'modalUnit':
-                    this.row = undefined;
-                    this._updateControls(this._unitFields, this._unitControls, new Systemunit());
-                    break;
-                case 'modalDate':
-                    this.row = undefined;
-                    this._updateControls(this._dateFields, this._dateControls, new Prohibitiondate());
-                    break;
-                default:
-                    this.row = row;
-            }
+            this._clearModalControls();
         }
         this._modalService.open(modalID);
     }
 
     closeModal(modalID: string) {
         this._modalService.close(modalID);
+        this._clearModalControls();
         this.row = undefined;
+    }
+
+    private _clearModalControls() {
+        this._updateControls(this._mapFields, this._mapControls, new Systemmap());
+        this._updateControls(this._unitFields, this._unitControls, new Systemunit());
+        this._updateControls(this._dateFields, this._dateControls, new Prohibitiondate());
     }
 
     onSubmit(form: FormGroup, modalID: string) {

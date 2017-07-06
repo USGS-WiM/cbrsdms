@@ -11,6 +11,7 @@ import {DeterminationService} from './determinations/determination.service';
 import {FieldofficeService} from './fieldoffices/fieldoffice.service';
 import {ProhibitiondateService} from './prohibitiondates/prohibitiondate.service';
 import {SystemmapService} from './systemmaps/systemmap.service';
+import {SystemunitmapService} from './systemunitmaps/systemunitmap.service';
 import {SystemunitService} from './systemunits/systemunit.service';
 import {TagService} from './tags/tag.service';
 import {UserService} from './users/user.service';
@@ -65,8 +66,8 @@ import {MyDatePickerModule} from 'mydatepicker';
     ],
     providers: [
         appRoutingProviders, CaseService, CasefileService, CasetagService, PropertyService, RequesterService, AuthenticationService,
-        CommentService, DeterminationService, FieldofficeService, ProhibitiondateService, SystemmapService, SystemunitService,
-        TagService, UserService, WorkbenchFilterService, ReportCaseService, ReportCaseCountService, ModalService
+        CommentService, DeterminationService, FieldofficeService, ProhibitiondateService, SystemmapService, SystemunitmapService,
+        SystemunitService, TagService, UserService, WorkbenchFilterService, ReportCaseService, ReportCaseCountService, ModalService
     ],
     bootstrap: [AppComponent]
 })

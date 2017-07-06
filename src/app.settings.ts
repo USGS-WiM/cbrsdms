@@ -23,6 +23,7 @@ export class APP_SETTINGS {
     public static get SYSTEMUNITS_URL(): string { return this._API_ENDPOINT + 'systemunits/' };
     public static get FIELDOFFICES_URL(): string { return this._API_ENDPOINT + 'fieldoffices/' };
     public static get SYSTEMMAPS_URL(): string { return this._API_ENDPOINT + 'systemmaps/' };
+    public static get SYSTEMUNITMAPS_URL(): string { return this._API_ENDPOINT + 'systemunitmaps/' };
     public static get USERS_URL(): string { return this._API_ENDPOINT + 'users/' };
     public static get DETERMINATIONS_URL(): string { return this._API_ENDPOINT + 'determinations/' };
     public static get SYSTEMUNITPROHIBITIONDATES_URL(): string { return this._API_ENDPOINT + 'systemunitprohibitiondates/' };

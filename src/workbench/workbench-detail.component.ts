@@ -412,7 +412,7 @@ export class WorkbenchDetailComponent{
         this._systemmapService.getSystemmaps(new URLSearchParams('unit='+unitID))
             .subscribe(
                 systemmaps => {
-                    this.mySystemmaps = systemmaps;
+                    this.mySystemmaps = systemmaps.sort(APP_UTILITIES.dynamicSortMultiple(['-current', 'map_number']));
                     if (this.mySystemmaps.length == 0) { this.mapsfound = false; } //alert('No maps found for this unit.'); }
                     else {
                         this.mapsfound = true;
@@ -430,7 +430,9 @@ export class WorkbenchDetailComponent{
     public getSystemmapdate(mapID) {
         if (!mapID) {this._caseControls["cbrs_map_date"].setValue("");}
         else {
+            console.log('getSystemmapdate else');
             let maps = this.mySystemmaps.filter(function (map) {return map.id == mapID;});
+            console.log(maps[0].map_date);
             this._caseControls["cbrs_map_date"].setValue(maps[0].map_date);
             if(this._debug){console.log("5: "+APP_UTILITIES.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);}
             //this.updateControl("cbrs_map_date", this.myCase_fields, this.caseControls, this.mySystemmaps);
