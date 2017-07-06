@@ -10,7 +10,7 @@
                 <button type="button" (click)="openModal('modalMap')" class="btn btn-default btn-save-all">Add Map</button><br />
                 <input id="systemmap-filter" placeholder="Filter" (keyup)="filterGrid(systemmap.id, systemmap.value)" #systemmap>
             </div>
-            <systemmap-grid [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal('modalMap', $event)" class="multi-table"></systemmap-grid>
+            <systemmap-grid *ngIf="systemunits" [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal('modalMap', $event)" class="multi-table"></systemmap-grid>
         </div>
         <!--<div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>-->
         <div *ngIf="!noSystemunitsFound" class="mapData-filter">
@@ -28,7 +28,7 @@
                 <button type="button" (click)="openModal('modalDate')" class="btn btn-default btn-save-all">Add Date</button><br />
                 <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterGrid(prohibitiondate.id, prohibitiondate.value)" #prohibitiondate>
             </div>
-            <prohibitiondate-grid [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits" (edit)="openModal('modalDate', $event)" class="multi-table"></prohibitiondate-grid>
+            <prohibitiondate-grid *ngIf="systemunits" [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits" (edit)="openModal('modalDate', $event)" class="multi-table"></prohibitiondate-grid>
         </div>
     </div>
 </div>
@@ -71,8 +71,9 @@
                             <input id="current" name="current" type="checkbox" [checked]="row?.current" value="true" formControlName="current" style="display: inline-block;">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!mapForm.valid">Save</button>
-                    <button type="button" class="btn btn-default" style="display:inline;" (click)="closeModal('modalMap')">Cancel</button>
+                    <button type="submit" class="btn btn-default btn-primary btn-group" [disabled]="!mapForm.valid">Save</button>
+                    <button type="button" class="btn btn-default btn-danger btn-group" (click)="deleteRow('modalMap', row?.id)">Delete</button>
+                    <button type="button" class="btn btn-default btn-group" (click)="closeModal('modalMap')">Cancel</button>
                 </form>
             </div>
         </div>
@@ -103,8 +104,9 @@
                             <input id="field_office" type="text" formControlName="field_office">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!unitForm.valid">Save</button>
-                    <button type="button" class="btn btn-default" style="display:inline;" (click)="closeModal('modalUnit')">Cancel</button>
+                    <button type="submit" class="btn btn-default btn-primary btn-group" [disabled]="!unitForm.valid">Save</button>
+                    <button type="button" class="btn btn-default btn-danger btn-group" (click)="deleteRow('modalUnit', row?.id)">Delete</button>
+                    <button type="button" class="btn btn-default btn-group" (click)="closeModal('modalUnit')">Cancel</button>
                 </form>
             </div>
         </div>

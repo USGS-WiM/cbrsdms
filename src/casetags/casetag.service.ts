@@ -17,7 +17,7 @@ export class CasetagService {
             .map(res => <Casetag> res.json())
             .catch(this.handleError);
     }
-  
+
     getCasetags (searchArgs?: URLSearchParams) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
@@ -36,15 +36,15 @@ export class CasetagService {
             .map(res => <Casetag> res.json())
             .catch(this.handleError)
     }
-    
+
     updateCasetag (casetag: Casetag) : Observable<Casetag> {
         // pull out the ID
         let id = casetag.id;
         delete casetag['id'];
-        
+
         let body = JSON.stringify(casetag);
         let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
-        
+
         return this.http.put(APP_SETTINGS.CASETAGS_URL+id+'/', body, options)
             .map(res => <Casetag> res.json())
             .catch(this.handleError)
@@ -52,8 +52,10 @@ export class CasetagService {
 
     deleteCasetag (id: number | string) : Observable<Response> {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
-        
-        return this.http.delete(APP_SETTINGS.CASETAGS_URL+id+'/', options);
+
+        return this.http.delete(APP_SETTINGS.CASETAGS_URL+id+'/', options)
+            .map(res => console.log(res))
+            .catch(this.handleError);
     }
 
     private handleError (error: Response) {
