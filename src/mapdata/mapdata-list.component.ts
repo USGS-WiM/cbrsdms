@@ -152,6 +152,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _createSystemmap(map: Systemmap) {
+        this.notready = true;
         const system_units = map.system_units;
         this._systemmapService.createSystemmap(map)
             .subscribe(
@@ -166,6 +167,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _updateSystemmap(map: Systemmap) {
+        this.notready = true;
         const system_units = map.system_units;
         this._systemmapService.updateSystemmap(map)
             .subscribe(
@@ -210,6 +212,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _createSystemunit(unit: Systemunit) {
+        this.notready = true;
         this._systemunitService.createSystemunit(unit)
             .subscribe(
                 result => {
@@ -222,6 +225,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _updateSystemunit(unit: Systemunit) {
+        this.notready = true;
         this._systemunitService.updateSystemunit(unit)
             .subscribe(
                 result => {
@@ -251,6 +255,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _createProhibitiondate(date: Prohibitiondate) {
+        this.notready = true;
         this._prohibitiondateService.createProhibitiondate(date)
             .subscribe(
                 result => {
@@ -263,6 +268,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _updateProhibitiondate(date: Prohibitiondate) {
+        this.notready = true;
         this._prohibitiondateService.updateProhibitiondate(date)
             .subscribe(
                 result => {
@@ -272,6 +278,37 @@ export class MapdataListComponent implements OnInit {
                 },
                 error => APP_UTILITIES.showToast('ERROR: Could not update Prohibition Date' + ': ' + error['non_field_errors'][0], 10000)
             );
+    }
+
+    deleteRow(modalID: string, recordID: number) {
+        this.notready = true;
+        if (confirm('Are you certain you want to delete this record?')) {
+            switch (modalID) {
+                case 'modalMap':
+                    this._systemmapService.deleteSystemmap(recordID)
+                        .subscribe(
+                            res => {
+                                this._getSystemmaps();
+                            },
+                            err => console.log(err)
+                        );
+                    this.closeModal(modalID);
+                    break;
+                case 'modalUnit':
+                    this._systemunitService.deleteSystemunit(recordID)
+                        .subscribe(
+                            res => {
+                                this._getSystemunits();
+                            },
+                            err => console.log(err)
+                        );
+                    this.closeModal(modalID);
+                    break;
+                default:
+                    this.notready = false;
+                    break;
+            }
+        }
     }
 
     private _getColumns() {

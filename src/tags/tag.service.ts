@@ -17,7 +17,7 @@ export class TagService {
             .map(res => <Tag> res.json())
             .catch(this.handleError);
     }
-  
+
     getTags (searchArgs?: URLSearchParams) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
@@ -34,15 +34,15 @@ export class TagService {
             .map(res => <Tag> res.json())
             .catch(this.handleError)
     }
-    
+
     updateTag (tag: Tag) : Observable<Tag> {
         // pull out the ID
         let id = tag.id;
         delete tag['id'];
-        
+
         let body = JSON.stringify(tag);
         let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
-        
+
         return this.http.put(APP_SETTINGS.TAGS_URL+id+'/', body, options)
             .map(res => <Tag> res.json())
             .catch(this.handleError)
@@ -51,9 +51,9 @@ export class TagService {
     deleteTag (id: number | string) {
         let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
-        return this.http.delete(APP_SETTINGS.TAGS_URL+id+'/', options);
-            //.map(res => console.log(res))
-            //.catch(this.handleError);
+        return this.http.delete(APP_SETTINGS.TAGS_URL+id+'/', options)
+            .map(res => console.log(res))
+            .catch(this.handleError);
     }
 
     private handleError (error: Response) {
