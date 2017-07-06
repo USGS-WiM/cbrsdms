@@ -95,15 +95,12 @@
                                 <label for="map_number">Map Number</label>
                                 <select id="map_number" formControlName="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
                                     <option value=""></option>
-                                    <option *ngFor="let map of mySystemmaps" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.map_number}}</option>
+                                    <option *ngFor="let map of mySystemmaps" [style.background-color]="map.current ? '' : 'gray'" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.current? map.map_number : map.map_number + " (superseded)"}}</option>
                                 </select>
                             </div>
                             <div class="col-md-2 dms-form-group bb br">
                                 <label for="cbrs_map_date">Map Date</label>
                                 <input id="cbrs_map_date" formControlName="cbrs_map_date" readonly>
-                                <!--<select id="cbrs_map_date" class="form-control">-->
-                                <!--    <option *ngFor="let mapdate of availableSystemmapdates" [value]="mapdate.id">{{mapdate.map_date}}</option>-->
-                                <!--</select>-->
                             </div>
                             <div class="col-md-2 dms-form-group bb br">
                                 <label for="determination">Determination</label>

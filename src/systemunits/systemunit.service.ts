@@ -26,8 +26,8 @@ export class SystemunitService {
             .catch(this.handleError);
     }
 
-    createSystemunit (systemmap: Systemunit): Observable<Systemunit> {
-        const body = JSON.stringify(systemmap);
+    createSystemunit (systemunit: Systemunit): Observable<Systemunit> {
+        const body = JSON.stringify(systemunit);
         const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.post(APP_SETTINGS.SYSTEMUNITS_URL, body, options)
