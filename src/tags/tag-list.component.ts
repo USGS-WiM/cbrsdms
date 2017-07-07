@@ -1,11 +1,12 @@
-import {Component}         from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-import {URLSearchParams}    from '@angular/http';
-import {NavbarComponent}   from '../navbar.component';
-import {TagService}        from './tag.service';
-import {Tag}               from './tag';
-import {CaseService}       from '../cases/case.service';
+import {URLSearchParams} from '@angular/http';
+import {TagService} from './tag.service';
+import {Tag} from './tag';
+import {CaseService} from '../cases/case.service';
+import {Case} from '../cases/case';
+import {APP_UTILITIES} from '../app.utilities';
 
 @Component({
     providers: [TagService, CaseService],
@@ -14,8 +15,8 @@ import {CaseService}       from '../cases/case.service';
 export class TagListComponent {
     error: Boolean = false;
     form: FormGroup;
-    name: FormControl = new FormControl("", Validators.required);
-    description: FormControl = new FormControl("");
+    name: FormControl = new FormControl('', Validators.required);
+    description: FormControl = new FormControl('');
     notready: Boolean = true;
     nottoggled: Boolean = true;
     private _errorMessage: string;
@@ -24,8 +25,8 @@ export class TagListComponent {
 
     constructor(fb: FormBuilder, private _tagService: TagService, private _caseService: CaseService, private _router: Router) {
         this.form = fb.group({
-            "name": this.name,
-            "description": this.description
+            'name': this.name,
+            'description': this.description
         });
         this._getTags();
     }
@@ -43,18 +44,18 @@ export class TagListComponent {
 
     deleteTag(tag) {
         this.error = false;
-        if (window.confirm("Are you sure you want to delete this tag?")) {
-            this._caseService.getCases(new URLSearchParams('tags='+tag))
+        if (window.confirm('Are you sure you want to delete this tag?')) {
+            this._caseService.getCases(new URLSearchParams('tags=' + tag))
                 .subscribe(
-                    cases => {
+                    (cases: Case[]) => {
                         if (cases.length > 0) {
-                            alert("This tag cannot be removed because it is assigned to one or more determination cases.");
-                        }
-                        else {
+                            APP_UTILITIES.showToast(
+                                'This tag cannot be removed because it is assigned to one or more determination cases.');
+                        } else {
                             this._tagService.deleteTag(tag)
                                 .subscribe(
-                                    tag => {this._getTags();},
-                                    error => this._errorMessage = <any>error);
+                                    res => this._getTags(),
+                                    error => this._errorMessage = <any>error)
                         }
                     },
                     error => this._errorMessage = <any>error);
@@ -68,7 +69,6 @@ export class TagListComponent {
 
     goToCases(tag: any) {
         this._router.navigate( ['/workbench'], {queryParams: {'tags': tag}} );
-        //this._router.navigate( ['/workbench', {'tag': tag}] );
     }
 
     toggleCreateTagForm() {
@@ -77,19 +77,18 @@ export class TagListComponent {
 
     onSubmit(value: any) {
         this.error = false;
-        let newtag = new Tag(value.name, value.description);
+        const newtag = new Tag(value.name, value.description);
         this._validateTag(newtag);
     }
 
     private _validateTag(tag: Tag) {
-        this._tagService.getTags(new URLSearchParams('name='+tag.name))
+        this._tagService.getTags(new URLSearchParams('name=' + tag.name))
             .subscribe(
-                tags => {
-                    if (tags.length != 0) {
+                (tags: Tag[]) => {
+                    if (tags.length !== 0) {
                         this.error = true;
                         this.notready = false;
-                    }
-                    else {
+                    } else {
                         this._createTag(tag);
                         this.toggleCreateTagForm();
                         this.notready = false;
@@ -101,7 +100,7 @@ export class TagListComponent {
     private _createTag(tag: Tag) {
         this._tagService.createTag(tag)
             .subscribe(
-                tag => {
+                res => {
                     this._getTags();
                     // reset the form
                     this.name.setValue(null);

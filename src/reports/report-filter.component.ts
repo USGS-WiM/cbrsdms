@@ -38,13 +38,6 @@ export class ReportFilterComponent {
         this.filternotready = false;
     }
 
-    private convertDate(dateVal) {
-        let convertedDate = ('0000' + dateVal.date.year).slice(-4);
-        convertedDate += '-' + ('00' + dateVal.date.month).slice(-2);
-        convertedDate += '-' + ('00' + dateVal.date.day).slice(-2);
-        return convertedDate;
-    }
-
     onSubmit(form) {
         // check each FormControl for changes
         if (form.dirty) {
@@ -57,8 +50,8 @@ export class ReportFilterComponent {
             const to_date_val = form.controls['to_date'].value;
             console.log(to_date_val);
             if (date_field_val) {urlSearchParams += '&date_field=' + date_field_val}
-            if (from_date_val) {urlSearchParams += '&from_date=' + this.convertDate(from_date_val)}
-            if (to_date_val) {urlSearchParams += '&to_date=' + this.convertDate(to_date_val)}
+            if (from_date_val) {urlSearchParams += '&from_date=' + APP_UTILITIES.convertDateToISOString(from_date_val)}
+            if (to_date_val) {urlSearchParams += '&to_date=' + APP_UTILITIES.convertDateToISOString(to_date_val)}
 
             if (!date_field_val) {
                 APP_UTILITIES.showToast('You cannot filter without a date field selected.');

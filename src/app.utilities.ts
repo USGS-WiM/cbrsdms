@@ -15,6 +15,12 @@ export class APP_UTILITIES {
         }, (timeout ? timeout : 5000));
     }
 
+    public static convertDateToISOString(datePickerObject: any) {
+        return ('0000' + datePickerObject.date.year).slice(-4)
+            + '-' + ('00' + datePickerObject.date.month).slice(-2)
+            + '-' + ('00' + datePickerObject.date.day).slice(-2);
+    }
+
     public static convertArrayOfObjectsToCSV(args: any) {
         let result, counter, keys, columnDelimiter, lineDelimiter, data, headers;
 
@@ -32,8 +38,8 @@ export class APP_UTILITIES {
 
         // put the headers array in the same order as the data keys
         keys.forEach(function(item){
-            const obj = args.headers.filter(function ( obj ) {
-                return obj.name === item;
+            const obj = args.headers.filter(function ( o ) {
+                return o.name === item;
             })[0];
             headers.push(obj.descr);
         });

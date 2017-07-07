@@ -1,51 +1,50 @@
-import {Injectable}     from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {Requester}      from './requester';
+import {Injectable} from '@angular/core';
+import {Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
+import {Requester} from './requester';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {APP_SETTINGS}   from '../app.settings';
+import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class RequesterService {
     constructor (private http: Http) {}
 
     getRequester (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
-        return this.http.get(APP_SETTINGS.REQUESTERS_URL+id+'/', options)
+        return this.http.get(APP_SETTINGS.REQUESTERS_URL + id + '/', options)
             .map(res => <Requester> res.json())
             .catch(this.handleError);
     }
-  
+
     getRequesters (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.REQUESTERS_URL, options)
-		    .map(res => <Requester[]> res.json())
-		    .catch(this.handleError);
+            .map(res => <Requester[]> res.json())
+            .catch(this.handleError);
     }
 
-    createRequester (requester: Requester) : Observable<Requester> {
-        let body = JSON.stringify(requester);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
-  
+    createRequester (requester: Requester): Observable<Requester> {
+        const body = JSON.stringify(requester);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+
         return this.http.post(APP_SETTINGS.REQUESTERS_URL, body, options)
             .map(res => <Requester> res.json())
             .catch(this.handleError)
     }
 
-    updateRequester (requester: Requester) : Observable<Requester> {
+    updateRequester (requester: Requester): Observable<Requester> {
         // pull out the ID
-        let id = requester.id;
+        const id = requester.id;
         delete requester['id'];
 
-        let body = JSON.stringify(requester);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
-        //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+        const body = JSON.stringify(requester);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
 
-        return this.http.put(APP_SETTINGS.REQUESTERS_URL+id+'/', body, options)
+        return this.http.put(APP_SETTINGS.REQUESTERS_URL + id + '/', body, options)
             .map(res => <Requester> res.json())
             .catch(this.handleError)
     }

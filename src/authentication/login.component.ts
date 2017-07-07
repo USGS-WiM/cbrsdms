@@ -10,7 +10,7 @@ import {AuthenticationService} from './authentication.service';
 
 export class LoginComponent {
     form: FormGroup;
-    error: boolean = false;
+    error = false;
     constructor(fb: FormBuilder, public _authenticationService: AuthenticationService, public router: Router) {
         this.form = fb.group({
             username:  ['', Validators.required],

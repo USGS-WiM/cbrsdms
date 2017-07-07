@@ -1,50 +1,49 @@
-import {Injectable}     from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {Fieldoffice}    from './fieldoffice';
+import {Fieldoffice} from './fieldoffice';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {APP_SETTINGS}   from '../app.settings';
+import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class FieldofficeService {
     constructor (private http: Http) {}
 
     getFieldoffice (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
-        
-        return this.http.get(APP_SETTINGS.FIELDOFFICES_URL+id+'/', options)
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+
+        return this.http.get(APP_SETTINGS.FIELDOFFICES_URL + id + '/', options)
             .map(res => <Fieldoffice> res.json())
             .catch(this.handleError);
     }
-  
+
     getFieldoffices (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
-        
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+
         return this.http.get(APP_SETTINGS.FIELDOFFICES_URL, options)
             .map(res => <Fieldoffice[]> res.json())
             .catch(this.handleError);
     }
 
-    createFieldoffice (fieldoffice: Fieldoffice) : Observable<Fieldoffice> {
-        let body = JSON.stringify(fieldoffice);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
-        //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+    createFieldoffice (fieldoffice: Fieldoffice): Observable<Fieldoffice> {
+        const body = JSON.stringify(fieldoffice);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.post(APP_SETTINGS.FIELDOFFICES_URL, body, options)
             .map(res => <Fieldoffice> res.json())
             .catch(this.handleError)
     }
-    
-    updateFieldoffice (fieldoffice: Fieldoffice) : Observable<Fieldoffice> {
+
+    updateFieldoffice (fieldoffice: Fieldoffice): Observable<Fieldoffice> {
         // pull out the ID
-        let id = fieldoffice.id;
+        const id = fieldoffice.id;
         delete fieldoffice['id'];
-        
-        let body = JSON.stringify(fieldoffice);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
-        
-        return this.http.put(APP_SETTINGS.FIELDOFFICES_URL+id+'/', body, options)
+
+        const body = JSON.stringify(fieldoffice);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+
+        return this.http.put(APP_SETTINGS.FIELDOFFICES_URL + id + '/', body, options)
             .map(res => <Fieldoffice> res.json())
             .catch(this.handleError)
     }

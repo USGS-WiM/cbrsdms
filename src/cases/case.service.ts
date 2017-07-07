@@ -1,66 +1,66 @@
-import {Injectable}     from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {Case}           from './case';
+import {Case} from './case';
 import {AuthenticationService} from '../authentication/authentication.service';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {APP_SETTINGS}   from '../app.settings';
+import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class CaseService {
     constructor (private http: Http, private _authenticationService: AuthenticationService) {}
 
     getCase (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
-        return this.http.get(APP_SETTINGS.CASES_URL+id+'/', options)
+        return this.http.get(APP_SETTINGS.CASES_URL + id + '/', options)
             .map(res => <Case> res.json())
             .catch(this.handleError);
     }
 
     getCases (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.CASES_URL, options)
             .map(res => <Case[]> res.json())
             .catch(this.handleError);
     }
 
-    createCase (acase: Case) : Observable<Case> {
-        let body = JSON.stringify(acase);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+    createCase (acase: Case): Observable<Case> {
+        const body = JSON.stringify(acase);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.post(APP_SETTINGS.CASES_URL, body, options)
             .map(res => <Case> res.json())
             .catch(this.handleError)
     }
 
-    updateCase (acase: Case) : Observable<Case> {
+    updateCase (acase: Case): Observable<Case> {
         // pull out the ID
-        let id = acase.id;
+        const id = acase.id;
         delete acase['id'];
 
-        let body = JSON.stringify(acase);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        const body = JSON.stringify(acase);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
-        return this.http.put(APP_SETTINGS.CASES_URL+id+'/', body, options)
+        return this.http.put(APP_SETTINGS.CASES_URL + id + '/', body, options)
             .map(res => <Case> res.json())
             .catch(this.handleError)
     }
 
     createFinalLeter(caseid: number | string) {
         return new Promise((resolve, reject) => {
-            let xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        let filename = "";
-                        let disposition = xhr.getResponseHeader('Content-Disposition');
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        let filename = '';
+                        const disposition = xhr.getResponseHeader('Content-Disposition');
                         if (disposition && disposition.indexOf('attachment') !== -1) {
-                            let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                            let matches = filenameRegex.exec(disposition);
-                            if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                            const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            const matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {filename = matches[1].replace(/['"]/g, '')}
                         }
                         resolve([xhr.response, filename]);
                     } else {
@@ -68,9 +68,10 @@ export class CaseService {
                     }
                 }
             };
-            xhr.responseType = "blob";
-            xhr.open("GET", APP_SETTINGS.CASES_URL+"?case_number="+caseid+"&format=docx", true);
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(sessionStorage.getItem('username') + ":" + sessionStorage.getItem('password')));
+            xhr.responseType = 'blob';
+            xhr.open('GET', APP_SETTINGS.CASES_URL + '?case_number=' + caseid + '&format=docx', true);
+            xhr.setRequestHeader('Authorization', 'Basic '
+                + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')));
             xhr.send();
         });
     }

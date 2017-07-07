@@ -135,6 +135,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-default btn-save-all" style="display:inline;" [disabled]="!dateForm.valid">Save</button>
+                    <button type="button" class="btn btn-default btn-danger btn-group" (click)="deleteRow('modalDate', row?.id)">Delete</button>
                     <button type="button" class="btn btn-default" style="display:inline;" (click)="closeModal('modalDate')">Cancel</button>
                 </form>
             </div>

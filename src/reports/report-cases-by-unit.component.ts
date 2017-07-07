@@ -126,7 +126,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
         const urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=casesbyunit';
         this._reportCaseService.getReportCases(new URLSearchParams(urlSearchParams))
             .subscribe(
-                reportcases => {
+                (reportcases: any) => {
                     if (Number(reportcases.count) > 0) {
                         APP_UTILITIES.showToast(reportcases.count + ' cases found.');
                         const max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
@@ -160,7 +160,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     private _getSystemunits() {
         this._systemunitService.getSystemunits()
             .subscribe(
-                systemunits => {
+                (systemunits: Systemunit[]) => {
                     this.systemunits = systemunits.sort(APP_UTILITIES.dynamicSort('system_unit_number'));
                 },
                 error => this._errorMessage = <any>error);
