@@ -6,6 +6,7 @@ import {Systemunit} from '../systemunits/systemunit';
 import {User} from '../users/user';
 import {WorkbenchFilterService} from './workbench-filter.service';
 import {CaseService} from '../cases/case.service';
+import {Case} from '../cases/case';
 import {TagService} from '../tags/tag.service';
 import {SystemunitService} from '../systemunits/systemunit.service';
 import {UserService} from '../users/user.service';
@@ -111,7 +112,7 @@ export class WorkbenchFilterComponent implements OnInit {
     private _getCaseIDs() {
         this._caseService.getCases(new URLSearchParams('view=caseid'))
             .subscribe(
-                cases => {
+                (cases: Case[]) => {
                     this.myCaseIDs.length = 0;
                     for (let i = 0, j = cases.length; i < j; i++) {
                         if (cases[i].duplicate) {
@@ -135,7 +136,7 @@ export class WorkbenchFilterComponent implements OnInit {
     private _getSystemunits() {
         this._systemunitService.getSystemunits()
             .subscribe(
-                systemunits => {
+                (systemunits: Systemunit[]) => {
                     this.mySystemunits = systemunits.sort(APP_UTILITIES.dynamicSort('system_unit_number'));
                 },
                 error => this._errorMessage = <any>error);
@@ -183,13 +184,17 @@ export class WorkbenchFilterComponent implements OnInit {
             for (let i = 0, j = this._myWorkbenchFilter_fields.length; i < j; i++) {
                 const field = form.controls.workbenchfiltergroup.controls[this._myWorkbenchFilter_fields[i]];
                 if (field.dirty && field.value != null && field.value !== '') {
-                    if (this._myWorkbenchFilter_fields[i] == 'request_date_after' ||
+                    if (this._myWorkbenchFilter_fields[i] === 'request_date_after' ||
                         this._myWorkbenchFilter_fields[i] === 'request_date_before') {
-                        field.value = ('0' + field.value.year).slice(-4) + '-' +
-                            ('0' + field.value.month).slice(-2) + '-' + ('0' + field.value.day).slice(-2);
+                        const newval = ('0' + field.value.year).slice(-4)
+                            + '-' + ('0' + field.value.month).slice(-2)
+                            + '-' + ('0' + field.value.day).slice(-2);
+                        wbf[this._myWorkbenchFilter_fields[i]] = newval;
+                        urlSearchParams += '&' + this._myWorkbenchFilter_fields[i]  + '=' + newval;
+                    } else {
+                        wbf[this._myWorkbenchFilter_fields[i]] = field.value;
+                        urlSearchParams += '&' + this._myWorkbenchFilter_fields[i] + '=' + field.value;
                     }
-                    wbf[this._myWorkbenchFilter_fields[i]] = field.value;
-                    urlSearchParams += '&' + this._myWorkbenchFilter_fields[i]  + '=' + field.value;
                 }
             }
             for (let i = 0, j = this._workbenchFreeText_fields.length; i < j; i++) {

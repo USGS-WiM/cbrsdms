@@ -100,7 +100,7 @@ export class ReportDaysToEachStatusComponent implements OnInit {
         const urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=daystoeachstatus';
         this._reportCaseService.getReportCases(new URLSearchParams(urlSearchParams))
             .subscribe(
-                reportcases => {
+                (reportcases: any) => {
                     if (Number(reportcases.count) > 0) {
                         APP_UTILITIES.showToast(reportcases.count + ' cases found.');
                         const max_records = Math.ceil(Number(reportcases.count) / 100) * 100;

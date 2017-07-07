@@ -1,25 +1,25 @@
-import {Injectable}     from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {Comment}        from './comment';
+import {Injectable} from '@angular/core';
+import {Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
+import {Comment} from './comment';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {APP_SETTINGS}   from '../app.settings';
+import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class CommentService {
     constructor (private http: Http) {}
 
     getComment (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
-        return this.http.get(APP_SETTINGS.COMMENTS_URL+id+'/', options)
+        return this.http.get(APP_SETTINGS.COMMENTS_URL + id + '/', options)
             .map(res => <Comment> res.json())
             .catch(this.handleError);
     }
 
     getComments (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.COMMENTS_URL, options)
             .map(res => <Comment[]> res.json())
@@ -27,26 +27,25 @@ export class CommentService {
     }
 
     createComment (comment: Comment) : Observable<Comment> {
-        let acomment = {'acase': comment.acase, 'comment': comment.comment};
-        let body = JSON.stringify(acomment);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
-        //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+        const acomment = {'acase': comment.acase, 'comment': comment.comment};
+        const body = JSON.stringify(acomment);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.post(APP_SETTINGS.COMMENTS_URL, body, options)
             .map(res => <Comment> res.json())
             .catch(this.handleError)
     }
 
-    updateComment (comment: Comment) : Observable<Comment> {
+    updateComment (comment: Comment): Observable<Comment> {
         // pull out the ID
-        let id = comment.id;
+        const id = comment.id;
         delete comment['id'];
-        let acomment = {'acase': comment.acase, 'comment': comment.comment, 'created_by': comment.created_by};
+        const acomment = {'acase': comment.acase, 'comment': comment.comment, 'created_by': comment.created_by};
 
-        let body = JSON.stringify(acomment);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        const body = JSON.stringify(acomment);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
-        return this.http.put(APP_SETTINGS.COMMENTS_URL+id+'/', body, options)
+        return this.http.put(APP_SETTINGS.COMMENTS_URL + id + '/', body, options)
             .map(res => <Comment> res.json())
             .catch(this.handleError)
     }

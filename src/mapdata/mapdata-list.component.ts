@@ -137,7 +137,7 @@ export class MapdataListComponent implements OnInit {
     private _getSystemmaps(urlSearchParams?) {
         this._systemmapService.getSystemmaps(new URLSearchParams(urlSearchParams))
             .subscribe(
-                res => {
+                (res: Systemmap[]) => {
                     this.systemmaps = res;
                     if (this.systemmaps.length > 0) {
                         this.noSystemmapsFound = false;
@@ -189,7 +189,7 @@ export class MapdataListComponent implements OnInit {
             this._systemunitmapService.getSystemunitmaps(
                 new URLSearchParams('unit=' + unitID.toString() + '&map=' + mapID.toString()))
                 .subscribe(
-                    res => {
+                    (res: Systemunitmap[]) => {
                         if (res.length === 0) {
                             this._systemunitmapService.createSystemunitmap(new Systemunitmap(unitID, mapID))
                                 .subscribe(
@@ -316,6 +316,16 @@ export class MapdataListComponent implements OnInit {
                         .subscribe(
                             res => {
                                 this._getSystemunits();
+                            },
+                            err => console.log(err)
+                        );
+                    this.closeModal(modalID);
+                    break;
+                case 'modalDate':
+                    this._prohibitiondateService.deleteProhibitiondate(recordID)
+                        .subscribe(
+                            res => {
+                                this._getProhibitiondates();
                             },
                             err => console.log(err)
                         );
@@ -450,11 +460,6 @@ export class MapdataListComponent implements OnInit {
             }
         }
         this.closeModal(modalID);
-        this.notready = false;
-    }
-
-    private _sortAndShow() {
-        this.systemmaps.sort(APP_UTILITIES.dynamicSortMultiple(['-map_number', 'map_date']));
         this.notready = false;
     }
 

@@ -3,10 +3,8 @@ import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/observable/of';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {Router}    from '@angular/router';
-import {APP_SETTINGS}   from '../app.settings';
-import {User} from '../users/user';
-import {IMyOptions} from 'mydatepicker';
+import {Router} from '@angular/router';
+import {APP_SETTINGS} from '../app.settings';
 
 
 @Injectable()
@@ -17,14 +15,14 @@ export class AuthenticationService {
 
     login(username: string, password: string) {
 
-        let options = new RequestOptions(
+        const options = new RequestOptions(
             {headers: new Headers(
-                { "Authorization": "Basic " + btoa(username + ":" + password), 'Accept': 'application/json'})
+                { 'Authorization': 'Basic ' + btoa(username + ':' + password), 'Accept': 'application/json'})
             });
 
         return this._http.post(APP_SETTINGS.AUTH_URL, null, options)
-            .map((res : Response) => {
-                let u = res.json();
+            .map((res: Response) => {
+                const u = res.json();
                 if (u.is_active) {
                     u.password = password;
                     this.user = u;
@@ -33,8 +31,7 @@ export class AuthenticationService {
                     sessionStorage.setItem('first_name', this.user.first_name);
                     sessionStorage.setItem('last_name', this.user.last_name);
                     return u;
-                }
-                else {
+                } else {
                     // TODO: do something more professional here
                     alert('This user is not authorized!');
                     return false;
@@ -44,7 +41,7 @@ export class AuthenticationService {
     }
 
     getUser() {
-        console.log("Auth.getUser: " + this.user.first_name);
+        console.log('Auth.getUser: ' + this.user.first_name);
         return this.user;
     }
 

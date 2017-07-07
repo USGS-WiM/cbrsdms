@@ -48,6 +48,14 @@ export class ProhibitiondateService {
             .catch(this.handleError)
     }
 
+    deleteProhibitiondate (id: number | string) {
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+
+        return this.http.delete(APP_SETTINGS.SYSTEMUNITPROHIBITIONDATES_URL + id + '/', options)
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     private handleError (error: Response) {
         // TODO figure out a better error handler
         // in a real world app, we may send the server to some remote logging infrastructure

@@ -1,59 +1,58 @@
-import {Injectable}     from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {Casetag}            from './casetag';
+import {Injectable} from '@angular/core';
+import {Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
+import {Casetag} from './casetag';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {APP_SETTINGS}   from '../app.settings';
+import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class CasetagService {
     constructor (private http: Http) {}
 
     getCasetag (id: number | string) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
-        return this.http.get(APP_SETTINGS.CASETAGS_URL+id+'/', options)
+        return this.http.get(APP_SETTINGS.CASETAGS_URL + id + '/', options)
             .map(res => <Casetag> res.json())
             .catch(this.handleError);
     }
 
     getCasetags (searchArgs?: URLSearchParams) {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
 
         return this.http.get(APP_SETTINGS.CASETAGS_URL, options)
             .map(res => <Casetag[]> res.json())
             .catch(this.handleError);
     }
 
-    createCasetag (casetag: Casetag) : Observable<Casetag> {
-        let acasetag = {'case': casetag.caseid, 'tag': casetag.tag};
-        let body = JSON.stringify(acasetag);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
-        //let options = new RequestOptions({headers: new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) });
+    createCasetag (casetag: Casetag): Observable<Casetag> {
+        const acasetag = {'case': casetag.caseid, 'tag': casetag.tag};
+        const body = JSON.stringify(acasetag);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
         return this.http.post(APP_SETTINGS.CASETAGS_URL, body, options)
             .map(res => <Casetag> res.json())
             .catch(this.handleError)
     }
 
-    updateCasetag (casetag: Casetag) : Observable<Casetag> {
+    updateCasetag (casetag: Casetag): Observable<Casetag> {
         // pull out the ID
-        let id = casetag.id;
+        const id = casetag.id;
         delete casetag['id'];
 
-        let body = JSON.stringify(casetag);
-        let options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        const body = JSON.stringify(casetag);
+        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
 
-        return this.http.put(APP_SETTINGS.CASETAGS_URL+id+'/', body, options)
+        return this.http.put(APP_SETTINGS.CASETAGS_URL + id + '/', body, options)
             .map(res => <Casetag> res.json())
             .catch(this.handleError)
     }
 
-    deleteCasetag (id: number | string) : Observable<Response> {
-        let options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+    deleteCasetag (id: number | string): Observable<Response> {
+        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
-        return this.http.delete(APP_SETTINGS.CASETAGS_URL+id+'/', options)
+        return this.http.delete(APP_SETTINGS.CASETAGS_URL + id + '/', options)
             .map(res => console.log(res))
             .catch(this.handleError);
     }

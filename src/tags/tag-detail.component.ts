@@ -1,11 +1,10 @@
-import {Component, OnInit, OnDestroy}         from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {URLSearchParams}    from '@angular/http';
+import {URLSearchParams} from '@angular/http';
 import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
-import {NavbarComponent}   from '../navbar.component';
-import {CaseService}       from '../cases/case.service';
-import {TagService}        from './tag.service';
-import {Tag}               from './tag';
+import {CaseService} from '../cases/case.service';
+import {TagService} from './tag.service';
+import {Tag} from './tag';
 
 @Component({
     providers: [TagService],
@@ -21,13 +20,16 @@ export class TagDetailComponent implements OnInit, OnDestroy {
     private _errorMessage: string;
     myTag: Tag;
     form: FormGroup;
-    editName: FormControl = new FormControl("", Validators.required);
-    editDescription: FormControl  = new FormControl("");
+    editName: FormControl = new FormControl('', Validators.required);
+    editDescription: FormControl  = new FormControl('');
 
-    constructor(fb: FormBuilder, private _route: ActivatedRoute, private _router: Router, private _caseService: CaseService, private _tagService: TagService) {
+    constructor(fb: FormBuilder, private _route: ActivatedRoute,
+                private _router: Router,
+                private _caseService: CaseService,
+                private _tagService: TagService) {
         this.form = fb.group({
-            "name": this.editName,
-            "description": this.editDescription
+            'name': this.editName,
+            'description': this.editDescription
         });
     }
 
@@ -52,7 +54,7 @@ export class TagDetailComponent implements OnInit, OnDestroy {
 
     onSubmit(value: any) {
         this.notready = true;
-        let newtag: Tag = new Tag(value.name, value.description);
+        const newtag: Tag = new Tag(value.name, value.description);
         this._validateTag(newtag);
     }
 
@@ -73,14 +75,13 @@ export class TagDetailComponent implements OnInit, OnDestroy {
     }
 
     private _validateTag(tag: Tag) {
-        this._tagService.getTags(new URLSearchParams('name='+tag.name))
+        this._tagService.getTags(new URLSearchParams('name=' + tag.name))
             .subscribe(
-                tags => {
-                    if (tag.name != this.myTag.name && tags.length != 0) {
+                (tags: Tag[]) => {
+                    if (tag.name !== this.myTag.name && tags.length !== 0) {
                         this.error = true;
                         this.notready = false;
-                    }
-                    else {
+                    } else {
                         this.myTag.name = tag.name;
                         this.myTag.description = tag.description;
                         this._updateTag(this.myTag);
@@ -93,7 +94,7 @@ export class TagDetailComponent implements OnInit, OnDestroy {
     private _updateTag(tag: Tag) {
         this._tagService.updateTag(tag)
             .subscribe(
-                tag => {
+                res => {
                     this.goToTags();
                 },
                 error => this._errorMessage = <any>error

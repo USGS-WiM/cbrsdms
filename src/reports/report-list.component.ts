@@ -22,7 +22,7 @@ export class ReportListComponent  {
     private _getSystemunits() {
         this._systemunitService.getSystemunits()
             .subscribe(
-                systemunits => {
+                (systemunits: Systemunit[]) => {
                     this.systemunits = systemunits.sort(APP_UTILITIES.dynamicSort('system_unit_number'));
                     this.notready = false;
                 },
