@@ -344,7 +344,7 @@ export class MapdataListComponent implements OnInit {
             new Column('map_title', 'Map Title'),
             new Column('map_date', 'Map Date'),
             new Column('system_units', 'Unit ID'),
-            new Column('current', 'Current'),
+            new Column('effective', 'Effective'),
         ];
         this.systemunitColumns = [
             new Column('system_unit_number', 'Unit Number'),

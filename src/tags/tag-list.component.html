@@ -3,22 +3,6 @@
         <div [hidden]="notready">
             <div class="container">
                 <h3 class="subheader"><b>Tags</b></h3>
-                <table class="table table-striped table-bordered table-hover table-condensed tags-table">
-                    <tbody>
-                        <tr class="head">
-                            <td>Tag</td>
-                            <td>Description</td>
-                            <td>Delete</td>
-                            <td>Cases</td>
-                        </tr>
-                        <tr *ngFor="let tag of tags">
-                            <td (click)="goToTag(tag.id)">{{tag.name}}</td>
-                            <td>{{tag.description}}</td>
-                            <td><button class="btn-tags delete" type="button" (click)="deleteTag(tag.id)">Delete <i class="fa fa-remove"></i></button></td>
-                            <td><button class="btn-tags" type="button" (click)="goToCases(tag.id)">Open <i class="fa fa-arrow-right"></i></button></td>
-                        </tr>
-                    </tbody>
-                </table>
                 <div align="center">
                     <button type="button" class="btn btn-default" (click)="toggleCreateTagForm()">Create a Tag</button><br /><br />
                     <div [hidden]="nottoggled">
@@ -38,5 +22,21 @@
                         </form>
                     </div>
                 </div>
+                <table class="table table-striped table-bordered table-hover table-condensed tags-table">
+                    <tbody>
+                        <tr class="head">
+                            <td>Tag</td>
+                            <td>Description</td>
+                            <td>Delete</td>
+                            <td>Cases</td>
+                        </tr>
+                        <tr *ngFor="let tag of tags">
+                            <td (click)="goToTag(tag.id)">{{tag.name}}</td>
+                            <td>{{tag.description}}</td>
+                            <td><button class="btn-tags delete" type="button" (click)="deleteTag(tag.id)">Delete <i class="fa fa-remove"></i></button></td>
+                            <td><button class="btn-tags" type="button" (click)="goToCases(tag.id)">Open <i class="fa fa-arrow-right"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>

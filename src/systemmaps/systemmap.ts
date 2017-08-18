@@ -4,7 +4,7 @@ export class Systemmap {
         public map_title?: string,
         public map_date?: Date,
         public system_units?: number[],
-        public current?: boolean,
+        public effective?: boolean,
         public id?: number
     ) {}
 }

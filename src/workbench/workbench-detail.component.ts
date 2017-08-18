@@ -422,7 +422,7 @@ export class WorkbenchDetailComponent{
         this._systemmapService.getSystemmaps(new URLSearchParams('unit=' + unitID))
             .subscribe(
                 (systemmaps: Systemmap[]) => {
-                    this.mySystemmaps = systemmaps.sort(APP_UTILITIES.dynamicSortMultiple(['-current', 'map_number']));
+                    this.mySystemmaps = systemmaps.sort(APP_UTILITIES.dynamicSortMultiple(['-effective', 'map_number']));
                     if (this.mySystemmaps.length === 0) {
                         this.mapsfound = false;
                     } else {
@@ -445,8 +445,7 @@ export class WorkbenchDetailComponent{
         if (!mapID) {
             this._caseControls['cbrs_map_date'].setValue('');
         } else {
-            const maps = this.mySystemmaps.filter(function (map) { return map.id === mapID; });
-            console.log(maps[0].map_date);
+            const maps = this.mySystemmaps.filter(function (map) { return map.id == mapID; });
             this._caseControls['cbrs_map_date'].setValue(maps[0].map_date);
             if (this._debug) {
                 console.log('5: ' + APP_UTILITIES.TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
@@ -464,16 +463,18 @@ export class WorkbenchDetailComponent{
     }
 
     public validateDate(thisDateControl, thisDate) {
-        if (this.notready) { return false; }
-        if (typeof thisDate === 'undefined' || thisDate === null || thisDate === '') { return false; }
-        if (typeof thisDate === 'object') {
-            if (thisDate.year === 0) {
-                return false;
-            } else {
-                thisDate = ('0000' + thisDate.year).slice(-4)
-                    + '-' + ('00' + thisDate.month).slice(-2)
-                    + '-' + ('00' + thisDate.day).slice(-2);
-            }
+        if (this.notready) {
+            return false;
+        }
+        if (typeof thisDate === 'undefined' || thisDate === null || thisDate === '') {
+            return false;
+        }
+        if (typeof thisDate === 'object' && thisDate.year === 0) {
+            return false;
+        } else {
+            thisDate = ('0000' + thisDate.year).slice(-4)
+                + '-' + ('00' + thisDate.month).slice(-2)
+                + '-' + ('00' + thisDate.day).slice(-2);
         }
         // ensure the date value is a valid date by converting it to a date object and testing the constituent date values
         let thisDateAsDate = new Date(thisDate);
@@ -906,9 +907,23 @@ export class WorkbenchDetailComponent{
 
     finalletterSelectHandler(fileInput: any) {
         this.fileDragHover(fileInput);
-        const selectedFiles = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;
-        this._finalletterToUpload = selectedFiles[0];
-        this.finalletterToUploadDetails = {'name': this._finalletterToUpload.name};
+        // if (this._finalletterToUpload) {
+        //     let message = 'There is already a final leader ready for upload.\n';
+        //     message += 'If you want to upload a different final letter, remove the current final letter.';
+        //     APP_UTILITIES.showToast(message);
+        // } else if (this.myCasefiles) {
+        //     for (const casefile of this.myCasefiles) {
+        //         if (casefile.final_letter) {
+        //             let message = 'There is already a final leader that has been uploaded.\n';
+        //             message += 'If you want to upload a different final letter, remove the current final letter.';
+        //             APP_UTILITIES.showToast(message);
+        //         }
+        //     }
+        // } else {
+            const selectedFiles = <Array<File>> fileInput.target.files || fileInput.dataTransfer.files;
+            this._finalletterToUpload = selectedFiles[0];
+            this.finalletterToUploadDetails = {'name': this._finalletterToUpload.name};
+        // }
     }
 
     removeCasefile(index: number) {
@@ -944,7 +959,8 @@ export class WorkbenchDetailComponent{
                     }
                 },
                 (error) => {
-                    console.error(error);
+                    // console.error(error);
+                    APP_UTILITIES.showToast(error);
                 }
             );
     }
@@ -956,15 +972,15 @@ export class WorkbenchDetailComponent{
             .then(
                 (result) => {
                     this._getCasefiles(this.myCase.id);
-                    this._finalletterToUpload = undefined;
-                    this.finalletterToUploadDetails = undefined;
+                    this.removeFinalLetter();
                     if (this._isNewCase) {
                         this._isNewCase = false;
                         this._router.navigate( ['/workbench/' + this.case_ID] );
                     }
                 },
                 (error) => {
-                    console.error(error);
+                    // console.error(error);
+                    APP_UTILITIES.showToast(error);
                 }
             );
     }
@@ -1119,16 +1135,17 @@ export class WorkbenchDetailComponent{
         const changedRequesterGroup = form.controls.requestergroup;
 
         // ensure required fields have values
-        // TODO remove the console logging and replace with proper user notification
+        let hasRequiredValues = true;
         if (!changedPropertyGroup.controls.street && !changedPropertyGroup.controls.city  && !changedPropertyGroup.controls.state) {
-            APP_UTILITIES.showToast('Warning: couldn\'t find the property street and/or city and/or state');
-            return;
+            APP_UTILITIES.showToast('Could not find the property street and/or city and/or state. Some address value is required.');
+            hasRequiredValues = false;
         }
         if (!changedRequesterGroup.controls.first_name && !changedRequesterGroup.controls.last_name
             && !changedRequesterGroup.controls.email) {
-            APP_UTILITIES.showToast('Warning: couldn\'t find the requester first name and/or last name and/or email');
-            return;
+            APP_UTILITIES.showToast('Could not find the requester first name and/or last name and/or email. Some name is required.');
+            hasRequiredValues = false;
         }
+        if (!hasRequiredValues) {return}
 
         // ensure no property fields are null (use empty strings if null)
         for (const group of changedPropertyGroup) {

@@ -95,7 +95,7 @@
                                 <label for="map_number">Map Number</label>
                                 <select id="map_number" formControlName="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
                                     <option value=""></option>
-                                    <option *ngFor="let map of mySystemmaps" [style.background-color]="map.current ? '' : 'gray'" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.current? map.map_number : map.map_number + " (superseded)"}}</option>
+                                    <option *ngFor="let map of mySystemmaps" [style.background-color]="map.effective ? '' : 'gray'" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.effective? map.map_number : map.map_number + " (superseded)"}}</option>
                                 </select>
                             </div>
                             <div class="col-md-2 dms-form-group bb br">
@@ -206,17 +206,19 @@
 
                                 <div class="col-xs-12 col-md-6 filepad">
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
-                                        <li *ngFor="let casefile of myCasefiles">
-                                            <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
-                                            <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
-                                        </li>
+                                        <div *ngFor="let casefile of myCasefiles">
+                                            <li *ngIf="casefile.final_letter">
+                                                <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                                <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
+                                            </li>
+                                        </div>
                                     </ul>
                                 </div>
 
                                 <div class="col-xs-12 col-md-6 filepad">
                                     <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">
                                         <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }}</span>
-                                        <button type="button" (click)="removeFinalLetter()">-</button>
+                                        <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton">-</button>
                                     </div>
 
                                     <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
@@ -238,17 +240,19 @@
 
                                 <div class="col-md-6 col-xs-12 filepad">
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
-                                        <li *ngFor="let casefile of myCasefiles">
-                                            <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
-                                            <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
-                                        </li>
+                                        <div *ngFor="let casefile of myCasefiles">
+                                            <li *ngIf="casefile.final_letter">
+                                                <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
+                                                <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
+                                            </li>
+                                        </div>
                                     </ul>
                                 </div>
 
                                 <div class="col-md-6 col-xs-12 filepad">
                                     <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">
                                         <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }}</span>
-                                        <button type="button" (click)="removeFinalLetter()">-</button>
+                                        <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton">-</button>
                                     </div>
 
                                     <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
