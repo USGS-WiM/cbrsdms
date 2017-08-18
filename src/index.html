@@ -21,25 +21,34 @@
     </body>
 
     <script>
-      var dropZone = document.getElementsByTagName("BODY")[0];
-      dropZone.addEventListener('dragover', function(e) {
-        var dropzones = document.getElementsByClassName("filedropzone");
-        for(var i = 0; i < dropzones.length; ++i){
-            dropzones[i].setAttribute("class", "filedropzone fullScreenFileDrag");
-        }
-      });
-      dropZone.addEventListener('drop', function(e) {
-        var dropzones = document.getElementsByClassName("filedropzone");
-         for(var i = 0; i < dropzones.length; ++i){
-             dropzones[i].setAttribute("class", "filedropzone");
-         }
-      });
-      dropZone.addEventListener('dragleave', function(e) {
-        var dropzones = document.getElementsByClassName("filedropzone");
-         for(var i = 0; i < dropzones.length; ++i){
-             dropzones[i].setAttribute("class", "filedropzone");
-         }
-      });
+        window.addEventListener("dragover",function(e){
+          e = e || event;
+          e.preventDefault();
+        },false);
+        window.addEventListener("drop",function(e){
+          e = e || event;
+          e.preventDefault();
+        },false);
+        var dropZone = document.getElementsByTagName("BODY")[0];
+        var dropzoneId = "filedropzone";
+        dropZone.addEventListener('dragover', function(e) {
+            var dropzones = document.getElementsByClassName(dropzoneId);
+            for(var i = 0; i < dropzones.length; ++i){
+                dropzones[i].setAttribute("class", dropzoneId + " fullScreenFileDrag");
+            }
+        });
+        dropZone.addEventListener('drop', function(e) {
+            var dropzones = document.getElementsByClassName(dropzoneId);
+            for(var i = 0; i < dropzones.length; ++i){
+                dropzones[i].setAttribute("class", dropzoneId);
+            }
+        });
+        dropZone.addEventListener('dragleave', function(e) {
+            var dropzones = document.getElementsByClassName(dropzoneId);
+             for(var i = 0; i < dropzones.length; ++i){
+                 dropzones[i].setAttribute("class", dropzoneId);
+             }
+        });
     </script>
 
 </html>

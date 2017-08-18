@@ -6,8 +6,8 @@ export class APP_SETTINGS {
 
     private static _environment = 'production';
     // private static _API_ENDPOINT = 'http://localhost:8000/cbraservices/';
-	// private static _API_ENDPOINT = 'http://cbradev.wim.usgs.gov/cbra/cbraservices/';
-	private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbra/cbraservices/';
+    // private static _API_ENDPOINT = 'http://cbradev.wim.usgs.gov/cbra/cbraservices/';
+    private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbra/cbraservices/';
     public static set environment (env: string) { this._environment = env };
 
     public static get IS_LOGGEDIN(): boolean { return (!!sessionStorage.getItem('username') && !!sessionStorage.getItem('password')); };
@@ -54,6 +54,6 @@ export class APP_SETTINGS {
         return ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/pdf', 'text/plain', 'image/jpeg', 'image/png', 'image/gif', 'image/tiff', 'image/bmp',
             'application/zip', 'application/x-bzip', 'application/x-bzip2'] };
-    public static get MAX_UPLOAD_SIZE(): number { return 2621440 };
+    public static get MAX_UPLOAD_SIZE(): number { return 10485760 };
 
 }
