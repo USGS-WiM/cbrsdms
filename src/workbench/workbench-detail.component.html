@@ -95,7 +95,7 @@
                                 <label for="map_number">Map Number</label>
                                 <select id="map_number" formControlName="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>
                                     <option value=""></option>
-                                    <option *ngFor="let map of mySystemmaps" [style.background-color]="map.effective ? '' : 'gray'" [value]="map.id" [selected]="map.id == myCase.map_number">{{map.effective? map.map_number : map.map_number + " (superseded)"}}</option>
+                                    <option *ngFor="let map of mySystemmaps" [style.background-color]="map.effective ? '' : 'gray'" [value]="map.id" [selected]="map.id == selectedMap">{{map.effective? map.map_number : map.map_number + " (superseded)"}}</option>
                                 </select>
                             </div>
                             <div class="col-md-2 dms-form-group bb br">
@@ -274,35 +274,35 @@
                         <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="request_date">Request Date</label>
-                                <my-date-picker id="request_date" formControlName="request_date" [options]="myDatePickerOptions" (change)="validateDate(newRequestDate.elem.nativeElement.id, newRequestDate.selectedDate)" (inputFieldChanged)="validateDate(newRequestDate.elem.nativeElement.id, newRequestDate.selectedDate)" #newRequestDate></my-date-picker>
+                                <my-date-picker id="request_date" formControlName="request_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newRequestDate.elem.nativeElement.id, newRequestDate.selectedDate)" #newRequestDate></my-date-picker>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="dms-form-group br">
                                 <label for="fws_fo_received_date">Field Office Received Date</label>
-                                <my-date-picker id="fws_fo_received_date" formControlName="fws_fo_received_date" [options]="myDatePickerOptions" (change)="validateDate(newFODate.elem.nativeElement.id, newFODate.selectedDate)" (inputFieldChanged)="validateDate(newFODate.elem.nativeElement.id, newFODate.selectedDate)" #newFODate></my-date-picker>
+                                <my-date-picker id="fws_fo_received_date" formControlName="fws_fo_received_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newFODate.elem.nativeElement.id, newFODate.selectedDate)" #newFODate></my-date-picker>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="dms-form-group br">
                                 <label for="fws_hq_received_date">Headquarters Received Date</label>
-                                <my-date-picker id="fws_hq_received_date" formControlName="fws_hq_received_date" [options]="myDatePickerOptions" (change)="validateDate(newHQDate.elem.nativeElement.id, newHQDate.selectedDate)" (inputFieldChanged)="validateDate(newHQDate.elem.nativeElement.id, newHQDate.selectedDate)" #newHQDate></my-date-picker>
+                                <my-date-picker id="fws_hq_received_date" formControlName="fws_hq_received_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newHQDate.elem.nativeElement.id, newHQDate.selectedDate)" #newHQDate></my-date-picker>
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="final_letter_date">Final Letter Date</label>
-                                <my-date-picker *ngIf="!isOnHold" id="final_letter_date" formControlName="final_letter_date" [options]="myDatePickerOptions" (change)="validateDate(newFinalLetterDate.elem.nativeElement.id, newFinalLetterDate.selectedDate)" (inputFieldChanged)="validateDate(newFinalLetterDate.elem.nativeElement.id, newFinalLetterDate.selectedDate)" #newFinalLetterDate></my-date-picker>
+                                <my-date-picker *ngIf="!isOnHold" id="final_letter_date" formControlName="final_letter_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newFinalLetterDate.elem.nativeElement.id, newFinalLetterDate.selectedDate)" #newFinalLetterDate></my-date-picker>
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="close_date">Close Date</label>
-                                <my-date-picker *ngIf="!isOnHold" id="close_date" formControlName="close_date" [options]="myDatePickerOptions" (change)="validateDate(newCloseDate.elem.nativeElement.id, newCloseDate.selectedDate)" (inputFieldChanged)="validateDate(newCloseDate.elem.nativeElement.id, newCloseDate.selectedDate)" #newCloseDate></my-date-picker>
+                                <my-date-picker *ngIf="!isOnHold" id="close_date" formControlName="close_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newCloseDate.elem.nativeElement.id, newCloseDate.selectedDate)" #newCloseDate></my-date-picker>
                             </div>
                         </div>
 
@@ -326,7 +326,7 @@
                         <div class="col-md-3">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="analyst_signoff_date">Analyst Signoff Date</label>
-                                <my-date-picker *ngIf="!isOnHold" id="analyst_signoff_date" formControlName="analyst_signoff_date" [options]="myDatePickerOptions" (change)="validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)" (inputFieldChanged)="validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)" #newAnalystDate></my-date-picker>
+                                <my-date-picker *ngIf="!isOnHold" id="analyst_signoff_date" formControlName="analyst_signoff_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)" #newAnalystDate></my-date-picker>
                             </div>
                         </div>
 
@@ -342,7 +342,7 @@
                         <div class="col-md-3">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="qc_reviewer_signoff_date">QC Reviewer Signoff Date</label>
-                                <my-date-picker *ngIf="!isOnHold" id="qc_reviewer_signoff_date" formControlName="qc_reviewer_signoff_date" [options]="myDatePickerOptions" (change)="validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)" (inputFieldChanged)="validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)" #newQC1Date></my-date-picker>
+                                <my-date-picker *ngIf="!isOnHold" id="qc_reviewer_signoff_date" formControlName="qc_reviewer_signoff_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)" #newQC1Date></my-date-picker>
                             </div>
                         </div>
 
