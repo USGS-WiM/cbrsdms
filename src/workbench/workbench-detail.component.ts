@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {URLSearchParams} from '@angular/http';
 import {Case} from '../cases/case';
@@ -38,29 +38,30 @@ import * as FileSaver from 'file-saver';
     templateUrl: 'workbench-detail.component.html',
     styles: ['.error {color:red;}']
 })
-export class WorkbenchDetailComponent{
+export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     case_ID: number;
-    mapsfound = true;
     private _filesToUpload: File[] = [];
     filesToUploadDetails: Object[] = [];
     private _finalletterToUpload: File;
     finalletterToUploadDetails: Object;
     caseFileClass = 'col-md-4';
+    inInit = true;
+    mapsfound = true;
     active = true;
-    notready: Boolean = true;
-    noxhr: Boolean = true;
-    isOnHold: Boolean = false;
-    isreadonly_prohibitiondate: Boolean = false;
-    commentUnique: Boolean = true;
-    commentOwner: Boolean = true;
-    editingComment: Boolean = false;
+    notready= true;
+    noxhr = true;
+    isOnHold = false;
+    isreadonly_prohibitiondate = false;
+    commentUnique = true;
+    commentOwner = true;
+    editingComment = false;
     editCommentID: number;
-    private _isNewCase: Boolean = false;
+    private _isNewCase = false;
     private _errorMessage: string;
     private _today = new Date();
 
     private _userFields: string[] = ['analyst', 'qc_reviewer'];
-    private _debug: Boolean = false;
+    private _debug = false;
 
     private _newCase: Case;
     private _newProperty: Property;
@@ -189,6 +190,14 @@ export class WorkbenchDetailComponent{
         this._casetagsControls.push(new FormControl(value));
     }
 
+    ngOnInit () {
+        this.inInit = true;
+    }
+
+    ngAfterViewInit() {
+        this.inInit = false;
+    }
+
     constructor (fb: FormBuilder,
                  private _route: ActivatedRoute,
                  private _router: Router,
@@ -258,10 +267,10 @@ export class WorkbenchDetailComponent{
             // otherwise this is a new case, so get user values for the select inputs
             this._isNewCase = true;
             this._getUsers();
+            this._getSystemunits();
         }
         // get values for the select inputs
         this._getCaseIDs();
-        this._getSystemunits();
         this._getFieldoffices();
         this._getDeterminations();
 
@@ -271,26 +280,6 @@ export class WorkbenchDetailComponent{
             this.noxhr = false;
         }
 
-        // TODO: Discover and fix the underlying issue and remove this workaround.
-        // This is a workaround to get the Map Number select box to properly select the case's map number.
-        // During debugging, the select box actually does make the proper selection, but then for some reason
-        // it de-selects, leaving the selected value null, and I can't figure out why. Maybe it's losing a race
-        // condition between the page load and the system unit select box load???
-        setTimeout(() => {
-            // this._updateControl('map_number', this._myCase_fields, this._caseControls, this.mySystemmaps);
-            this.selectedMap = this.myCase.map_number;
-            if (this._debug) {
-                console.log('6: ' + APP_UTILITIES.TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
-            }
-            // console.log('map_number workaround');
-        }, 10000);
-
-/*
-        this.form.valueChanges
-            .subscribe((formValue) => {
-                console.log(formValue);
-            });
-*/
     }
 
     private _getCase(caseID: number) {
@@ -301,10 +290,11 @@ export class WorkbenchDetailComponent{
                     if (this._debug) {
                         console.log('1: ' + APP_UTILITIES.TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
                     }
-                    // this.selectedMap = this.myCase.map_number;
                     this.selectedAnalyst = acase.analyst;
                     this.selectedQCReviewer = acase.qc_reviewer;
+                    this.selectedMap = this.myCase.map_number;
                     this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
+                    this._getSystemunits();
                     this._getUsers();
                 },
                 error => this._errorMessage = <any>error);
@@ -412,8 +402,9 @@ export class WorkbenchDetailComponent{
                     if (this.myCase.cbrs_unit) {
                         this.getSystemmaps(this.myCase.cbrs_unit);
                         this.getProhibitiondates(this.myCase.cbrs_unit);
+                    } else {
+                        this.notready = false;
                     }
-                    this.notready = false;
                 },
                 error => this._errorMessage = <any>error);
     }
@@ -425,6 +416,7 @@ export class WorkbenchDetailComponent{
                     this.mySystemmaps = systemmaps.sort(APP_UTILITIES.dynamicSortMultiple(['-effective', 'map_number']));
                     if (this.mySystemmaps.length === 0) {
                         this.mapsfound = false;
+                        this.notready = false;
                     } else {
                         this.mapsfound = true;
                         if (this._debug) {
@@ -433,9 +425,14 @@ export class WorkbenchDetailComponent{
                         this._updateControl('map_number', this._myCase_fields, this._caseControls, this.mySystemmaps);
                         if (this._debug) {
                             console.log('4: ' + APP_UTILITIES.TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
-                            console.log(this.mySystemmaps);
                         }
-                        if (this.myCase.map_number) {this.getSystemmapdate(this.myCase.map_number)}
+                        if (this.myCase.map_number) {
+                            this.selectedMap = this.myCase.map_number;
+                            this.updateCaseControlValue('map_number', this.myCase.map_number);
+                            this.getSystemmapdate(this.myCase.map_number);
+                        } else {
+                            this.notready = false;
+                        }
                     }
                 },
                 error => this._errorMessage = <any>error);
@@ -444,12 +441,14 @@ export class WorkbenchDetailComponent{
     public getSystemmapdate(mapID) {
         if (!mapID) {
             this._caseControls['cbrs_map_date'].setValue('');
+            this.notready = false;
         } else {
             const maps = this.mySystemmaps.filter(function (map) { return map.id == mapID; });
             this._caseControls['cbrs_map_date'].setValue(maps[0].map_date);
             if (this._debug) {
                 console.log('5: ' + APP_UTILITIES.TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
             }
+            this.notready = false;
         }
     }
 
@@ -463,6 +462,9 @@ export class WorkbenchDetailComponent{
     }
 
     public validateDate(thisDateControl, thisDate) {
+        if (this.inInit) {
+            return false;
+        }
         if (this.notready) {
             return false;
         }
