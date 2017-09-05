@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {DatePipe} from '@angular/common';
 import {URLSearchParams} from '@angular/http';
 import {Systemmap} from '../systemmaps/systemmap';
 import {SystemmapService} from '../systemmaps/systemmap.service';

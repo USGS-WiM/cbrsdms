@@ -125,7 +125,6 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                 // add validator for property control required fields: street, city, state)
                 // although we don't know the source of the submitted fields,
                 // we can determine if they are from a property object by testing if a uniquely property field is present
-                console.log('legal_description');
                 if (['street', 'city', 'state'].indexOf(fields[i]) > -1) {
                     controls[fields[i]] = new FormControl({value: '', disabled: false}, Validators.required);
                 }
@@ -162,12 +161,12 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         controls[fields[i]].setValue(values[fields[i]]);
     }
 
-    private _updateValues(fields, controls, values): void {
-        for (let i = 0, j = fields.length; i < j; i++) {
-            console.log(fields[i] + ' : ' + values[fields[i]] + ' : ' + controls[fields[i]].value);
-            // values[fields[i]] = controls[fields[i]].value;
-        }
-    }
+    // private _updateValues(fields, controls, values): void {
+    //     for (let i = 0, j = fields.length; i < j; i++) {
+    //         // console.log(fields[i] + ' : ' + values[fields[i]] + ' : ' + controls[fields[i]].value);
+    //         // values[fields[i]] = controls[fields[i]].value;
+    //     }
+    // }
 
     private updateCaseControlValue(formControl, value) {
         this._caseControls[formControl].setValue(value);
@@ -444,7 +443,10 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
             this.notready = false;
         } else {
             const maps = this.mySystemmaps.filter(function (map) { return map.id == mapID; });
-            this._caseControls['cbrs_map_date'].setValue(maps[0].map_date);
+            // map_date comes in yyyy-mm-dd format
+            const date_parts = maps[0].map_date.split('-');
+            const mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
+            this._caseControls['cbrs_map_date'].setValue(mdy);
             if (this._debug) {
                 console.log('5: ' + APP_UTILITIES.TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
             }

@@ -13,7 +13,7 @@ export class Case {
         public cbrs_unit_string?: string,
         public map_number?: number,
         public map_number_string?: string,
-        public cbrs_map_date?: Date,
+        public cbrs_map_date?: string,
         public determination?: number,
         public determination_string?: string,
         public prohibition_date?: Date,
