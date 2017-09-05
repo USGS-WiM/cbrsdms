@@ -11,7 +11,8 @@
             <tr *ngFor="let row of rows" (click)="onClick(row)">
                 <td *ngFor="let col of columns">
                     <!--<span>{{row[col.name]}}</span>-->
-                    <span *ngIf="col.name !== 'system_units' && col.name !== 'system_unit'">{{row[col.name]}}</span>
+                    <span *ngIf="col.name !== 'system_units' && col.name !== 'system_unit' && !(col.name.includes('date'))">{{row[col.name]}}</span>
+                    <span *ngIf="col.name.includes('date')">{{row[col.name] | date:'shortDate'}}</span>
                     <span *ngIf="col.name === 'system_units' || col.name === 'system_unit'">{{row[col.name] | displayValue:'system_unit_number':displayLookup}}</span>
                 </td>
             </tr>
