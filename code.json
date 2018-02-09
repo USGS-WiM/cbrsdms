@@ -1,0 +1,47 @@
+[
+  {
+    "name": "CBRADMS",
+    "organization": "U.S. Geological Survey",
+    "description": "CBRA Determinations Management System",
+    "version": "v0.0.0",
+    "status": "Development"
+
+    "permissions": {
+      "usageType": "openSource",
+      "licenses": [
+        {
+          "name": "Public Domain",
+          "URL": "https://github.com/usgs/CBRADMS/blob/master/LICENSE.md"
+        }
+      ]
+    },
+
+    "homepageURL": "https://wim.usgs.gov",
+    "downloadURL": "https://github.com/USGS-WiM/CBRADMS/archive/master.zip",
+    "disclaimerURL": "https://github.com/USGS-WiM/CBRADMS/blob/master/DISCLAIMER.md",
+    "repositoryUrl": "https://github.com/USGS-WiM/CBRADMS",
+    "vcs": "git",
+
+    "laborHours": null,
+
+    "tags": [
+      "cbra",
+      "determinations",
+      "management"
+    ],
+
+    "languages": [
+      "javascript",
+      "typescript"
+    ],
+
+    "contact": {
+      "name": "Aaron Stephenson",
+      "email": "astephenson@usgs.gov"
+    },
+
+    "date": {
+      "metadataLastUpdated": "2018-02-09"
+    }
+  }
+]
