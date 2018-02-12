@@ -1,7 +1,7 @@
 <nav [hidden]="hideNavbar">
     <div style="float: left;">
         <a routerLink="/workbench" [queryParams]="{home: true}">Workbench</a>
-        <!-- <a href="../../cbra/cbrarequests/">Create Case</a> -->
+        <!-- <a href="../../cbrsrequests/">Create Case</a> -->
         <a routerLink="/workbench/new">Create Case</a>
         <a routerLink="/mapdata">Map Data</a>
         <a routerLink="/reports">Reports</a>
@@ -12,4 +12,4 @@
         <a (click)="onLogout()">Logout <i class="fa fa-sign-out"></i></a>
     </div>
 </nav>
-<div id="cbra_toast" class="cbraToast"></div>
+<div id="cbrs_toast" class="cbrsToast"></div>
