@@ -7,11 +7,11 @@ export class APP_UTILITIES {
     public static get TIME(): string { return new Date().toISOString().substr(14, 22); }
 
     public static showToast(message: string, timeout?: number) {
-        const toast = <HTMLElement> document.querySelector('#cbra_toast');
-        toast.className = 'cbraToast toastVisible';
+        const toast = <HTMLElement> document.querySelector('#cbrs_toast');
+        toast.className = 'cbrsToast toastVisible';
         toast.innerHTML = message;
         setTimeout(function(){
-            toast.className = 'cbraToast';
+            toast.className = 'cbrsToast';
         }, (timeout ? timeout : 5000));
     }
 

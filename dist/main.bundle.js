@@ -1,1 +1,6538 @@
-webpackJsonp([1],{"+8no":function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("zAlM"),a=n("IGOF");n.d(t,"a",function(){return l});var s=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},c=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},l=function(){function e(e,t){this._authenticationService=e,this._router=t,this.hideNavbar=!1}return e.prototype.ngOnInit=function(){this.hideNavbar=!a.a.IS_LOGGEDIN,this.first_name=sessionStorage.getItem("first_name"),this.last_name=sessionStorage.getItem("last_name")},e.prototype.onLogout=function(){this._authenticationService.logout()},e=s([n.i(r._10)({selector:"navbar",template:n("77j5"),providers:[i.a]}),c("design:paramtypes",["function"==typeof(t=void 0!==i.a&&i.a)&&t||Object,"function"==typeof(l=void 0!==o.b&&o.b)&&l||Object])],e);var t,l}()},"+KkJ":function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getComment=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.COMMENTS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getComments=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.COMMENTS_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createComment=function(e){var t={acase:e.acase,comment:e.comment},n=JSON.stringify(t),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.COMMENTS_URL,n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateComment=function(e){var t=e.id;delete e.id;var n={acase:e.acase,comment:e.comment,created_by:e.created_by},r=JSON.stringify(n),i=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.COMMENTS_URL+t+"/",r,i).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},"+nOh":function(e,t,n){"use strict";var r=n("k6Xi"),o=n("JsGG"),i=n("ZWWC"),a=n("cQEx");n.d(t,"a",function(){return s});var s=[{path:"",redirectTo:"/workbench",pathMatch:"full"},{path:"workbench",component:o.a,children:[{path:"new",component:i.a,canActivate:[r.a]},{path:":id",component:i.a,canActivate:[r.a]},{path:"",component:a.a,canActivate:[r.a]}]}]},"+uZp":function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("CPp0"),a=n("Qm8h"),s=n("LhJz"),c=n("xXmq"),l=n("I6ER"),u=n("bbdN");n.n(u);n.d(t,"a",function(){return p});var d=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},f=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},p=function(){function e(e,t,n){this._route=e,this._reportCaseService=t,this._systemunitService=n,this.page_size=100,this._reportcases=[],this.cases_properties=[],this.notready=!0}return e.prototype.ngOnInit=function(){var e=this;this._params=this._route.queryParams.subscribe(function(t){if(t.units){var n="report=casesbyunit&cbrs_unit="+t.units;e.selected_unit=Number(t.units),e._getReportCases(n),e._getSystemunits(),e._getColumns()}else e._getReportCases(),e._getSystemunits(),e._getColumns()})},e.prototype.ngOnDestroy=function(){this._params&&this._params.unsubscribe()},e.prototype.prevPage=function(e){if(null==this._prevPage)l.a.showToast("This is the first page.");else{this.notready=!0;var t=void 0,n=this._prevPage.indexOf("page=");if(-1===n){var r=""===e.toString()?null:"report=casesbyunit&cbrs_unit="+e.toString();this._getReportCases(r)}else{n+=5;var o=this._prevPage.indexOf("&",n);t=-1===o?this._prevPage.slice(n):this._prevPage.slice(n,o);var r=(e.toString(),"page="+t+"&report=casesbyunit");this._getReportCases(r)}}},e.prototype.nextPage=function(e){if(null==this._nextPage)l.a.showToast("This is the last page.");else{this.notready=!0;var t=void 0,n=this._nextPage.indexOf("page=")+5,r=this._nextPage.indexOf("&",n);t=-1===r?this._nextPage.slice(n):this._nextPage.slice(n,r);var o=""===e.toString()?"page="+t+"&report=casesbyunit":"page="+t+"&report=casesbyunit&cbrs_unit="+e.toString();this._getReportCases(o)}},e.prototype.onFilter=function(e){this.notready=!0,this.selected_unit=e;var t=""===e.toString()?null:"report=casesbyunit&cbrs_unit="+e.toString();this._getReportCases(t)},e.prototype.clearFilter=function(){this.notready=!0,this.selected_unit=null,this._getReportCases()},e.prototype.exportToCSV=function(e){this.notready=!0;var t=""===e.toString()?"report=casesbyunit&format=csv&page_size="+this.page_size:"report=casesbyunit&format=csv&page_size="+this.page_size+"&cbrs_unit="+e.toString();this._getReportCasesCSV(t)},e.prototype._getReportCasesCSV=function(e){this._reportCaseService.getReportCasesCSV(e).then(function(e){var t=new Blob([e[0]],{type:"text/csv"});u.saveAs(t,e[1])})},e.prototype._getReportCases=function(e){var t=this,n=e||"report=casesbyunit";this._reportCaseService.getReportCases(new i.e(n)).subscribe(function(e){if(Number(e.count)>0){l.a.showToast(e.count+" cases found.");var n=100*Math.ceil(Number(e.count)/100);t.page_size<100?t.page_size=100:t.page_size=n,t._prevPage=e.previous,t._nextPage=e.next,t._reportcases.length=0,t._reportcases=e.results,t.cases_properties.length=0;for(var r=0,o=t._reportcases.length;r<o;r++){var i=t._reportcases[r],a=i.property_string.split(",");i.street_address=a[0],delete i.property_string,t.cases_properties.push(i)}setTimeout(function(){t._sortAndShow()},500)}else t.notready=!1},function(e){return t._errorMessage=e})},e.prototype._getSystemunits=function(){var e=this;this._systemunitService.getSystemunits().subscribe(function(t){e.systemunits=t.sort(l.a.dynamicSort("system_unit_number"))},function(t){return e._errorMessage=t})},e.prototype._getColumns=function(){this.columns=[new c.a("id","Case ID"),new c.a("status","Status"),new c.a("prohibition_date","Prohibition Date"),new c.a("cbrs_unit_string","CBRS Unit"),new c.a("request_date","Request Date"),new c.a("final_letter_date","Final Letter Date"),new c.a("determination_string","Determination"),new c.a("street_address","Street Address")]},e.prototype._sortAndShow=function(){this.cases_properties.sort(l.a.dynamicSort("id")),this.notready=!1},e=d([n.i(r._10)({template:n("NcjZ")}),f("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object,"function"==typeof(p=void 0!==a.a&&a.a)&&p||Object,"function"==typeof(h=void 0!==s.a&&s.a)&&h||Object])],e);var t,p,h}()},"/GyJ":function(e,t){e.exports='<div class="container">\r\n    <table class="dms-table table table-bordered">\r\n        <thead>\r\n            <tr>\r\n                <th *ngFor="let col of columns"><a (click)="sort(col.name)" class="gridHeader">{{col.descr}} <i class="fa fa-sort"></i></a></th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            <tr *ngFor="let row of rows" (click)="onClick(row)">\r\n                <td *ngFor="let col of columns">{{row[col.name]}}</td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n'},0:function(e,t,n){e.exports=n("cDNt")},"1YeF":function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n,r,o,i){this.acase=e,this.comment=t,this.created_by=n,this.created_by_string=r,this.created_date=o,this.id=i}return e}()},"2phC":function(e,t){e.exports='<div>\n    <div *ngIf="notready" align="center" id="loading-spinner">\n        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>\n    </div>\n    <div *ngIf="!notready" style="display: flex; justify-content: center;">\n        \x3c!--<div *ngIf="noSystemmapsFound" style="display:inline;" align="center"><br /><br />No maps found.</div>--\x3e\n        <div *ngIf="!noSystemmapsFound" class="mapData-filter">\n            <div align="center">\n                <label for="systemmap-filter">Maps</label><br />\n                <button type="button" (click)="openModal(\'modalMap\')" class="btn btn-default btn-save-all">Add Map</button><br />\n                <input id="systemmap-filter" placeholder="Filter" (keyup)="filterGrid(systemmap.id, systemmap.value)" #systemmap>\n            </div>\n            <systemmap-grid *ngIf="systemunits" [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal(\'modalMap\', $event)" class="multi-table"></systemmap-grid>\n        </div>\n        \x3c!--<div *ngIf="noSystemunitsFound" style="display:inline;" align="center"><br /><br />No units found.</div>--\x3e\n        <div *ngIf="!noSystemunitsFound" class="mapData-filter">\n            <div align="center">\n                <label for="systemunit-filter">Units</label><br />\n                <button type="button" (click)="openModal(\'modalUnit\')" class="btn btn-default btn-save-all">Add Unit</button><br />\n                <input id="systemunit-filter" placeholder="Filter" (keyup)="filterGrid(systemunit.id, systemunit.value)" #systemunit>\n            </div>\n            <systemunit-grid [rows]="systemunits" [columns]="systemunitColumns" (edit)="openModal(\'modalUnit\', $event)" class="multi-table"></systemunit-grid>\n        </div>\n        \x3c!--<div *ngIf="noProhibitiondatesFound" style="display:inline;" align="center"><br /><br />No prohibition dates found.</div>--\x3e\n        <div *ngIf="!noProhibitiondatesFound" class="mapData-filter">\n            <div align="center">\n                <label for="prohibitiondates-filter">Prohibition Dates</label><br />\n                <button type="button" (click)="openModal(\'modalDate\')" class="btn btn-default btn-save-all">Add Date</button><br />\n                <input id="prohibitiondates-filter" placeholder="Filter" (keyup)="filterGrid(prohibitiondate.id, prohibitiondate.value)" #prohibitiondate>\n            </div>\n            <prohibitiondate-grid *ngIf="systemunits" [rows]="prohibitiondates" [columns]="prohibitiondateColumns" [displayLookup]="systemunits" (edit)="openModal(\'modalDate\', $event)" class="multi-table"></prohibitiondate-grid>\n        </div>\n    </div>\n</div>\n\n<modal id="modalMap">\n    <div class="modal">\n        <div class="modal-body">\n            <div class="container cbra-form">\n                <h3 *ngIf="!row">Add Map</h3><h3 *ngIf="row">Edit Map {{row?.id}}</h3>\n                <form [formGroup]="mapForm" (ngSubmit)="onSubmit(mapForm, \'modalMap\')">\n                    <div class="dms-group">\n                        <div class="dms-form-group">\n                            <label for="map_number">Map Number</label>\n                            <input id="map_number" type="text" formControlName="map_number">\n                        </div>\n                    </div>\n                    <div class="dms-group">\n                        <div class="dms-form-group">\n                            <label for="map_title">Map Title</label>\n                            <input id="map_title" type="text" formControlName="map_title">\n                        </div>\n                    </div>\n                    <div class="dms-group">\n                        <div class="dms-form-group">\n                            <label for="map_date">Map Date</label>\n                            \x3c!--<input id="map_date" formControlName="map_date">--\x3e\n                            <my-date-picker id="map_date" formControlName="map_date" [options]="myDatePickerOptions"></my-date-picker>\n                        </div>\n                    </div>\n                    <div class="dms-group">\n                        <div class="dms-form-group">\n                            <label for="system_units">System Units</label>\n                            \x3c!--<input id="system_units" formControlName="system_units">--\x3e\n                            <ss-multiselect-dropdown *ngIf="systemunits" id="system_units" formControlName="system_units" [options]="systemunitoptions" [settings]="systemunitsettings"></ss-multiselect-dropdown>\n                        </div>\n                    </div>\n                    <div class="dms-group">\n                        <div class="dms-form-group" style="display: inline;">\n                            <label for="effective" style="display: inline-block;">Effective</label>\n                            <input id="effective" name="effective" type="checkbox" [checked]="row?.effective" value="true" formControlName="effective" style="display: inline-block;">\n                        </div>\n                    </div>\n                    <button type="submit" class="btn btn-default btn-primary btn-group" [disabled]="!mapForm.valid">Save</button>\n                    <button type="button" class="btn btn-default btn-danger btn-group" (click)="deleteRow(\'modalMap\', row?.id)">Delete</button>\n                    <button type="button" class="btn btn-default btn-group" (click)="closeModal(\'modalMap\')">Cancel</button>\n                </form>\n            </div>\n        </div>\n    </div>\n    <div class="modal-background"></div>\n</modal>\n<modal id="modalUnit">\n    <div class="modal">\n        <div class="modal-body">\n            <div class="container cbra-form">\n                <h3 *ngIf="!row">Add Unit</h3><h3 *ngIf="row">Edit Unit {{row?.id}}</h3>\n                <form [formGroup]="unitForm" (ngSubmit)="onSubmit(unitForm, \'modalUnit\')">\n                    <div class="dms-group">\n                        <div class="dms-form-group">\n                            <label for="system_unit_number">Unit Number</label>\n                            <input id="system_unit_number" type="text" formControlName="system_unit_number">\n                        </div>\n                    </div>\n                    <div class="dms-group">\n                        <div class="dms-form-group">\n                            <label for="system_unit_name">Unit Name</label>\n                            <input id="system_unit_name" type="text" formControlName="system_unit_name">\n                        </div>\n                    </div>\n                    <div class="dms-group">\n                        <div class="dms-form-group">\n                            <label for="field_office">Field Office</label>\n                            <input id="field_office" type="text" formControlName="field_office">\n                        </div>\n                    </div>\n                    <button type="submit" class="btn btn-default btn-primary btn-group" [disabled]="!unitForm.valid">Save</button>\n                    <button type="button" class="btn btn-default btn-danger btn-group" (click)="deleteRow(\'modalUnit\', row?.id)">Delete</button>\n                    <button type="button" class="btn btn-default btn-group" (click)="closeModal(\'modalUnit\')">Cancel</button>\n                </form>\n            </div>\n        </div>\n    </div>\n    <div class="modal-background"></div>\n</modal>\n<modal id="modalDate">\n    <div class="modal">\n        <div class="modal-body">\n            <div class="container cbra-form">\n                <h3 *ngIf="!row">Add Prohibition Date</h3><h3 *ngIf="row">Edit Prohib. Date {{row?.id}}</h3>\n                <form [formGroup]="dateForm" (ngSubmit)="onSubmit(dateForm, \'modalDate\')">\n                    <div class="dms-group">\n                        <div class="dms-form-group">\n                            <label for="system_unit">Unit Number</label>\n                            <select id="system_unit" formControlName="system_unit">\n                                <option value=""></option>\n                                <option *ngFor="let unit of systemunits" [value]="unit.id" [selected]="unit.id == myProhibitiondate.system_unit_number">{{unit.system_unit_number}}</option>\n                            </select>\n                        </div>\n                    </div>\n                    <div class="dms-group">\n                        <div class="dms-form-group">\n                            <label for="prohibition_date">Prohibition Date</label>\n                            <my-date-picker id="prohibition_date" formControlName="prohibition_date" [options]="myDatePickerOptions"></my-date-picker>\n                        </div>\n                    </div>\n                    <button type="submit" class="btn btn-default btn-primary btn-group" style="display:inline;" [disabled]="!dateForm.valid">Save</button>\n                    <button type="button" class="btn btn-default btn-danger btn-group" (click)="deleteRow(\'modalDate\', row?.id)">Delete</button>\n                    <button type="button" class="btn btn-default" style="display:inline;" (click)="closeModal(\'modalDate\')">Cancel</button>\n                </form>\n            </div>\n        </div>\n    </div>\n    <div class="modal-background"></div>\n</modal>\n'},"2tha":function(e,t,n){"use strict";var r=n("/oeL"),o=n("bm2B"),i=n("BkNc"),a=n("zAlM");n.d(t,"a",function(){return l});var s=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},c=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},l=function(){function e(e,t,n){this._authenticationService=t,this.router=n,this.error=!1,this.form=e.group({username:["",o.f.required],password:["",o.f.required]})}return e.prototype.onSubmit=function(e){var t=this;sessionStorage.getItem("username")&&this._authenticationService.logout(),this._authenticationService.login(e.username,e.password).subscribe(function(e){t.router.navigateByUrl("workbench")},function(){t.error=!0})},e=s([n.i(r._10)({selector:"login",template:n("Z/qD")}),c("design:paramtypes",["function"==typeof(t=void 0!==o.d&&o.d)&&t||Object,"function"==typeof(l=void 0!==a.a&&a.a)&&l||Object,"function"==typeof(u=void 0!==i.b&&i.b)&&u||Object])],e);var t,l,u}()},"4OYr":function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("tl6H"),a=n("s0K2"),s=n("bwn8"),c=n("dcqu"),l=n("Hmja"),u=n("LhJz"),d=n("cX8C"),f=n("cI4O"),p=n("xXmq"),h=n("bm2B"),m=n("I6ER"),_=n("UvWG");n.d(t,"a",function(){return b});var v=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},y=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},b=function(){function e(e,t,n,r,o){this._systemmapService=e,this._systemunitmapService=t,this._systemunitService=n,this._prohibitiondateService=r,this._modalService=o,this.systemunitoptions=[],this.systemunitsettings={enableSearch:!0,checkedStyle:"fontawesome",buttonClasses:"btn btn-default btn-block",dynamicTitleMaxItems:3,displayAllSelectedText:!0},this.mySystemmap=new i.a,this.mySystemunit=new l.a,this.myProhibitiondate=new d.a,this._requiredFields=["map_number"," map_date","system_unit_number","prohibition_date","system_unit"],this.notready=!0,this.noSystemmapsFound=!0,this.noSystemunitsFound=!0,this.noProhibitiondatesFound=!0,this._today=new Date,this.myDatePickerOptions={dateFormat:"mm/dd/yyyy",disableSince:{year:this._today.getFullYear(),month:this._today.getMonth()+1,day:this._today.getDate()+1}},this._mapFields=Object.keys(this.mySystemmap),this._unitFields=Object.keys(this.mySystemunit),this._dateFields=Object.keys(this.myProhibitiondate),this._mapControls=this._makeControls(this._mapFields),this._unitControls=this._makeControls(this._unitFields),this._dateControls=this._makeControls(this._dateFields),this.mapForm=new h.e(this._mapControls),this.unitForm=new h.e(this._unitControls),this.dateForm=new h.e(this._dateControls)}return e.prototype._makeControls=function(e){for(var t={},n=0,r=e.length;n<r;n++)this._requiredFields.indexOf(e)>-1?t[e[n]]=new h.c({value:"",disabled:!1},h.f.required):["system_units"].indexOf(e[n])>-1?t[e[n]]=new h.c({value:[],disabled:!1}):t[e[n]]=new h.c({value:"",disabled:!1});return t},e.prototype._updateControls=function(e,t,n){for(var r=0,o=e.length;r<o;r++){var i=e[r];if("date"===i.slice(-4))if(void 0!==n[i]&&null!==n[i]){var a=new Date(n[i]);a=new Date(a.getTime()+Math.abs(6e4*a.getTimezoneOffset())),t[i].setValue({date:{year:a.getFullYear(),month:a.getMonth()+1,day:a.getDate()}})}else t[i].setValue("");else t[i].setValue(n[i])}},e.prototype.ngOnInit=function(){this._getSystemmaps(),this._getSystemunits(),this._getProhibitiondates(),this._getColumns()},e.prototype._getSystemmaps=function(e){var t=this;this._systemmapService.getSystemmaps(new o.e(e)).subscribe(function(e){t.systemmaps=e,t.systemmaps.length>0?(t.noSystemmapsFound=!1,t.notready=!1):(t.noSystemmapsFound=!0,t.notready=!1)},function(e){return t._errorMessage=e})},e.prototype._createSystemmap=function(e){var t=this;this.notready=!0;var n=e.system_units;this._systemmapService.createSystemmap(e).subscribe(function(e){n&&t._createSystemunitmap(e.id,n),t._getSystemmaps(),t.row=e,t._updateControls(t._mapFields,t._mapControls,e)},function(e){return m.a.showToast("ERROR: Could not create System Map:\n"+e.non_field_errors[0],1e4)})},e.prototype._updateSystemmap=function(e){var t=this;this.notready=!0;var n=e.system_units;this._systemmapService.updateSystemmap(e).subscribe(function(e){n&&t._createSystemunitmap(e.id,n),t._getSystemmaps(),t.row=e,t._updateControls(t._mapFields,t._mapControls,e)},function(e){return m.a.showToast("ERROR: Could not update System Map:\n"+e.non_field_errors[0],1e4)})},e.prototype._createSystemunitmap=function(e,t){var n=this;this.notready=!0;for(var r=this,i=0,a=t;i<a.length;i++){var c=a[i];!function(t){r._systemunitmapService.getSystemunitmaps(new o.e("unit="+t.toString()+"&map="+e.toString())).subscribe(function(r){0===r.length&&n._systemunitmapService.createSystemunitmap(new s.a(t,e)).subscribe(function(e){return n.notready=!1},function(e){return n._errorMessage=e})},function(e){return n._errorMessage=e})}(c)}},e.prototype._getSystemunits=function(e){var t=this;this._systemunitService.getSystemunits(new o.e(e)).subscribe(function(e){if(t.systemunits=e,t.systemunits.length>0){for(var n=0,r=t.systemunits.length;n<r;n++)t.systemunitoptions.push({id:t.systemunits[n].id,name:t.systemunits[n].system_unit_number});t.noSystemunitsFound=!1,t.notready=!1}else t.noSystemunitsFound=!0,t.notready=!1},function(e){return t._errorMessage=e})},e.prototype._createSystemunit=function(e){var t=this;this.notready=!0,this._systemunitService.createSystemunit(e).subscribe(function(e){t._getSystemunits(),t.row=e,t._updateControls(t._unitFields,t._unitControls,e)},function(e){return m.a.showToast("ERROR: Could not create System Unit:\n"+e.non_field_errors[0],1e4)})},e.prototype._updateSystemunit=function(e){var t=this;this.notready=!0,this._systemunitService.updateSystemunit(e).subscribe(function(e){t._getSystemunits(),t.row=e,t._updateControls(t._unitFields,t._unitControls,e)},function(e){return m.a.showToast("ERROR: Could not update System Unit:\n"+e.non_field_errors[0],1e4)})},e.prototype._getProhibitiondates=function(e){var t=this;this._prohibitiondateService.getProhibitiondates(new o.e(e)).subscribe(function(e){t.prohibitiondates=e,t.prohibitiondates.length>0?(t.noProhibitiondatesFound=!1,t.notready=!1):(t.noProhibitiondatesFound=!0,t.notready=!1)},function(e){return t._errorMessage=e})},e.prototype._createProhibitiondate=function(e){var t=this;this.notready=!0,this._prohibitiondateService.createProhibitiondate(e).subscribe(function(e){t._getProhibitiondates(),t.row=e,t._updateControls(t._dateFields,t._dateControls,e)},function(e){return m.a.showToast("ERROR: Could not create Prohibition Date:\n"+e.non_field_errors[0],1e4)})},e.prototype._updateProhibitiondate=function(e){var t=this;this.notready=!0,this._prohibitiondateService.updateProhibitiondate(e).subscribe(function(e){t._getProhibitiondates(),t.row=e,t._updateControls(t._dateFields,t._dateControls,e)},function(e){return m.a.showToast("ERROR: Could not update Prohibition Date:\n"+e.non_field_errors[0],1e4)})},e.prototype.deleteRow=function(e,t){var n=this;if(this.notready=!0,confirm("Are you certain you want to delete this record?"))switch(e){case"modalMap":this._systemmapService.deleteSystemmap(t).subscribe(function(e){n._getSystemmaps()},function(e){return console.log(e)}),this.closeModal(e);break;case"modalUnit":this._systemunitService.deleteSystemunit(t).subscribe(function(e){n._getSystemunits()},function(e){return console.log(e)}),this.closeModal(e);break;case"modalDate":this._prohibitiondateService.deleteProhibitiondate(t).subscribe(function(e){n._getProhibitiondates()},function(e){return console.log(e)}),this.closeModal(e);break;default:this.notready=!1}},e.prototype._getColumns=function(){this.systemmapColumns=[new p.a("map_number","Map Number"),new p.a("map_title","Map Title"),new p.a("map_date","Map Date"),new p.a("system_units","Unit ID"),new p.a("effective","Effective")],this.systemunitColumns=[new p.a("system_unit_number","Unit Number"),new p.a("system_unit_name","Unit Name")],this.prohibitiondateColumns=[new p.a("system_unit","Unit ID"),new p.a("prohibition_date","Prohibition Date")]},e.prototype.filterGrid=function(e,t){switch(e.slice(0,-7)){case"systemmap":t?this._getSystemmaps("freetext="+t):this._getSystemmaps();break;case"systemunit":t?this._getSystemunits("freetext="+t):this._getSystemunits();break;case"prohibitiondate":t?this._getProhibitiondates("freetext="+t):this._getProhibitiondates()}},e.prototype.openModal=function(e,t){if(t)switch(e){case"modalMap":this.row=t,this._updateControls(this._mapFields,this._mapControls,t);break;case"modalUnit":this.row=t,this._updateControls(this._unitFields,this._unitControls,t);break;case"modalDate":this.row=t,this._updateControls(this._dateFields,this._dateControls,t);break;default:this.row=t}else this._clearModalControls();this._modalService.open(e)},e.prototype.closeModal=function(e){this._modalService.close(e),this._clearModalControls(),this.row=void 0},e.prototype._clearModalControls=function(){this._updateControls(this._mapFields,this._mapControls,new i.a),this._updateControls(this._unitFields,this._unitControls,new l.a),this._updateControls(this._dateFields,this._dateControls,new d.a)},e.prototype.onSubmit=function(e,t){if(this.notready=!0,e.dirty)switch(t){case"modalMap":var n=e.value;if(n.map_number&&n.map_date){var r=n.map_date;""===r&&(n.map_date=null),null!==r&&(r=("0000"+r.date.year).slice(-4)+"-"+("00"+r.date.month).slice(-2)+"-"+("00"+r.date.day).slice(-2),n.map_date=r),n.id?this._updateSystemmap(n):this._createSystemmap(n)}else m.a.showToast("System Map NOT saved:\nMap Number and Map Date must both have a value!");break;case"modalUnit":var o=e.value;o.system_unit_number?o.id?this._updateSystemunit(o):this._createSystemunit(o):m.a.showToast("System Unit NOT saved:\nUnit Number must have a value!");break;case"modalDate":var i=e.value;i.prohibition_date&&i.system_unit?i.id?this._updateProhibitiondate(i):this._createProhibitiondate(i):m.a.showToast("Prohibition Date NOT saved:\nUnit Number and Prohibition Date must both have a value!")}this.closeModal(t),this.notready=!1},e=v([n.i(r._10)({template:n("2phC")}),y("design:paramtypes",["function"==typeof(t=void 0!==a.a&&a.a)&&t||Object,"function"==typeof(b=void 0!==c.a&&c.a)&&b||Object,"function"==typeof(g=void 0!==u.a&&u.a)&&g||Object,"function"==typeof(S=void 0!==f.a&&f.a)&&S||Object,"function"==typeof(w=void 0!==_.a&&_.a)&&w||Object])],e);var t,b,g,S,w}()},"53Kq":function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("zAlM"),a=n("Dqrr"),s=(n.n(a),n("5v8a")),c=(n.n(s),n("xpf9")),l=(n.n(c),n("IGOF"));n.d(t,"a",function(){return f});var u=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},d=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},f=function(){function e(e,t){this.http=e,this._authenticationService=t}return e.prototype.getCase=function(e){var t=new o.b({headers:l.a.MIN_AUTH_JSON_HEADERS});return this.http.get(l.a.CASES_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getCases=function(e){var t=new o.b({headers:l.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(l.a.CASES_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createCase=function(e){var t=JSON.stringify(e),n=new o.b({headers:l.a.AUTH_JSON_HEADERS});return this.http.post(l.a.CASES_URL,t,n).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateCase=function(e){var t=e.id;delete e.id;var n=JSON.stringify(e),r=new o.b({headers:l.a.AUTH_JSON_HEADERS});return this.http.put(l.a.CASES_URL+t+"/",n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createFinalLeter=function(e){return new Promise(function(t,n){var r=new XMLHttpRequest;r.onreadystatechange=function(){if(4===r.readyState)if(200===r.status){var e="",o=r.getResponseHeader("Content-Disposition");if(o&&-1!==o.indexOf("attachment")){var i=/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/,a=i.exec(o);null!=a&&a[1]&&(e=a[1].replace(/['"]/g,""))}t([r.response,e])}else n(r.response)},r.responseType="blob",r.open("GET",l.a.CASES_URL+"?case_number="+e+"&format=docx",!0),r.setRequestHeader("Authorization","Basic "+btoa(sessionStorage.getItem("username")+":"+sessionStorage.getItem("password"))),r.send()})},e.prototype.handleError=function(e){return console.error(e),a.Observable.throw(e.json().error||"Server error")},e=u([n.i(r.c)(),d("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object,"function"==typeof(s=void 0!==i.a&&i.a)&&s||Object])],e);var t,s}()},"5xWR":function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("CPp0"),a=n("Qm8h"),s=n("xXmq"),c=n("I6ER"),l=n("bbdN");n.n(l);n.d(t,"a",function(){return f});var u=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},d=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},f=function(){function e(e,t){this._route=e,this._reportCaseService=t,this.paginated=!0,this.allow_filter=!1,this.page_size=100,this.notready=!0}return e.prototype.ngOnInit=function(){var e=this;this._params=this._route.queryParams.subscribe(function(t){e._getReportCases(),e._getColumns()})},e.prototype.prevPage=function(){if(null==this._prevPage)c.a.showToast("This is the first page.");else{this.notready=!0;var e=void 0,t=this._prevPage.indexOf("page=");if(-1===t){var n="report=daystoresolution";this._getReportCases(n)}else{t+=5;var r=this._prevPage.indexOf("&",t);e=-1===r?this._prevPage.slice(t):this._prevPage.slice(t,r);var n="page="+e+"&report=daystoresolution";this._getReportCases(n)}}},e.prototype.nextPage=function(){if(null==this._nextPage)c.a.showToast("This is the last page.");else{this.notready=!0;var e=void 0,t=this._nextPage.indexOf("page=")+5,n=this._nextPage.indexOf("&",t);e=-1===n?this._nextPage.slice(t):this._nextPage.slice(t,n);var r="page="+e+"&report=daystoresolution";this._getReportCases(r)}},e.prototype.exportToCSV=function(e){var t="report=daystoresolution&format=csv&page_size="+this.page_size;this._getReportCasesCSV(t)},e.prototype._getReportCasesCSV=function(e){this._reportCaseService.getReportCasesCSV(e).then(function(e){var t=new Blob([e[0]],{type:"text/csv"});l.saveAs(t,e[1])})},e.prototype._getReportCases=function(e){var t=this,n=e||"report=daystoresolution";this._reportCaseService.getReportCases(new i.e(n)).subscribe(function(e){if(Number(e.count)>0){c.a.showToast(e.count+" cases found.");var n=100*Math.ceil(Number(e.count)/100);t.page_size<100?t.page_size=100:t.page_size=n,t._prevPage=e.previous,t._nextPage=e.next,t.reportcases=e.results,t._sortAndShow()}else t.notready=!1},function(e){return t._errorMessage=e})},e.prototype._getColumns=function(){this.columns=[new s.a("id","Case ID"),new s.a("case_reference","Case Reference"),new s.a("request_date","Request Date"),new s.a("close_date","Close Date"),new s.a("close_days","Days to Close")]},e.prototype._sortAndShow=function(){this.reportcases.sort(c.a.dynamicSort("-close_days")),this.notready=!1},e=u([n.i(r._10)({template:n("Sw7E")}),d("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object,"function"==typeof(f=void 0!==a.a&&a.a)&&f||Object])],e);var t,f}()},"6JHI":function(e,t){e.exports='<div class="container cbra-form">\n\n    <div *ngIf="filternotready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"></div>\n    <div *ngIf="!filternotready">\n\n        <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">\n\n            <div class="dms-group noheader">\n\n                <div class="row">\n\n                    <div class="col-md-3"></div>\n\n                    <div class="col-md-2 dms-form-group bb br">\n                        <label for="date_field">Date Field</label>\n                        <select id="date_field" formControlName="date_field">\n                            <option value=""></option>\n                            <option *ngFor="let dateField of myDateFields" [value]="dateField.name">{{dateField.label}}</option>\n                        </select>\n                    </div>\n\n                    <div class="col-md-2 dms-form-group bb br">\n                        <label for="from_date">From Date</label>\n                        <my-date-picker id="from_date" [options]="myDatePickerOptions" formControlName="from_date"></my-date-picker>\n                    </div>\n\n                    <div class="col-md-2 dms-form-group bb br">\n                        <label for="to_date">To Date</label>\n                        <my-date-picker id="to_date" [options]="myDatePickerOptions" formControlName="to_date"></my-date-picker>\n                    </div>\n\n                    <button type="submit" class="btn btn-default btn-save-all-inline col-md-1" [disabled]="!form.valid">Search</button>\n\n                    <div class="col-md-3"></div>\n\n                </div> \x3c!-- /row --\x3e\n\n            </div> \x3c!-- /dms-group noheaders --\x3e\n\n        </form>\n\n    </div> \x3c!-- /filternotready --\x3e\n\n</div> \x3c!-- /container cbra-form --\x3e\n'},"6THY":function(e,t){e.exports='<table class="dms-table table table-striped table-bordered table-hover table-condensed">\r\n    <thead>\r\n        <tr>\r\n            <th *ngFor="let col of columns"><a (click)="sort(col.name)">{{col.descr}}</a></th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr *ngFor="let row of rows">\r\n            <td *ngFor="let col of columns">{{row[col.name]}}</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n'},"77j5":function(e,t){e.exports='<nav [hidden]="hideNavbar">\n    <div style="float: left;">\n        <a routerLink="/workbench" [queryParams]="{home: true}">Workbench</a>\n        \x3c!-- <a href="../../cbra/cbrarequests/">Create Case</a> --\x3e\n        <a routerLink="/workbench/new">Create Case</a>\n        <a routerLink="/mapdata">Map Data</a>\n        <a routerLink="/reports">Reports</a>\n        <a routerLink="/tags">Tags</a>\n    </div>\n    <div style="float: right;">\n        <b class="nav-user">User: {{ first_name }} {{ last_name }}</b>\n        <a (click)="onLogout()">Logout <i class="fa fa-sign-out"></i></a>\n    </div>\n</nav>\n<div id="cbra_toast" class="cbraToast"></div>\n'},"8QhN":function(e,t,n){"use strict";var r=n("/oeL"),o=n("kWTR"),i=n("BkNc");n.d(t,"a",function(){return l});var a=this&&this.__extends||function(){var e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,t){e.__proto__=t}||function(e,t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n])};return function(t,n){function r(){this.constructor=t}e(t,n),t.prototype=null===n?Object.create(n):(r.prototype=n.prototype,new r)}}(),s=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},c=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},l=function(e){function t(t){var n=e.call(this)||this;return n._router=t,n}return a(t,e),t.prototype.onClick=function(e){this._router.navigate(["/workbench",e.id])},t=s([n.i(r._10)({selector:"report-grid",inputs:["rows: rows","columns: columns"],template:n("/GyJ"),styles:[".gridHeader {cursor:pointer;}"]}),c("design:paramtypes",["function"==typeof(o=void 0!==i.b&&i.b)&&o||Object])],t);var o}(o.a)},"8XIc":function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("IGOF");n.d(t,"a",function(){return c});var a=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},s=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},c=function(){function e(e){this.router=e}return e.prototype.ngOnInit=function(){var e=this;setTimeout(function(){i.a.IS_LOGGEDIN||e.router.navigateByUrl("login")},500)},e=a([n.i(r._10)({selector:"my-app",template:n("qyOe")}),s("design:paramtypes",["function"==typeof(t=void 0!==o.b&&o.b)&&t||Object])],e);var t}()},AMi2:function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("CPp0"),a=n("Qm8h"),s=n("a+TD"),c=n("xXmq"),l=n("I6ER"),u=n("bbdN");n.n(u);n.d(t,"a",function(){return p});var d=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},f=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},p=function(){function e(e,t){this._route=e,this._reportCaseService=t,this.paginated=!0,this.allow_filter=!0,this.page_size=100,this.notready=!0,this.hideFilter=!0}return e.prototype.ngOnInit=function(){var e=this;this._params=this._route.queryParams.subscribe(function(t){e._getReportCases(),e._getColumns()})},e.prototype.prevPage=function(){if(null==this._prevPage)l.a.showToast("This is the first page.");else{this.notready=!0;var e=void 0,t=this._prevPage.indexOf("page=");if(-1===t){var n="report=daystoeachstatus";this._getReportCases(n)}else{t+=5;var r=this._prevPage.indexOf("&",t);e=-1===r?this._prevPage.slice(t):this._prevPage.slice(t,r);var n="page="+e+"&report=daystoeachstatus";this._getReportCases(n)}}},e.prototype.nextPage=function(){if(null==this._nextPage)l.a.showToast("This is the last page.");else{this.notready=!0;var e=void 0,t=this._nextPage.indexOf("page=")+5,n=this._nextPage.indexOf("&",t);e=-1===n?this._nextPage.slice(t):this._nextPage.slice(t,n);var r="page="+e+"&report=daystoeachstatus";this._getReportCases(r)}},e.prototype.exportToCSV=function(e){var t="report=daystoeachstatus&format=csv&page_size="+this.page_size;this._getReportCasesCSV(t)},e.prototype._getReportCasesCSV=function(e){this._reportCaseService.getReportCasesCSV(e).then(function(e){var t=new Blob([e[0]],{type:"text/csv"});u.saveAs(t,e[1])})},e.prototype.toggleFilter=function(){this.hideFilter?this.hideFilter=!1:this.hideFilter=!0},e.prototype.onFilter=function(e){this._getReportCases(e)},e.prototype._getReportCases=function(e){var t=this,n=e||"report=daystoeachstatus";this._reportCaseService.getReportCases(new i.e(n)).subscribe(function(e){if(Number(e.count)>0){l.a.showToast(e.count+" cases found.");var n=100*Math.ceil(Number(e.count)/100);t.page_size<100?t.page_size=100:t.page_size=n,t._prevPage=e.previous,t._nextPage=e.next,t.reportcases=e.results,t._sortAndShow()}else t.notready=!1},function(e){return t._errorMessage=e})},e.prototype._getColumns=function(){this.columns=[new c.a("id","Case ID"),new c.a("case_reference","Case Reference"),new c.a("request_date","Request Date"),new c.a("analyst_signoff_date","Awaiting QC"),new c.a("analyst_days","Days to QC"),new c.a("qc_reviewer_signoff_date","Awaiting Final Letter Date"),new c.a("qc_reviewer_days","Days to Awaiting Final Letter"),new c.a("final_letter_date","Final Letter Date"),new c.a("final_letter_days","Days to Final Letter"),new c.a("close_date","Close Date"),new c.a("close_days","Days to Close")]},e.prototype._sortAndShow=function(){this.reportcases.sort(l.a.dynamicSort("-close_days")),this.notready=!1},d([n.i(r._11)(s.a),f("design:type","function"==typeof(t=void 0!==s.a&&s.a)&&t||Object)],e.prototype,"reportComponent",void 0),e=d([n.i(r._10)({template:n("Sw7E")}),f("design:paramtypes",["function"==typeof(p=void 0!==o.c&&o.c)&&p||Object,"function"==typeof(h=void 0!==a.a&&a.a)&&h||Object])],e);var t,p,h}()},Akkd:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getTag=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.TAGS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getTags=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.TAGS_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createTag=function(e){var t=JSON.stringify(e),n=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.TAGS_URL,t,n).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateTag=function(e){var t=e.id;delete e.id;var n=JSON.stringify(e),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.TAGS_URL+t+"/",n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.deleteTag=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.delete(c.a.TAGS_URL+e+"/",t).map(function(e){return console.log(e)}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},CLpo:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getReportCaseCounts=function(){var e=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.REPORTCASECOUNTS_URL,e).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},Cj5t:function(e,t){e.exports='<div class="container">\n    <table class="dms-table table table-bordered">\n        <thead>\n            <tr>\n                <th *ngFor="let col of columns">\n                    <a (click)="sort(col.name)" class="gridHeader">{{col.descr}} <i class="fa fa-sort"></i></a>\n                </th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr *ngFor="let row of rows" (click)="onClick(row)">\n                <td *ngFor="let col of columns">\n                    \x3c!--<span>{{row[col.name]}}</span>--\x3e\n                    <span *ngIf="col.name !== \'system_units\' && col.name !== \'system_unit\' && !(col.name.includes(\'date\'))">{{row[col.name]}}</span>\n                    <span *ngIf="col.name.includes(\'date\')">{{row[col.name] | date:\'shortDate\'}}</span>\n                    <span *ngIf="col.name === \'system_units\' || col.name === \'system_unit\'">{{row[col.name] | displayValue:\'system_unit_number\':displayLookup}}</span>\n                </td>\n            </tr>\n        </tbody>\n    </table>\n</div>\n'},F2s6:function(e,t,n){"use strict";var r=n("/oeL");n.d(t,"a",function(){return i});var o=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},i=function(){function e(){}return e.prototype.transform=function(e,t,n){var r;if(Array.isArray(e)){r=[];for(var o=0,i=e.length;o<i;o++)for(var a=0,s=n.length;a<s;a++)n[a].id===e[o]&&r.push(n[a][t])}else for(var o=0,i=n.length;o<i;o++)if(n[o].id===e){r=n[o][t];break}return r},e=o([n.i(r.Y)({name:"displayValue"})],e)}()},GiSL:function(e,t){e.exports='<div class="container">\r\n    <table class="dms-table table table-bordered">\r\n        <thead>\r\n            <tr>\r\n                <th *ngFor="let col of columns">\r\n                    <a (click)="sort(col.name)" class="gridHeader">{{col.descr}} <i class="fa fa-sort"></i></a>\r\n                </th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            <tr *ngFor="let row of rows" (click)="onClick(row)">\r\n                <td *ngFor="let col of columns">\r\n                    <span *ngIf="row[col.name] !== true && row[col.name] !== false">{{row[col.name]}}</span>\r\n                    <span *ngIf="row[col.name] === true"><i class="fa fa-check true-false-icon"></i></span>\r\n                    <span *ngIf="row[col.name] === false"><i class="fa fa-close true-false-icon"></i></span>\r\n                </td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n'},GkEs:function(e,t,n){"use strict";var r=n("/oeL"),o=n("p/K5"),i=n("CPp0"),a=n("Tevn"),s=n("53Kq"),c=n("Akkd"),l=n("LhJz"),u=n("YY7q"),d=n("bm2B"),f=n("IGOF"),p=n("I6ER");n.d(t,"a",function(){return _});var h=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},m=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},_=function(){function e(e,t,n,i,a,s){this._workbenchFilterService=t,this._caseService=n,this._tagService=i,this._systemunitService=a,this._userService=s,this.onFilter=new r.F,this.myWorkbenchFilter=new o.a,this.myWorkbenchFreeText={fiscal_year:void 0,freetext:void 0},this.myStatuses=f.a.STATUSES,this.myCaseIDs=[],this.myUsers=[],this._myWorkbenchFilter_fields=Object.keys(this.myWorkbenchFilter),this._workbenchFreeText_fields=Object.keys(this.myWorkbenchFreeText),this.cleared=!1,this.active=!0,this.filternotready=!0,this.myDatePickerOptions={dateFormat:"mm/dd/yyyy"},this._workbenchFilterControls=this._makeControls(this._myWorkbenchFilter_fields),this.workbenchfiltergroup=new d.e(this._workbenchFilterControls),this._workbenchFreeTextControls=this._makeControls(this._workbenchFreeText_fields),this.workbenchfreetextgroup=new d.e(this._workbenchFreeTextControls),this.form=e.group({workbenchfiltergroup:this.workbenchfiltergroup,workbenchfreetextgroup:this.workbenchfreetextgroup}),this._getCaseIDs(),this._getUsers(),this._getSystemunits(),this._getTags(),this.myStatuses.push("Open")}return e.prototype._makeControls=function(e){for(var t={},n=0,r=e.length;n<r;n++)t[e[n]]=new d.c("");return t},e.prototype._updateControls=function(e,t,n){for(var r=0,o=e.length;r<o;r++){var i=e[r];if("date"===i.slice(-4)&&null!=n[i]){var a=new Date(n[i]);t[i].setValue({date:{year:a.getFullYear(),month:a.getMonth()+1,day:a.getDate()}})}else t[i].setValue(n[i])}},e.prototype.ngOnInit=function(){var e=this;if(sessionStorage.getItem("filterUrlSearchParams"))for(var t in this.myWorkbenchFilter)sessionStorage.getItem(t)&&(this.myWorkbenchFilter[t]=sessionStorage.getItem(t));this.myWorkbenchFilter.status||(this.myWorkbenchFilter.status="Open"),this.selectedTag=void 0!==this.myWorkbenchFilter.tags&&this.myWorkbenchFilter.tags.length>0?this.myWorkbenchFilter.tags[0]:null,setTimeout(function(){return e._updateControls(e._myWorkbenchFilter_fields,e._workbenchFilterControls,e.myWorkbenchFilter)},0),this.filternotready=!1},e.prototype._getCaseIDs=function(){var e=this;this._caseService.getCases(new i.e("view=caseid")).subscribe(function(t){e.myCaseIDs.length=0;for(var n=0,r=t.length;n<r;n++)t[n].duplicate&&e.myCaseIDs.push(t[n]);e.myCaseIDs.sort(p.a.dynamicSort("id"))},function(t){return e._errorMessage=t})},e.prototype._getTags=function(){var e=this;this._tagService.getTags().subscribe(function(t){e.myTags=t},function(t){return e._errorMessage=t})},e.prototype._getSystemunits=function(){var e=this;this._systemunitService.getSystemunits().subscribe(function(t){e.mySystemunits=t.sort(p.a.dynamicSort("system_unit_number"))},function(t){return e._errorMessage=t})},e.prototype._getUsers=function(){var e=this;this._userService.getUsers(new i.e("used_users=True")).subscribe(function(t){e.myUsers=t},function(t){return e._errorMessage=t})},e.prototype.defaultFilter=function(){this.myWorkbenchFilter=new o.a,this._updateControls(this._myWorkbenchFilter_fields,this._workbenchFilterControls,this.myWorkbenchFilter),this._updateControls(this._workbenchFreeText_fields,this._workbenchFreeTextControls,this.myWorkbenchFreeText),this._workbenchFilterService.deleteFilter(),this._workbenchFilterService.deleteUrlSearchParams()},e.prototype.clearFilter=function(){this.cleared=!0,this.filternotready=!0;var e=new o.a;this._updateControls(this._myWorkbenchFilter_fields,this._workbenchFilterControls,e),this._updateControls(this._workbenchFreeText_fields,this._workbenchFreeTextControls,this.myWorkbenchFreeText),this._workbenchFilterService.deleteFilter(),this._workbenchFilterService.deleteUrlSearchParams(),this.filternotready=!1},e.prototype.onSubmit=function(e){if(e.dirty||this.cleared){this.filternotready=!0;var t={},n="view=workbench";"Open"===e.controls.workbenchfiltergroup.controls.status.value&&(n+="&status=Open");for(var r=0,o=this._myWorkbenchFilter_fields.length;r<o;r++){var i=e.controls.workbenchfiltergroup.controls[this._myWorkbenchFilter_fields[r]];if(i.dirty&&null!=i.value&&""!==i.value)if("request_date_after"===this._myWorkbenchFilter_fields[r]||"request_date_before"===this._myWorkbenchFilter_fields[r]){var a=("0"+i.value.year).slice(-4)+"-"+("0"+i.value.month).slice(-2)+"-"+("0"+i.value.day).slice(-2);t[this._myWorkbenchFilter_fields[r]]=a,n+="&"+this._myWorkbenchFilter_fields[r]+"="+a}else t[this._myWorkbenchFilter_fields[r]]=i.value,n+="&"+this._myWorkbenchFilter_fields[r]+"="+i.value}for(var r=0,o=this._workbenchFreeText_fields.length;r<o;r++){var i=e.controls.workbenchfreetextgroup.controls[this._workbenchFreeText_fields[r]];i.dirty&&null!=i.value&&""!==i.value&&(t[this._workbenchFreeText_fields[r]]=i.value,n+="&"+this._workbenchFreeText_fields[r]+"="+i.value)}this.filternotready=!1,this._workbenchFilterService.setFilter(t),this._workbenchFilterService.setUrlSearchParams(n),this.onFilter.emit(n)}this.cleared=!1},h([n.i(r._4)(),m("design:type",Object)],e.prototype,"onFilter",void 0),e=h([n.i(r._10)({selector:"workbench-filter",template:n("tNCC")}),m("design:paramtypes",["function"==typeof(t=void 0!==d.d&&d.d)&&t||Object,"function"==typeof(_=void 0!==a.a&&a.a)&&_||Object,"function"==typeof(v=void 0!==s.a&&s.a)&&v||Object,"function"==typeof(y=void 0!==c.a&&c.a)&&y||Object,"function"==typeof(b=void 0!==l.a&&l.a)&&b||Object,"function"==typeof(g=void 0!==u.a&&u.a)&&g||Object])],e);var t,_,v,y,b,g}()},GrU7:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getCasetag=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.CASETAGS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getCasetags=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.CASETAGS_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createCasetag=function(e){var t={case:e.caseid,tag:e.tag},n=JSON.stringify(t),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.CASETAGS_URL,n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateCasetag=function(e){var t=e.id;delete e.id;var n=JSON.stringify(e),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.CASETAGS_URL+t+"/",n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.deleteCasetag=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.delete(c.a.CASETAGS_URL+e+"/",t).map(function(e){return console.log(e)}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},HlYD:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getFieldoffice=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.FIELDOFFICES_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getFieldoffices=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.FIELDOFFICES_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createFieldoffice=function(e){var t=JSON.stringify(e),n=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.FIELDOFFICES_URL,t,n).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateFieldoffice=function(e){var t=e.id;delete e.id;var n=JSON.stringify(e),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.FIELDOFFICES_URL+t+"/",n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},Hmja:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n,r){this.system_unit_number=e,this.system_unit_name=t,this.field_office=n,this.id=r}return e}()},I6ER:function(e,t,n){"use strict";var r=n("/oeL");n.d(t,"a",function(){return i});var o=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},i=function(){function e(){}return Object.defineProperty(e,"TODAY",{get:function(){return(new Date).toISOString().substr(0,10)},enumerable:!0,configurable:!0}),Object.defineProperty(e,"TIME",{get:function(){return(new Date).toISOString().substr(14,22)},enumerable:!0,configurable:!0}),e.showToast=function(e,t){var n=document.querySelector("#cbra_toast");n.className="cbraToast toastVisible",n.innerHTML=e,setTimeout(function(){n.className="cbraToast"},t||5e3)},e.convertDateToISOString=function(e){return("0000"+e.date.year).slice(-4)+"-"+("00"+e.date.month).slice(-2)+"-"+("00"+e.date.day).slice(-2)},e.convertArrayOfObjectsToCSV=function(e){var t,n,r,o,i,a,s;return s=[],null!=(a=e.data||null)&&a.length?(o=e.columnDelimiter||",",i=e.lineDelimiter||"\n",r=Object.keys(a[0]),r.forEach(function(t){var n=e.headers.filter(function(e){return e.name===t})[0];s.push(n.descr)}),t="",t+=e.headers?s.join(o):r.join(o),t+=i,a.forEach(function(e){n=0,r.forEach(function(r){n>0&&(t+=o),null==e[r]?t+="":"string"==typeof e[r]&&e[r].includes(",")?t+='"'+e[r]+'"':t+=e[r],n++}),t+=i}),t):null},e.downloadCSV=function(e){var t,n,r,o=this.convertArrayOfObjectsToCSV({data:e.data,headers:e.headers});null!=o&&(n=e.filename||"export.csv",o.match(/^data:text\/csv/i)||(o="data:text/csv;charset=utf-8,"+o),t=encodeURI(o),r=document.createElement("a"),r.setAttribute("href",t),r.setAttribute("download",n),r.click())},e.dynamicSort=function(e){var t=1;return"-"===e[0]&&(t=-1,e=e.substr(1)),function(n,r){return(n[e]<r[e]?-1:n[e]>r[e]?1:0)*t}},e.dynamicSortMultiple=function(e){function t(e){var t=1;return"-"===e[0]&&(t=-1,e=e.substr(1)),function(n,r){return(n[e]<r[e]?-1:n[e]>r[e]?1:0)*t}}var n=e;return function(e,r){for(var o=0,i=0,a=n.length;0===i&&o<a;)i=t(n[o])(e,r),o++;return i}},e=o([n.i(r.c)()],e)}()},IGOF:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0");n.d(t,"a",function(){return a});var i=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},a=function(){function e(){}return Object.defineProperty(e,"environment",{set:function(e){this._environment=e},enumerable:!0,configurable:!0}),Object.defineProperty(e,"IS_LOGGEDIN",{get:function(){return!!sessionStorage.getItem("username")&&!!sessionStorage.getItem("password")},enumerable:!0,configurable:!0}),Object.defineProperty(e,"AUTH_URL",{get:function(){return this._API_ENDPOINT+"auth/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"CASES_URL",{get:function(){return this._API_ENDPOINT+"cases/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"PROPERTIES_URL",{get:function(){return this._API_ENDPOINT+"properties/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"REQUESTERS_URL",{get:function(){return this._API_ENDPOINT+"requesters/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"CASEFILES_URL",{get:function(){return this._API_ENDPOINT+"casefiles/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"COMMENTS_URL",{get:function(){return this._API_ENDPOINT+"comments/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"TAGS_URL",{get:function(){return this._API_ENDPOINT+"tags/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"CASETAGS_URL",{get:function(){return this._API_ENDPOINT+"casetags/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"SYSTEMUNITS_URL",{get:function(){return this._API_ENDPOINT+"systemunits/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"FIELDOFFICES_URL",{get:function(){return this._API_ENDPOINT+"fieldoffices/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"SYSTEMMAPS_URL",{get:function(){return this._API_ENDPOINT+"systemmaps/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"SYSTEMUNITMAPS_URL",{get:function(){return this._API_ENDPOINT+"systemunitmaps/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"USERS_URL",{get:function(){return this._API_ENDPOINT+"users/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"DETERMINATIONS_URL",{get:function(){return this._API_ENDPOINT+"determinations/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"SYSTEMUNITPROHIBITIONDATES_URL",{get:function(){return this._API_ENDPOINT+"systemunitprohibitiondates/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"REPORTCASES_URL",{get:function(){return this._API_ENDPOINT+"reportcases/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"REPORTCASECOUNTS_URL",{get:function(){return this._API_ENDPOINT+"reportcasecounts/"},enumerable:!0,configurable:!0}),Object.defineProperty(e,"MIN_JSON_HEADERS",{get:function(){return new o.d({Accept:"application/json"})},enumerable:!0,configurable:!0}),Object.defineProperty(e,"JSON_HEADERS",{get:function(){return new o.d({Accept:"application/json","Content-Type":"application/json"})},enumerable:!0,configurable:!0}),Object.defineProperty(e,"AUTH_HEADERS",{get:function(){return new o.d({Authorization:"Basic "+btoa(sessionStorage.getItem("username")+":"+sessionStorage.getItem("password"))})},enumerable:!0,configurable:!0}),Object.defineProperty(e,"MIN_AUTH_JSON_HEADERS",{get:function(){return new o.d({Authorization:"Basic "+btoa(sessionStorage.getItem("username")+":"+sessionStorage.getItem("password")),Accept:"application/json"})},enumerable:!0,configurable:!0}),Object.defineProperty(e,"AUTH_JSON_HEADERS",{get:function(){return new o.d({Authorization:"Basic "+btoa(sessionStorage.getItem("username")+":"+sessionStorage.getItem("password")),Accept:"application/json","Content-Type":"application/json"})},enumerable:!0,configurable:!0}),Object.defineProperty(e,"STATUSES",{get:function(){return["Closed with no Final Letter","Final","Awaiting Final Letter","Awaiting QC","Received"]},enumerable:!0,configurable:!0}),Object.defineProperty(e,"SALUTATIONS",{get:function(){return["Mr.","Ms.","Dr."]},enumerable:!0,configurable:!0}),Object.defineProperty(e,"US_STATES",{get:function(){return["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]},enumerable:!0,configurable:!0}),Object.defineProperty(e,"CONTENT_TYPES",{get:function(){return["application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/pdf","text/plain","image/jpeg","image/png","image/gif","image/tiff","image/bmp","application/zip","application/x-bzip","application/x-bzip2"]},enumerable:!0,configurable:!0}),Object.defineProperty(e,"MAX_UPLOAD_SIZE",{get:function(){return 10485760},enumerable:!0,configurable:!0}),e._environment="production",e._API_ENDPOINT="https://"+window.location.hostname+"/cbra/cbraservices/",e=i([n.i(r.c)()],e)}()},JSyf:function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("CLpo"),a=n("xXmq"),s=n("I6ER");n.d(t,"a",function(){return u});var c=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},l=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},u=function(){function e(e,t){this._route=e,this._reportCaseCountService=t,this.paginated=!1,this.allow_filter=!1,this.notready=!0}return e.prototype.ngOnInit=function(){var e=this;this._params=this._route.queryParams.subscribe(function(t){e._getCaseCounts(),e._getColumns()})},e.prototype.exportToCSV=function(){var e="Report_CountCasesByStatus_"+s.a.TODAY+".csv";s.a.downloadCSV({filename:e,data:this.reportcases,headers:this.columns})},e.prototype._getCaseCounts=function(){var e=this;this._reportCaseCountService.getReportCaseCounts().subscribe(function(t){e.reportcases=t,e._show()},function(t){return e._errorMessage=t})},e.prototype._getColumns=function(){this.columns=[new a.a("count_received","Count Received"),new a.a("count_awaiting_level_1_qc","Count Awaiting Level 1 QC"),new a.a("count_awaiting_level_2_qc","Count Awaiting Level 2 QC"),new a.a("count_awaiting_final_letter","Count Awaiting Final Letter"),new a.a("count_closed","Count Closed"),new a.a("count_closed_no_final_letter","Count Closed with No Final Letter")]},e.prototype._show=function(){this.notready=!1},e=c([n.i(r._10)({template:n("Sw7E")}),l("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object,"function"==typeof(u=void 0!==i.a&&i.a)&&u||Object])],e);var t,u}()},JsGG:function(e,t,n){"use strict";var r=n("/oeL");n.d(t,"a",function(){return i});var o=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},i=function(){function e(){}return e=o([n.i(r._10)({template:"<navbar></navbar><router-outlet></router-outlet>"})],e)}()},LhJz:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getSystemunit=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.SYSTEMUNITS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getSystemunits=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.SYSTEMUNITS_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createSystemunit=function(e){var t=JSON.stringify(e),n=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.SYSTEMUNITS_URL,t,n).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateSystemunit=function(e){var t=e.id;delete e.id;var n=JSON.stringify(e),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.SYSTEMUNITS_URL+t+"/",n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.deleteSystemunit=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.delete(c.a.SYSTEMUNITS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},LjeG:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n,r,o,i,a,s,c,l,u,d,f,p,h,m,_,v,y,b,g,S,w,C,O,R,D,T,P,j,I,E,x,N,F,k){this.requester=e,this.property=t,this.property_string=n,this.case_number=r,this.case_reference=o,this.duplicate=i,this.status=a,this.request_date=s,this.casefiles=c,this.cbrs_unit=l,this.cbrs_unit_string=u,this.map_number=d,this.map_number_string=f,this.cbrs_map_date=p,this.determination=h,this.determination_string=m,this.prohibition_date=_,this.prohibition_date_mdy=v,this.distance=y,this.fws_fo_received_date=b,this.fws_hq_received_date=g,this.final_letter_date=S,this.close_date=w,this.final_letter_recipient=C,this.analyst=O,this.analyst_string=R,this.analyst_signoff_date=D,this.qc_reviewer=T,this.qc_reviewer_string=P,this.qc_reviewer_signoff_date=j,this.priority=I,this.on_hold=E,this.invalid=x,this.comments=N,this.tags=F,this.id=k}return e}()},N6RZ:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(){this.direction=1}return e.prototype.sort=function(e,t){var n=this;this.key===e?this.direction=-this.direction:this.direction=1,this.key=e,t.sort(function(t,r){return t[e]===r[e]?0:t[e]>r[e]?n.direction:-n.direction})},e}()},NcjZ:function(e,t){e.exports='<div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>\n<div [hidden]="notready">\n    <div align="center">\n        <label for="cbrs_unit_top">CBRS Unit</label>\n        <select id="cbrs_unit_top" (change)="onFilter(newUnitTop.value)" #newUnitTop>\n            <option value=""></option>\n            <option *ngFor="let unit of systemunits" [value]="unit.id" [selected]="unit.id == selected_unit">{{unit.system_unit_number}}</option>\n        </select>\n        <br/><br/>\n        \x3c!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> --\x3e\n        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="prevPage(newUnitTop.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>\n        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="exportToCSV(newUnitTop.value)"><i class="fa fa-download"></i> Export CSV</button>\n        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="nextPage(newUnitTop.value)">Next Page <i class="fa fa-arrow-right"></i></button>\n    </div>\n    <report-grid [rows]="cases_properties" [columns]="columns"></report-grid>\n    <div align="center">\n        <label for="cbrs_unit_bottom">CBRS Unit</label>\n        <select id="cbrs_unit_bottom" (change)="onFilter(newUnitBottom.value)" #newUnitBottom>\n            <option value=""></option>\n            <option *ngFor="let unit of systemunits" [value]="unit.id" [selected]="unit.id == selected_unit">{{unit.system_unit_number}}</option>\n        </select>\n        <br/><br/>\n        \x3c!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> --\x3e\n        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="prevPage(newUnitBottom.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>\n        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="exportToCSV(newUnitBottom.value)"><i class="fa fa-download"></i> Export CSV</button>\n        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="nextPage(newUnitBottom.value)">Next Page <i class="fa fa-arrow-right"></i></button>\n    </div>\n</div>\n'},P9if:function(e,t){e.exports='<navbar></navbar>\n        <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>\n        <div [hidden]="notready">\n            <div class="container">\n                <h3 class="subheader"><b>Tags</b></h3>\n                <div align="center">\n                    <button type="button" class="btn btn-default" (click)="toggleCreateTagForm()">Create a Tag</button><br /><br />\n                    <div [hidden]="nottoggled">\n                        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="add-tag-form">\n                            <div *ngIf="error" class="alert alert-danger">That tag name already exists</div>\n                            <div class="form-group">\n                                <label for="name">Name</label>\n                                <input type="text" id="name" formControlName="name">\n                            </div>\n                            <div class="form-group">\n                                <label for="description">Description</label>\n                                <input type="text" id="description" formControlName="description">\n                            </div>\n                            <div class="form-group">\n                                <button type="submit" [disabled]="!form.valid">Submit</button>\n                            </div>\n                        </form>\n                    </div>\n                </div>\n                <table class="table table-striped table-bordered table-hover table-condensed tags-table">\n                    <tbody>\n                        <tr class="head">\n                            <td>Tag</td>\n                            <td>Description</td>\n                            <td>Delete</td>\n                            <td>Cases</td>\n                        </tr>\n                        <tr *ngFor="let tag of tags">\n                            <td (click)="goToTag(tag.id)">{{tag.name}}</td>\n                            <td>{{tag.description}}</td>\n                            <td><button class="btn-tags delete" type="button" (click)="deleteTag(tag.id)">Delete <i class="fa fa-remove"></i></button></td>\n                            <td><button class="btn-tags" type="button" (click)="goToCases(tag.id)">Open <i class="fa fa-arrow-right"></i></button></td>\n                        </tr>\n                    </tbody>\n                </table>\n            </div>\n        </div>\n'},QOjK:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n,r,o,i,a,s,c,l,u){this.first_name=e,this.last_name=t,this.salutation=n,this.organization=r,this.email=o,this.street=i,this.unit=a,this.city=s,this.state=c,this.zipcode=l,this.id=u}return e}()},Qm8h:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getReportCases=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.REPORTCASES_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getReportCasesCSV=function(e){return new Promise(function(t,n){var r=new XMLHttpRequest;r.onreadystatechange=function(){if(4===r.readyState)if(200===r.status){var e="",o=r.getResponseHeader("Content-Disposition");if(o&&-1!==o.indexOf("attachment")){var i=/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/,a=i.exec(o);null!=a&&a[1]&&(e=a[1].replace(/['"]/g,""))}t([r.response,e])}else n(r.response)},r.responseType="blob",r.open("GET",c.a.REPORTCASES_URL+"?"+e,!0),r.setRequestHeader("Authorization","Basic "+btoa(sessionStorage.getItem("username")+":"+sessionStorage.getItem("password"))),r.send()})},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},"Qv/7":function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getRequester=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.REQUESTERS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getRequesters=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.REQUESTERS_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createRequester=function(e){var t=JSON.stringify(e),n=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.REQUESTERS_URL,t,n).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateRequester=function(e){var t=e.id;delete e.id;var n=JSON.stringify(e),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.REQUESTERS_URL+t+"/",n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},Sw7E:function(e,t){e.exports='<div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>\n<div [hidden]="notready">\n    <button *ngIf="allow_filter" class="filter-cases-btn" (click)="toggleFilter()"><i class="fa fa-filter"></i> Filter Cases</button>\n    <report-filter *ngIf="allow_filter" [hidden]="hideFilter" (onFilter)="onFilter($event)"></report-filter>\n    <div align="center">\n        <button *ngIf="paginated" type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="prevPage()"><i class="fa fa-arrow-left"></i> Prev Page</button>\n        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="exportToCSV()"><i class="fa fa-download"></i> Export CSV</button>\n        <button *ngIf="paginated" type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="nextPage()">Next Page <i class="fa fa-arrow-right"></i></button>\n    </div>\n    <report-grid [rows]="reportcases" [columns]="columns"></report-grid>\n    <div align="center">\n        <button *ngIf="paginated" type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="prevPage()"><i class="fa fa-arrow-left"></i> Prev Page</button>\n        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="exportToCSV()"><i class="fa fa-download"></i> Export CSV</button>\n        <button *ngIf="paginated" type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="nextPage()">Next Page <i class="fa fa-arrow-right"></i></button>\n    </div>\n</div>\n'},TOka:function(e,t,n){"use strict";var r=n("/oeL");n.d(t,"a",function(){return i});var o=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},i=function(){function e(){}return e=o([n.i(r._10)({template:"<navbar></navbar><router-outlet></router-outlet>"})],e)}()},"TU+8":function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=n("GWWY"),o=(n.n(r),n("f/CF")),i=(n.n(o),n("KvE9")),a=(n.n(i),n("zbpw")),s=(n.n(a),n("NzKl")),c=(n.n(s),n("ajBu")),l=(n.n(c),n("feEK")),u=(n.n(l),n("r24B")),d=(n.n(u),n("pEMT")),f=(n.n(d),n("jOBH")),p=(n.n(f),n("Rjcp")),h=(n.n(p),n("W8w6")),m=(n.n(h),n("yJzT")),_=(n.n(m),n("/wY1")),v=(n.n(_),n("+iEx")),y=(n.n(v),n("eFQL"));n.n(y)},Tevn:function(e,t,n){"use strict";var r=n("/oeL"),o=n("p/K5");n.d(t,"a",function(){return s});var i=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},a=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},s=function(){function e(){this._myWorkbenchFilter=new o.a,this._myWorkbenchFilterUrlSearchParams=""}return e.prototype.getFilter=function(){return this._myWorkbenchFilter},e.prototype.getUrlSearchParams=function(){return this._myWorkbenchFilterUrlSearchParams},e.prototype.setFilter=function(e){for(var t in e)this._myWorkbenchFilter[t]=e[t],sessionStorage.setItem(t,e[t])},e.prototype.setUrlSearchParams=function(e){this._myWorkbenchFilterUrlSearchParams=e,sessionStorage.setItem("filterUrlSearchParams",e)},e.prototype.deleteFilter=function(){for(var e in this._myWorkbenchFilter)sessionStorage.removeItem(e)},e.prototype.deleteUrlSearchParams=function(){sessionStorage.removeItem("filterUrlSearchParams")},e=i([n.i(r.c)(),a("design:paramtypes",[])],e)}()},UvWG:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(){this.modals=[]}return e.prototype.add=function(e){this.modals.push(e)},e.prototype.remove=function(e){var t=this.modals.find(function(t){return t.id===e});this.modals=this.modals.filter(function(e){return e!==t})},e.prototype.open=function(e){this.modals.find(function(t){return t.id===e}).open()},e.prototype.close=function(e){this.modals.find(function(t){return t.id===e}).close()},e}()},X8VJ:function(e,t,n){"use strict";var r=n("/oeL"),o=n("kWTR"),i=n("BkNc");n.d(t,"a",function(){return l});var a=this&&this.__extends||function(){var e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,t){e.__proto__=t}||function(e,t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n])};return function(t,n){function r(){this.constructor=t}e(t,n),t.prototype=null===n?Object.create(n):(r.prototype=n.prototype,new r)}}(),s=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},c=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},l=function(e){function t(t){var n=e.call(this)||this;return n._router=t,n.edit=new r.F,n}return a(t,e),t.prototype.onClick=function(e){this.edit.emit(e)},s([n.i(r._4)(),c("design:type","function"==typeof(o=void 0!==r.F&&r.F)&&o||Object)],t.prototype,"edit",void 0),t=s([n.i(r._10)({selector:"systemmap-grid",inputs:["rows: rows","columns: columns","displayLookup: displayLookup"],template:n("Cj5t"),styles:[".gridHeader {cursor:pointer;}"]}),c("design:paramtypes",["function"==typeof(l=void 0!==i.b&&i.b)&&l||Object])],t);var o,l}(o.a)},YHsf:function(e,t,n){"use strict";var r=n("/oeL"),o=n("kWTR"),i=n("BkNc");n.d(t,"a",function(){return l});var a=this&&this.__extends||function(){var e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,t){e.__proto__=t}||function(e,t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n])};return function(t,n){function r(){this.constructor=t}e(t,n),t.prototype=null===n?Object.create(n):(r.prototype=n.prototype,new r)}}(),s=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},c=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},l=function(e){function t(t){var n=e.call(this)||this;return n._router=t,n.edit=new r.F,n}return a(t,e),t.prototype.onClick=function(e){this.edit.emit(e)},s([n.i(r._4)(),c("design:type","function"==typeof(o=void 0!==r.F&&r.F)&&o||Object)],t.prototype,"edit",void 0),t=s([n.i(r._10)({selector:"systemunit-grid",inputs:["rows: rows","columns: columns"],template:n("Cj5t"),styles:[".gridHeader {cursor:pointer;}"]}),c("design:paramtypes",["function"==typeof(l=void 0!==i.b&&i.b)&&l||Object])],t);var o,l}(o.a)},YY7q:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getUser=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.USERS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getUsers=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.USERS_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},"Z/qD":function(e,t){e.exports='<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="login-form">\r\n    <div *ngIf="error">Username/Password combination invalid.</div>\r\n    <div>\r\n        <label for="username">Username</label>\r\n        <input id="username" type="text" formControlName="username">\r\n    </div>\r\n    <div>\r\n        <label for="password">Password</label>\r\n        <input id="password" type="password" formControlName="password">\r\n    </div>\r\n    <div class="form-group">\r\n        <button type="submit" [disabled]="!form.valid">Login</button>\r\n    </div>\r\n</form>\r\n'},ZWWC:function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("CPp0"),a=n("LjeG"),s=n("oB8F"),c=n("QOjK"),l=n("1YeF"),u=n("f78x"),d=n("asDT"),f=n("53Kq"),p=n("ytJH"),h=n("bW5i"),m=n("Qv/7"),_=n("+KkJ"),v=n("Akkd"),y=n("GrU7"),b=n("LhJz"),g=n("s0K2"),S=n("HlYD"),w=n("YY7q"),C=n("oSyI"),O=n("cI4O"),R=n("zAlM"),D=n("bm2B"),T=n("IGOF"),P=n("I6ER"),j=n("bbdN");n.n(j);n.d(t,"a",function(){return x});var I=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},E=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},x=function(){function e(e,t,n,r,o,i,f,p,h,m,_,v,y,b,g,S,w){var C=this;this._route=t,this._router=n,this._caseService=r,this._casefileService=o,this._propertyService=i,this._requesterService=f,this._commentService=p,this._tagService=h,this._casetagService=m,this._systemunitService=_,this._systemmapService=v,this._fieldofficeService=y,this._userService=b,this._determinationService=g,this._prohibitiondateService=S,this._authenticationService=w,this._filesToUpload=[],this.filesToUploadDetails=[],this.caseFileClass="col-md-4",this.inInit=!0,this.mapsfound=!0,this.active=!0,this.notready=!0,this.noxhr=!0,this.isOnHold=!1,this.isreadonly_prohibitiondate=!1,this.commentUnique=!0,this.commentOwner=!0,this.editingComment=!1,this._isNewCase=!1,this._today=new Date,this._userFields=["analyst","qc_reviewer"],this._debug=!1,this.myCase=new a.a,this.myProperty=new s.a,this.myRequester=new c.a,this.myComment=new l.a,this.myCasetag=new d.a,this.myTag=new u.a,this.myCaseIDs=[],this.availableTags=[],this.availableSystemmapdates=[],this.availableAnalysts=[],this.availableQCReviewers=[],this.salutations=T.a.SALUTATIONS,this.states=T.a.US_STATES,this.myCasefiles=[],this._commentsControls=[],this._casetagsControls=[],this.myDatePickerOptions={dateFormat:"mm/dd/yyyy",disableSince:{year:this._today.getFullYear(),month:this._today.getMonth()+1,day:this._today.getDate()+1}},this._debug&&console.log("0: "+P.a.TIME+": "+this.myCase.map_number+" : "+this.selectedMap);var O=this.myCase;O.final_letter=null,this._myCase_fields=Object.keys(O),this._myProperty_fields=Object.keys(this.myProperty),this._myRequester_fields=Object.keys(this.myRequester),this._caseControls=this._makeControls(this._myCase_fields),this._propertyControls=this._makeControls(this._myProperty_fields),this._requesterControls=this._makeControls(this._myRequester_fields),this.casegroup=new D.e(this._caseControls),this.propertygroup=new D.e(this._propertyControls),this.requestergroup=new D.e(this._requesterControls),this.commentgroup=new D.g(this._commentsControls),this.taggroup=new D.g(this._casetagsControls),this.form=e.group({casegroup:this.casegroup,propertygroup:this.propertygroup,requestergroup:this.requestergroup,commentgroup:this.commentgroup,taggroup:this.taggroup}),this._route.params.subscribe(function(e){return C.case_ID=+e.id}),this.case_ID?(this._isNewCase=!1,this._getCase(this.case_ID),this._getCasefiles(this.case_ID),this._getProperties(this.case_ID),this._getRequesters(this.case_ID),this._getComments(this.case_ID),this._getCasetags(this.case_ID)):(this._isNewCase=!0,this._getUsers(),this._getSystemunits()),this._getCaseIDs(),this._getFieldoffices(),this._getDeterminations(),(new XMLHttpRequest).upload&&(this.noxhr=!1)}return e.prototype._makeControls=function(e){for(var t={},n=0,r=e.length;n<r;n++)"zipcode"===e[n]&&(t[e[n]]=new D.c({value:"",disabled:!1},D.f.maxLength(5))),["legal_description"].indexOf(e)>-1?["street","city","state"].indexOf(e[n])>-1&&(t[e[n]]=new D.c({value:"",disabled:!1},D.f.required)):["email"].indexOf(e)>-1?["first_name","last_name","email"].indexOf(e[n])>-1&&(t[e[n]]=new D.c({value:"",disabled:!1},D.f.required)):t[e[n]]=new D.c({value:"",disabled:!1});return t},e.prototype._updateControls=function(e,t,n){for(var r=0,o=e.length;r<o;r++){var i=e[r];if("date"===i.slice(-4)&&null!==n[i]&&"cbrs_map_date"!==i&&"prohibition_date"!==i){var a=new Date(n[i]);a=new Date(a.getTime()+Math.abs(6e4*a.getTimezoneOffset())),t[i].setValue({date:{year:a.getFullYear(),month:a.getMonth()+1,day:a.getDate()}})}else t[i].setValue(n[i])}},e.prototype._updateControl=function(e,t,n,r){var o=t.indexOf(e);n[t[o]].setValue(r[t[o]])},e.prototype.updateCaseControlValue=function(e,t){this._caseControls[e].setValue(t),this._userFields.indexOf(e)>-1&&this._buildUserOptions(e,t)},e.prototype.updatePropertyControlValue=function(e,t){this._propertyControls[e].setValue(t)},e.prototype.updateRequesterControlValue=function(e,t){this._requesterControls[e].setValue(t)},e.prototype._addCommentControl=function(e){this._commentsControls.push(new D.c(e))},e.prototype._addCasetagControl=function(e){this._casetagsControls.push(new D.c(e))},e.prototype.ngOnInit=function(){this.inInit=!0},e.prototype.ngAfterViewInit=function(){this.inInit=!1},e.prototype._getCase=function(e){var t=this;this._caseService.getCase(e).subscribe(function(e){t.myCase=e,t._debug&&console.log("1: "+P.a.TIME+": "+t.myCase.map_number+" : "+t.selectedMap),t.selectedAnalyst=e.analyst,t.selectedQCReviewer=e.qc_reviewer,t.selectedMap=t.myCase.map_number,t._updateControls(t._myCase_fields,t._caseControls,t.myCase),t._getSystemunits(),t._getUsers()},function(e){return t._errorMessage=e})},e.prototype._getCasefiles=function(e){var t=this;this._casefileService.getCasefiles(new i.e("case="+e)).then(function(e){t.myCasefiles=e},function(e){return t._errorMessage=e})},e.prototype._getCaseIDs=function(){var e=this;this._caseService.getCases(new i.e("view=caseid")).subscribe(function(t){e.myCaseIDs.length=0;for(var n=0,r=t.length;n<r;n++)e.myCaseIDs.push(t[n]);e.myCaseIDs.sort(P.a.dynamicSort("id"))},function(t){return e._errorMessage=t})},e.prototype._getProperties=function(e){var t=this;this._propertyService.getProperties(new i.e("case="+e)).subscribe(function(e){t.myProperty=e[0],t._updateControls(t._myProperty_fields,t._propertyControls,t.myProperty)},function(e){return t._errorMessage=e})},e.prototype._getRequesters=function(e){var t=this;this._requesterService.getRequesters(new i.e("case="+e)).subscribe(function(e){t.myRequester=e[0],t._updateControls(t._myRequester_fields,t._requesterControls,t.myRequester)},function(e){return t._errorMessage=e})},e.prototype._getComments=function(e){var t=this;this._commentService.getComments(new i.e("case="+e)).subscribe(function(e){t.myComments=e;for(var n=0,r=e.length;n<r;n++)t._addCommentControl(e[n].comment)},function(e){return t._errorMessage=e})},e.prototype._getCasetags=function(e){var t=this;this._casetagService.getCasetags(new i.e("case="+e)).subscribe(function(e){t.myCasetags=e;for(var n=0,r=e.length;n<r;n++)t._addCasetagControl(e[n].tagname);t._getTags()},function(e){return t._errorMessage=e})},e.prototype._getTags=function(){var e=this;this._tagService.getTags().subscribe(function(t){e.myTags=t,e._buildTagOptions()},function(t){return e._errorMessage=t})},e.prototype._buildTagOptions=function(){this.availableTags.length=0;for(var e=[],t=0,n=this.myCasetags.length;t<n;t++)e.push(this.myCasetags[t].tag);for(var t=0,n=this.myTags.length;t<n;t++)e.indexOf(this.myTags[t].id)<0&&this.availableTags.push(this.myTags[t])},e.prototype._getSystemunits=function(){var e=this;this._systemunitService.getSystemunits().subscribe(function(t){e.mySystemunits=t.sort(P.a.dynamicSort("system_unit_number")),e._debug&&console.log("2: "+P.a.TIME+": "+e.myCase.map_number+" : "+e.selectedMap),e.myCase.cbrs_unit?(e.getSystemmaps(e.myCase.cbrs_unit),e.getProhibitiondates(e.myCase.cbrs_unit)):e.notready=!1},function(t){return e._errorMessage=t})},e.prototype.getSystemmaps=function(e){var t=this;this._systemmapService.getSystemmaps(new i.e("unit="+e)).subscribe(function(e){t.mySystemmaps=e.sort(P.a.dynamicSortMultiple(["-effective","map_number"])),0===t.mySystemmaps.length?(t.mapsfound=!1,t.notready=!1):(t.mapsfound=!0,t._debug&&console.log("3: "+P.a.TIME+": "+t.myCase.map_number+" : "+t.selectedMap),t._updateControl("map_number",t._myCase_fields,t._caseControls,t.mySystemmaps),t._debug&&console.log("4: "+P.a.TIME+": "+t.myCase.map_number+" : "+t.selectedMap),t.myCase.map_number?(t.selectedMap=t.myCase.map_number,t.updateCaseControlValue("map_number",t.myCase.map_number),t.getSystemmapdate(t.myCase.map_number)):t.notready=!1)},function(e){return t._errorMessage=e})},e.prototype.getSystemmapdate=function(e){if(e){var t=this.mySystemmaps.filter(function(t){return t.id==e}),n=t[0].map_date.split("-"),r=n[1]+"/"+n[2]+"/"+n[0];this._caseControls.cbrs_map_date.setValue(r),this._debug&&console.log("5: "+P.a.TIME+": "+this.myCase.map_number+" : "+this.selectedMap),this.notready=!1}else this._caseControls.cbrs_map_date.setValue(""),this.notready=!1},e.prototype.toggleReadOnlyProhibitionDate=function(e){this.isreadonly_prohibitiondate=2===e||4===e},e.prototype.toggleOnHold=function(){this.isOnHold=!this.isOnHold},e.prototype.validateDate=function(e,t){if(this.inInit)return!1;if(this.notready)return!1;if(void 0===t||null===t||""===t)return!1;if("object"==typeof t&&0===t.year)return!1;t=("0000"+t.year).slice(-4)+"-"+("00"+t.month).slice(-2)+"-"+("00"+t.day).slice(-2);var n=new Date(t);if(n=new Date(n.getTime()+Math.abs(6e4*n.getTimezoneOffset())),n.getFullYear()<1e3||n.getFullYear()>9999||n.getMonth()<1||n.getMonth()>12||n.getDate()<1||n.getDate()>31)return P.a.showToast(t+" ("+n.toISOString().substr(0,10)+") is not a valid date. Please enter a valid date."),!1;var r,o,i,a,s=["request_date","fws_fo_received_date","fws_hq_received_date","analyst_signoff_date","qc_reviewer_signoff_date","final_letter_date","close_date"],c=["Request Date","Field Office Received Date","Headquarters Received Date","Analyst Signoff Date","QC Signoff Date","Final Letter Date","Close Date"],l=s.indexOf(e);if(0!==l)if("close_date"===e){if(r=s[s.indexOf(e)-1],!((o=this._caseControls[r].value)||(r=s[s.indexOf(e)-2],o=this._caseControls[r].value)))return P.a.showToast(c[l]+" should not be entered until "+c[l-3]+" has been entered!"),!1}else if("fws_hq_received_date"===e){if(r=s[s.indexOf(e)-1],!((o=this._caseControls[r].value)||(r=s[s.indexOf(e)-2],o=this._caseControls[r].value)))return P.a.showToast(c[l]+" should not be entered until "+c[l-2]+" has been entered!"),!1}else if(r=s[s.indexOf(e)-1],!(o=this._caseControls[r].value))return P.a.showToast(c[l]+" should not be entered until "+c[l-1]+" has been entered!"),!1;if(l!==s.length-1)if("analyst_signoff_date"===e)i=s[s.indexOf(e)+1],(a=this._caseControls[i].value)||(i=s[s.indexOf(e)+2],a=this._caseControls[i].value);else if("final_letter_date"===e){if(i=s[s.indexOf(e)+1],!(a=this._caseControls[i].value)){var u=new Date(t);u=new Date(u.getTime()+Math.abs(6e4*u.getTimezoneOffset())),this.updateCaseControlValue("close_date",{date:{year:u.getFullYear(),month:u.getMonth()+1,day:u.getDate()}}),a=t}}else i=s[s.indexOf(e)+1],a=this._caseControls[i].value;if(void 0!==t&&null!==t&&""!==t&&"object"==typeof t){if(0===t.date.year)return!1;t=("0000"+t.date.year).slice(-4)+"-"+("00"+t.date.month).slice(-2)+"-"+("00"+t.date.day).slice(-2)}if(void 0!==o&&null!==o&&""!==o&&"object"==typeof o){if(0===o.date.year)return!1;o=("0000"+o.date.year).slice(-4)+"-"+("00"+o.date.month).slice(-2)+"-"+("00"+o.date.day).slice(-2)}if(void 0!==a&&null!==a&&""!==a&&"object"==typeof a){if(0===a.date.year)return!1;a=("0000"+a.date.year).slice(-4)+"-"+("00"+a.date.month).slice(-2)+"-"+("00"+a.date.day).slice(-2)}if(t&&l===s.length-1&&t<o)"final_letter_date"===r?P.a.showToast(c[l]+" can not be earlier than "+c[l-2]+"!"):P.a.showToast(c[l]+" can not be earlier than "+c[l-1]+"!");else if(0===l&&a&&t>a)P.a.showToast(c[l]+" can not be later than "+c[l+1]+"!");else if(!a&&t&&t<o)P.a.showToast(c[l]+" can not be earlier than "+c[l-1]+"!");else{if(!(t&&t<o||a&&t>a))return!1;"qc_reviewer_signoff_date"===e&&"close_date"===i?P.a.showToast(c[l]+" must be between "+c[l-1]+" and "+c[l+2]+"!"):P.a.showToast(c[l]+" must be between "+c[l-1]+" and "+c[l+1]+"!")}},e.prototype._getUsers=function(){var e=this;this._userService.getUsers(new i.e("used_users=True")).subscribe(function(t){e.myUsers=t,e._buildUserOptions()},function(t){return e._errorMessage=t})},e.prototype._buildUserOptions=function(e,t){var n=[],r=[];switch(this.availableAnalysts.length=0,this.availableQCReviewers.length=0,e){case"analyst":this.myCase.qc_reviewer&&n.push(this.myCase.qc_reviewer),t&&n.indexOf(t)<0&&n.push(Number(t));break;case"qc_reviewer":this.myCase.analyst&&n.push(this.myCase.analyst),t&&n.indexOf(t)<0&&n.push(Number(t));break;default:this.myCase.analyst&&n.push(this.myCase.analyst),this.myCase.qc_reviewer&&n.push(this.myCase.qc_reviewer),t&&n.indexOf(t)<0&&n.push(Number(t))}for(var o=0,i=this.myUsers.length;o<i;o++)n.indexOf(this.myUsers[o].id)<0&&this.myUsers[o].is_active&&(this.availableAnalysts.push(this.myUsers[o]),this.availableQCReviewers.push(this.myUsers[o]),r.push(this.myUsers[o].id));var a=[],s=this.myCase.analyst;"analyst"===e?(a.push(Number(t)),this.selectedAnalyst=t):s&&(a.push(s),this.selectedAnalyst=s),"analyst"!==e||t||s&&r.indexOf(s)<0&&a.push(s);for(var o=0,i=this.myUsers.length;o<i;o++)a.indexOf(this.myUsers[o].id)>-1&&this.availableAnalysts.push(this.myUsers[o]);var c=[],l=this.myCase.qc_reviewer;"qc_reviewer"===e?(c.push(Number(t)),this.selectedQCReviewer=t):l&&(c.push(l),this.selectedQCReviewer=l),"qc_reviewer"!==e||t||l&&r.indexOf(l)<0&&c.push(l);for(var o=0,i=this.myUsers.length;o<i;o++)c.indexOf(this.myUsers[o].id)>-1&&this.availableQCReviewers.push(this.myUsers[o])},e.prototype._getDeterminations=function(){var e=this;this._determinationService.getDeterminations().subscribe(function(t){e.myDeterminations=t},function(t){return e._errorMessage=t})},e.prototype.getProhibitiondates=function(e){var t=this;this._prohibitiondateService.getProhibitiondates(new i.e("unit="+e)).subscribe(function(e){t.myProhibitiondates=e},function(e){return t._errorMessage=e})},e.prototype._getFieldoffices=function(){var e=this;this._fieldofficeService.getFieldoffices().subscribe(function(t){e.myFieldoffices=t},function(t){return e._errorMessage=t})},e.prototype.addComment=function(e){var t=this;if(e){if(this.myComments.filter(function(t){return t.comment===e})[0])return void(this.commentUnique=!1);this.commentUnique=!0,this._commentService.createComment(new l.a(this.case_ID,e)).subscribe(function(e){t.myComments.push(e),t._addCommentControl(e.comment)},function(e){return t._errorMessage=e})}},e.prototype.editComment=function(e){var t=this;this.myComments.filter(function(t){return t.id===e})[0].created_by_string===this._authenticationService.user.username?(this.commentOwner=!0,this.editingComment=!0,this.editCommentID=e):(this.commentOwner=!1,setTimeout(function(){t.commentOwner=!0},5e3))},e.prototype.cancelEditComment=function(){this.editingComment=!1},e.prototype.updateComment=function(e){var t=this;if(this.editCommentID&&e){var n=this.editCommentID;if(this.myComments.filter(function(t){return t.comment===e})[0])return void(this.commentUnique=!1);this.commentUnique=!0;var r=this.myComments.filter(function(e){return e.id===n})[0];this._commentService.updateComment(new l.a(r.acase,e,r.created_by,r.created_by_string,r.created_date,r.id)).subscribe(function(e){var n=t.myComments.indexOf(r);t.myComments.splice(n,1,e),t._addCommentControl(e.comment),t.editingComment=!1},function(e){return t._errorMessage=e})}},e.prototype.addCasetag=function(e){var t=this;e&&this._casetagService.createCasetag(new d.a(this.case_ID,e)).subscribe(function(e){t.myCasetags.push(e),t._buildTagOptions(),t._addCasetagControl(e.tagname)},function(e){return t._errorMessage=e})},e.prototype.removeCasetag=function(e){var t=this;this._casetagService.deleteCasetag(e).subscribe(function(e){t._getCasetags(t.case_ID)},function(e){return t._errorMessage=e})},e.prototype.setSignoffDateToday=function(e){var t=e+"_signoff_date";this.casegroup.contains(t)&&this._caseControls[t].setValue(P.a.TODAY)},e.prototype.setFinalLetterDate=function(e){if(e){this._caseControls.final_letter_date.setValue(P.a.TODAY);confirm("Do you also want to close this case?")?this._caseControls.close_date.setValue(P.a.TODAY):this._caseControls.close_date.setValue("")}else this._caseControls.final_letter_date.setValue("")},e.prototype.fileDragHover=function(e){e.stopPropagation(),e.preventDefault()},e.prototype.casefileSelectHandler=function(e){this.fileDragHover(e);for(var t=e.target.files||e.dataTransfer.files,n=0,r=t.length;n<r;n++){var o=t[n];this._filesToUpload.push(o);var i={name:o.name};this.filesToUploadDetails.push(i)}},e.prototype.finalletterSelectHandler=function(e){this.fileDragHover(e);var t=e.target.files||e.dataTransfer.files;this._finalletterToUpload=t[0],this.finalletterToUploadDetails={name:this._finalletterToUpload.name}},e.prototype.removeCasefile=function(e){this._filesToUpload.splice(e,1),this.filesToUploadDetails.splice(e,1)},e.prototype.removeFinalLetter=function(){this._finalletterToUpload=void 0,this.finalletterToUploadDetails=void 0},e.prototype.deleteCasefile=function(e){var t=this;this._casefileService.deleteCasefile(e).subscribe(function(e){t._getCasefiles(t.myCase.id)},function(e){return t._errorMessage=e})},e.prototype._callCreateCasefiles=function(){var e=this;this._casefileService.createCasefiles(this.myCase.id,this._filesToUpload).then(function(t){e._getCasefiles(e.myCase.id),e._filesToUpload.length=0,e.filesToUploadDetails.length=0,e._finalletterToUpload?e._callCreateFinalLetter():e._isNewCase&&(e._isNewCase=!1,e._router.navigate(["/workbench/"+e.case_ID]))},function(e){P.a.showToast(e)})},e.prototype._callCreateFinalLetter=function(){var e=this,t=[this._finalletterToUpload];this._casefileService.createCasefiles(this.myCase.id,t,!0).then(function(t){e._getCasefiles(e.myCase.id),e.removeFinalLetter(),e._isNewCase&&(e._isNewCase=!1,e._router.navigate(["/workbench/"+e.case_ID]))},function(e){P.a.showToast(e)})},e.prototype.generateLetter=function(){this._caseService.createFinalLeter(this.case_ID).then(function(e){var t=new Blob([e[0]],{type:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});j.saveAs(t,e[1])})},e.prototype.onSubmit=function(e){var t=this;if(this.notready=!0,e.dirty||this._filesToUpload||this._finalletterToUpload){var n=e.controls.casegroup,r=e.controls.propertygroup,o=e.controls.requestergroup;if(this.myCase.case_number){if(n.dirty){var i=n.controls.request_date.value;""===i?n.controls.request_date.setValue(null):null!==i&&(i=P.a.convertDateToISOString(i),n.controls.request_date.setValue(i)),i=n.controls.cbrs_map_date.value,""===i&&n.controls.cbrs_map_date.setValue(null),i=n.controls.prohibition_date.value,""===i&&n.controls.prohibition_date.setValue(null),i=n.controls.fws_fo_received_date.value,""===i?n.controls.fws_fo_received_date.setValue(null):null!==i&&(i=P.a.convertDateToISOString(i),n.controls.fws_fo_received_date.setValue(i)),i=n.controls.fws_hq_received_date.value,""===i?n.controls.fws_hq_received_date.setValue(null):null!==i&&(i=P.a.convertDateToISOString(i),n.controls.fws_hq_received_date.setValue(i)),i=n.controls.final_letter_date.value,""===i?n.controls.final_letter_date.setValue(null):null!==i&&(i=P.a.convertDateToISOString(i),n.controls.final_letter_date.setValue(i)),i=n.controls.close_date.value,""===i?n.controls.close_date.setValue(null):null!==i&&"string"!=typeof i&&(i=P.a.convertDateToISOString(i),n.controls.close_date.setValue(i)),i=n.controls.analyst_signoff_date.value,""===i?n.controls.analyst_signoff_date.setValue(null):null!==i&&(i=P.a.convertDateToISOString(i),n.controls.analyst_signoff_date.setValue(i)),i=n.controls.qc_reviewer_signoff_date.value,""===i?n.controls.qc_reviewer_signoff_date.setValue(null):null!==i&&(i=P.a.convertDateToISOString(i),n.controls.qc_reviewer_signoff_date.setValue(i)),this._caseService.updateCase(n.value).subscribe(function(e){t.myCase=e,t._updateControls(t._myCase_fields,t._caseControls,t.myCase)},function(e){return t._errorMessage=e})}r.dirty&&this._propertyService.updateProperty(r.value).subscribe(function(e){t.myProperty=e,t._updateControls(t._myProperty_fields,t._propertyControls,t.myProperty)},function(e){return t._errorMessage=e}),o.dirty&&this._requesterService.updateRequester(o.value).subscribe(function(e){t.myRequester=e,t._updateControls(t._myRequester_fields,t._requesterControls,t.myRequester)},function(e){return t._errorMessage=e}),this._filesToUpload&&this._callCreateCasefiles(),this._finalletterToUpload&&this._callCreateFinalLetter()}else this._createCase(e)}else this._filesToUpload?this._callCreateCasefiles():this._finalletterToUpload&&this._callCreateFinalLetter();this.active=!1,setTimeout(function(){t.notready=!1,t.active=!0},5e3)},e.prototype._createCase=function(e){var t=e.controls.propertygroup,n=e.controls.requestergroup,r=!0;if(t.controls.street||t.controls.city||t.controls.state||(P.a.showToast("Could not find the property street and/or city and/or state. Some address value is required."),r=!1),n.controls.first_name||n.controls.last_name||n.controls.email||(P.a.showToast("Could not find the requester first name and/or last name and/or email. Some name is required."),r=!1),r){for(var o=0,i=t;o<i.length;o++)for(var l=i[o],u=0,d=l;u<d.length;u++){var f=d[u];t[f]||(t[f]="")}for(var p=0,h=n;p<h.length;p++)for(var l=h[p],m=0,_=l;m<_.length;m++){var f=_[m];n[f]||(n[f]="")}this._newCase=new a.a,this._newProperty=new s.a(t.controls.street.value,t.controls.city.value,t.controls.state.value,t.controls.zipcode.value,t.controls.unit.value,t.controls.legal_description.value,t.controls.subdivision.value,t.controls.policy_number.value),this._newRequester=new c.a(n.controls.first_name.value,n.controls.last_name.value,n.controls.salutation.value,n.controls.organization.value,n.controls.email.value,n.controls.street.value,n.controls.unit.value,n.controls.city.value,n.controls.state.value,n.controls.zipcode.value),this.__getProperties(this._newProperty)}},e.prototype.__getCases=function(e,t){var n=this;this._caseService.getCases(new i.e("property="+e+"&requester="+t)).subscribe(function(e){e.length>0?(n._newCase.id=e[0].id,P.a.showToast("That case already exists! Loading the case details..."),n.__goToCase(n._newCase.id),n.notready=!1):n.__createRequest()},function(e){return console.error(e)})},e.prototype.__getProperties=function(e){var t=this;this._propertyService.getProperties(new i.e("street="+e.street+"&unit="+e.unit+"&city="+e.city+"&state="+e.state+"&zipcode="+e.zipcode)).subscribe(function(e){e.length>0&&(t._newProperty.id=e[0].id),t.__getRequesters(t._newRequester)},function(e){return console.error(e)})},e.prototype.__getRequesters=function(e){var t=this;this._requesterService.getRequesters(new i.e("salutation="+e.salutation+"&first_name="+e.first_name+"&last_name="+e.last_name+"&organization="+e.organization+"&email="+e.email+"&street="+e.street+"&unit="+e.unit+"&city="+e.city+"&state="+e.state+"&zipcode="+e.zipcode)).subscribe(function(e){e.length>0&&(t._newRequester.id=e[0].id),t._newProperty.id&&t._newRequester.id?t.__getCases(t._newProperty.id,t._newRequester.id):t.__createRequest()},function(e){return console.error(e)})},e.prototype.__createRequest=function(){this._newRequester.id&&this._newProperty.id?(this.__assignRequesterID(),this.__assignPropertyID(),this.__callCreateCase()):this._newRequester.id&&!this._newProperty.id?(this.__assignRequesterID(),this.__callCreatePropertyAndCase()):this.__callCreateRequesterAndPropertyAndCase()},e.prototype.__assignRequesterID=function(){this._newCase.requester=this._newRequester.id},e.prototype.__assignPropertyID=function(){this._newCase.property=this._newProperty.id},e.prototype.__callCreateRequesterAndPropertyAndCase=function(){var e=this;this._requesterService.createRequester(this._newRequester).subscribe(function(t){e._newRequester=t,e.__assignRequesterID(),e.__callCreatePropertyAndCase()},function(e){return console.error(e)})},e.prototype.__callCreatePropertyAndCase=function(){var e=this;this._propertyService.createProperty(this._newProperty).subscribe(function(t){e._newProperty=t,e.__assignPropertyID(),e.__callCreateCase()},function(e){return console.error(e)})},e.prototype.__callCreateCase=function(){var e=this;this._caseService.createCase(this._newCase).subscribe(function(t){e._newCase=t,e._filesToUpload&&e._callCreateCasefiles(),e._finalletterToUpload?e._callCreateFinalLetter():(e.__goToCase(e._newCase.id),e.notready=!1)},function(e){return console.error(e)})},e.prototype.__goToCase=function(e){this._router.navigate(["/workbench/"+e])},e=I([n.i(r._10)({template:n("gvWD"),styles:[".error {color:red;}"]}),E("design:paramtypes",["function"==typeof(t=void 0!==D.d&&D.d)&&t||Object,"function"==typeof(x=void 0!==o.c&&o.c)&&x||Object,"function"==typeof(N=void 0!==o.b&&o.b)&&N||Object,"function"==typeof(F=void 0!==f.a&&f.a)&&F||Object,"function"==typeof(k=void 0!==p.a&&p.a)&&k||Object,"function"==typeof(A=void 0!==h.a&&h.a)&&A||Object,"function"==typeof(U=void 0!==m.a&&m.a)&&U||Object,"function"==typeof(M=void 0!==_.a&&_.a)&&M||Object,"function"==typeof(q=void 0!==v.a&&v.a)&&q||Object,"function"==typeof(L=void 0!==y.a&&y.a)&&L||Object,"function"==typeof(H=void 0!==b.a&&b.a)&&H||Object,"function"==typeof(J=void 0!==g.a&&g.a)&&J||Object,"function"==typeof(V=void 0!==S.a&&S.a)&&V||Object,"function"==typeof(z=void 0!==w.a&&w.a)&&z||Object,"function"==typeof(G=void 0!==C.a&&C.a)&&G||Object,"function"==typeof(B=void 0!==O.a&&O.a)&&B||Object,"function"==typeof(W=void 0!==R.a&&R.a)&&W||Object])],e);var t,x,N,F,k,A,U,M,q,L,H,J,V,z,G,B,W}()},ZrZh:function(e,t){e.exports='<div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>\r\n<div [hidden]="notready">\r\n    <button class="filter-cases-btn" (click)="toggleFilter()"><i class="fa fa-filter"></i> Filter Cases</button>\r\n    <workbench-filter [hidden]="hideFilter" (onFilter)="onFilter($event)"></workbench-filter>\r\n    <div *ngIf="noCasesFound" align="center"><br /><br />No cases found.</div>\r\n    <div *ngIf="!noCasesFound"><workbench-grid [rows]="cases_properties" [columns]="columns"></workbench-grid></div>\r\n</div>\r\n'},"a+TD":function(e,t,n){"use strict";var r=n("/oeL"),o=n("bm2B"),i=n("I6ER");n.d(t,"a",function(){return c});var a=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},s=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},c=function(){function e(e){this.onFilter=new r.F,this.myDateFields=[{name:"request_date",label:"Request Date"},{name:"fws_fo_received_date",label:"Field Office Received Date"},{name:"fws_hq_received_date",label:"Headquarters Received Date"},{name:"analyst_signoff_date",label:"Analyst Signoff Date"},{name:"qc_reviewer_signoff_date",label:"QC Reviewer Signoff Date"},{name:"final_letter_date",label:"Final Letter Date"},{name:"close_date",label:"Close Date"}],this.active=!0,this.filternotready=!0,this.myDatePickerOptions={dateFormat:"mm/dd/yyyy"},this.form=e.group({date_field:new o.c,from_date:new o.c,to_date:new o.c}),this.filternotready=!1}return e.prototype.onSubmit=function(e){if(e.dirty){this.filternotready=!0;var t="report=daystoeachstatus",n=e.controls.date_field.value,r=e.controls.from_date.value;console.log(r);var o=e.controls.to_date.value;console.log(o),n&&(t+="&date_field="+n),r&&(t+="&from_date="+i.a.convertDateToISOString(r)),o&&(t+="&to_date="+i.a.convertDateToISOString(o)),n?r||o?(this.filternotready=!1,this.onFilter.emit(t)):(i.a.showToast("You cannot filter without at least one date value (from or to) selected."),this.filternotready=!1):(i.a.showToast("You cannot filter without a date field selected."),this.filternotready=!1)}},a([n.i(r._4)(),s("design:type",Object)],e.prototype,"onFilter",void 0),e=a([n.i(r._10)({selector:"report-filter",template:n("6JHI")}),s("design:paramtypes",["function"==typeof(t=void 0!==o.d&&o.d)&&t||Object])],e);var t}()},asDT:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n,r){this.caseid=e,this.tag=t,this.tagname=n,this.id=r}return e}()},bW5i:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getProperty=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.PROPERTIES_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getProperties=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.PROPERTIES_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createProperty=function(e){var t=JSON.stringify(e),n=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.PROPERTIES_URL,t,n).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateProperty=function(e){var t=e.id;delete e.id;var n=JSON.stringify(e),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.PROPERTIES_URL+t+"/",n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},bwn8:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n){this.system_unit=e,this.system_map=t,this.id=n}return e}()},cDNt:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=(n("TU+8"),n("Qa4U")),o=n("/oeL"),i=n("p5Ee"),a=n("vjQt"),s=n("IGOF");i.a.production?(n.i(o.a)(),s.a.environment="production"):s.a.environment="development",n.i(r.a)().bootstrapModule(a.a)},cI4O:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getProhibitiondate=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.SYSTEMUNITPROHIBITIONDATES_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getProhibitiondates=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.SYSTEMUNITPROHIBITIONDATES_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createProhibitiondate=function(e){var t=JSON.stringify(e),n=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.SYSTEMUNITPROHIBITIONDATES_URL,t,n).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateProhibitiondate=function(e){var t=e.id;delete e.id;var n=JSON.stringify(e),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.SYSTEMUNITPROHIBITIONDATES_URL+t+"/",n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.deleteProhibitiondate=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.delete(c.a.SYSTEMUNITPROHIBITIONDATES_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},cQEx:function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("CPp0"),a=n("53Kq"),s=n("GkEs"),c=n("xXmq"),l=n("I6ER"),u=n("bm2B");n.d(t,"a",function(){return p});var d=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},f=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},p=function(){function e(e,t,n){this._route=e,this._router=t,this._caseService=n,this.cases_properties=[],this.notready=!0,this.hideFilter=!0,this.noCasesFound=!1}return e.prototype.ngOnInit=function(){var e=this;this._params=this._route.queryParams.subscribe(function(t){if(t.tags){e.tag_ID=t.tags;var n="view=workbench&tags="+t.tags;e._getCases(n),e._getColumns()}else sessionStorage.getItem("filterUrlSearchParams")?(e._getCases(sessionStorage.getItem("filterUrlSearchParams")),e._getColumns()):(e._getCases(),e._getColumns())})},e.prototype.ngOnDestroy=function(){this._params&&this._params.unsubscribe()},e.prototype.ngAfterViewInit=function(){this.filterComponent.myWorkbenchFilter.tags=[+this.tag_ID]},e.prototype.toggleFilter=function(){this.hideFilter?this.hideFilter=!1:this.hideFilter=!0},e.prototype.onFilter=function(e){this._getCases(e)},e.prototype._getCases=function(e){var t=this,n=e||"view=workbench&status=Open";this._caseService.getCases(new i.e(n)).subscribe(function(n){if(t._cases=n,t._cases.length>0){t.cases_properties.length=0;for(var r=0,o=t._cases.length;r<o;r++){var i=t._cases[r],a=i.property_string.split(",");i.street=a[0],i.city=a[2],t.cases_properties.push(i),t._cases.length===t.cases_properties.length&&(e||t._router.navigate(["/workbench"]))}t.noCasesFound=!1}else t.noCasesFound=!0;t._sortAndShow()},function(e){return t._errorMessage=e})},e.prototype._getColumns=function(){this.columns=[new c.a("status","Status"),new c.a("request_date","Request Date"),new c.a("id","Case ID"),new c.a("case_reference","Case Reference"),new c.a("distance","Distance"),new c.a("analyst_string","Analyst"),new c.a("qc_reviewer_string","QC Review"),new c.a("cbrs_unit_string","CBRS Unit"),new c.a("street","Street Address"),new c.a("city","City"),new c.a("priority","Priority"),new c.a("duplicate","Duplicate of")]},e.prototype._sortAndShow=function(){this.cases_properties.sort(l.a.dynamicSortMultiple(["-priority","id"])),this.notready=!1},d([n.i(r._11)(s.a),f("design:type","function"==typeof(t=void 0!==s.a&&s.a)&&t||Object)],e.prototype,"filterComponent",void 0),e=d([n.i(r._10)({template:n("ZrZh"),providers:[u.d]}),f("design:paramtypes",["function"==typeof(p=void 0!==o.c&&o.c)&&p||Object,"function"==typeof(h=void 0!==o.b&&o.b)&&h||Object,"function"==typeof(m=void 0!==a.a&&a.a)&&m||Object])],e);var t,p,h,m}()},cX8C:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n){this.system_unit=e,this.prohibition_date=t,this.id=n}return e}()},dcqu:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getSystemunitmap=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.SYSTEMUNITMAPS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getSystemunitmaps=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.SYSTEMUNITMAPS_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.createSystemunitmap=function(e){var t=JSON.stringify(e),n=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.SYSTEMUNITMAPS_URL,t,n).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.updateSystemunitmap=function(e){var t=e.id;delete e.id;var n=JSON.stringify(e),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.SYSTEMUNITMAPS_URL+t+"/",n,r).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},f78x:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n){this.name=e,this.description=t,this.id=n}return e}()},f7LV:function(e,t,n){"use strict";var r=n("/oeL");n.d(t,"a",function(){return i});var o=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},i=function(){function e(){}return e=o([n.i(r._10)({template:"<navbar></navbar><router-outlet></router-outlet>"})],e)}()},gvWD:function(e,t){e.exports='<div class="container cbra-form">\n\n    <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>\n    <div [hidden]="notready">\n\n        <div id="main-header" align="center" *ngIf="myCase.case_number || case_ID">\n            <div class="row">\n                <div class="form-main-header" style="font-size:20px;">\n                    <div class="col-md-3"></div><div class="col-md-2">Case ID</div><div class="col-md-2">Case Reference</div><div class="col-md-2">Current Status</div><div class="col-md-3"></div>\n                </div>\n            </div>\n            <div class="row">\n                <div class="form-main-header" style="font-size:24px; font-weight: bold;">\n                    <div class="col-md-3"></div><div class="col-md-2">{{ myCase.case_number || case_ID }}</div><div class="col-md-2">{{ myCase.case_reference || "None" }}</div><div class="col-md-2">{{ myCase.status }}</div><div class="col-md-3"></div>\n                </div>\n            </div>\n        </div><br /><br />\n\n        <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">\n\n            <button type="submit" class="btn btn-default btn-save-all" [disabled]="!form.valid">Save</button><br /><br />\n\n            <div formGroupName="casegroup">\n\n                <div class="dms-group noheader" *ngIf="!case_ID">\n                    <div class="row">\n                        <div class="col-md-12">\n                            <div class="file-group">\n                                <label class="half-label fifty" for="casefiles">Case Files</label>\x3c!--\n                                --\x3e<label class="bb" style="width:25%"></label>\x3c!--\n                                --\x3e<label class="file-upload-label" for="casefileSelect">Upload Files</label>\n                                <div class="col-md-12" *ngIf="!noxhr">\n                                    <div id="casefiledrag" class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">or drop files here <br/><br/></div>\n                                </div>\n\n                                <div class="col-md-12">\n                                    <div id="casefilesToUpload">\n                                        <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">\n                                            <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span>\n                                            <button type="button" (click)="removeCasefile(i)" class="removeCaseFileButton">-</button>\n                                        </p>\n                                    </div>\n                                </div>\n                                <input class="custom-file-input" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />\n                            </div>\n                        </div>\n                    </div>\n                </div>\n\n                <div class="dms-group noheader" *ngIf="case_ID">\n\n                    <div class="row">\n\n                        <div class="col-xs-12 nopadd">\n                            <div class="row nopadd">\n                                <div class="col-md-3 chx-group">\n                                    <label for="priority">Priority</label>\x3c!--\n                                    --\x3e<div class="chx">\n                                        <input id="priority" type="checkbox" formControlName="priority">\n                                    </div>\n                                </div>\x3c!--\n                                    --\x3e<div class="col-md-3 chx-group">\n                                    <label for="on_hold">On Hold</label>\x3c!--\n                                    --\x3e<div class="chx">\n                                        <input id="on_hold" type="checkbox" (change)="toggleOnHold();" formControlName="on_hold">\n                                    </div>\n                                </div>\x3c!--\n                                    --\x3e<div class="col-md-3 chx-group">\n                                    <label for="invalid">Invalid</label>\x3c!--\n                                    --\x3e<div class="chx">\n                                        <input id="invalid" type="checkbox" formControlName="invalid">\n                                    </div>\n                                </div>\x3c!--\n                                    --\x3e<div class="col-md-3 chx-group">\n                                    <label for="duplicate">Duplicate of</label>\x3c!--\n                                    --\x3e<div class="slct">\n                                        <select id="duplicate" formControlName="duplicate" style="width:120px">\n                                            <option value=""></option>\n                                            <option *ngFor="let caseID of myCaseIDs" [value]="caseID.id" [selected]="caseID.id == myCase.duplicate">{{caseID.id}}</option>\n                                        </select>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n\n                        <div class="col-md-12">\n                            <div class="col-md-2 dms-form-group bb br">\n                                <label for="cbrs_unit">CBRS Unit</label>\n                                <select id="cbrs_unit" formControlName="cbrs_unit" (change)="getSystemmaps(newUnit.value); getProhibitiondates(newUnit.value); updateCaseControlValue(newUnit.id, newUnit.value)" #newUnit>\n                                    <option value=""></option>\n                                    <option *ngFor="let unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myCase.cbrs_unit">{{unit.system_unit_number}}</option>\n                                </select>\n                            </div>\n                            <div class="col-md-2 dms-form-group bb br">\n                                <label for="map_number">Map Number</label>\n                                <select id="map_number" formControlName="map_number" (change)="getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)" #newMap>\n                                    <option value=""></option>\n                                    <option *ngFor="let map of mySystemmaps" [style.background-color]="map.effective ? \'\' : \'gray\'" [value]="map.id" [selected]="map.id == selectedMap">{{map.effective? map.map_number : map.map_number + " (superseded)"}}</option>\n                                </select>\n                            </div>\n                            <div class="col-md-2 dms-form-group bb br">\n                                <label for="cbrs_map_date">Map Date</label>\n                                <input id="cbrs_map_date" formControlName="cbrs_map_date" readonly>\n                            </div>\n                            <div class="col-md-2 dms-form-group bb br">\n                                <label for="determination">Determination</label>\n                                <select id="determination" formControlName="determination" (change)="toggleReadOnlyProhibitionDate(newDetermination.value); updateCaseControlValue(newDetermination.id, newDetermination.value)" #newDetermination>\n                                    <option value=""></option>\n                                    <option *ngFor="let determination of myDeterminations" [value]="determination.id" [selected]="determination.id == myCase.determination">{{determination.determination}}</option>\n                                </select>\n                            </div>\n                            <div class="col-md-2 dms-form-group bb br" [style.background-color]="isreadonly_prohibitiondate ? \'lightgray\' : \'\'">\n                                <label for="prohibition_date">Prohibition Date</label>\n                                <select *ngIf="!isreadonly_prohibitiondate" id="prohibition_date" formControlName="prohibition_date" (change)="updateCaseControlValue(newProhibitionDate.id, newProhibitionDate.value)" #newProhibitionDate>\n                                    <option value=""></option>\n                                    <option *ngFor="let prohibitiondate of myProhibitiondates" [value]="prohibitiondate.prohibition_date" [selected]="prohibitiondate.prohibition_date == myCase.prohibition_date">{{prohibitiondate.prohibition_date_mdy}}</option>\n                                </select>\n                                \x3c!-- <select *ngIf="isreadonly_prohibitiondate" [style.background-color]="isreadonly_prohibitiondate ? \'black\' : \'gray\'"></select> --\x3e\n                            </div>\n                            <div class="col-md-2 dms-form-group bb">\n                                <label for="distance">Distance</label>\n                                <input id="distance" type="number" formControlName="distance">\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class="row">\n\n                        <div class="col-md-12 nopadd">\n\n                            <div *ngIf="!noxhr" style="background-color: white" id="casefiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">\n                                <div class="file-group">\n                                    <label class="half-label fifty" for="casefiles">Case Files</label>\x3c!--\n                                    --\x3e<label class="bb" style="width:25%"></label>\x3c!--\n                                    --\x3e<label class="file-upload-label" for="casefileSelect">Upload</label>\n\n                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>\n\n                                    <div class="col-xs-12 col-md-6 filepad">\n                                        <ul id="casefiles" *ngIf="myCasefiles.length > 0">\n                                            <div *ngFor="let casefile of myCasefiles">\n                                                <li *ngIf="!casefile.final_letter">\n                                                    <a target="_blank" [href]="casefile.file" >{{ casefile.name }}</a>&nbsp;&nbsp;\n                                                    <button type="button" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>\n                                                </li>\n                                            </div>\n                                        </ul>\n                                    </div>\n\n                                    <div class="col-xs-12 col-md-6 filepad">\n                                        <div id="casefilesToUpload">\n                                            <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">\n                                                <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>\n                                                <button type="button" (click)="removeCasefile(i)" class="removeCaseFileButton">-</button>\n                                            </p>\n                                        </div>\n                                    </div>\n\n                                    <input class="custom-file-input" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />\n                                </div>\n                            </div>\n\n                            <div *ngIf="noxhr" style="background-color: white">\n                                <div class="file-group">\n                                    <label class="half-label fifty" for="casefiles">Case Files</label>\x3c!--\n                                    --\x3e<label class="bb" style="width:25%"></label>\x3c!--\n                                    --\x3e<label class="file-upload-label" for="casefileSelect">Upload</label>\n\n                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>\n\n                                    <div class="col-xs-12 col-md-6 filepad">\n                                        <ul id="casefiles" *ngIf="myCasefiles.length > 0">\n                                            <div *ngFor="let casefile of myCasefiles">\n                                                <li *ngIf="!casefile.final_letter">\n                                                    <a target="_blank" [href]="casefile.file">{{ casefile.name }}</a>&nbsp;&nbsp;\n                                                    <button type="button" *ngIf="!casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>\n                                                </li>\n                                            </div>\n                                        </ul>\n                                    </div>\n\n                                    <div class="col-xs-12 col-md-6 filepad">\n                                        <div id="casefilesToUpload">\n                                            <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">\n                                                <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>\n                                                <button type="button" (click)="removeCasefile(i)" class="removeCaseFileButton">-</button>\n                                            </p>\n                                        </div>\n                                    </div>\n\n                                    <input class="custom-file-input" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />\n                                </div>\n                            </div>\n\n                        </div>\n\n\n\n                        <div *ngIf="!noxhr" class="col-xs-12 nopadd" style="background-color: white" id="finalletterfiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="finalletterSelectHandler($event)">\n                            <div class="file-group">\n                                <label class="label fifty" style="border-top: 1px solid #E8E8E8;" for="finalletter">Final Letter</label>\x3c!--\n                                --\x3e<label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload</label>\x3c!--\n                                --\x3e<label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft</label>\n\n                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>\n\n                                <div class="col-xs-12 col-md-6 filepad">\n                                    <ul id="finalletter" *ngIf="myCasefiles.length > 0">\n                                        <div *ngFor="let casefile of myCasefiles">\n                                            <li *ngIf="casefile.final_letter">\n                                                <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;\n                                                <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>\n                                            </li>\n                                        </div>\n                                    </ul>\n                                </div>\n\n                                <div class="col-xs-12 col-md-6 filepad">\n                                    <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">\n                                        <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }}</span>\n                                        <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton">-</button>\n                                    </div>\n\n                                    <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />\n                                    <input class="custom-file-input" id="draftletter" type="button" (click)="generateLetter()" />\n                                </div>\n\n                            </div>\n                        </div>\n\n\n\n                        <div *ngIf="noxhr" class="col-xs-12" style="background-color: white">\n                            <div class="file-group">\n                                <label class="label fifty" style="border-top: 1px solid #E8E8E8;" for="finalletter">Final Letter</label>\x3c!--\n                                --\x3e<label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload Letter</label>\x3c!--\n                                --\x3e<label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft Letter</label>\n\n                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>\n\n                                <div class="col-md-6 col-xs-12 filepad">\n                                    <ul id="finalletter" *ngIf="myCasefiles.length > 0">\n                                        <div *ngFor="let casefile of myCasefiles">\n                                            <li *ngIf="casefile.final_letter">\n                                                <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;\n                                                <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>\n                                            </li>\n                                        </div>\n                                    </ul>\n                                </div>\n\n                                <div class="col-md-6 col-xs-12 filepad">\n                                    <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">\n                                        <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }}</span>\n                                        <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton">-</button>\n                                    </div>\n\n                                    <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />\n                                    <input class="custom-file-input" id="draftletter" type="button" (click)="generateLetter()" />\n                                </div>\n\n                            </div>\n                        </div>\n\n                    </div>\n\n                    <div class="row" id="case_messages" *ngIf="!mapsfound"><pre>No maps found for this unit.</pre></div>\n                </div>\n\n                <div class="dms-group" *ngIf="case_ID">\n                    <h2 class="dms-group-header">Important Dates</h2>\n\n                    <div class="row" id="dates">\n                        <div class="col-md-2">\n                            <div class="dms-form-group br">\n                                <label for="request_date">Request Date</label>\n                                <my-date-picker id="request_date" formControlName="request_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newRequestDate.elem.nativeElement.id, newRequestDate.selectedDate)" #newRequestDate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class="col-md-3">\n                            <div class="dms-form-group br">\n                                <label for="fws_fo_received_date">Field Office Received Date</label>\n                                <my-date-picker id="fws_fo_received_date" formControlName="fws_fo_received_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newFODate.elem.nativeElement.id, newFODate.selectedDate)" #newFODate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class="col-md-3">\n                            <div class="dms-form-group br">\n                                <label for="fws_hq_received_date">Headquarters Received Date</label>\n                                <my-date-picker id="fws_hq_received_date" formControlName="fws_hq_received_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newHQDate.elem.nativeElement.id, newHQDate.selectedDate)" #newHQDate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class="col-md-2">\n                            <div class="dms-form-group br" [style.background-color]="isOnHold ? \'lightgray\' : \'\'">\n                                <label for="final_letter_date">Final Letter Date</label>\n                                <my-date-picker *ngIf="!isOnHold" id="final_letter_date" formControlName="final_letter_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newFinalLetterDate.elem.nativeElement.id, newFinalLetterDate.selectedDate)" #newFinalLetterDate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class="col-md-2">\n                            <div class="dms-form-group br" [style.background-color]="isOnHold ? \'lightgray\' : \'\'">\n                                <label for="close_date">Close Date</label>\n                                <my-date-picker *ngIf="!isOnHold" id="close_date" formControlName="close_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newCloseDate.elem.nativeElement.id, newCloseDate.selectedDate)" #newCloseDate></my-date-picker>\n                            </div>\n                        </div>\n\n                    </div>\n\n                </div>\n\n                <div class="dms-group" *ngIf="case_ID">\n                    <h2 class="dms-group-header">CASE ASSIGNMENT & SIGNOFF</h2>\n\n                    <div class="row" id="signoff">\n                        <div class="col-md-3">\n                            <div class="dms-form-group br">\n                                <label for="analyst">Analyst</label>\n                                <select id="analyst" formControlName="analyst" (change)="updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>\n                                    <option value=""></option>\n                                    <option *ngFor="let analyst of availableAnalysts" [value]="analyst.id" [selected]="analyst.id == selectedAnalyst">{{analyst.username}}</option>\n                                </select>\n                            </div>\n                        </div>\n                        <div class="col-md-3">\n                            <div class="dms-form-group br" [style.background-color]="isOnHold ? \'lightgray\' : \'\'">\n                                <label for="analyst_signoff_date">Analyst Signoff Date</label>\n                                <my-date-picker *ngIf="!isOnHold" id="analyst_signoff_date" formControlName="analyst_signoff_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)" #newAnalystDate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class="col-md-3">\n                            <div class="dms-form-group br">\n                                <label for="qc_reviewer">QC Reviewer</label>\n                                <select id="qc_reviewer" formControlName="qc_reviewer" (change)="updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)" #newQCReviewer>\n                                    <option value=""></option>\n                                    <option *ngFor="let qc_reviewer of availableQCReviewers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == selectedQCReviewer">{{qc_reviewer.username}}</option>\n                                </select>\n                            </div>\n                        </div>\n                        <div class="col-md-3">\n                            <div class="dms-form-group br" [style.background-color]="isOnHold ? \'lightgray\' : \'\'">\n                                <label for="qc_reviewer_signoff_date">QC Reviewer Signoff Date</label>\n                                <my-date-picker *ngIf="!isOnHold" id="qc_reviewer_signoff_date" formControlName="qc_reviewer_signoff_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)" #newQC1Date></my-date-picker>\n                            </div>\n                        </div>\n\n                    </div>\n\n                </div>\n\n            </div>\n\n            <div class="dms-group">\n                <h2 class="dms-group-header">Property Information</h2>\n                <div class="row" formGroupName="propertygroup">\n\n                    <div class="col-md-3">\n                        <div class="dms-form-group br bb">\n                            <label for="street">Street</label>\n                            <input id="street" type="text" formControlName="street">\n                        </div>\n                    </div>\n                    <div class="col-md-2">\n                        <div class="dms-form-group br bb">\n                            <label for="unit">Suite/Apt #</label>\n                            <input id="unit" type="text" formControlName="unit">\n                        </div>\n                    </div>\n                    <div class="col-md-3">\n                        <div class="dms-form-group br bb">\n                            <label for="city">City</label>\n                            <input id="city" type="text" formControlName="city">\n                        </div>\n                    </div>\n                    <div class="col-md-2">\n                        <div class="dms-form-group br bb">\n                            <label for="state">State</label>\n                            <select id="state" formControlName="state" (change)="updatePropertyControlValue(newPState.id, newPState.value)" #newPState>\n                                <option value=""></option>\n                                <option *ngFor="let state of states" [value]="state" [selected]="state == myProperty.state">{{state}}</option>\n                            </select>\n                        </div>\n                    </div>\n\n                    <div class="col-md-2">\n                        <div class="dms-form-group bb">\n                            <label for="zipcode">Zipcode</label>\n                            <input id="zipcode" type="text" formControlName="zipcode">\n                        </div>\n                    </div>\n                    <div class="col-md-4">\n                        <div class="dms-form-group br">\n                            <label for="legal_description">Legal Description</label>\n                            <input id="legal_description" type="text" formControlName="legal_description">\n                        </div>\n                    </div>\n                    <div class="col-md-4">\n                        <div class="dms-form-group br">\n                            <label for="subdivision">Subdivision</label>\n                            <input id="subdivision" type="text" formControlName="subdivision">\n                        </div>\n                    </div>\n                    <div class="col-md-4">\n                        <div class="dms-form-group">\n                            <label for="policy_number">Policy Number</label>\n                            <input id="policy_number" type="text" formControlName="policy_number">\n                        </div>\n                    </div>\n\n                </div>\n\n            </div>\n\n\n            <div class="dms-group">\n                <h2 class="dms-group-header">Requester Information</h2>\n                <div class="row" formGroupName="requestergroup">\n\n                    <div class="col-md-2">\n                        <div class="dms-form-group br bb">\n                            <label for="salutation">Salutation</label>\n                            <select id="salutation" formControlName="salutation" (change)="updateRequesterControlValue(newSalutation.id, newSalutation.value)" #newSalutation>\n                                <option value=""></option>\n                                <option *ngFor="let salutation of salutations" [value]="salutation" [selected]="salutation == myRequester.salutation">{{salutation}}</option>\n                            </select>\n                        </div>\n                    </div>\n                    <div class="col-md-2">\n                        <div class="dms-form-group br bb">\n                            <label for="first_name">First Name</label>\n                            <input id="first_name" type="text" formControlName="first_name">\n                        </div>\n                    </div>\n                    <div class="col-md-2">\n                        <div class="dms-form-group br bb">\n                            <label for="last_name">Last Name</label>\n                            <input id="last_name" type="text" formControlName="last_name">\n                        </div>\n                    </div>\n                    <div class="col-md-3">\n                        <div class="dms-form-group br bb">\n                            <label for="organization">Organization</label>\n                            <input id="organization" type="text" formControlName="organization">\n                        </div>\n                    </div>\n                    <div class="col-md-3">\n                        <div class="dms-form-group bb">\n                            <label for="email">Email</label>\n                            <input id="email" type="email" formControlName="email">\n                        </div>\n                    </div>\n\n                    <div class="col-md-3">\n                        <div class="dms-form-group br">\n                            <label for="street">Street</label>\n                            <input id="street" type="text" formControlName="street">\n                        </div>\n                    </div>\n                    <div class="col-md-2">\n                        <div class="dms-form-group br">\n                            <label for="unit">Suite/Apt #</label>\n                            <input id="unit" type="text" formControlName="unit">\n                        </div>\n                    </div>\n                    <div class="col-md-3">\n                        <div class="dms-form-group br">\n                            <label for="city">City</label>\n                            <input id="city" type="text" formControlName="city">\n                        </div>\n                    </div>\n                    <div class="col-md-2">\n                        <div class="dms-form-group br">\n                            <label for="state">State</label>\n                            <select id="state" formControlName="state" (change)="updateRequesterControlValue(newRState.id, newRState.value)" #newRState>\n                                <option value=""></option>\n                                <option *ngFor="let state of states" [value]="state" [selected]="state == myRequester.state">{{state}}</option>\n                            </select>\n                        </div>\n                    </div>\n\n                    <div class="col-md-2">\n                        <div class="dms-form-group">\n                            <label for="zipcode">Zipcode</label>\n                            <input id="zipcode" type="text" formControlName="zipcode">\n                        </div>\n                    </div>\n\n                </div>\n\n            </div>\n\n            <div class="dms-group noheader" *ngIf="case_ID">\n                <div class="row">\n                    <div class="col-md-6" style="border-right: 1px solid #E8E8E8">\n                        <h2 class="dms-group-header">Comments</h2>\n\n                        <div class="add-comment-wrap">\n                            <input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment>\x3c!--\n                            --\x3e<button class="btn-add-comment" type="button" (click)="addComment(newComment.value); newComment.value=\'\';">Add a comment</button>\n                            <span *ngIf="!commentUnique" style="position:relative;top:20px;" class="alert alert-danger">That comment already exists for this case.</span>\n                        </div>\n\n                        <span *ngIf="!commentOwner" class="alert alert-danger">You do not have permission edit this comment since you did not create it.</span>\n\n                        <ul class="comment-ul">\n                            <div *ngFor="let comment of myComments">\n                                <div *ngIf="!editingComment || editCommentID != comment.id" (click)="editComment(comment.id)">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</div>\n                                <br /><br />\n                                <div *ngIf="editingComment && editCommentID == comment.id">\n                                    <div class="add-comment-wrap">\n                                        <input type="text" class="new-comment-input" style="width:50%" value={{comment.comment}} #editedComment>\x3c!--\n                                        --\x3e<button class="btn-add-comment" style="width:20%" type="button" (click)="updateComment(editedComment.value);">Update comment</button>\n                                        <button class="btn-add-comment" style="width:10%; background-color: burlywood" type="button" (click)="cancelEditComment();">Cancel</button>\n                                    </div>\n                                </div>\n                            </div>\n                        </ul>\n\n                    </div>\n                    <div class="col-md-6">\n                        <h2 class="dms-group-header">Tags</h2>\n\n                        <div class="add-comment-wrap">\n                            <select class="new-comment-input new-comment-select" #newTag>\n                                <option value=""></option>\n                                <option *ngFor="let tag of availableTags" [value]="tag.id">{{tag.name}}</option>\n                            </select>\x3c!--\n                            --\x3e<button class="btn-add-comment" type="button" (click)="addCasetag(newTag.value)">Add a tag</button>\n                        </div>\n\n                        <ul class="tag-ul">\n                            <li *ngFor="let casetag of myCasetags">{{ casetag.tagname }} <button class="btn-remove" type="button" (click)="removeCasetag(casetag.id)"><i class="fa fa-remove"></i></button></li>\n                        </ul>\n                    </div>\n                </div>\n\n            </div>\n\n            <br/>\n\n            <button type="submit" class="btn btn-default btn-save-all" [disabled]="!form.valid">Save</button>\n\n        </form>\n\n    </div>\n\n</div>\n'},hAw6:function(e,t,n){"use strict";var r=n("/oeL"),o=n("bm2B"),i=n("BkNc"),a=n("CPp0"),s=n("Akkd"),c=n("f78x"),l=n("53Kq"),u=n("I6ER");n.d(t,"a",function(){return p});var d=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},f=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},p=function(){function e(e,t,n,r){this._tagService=t,this._caseService=n,this._router=r,this.error=!1,this.name=new o.c("",o.f.required),this.description=new o.c(""),this.notready=!0,this.nottoggled=!0,this.form=e.group({name:this.name,description:this.description}),this._getTags()}return e.prototype._getTags=function(){var e=this;this.error=!1,this._tagService.getTags().subscribe(function(t){e.tags=t,e.notready=!1},function(t){return e._errorMessage=t})},e.prototype.deleteTag=function(e){var t=this;this.error=!1,window.confirm("Are you sure you want to delete this tag?")&&this._caseService.getCases(new a.e("tags="+e)).subscribe(function(n){n.length>0?u.a.showToast("This tag cannot be removed because it is assigned to one or more determination cases."):t._tagService.deleteTag(e).subscribe(function(e){return t._getTags()},function(e){return t._errorMessage=e})},function(e){return t._errorMessage=e})},e.prototype.goToTag=function(e){this._router.navigate(["/tag",e])},e.prototype.goToCases=function(e){this._router.navigate(["/workbench"],{queryParams:{tags:e}})},e.prototype.toggleCreateTagForm=function(){this.nottoggled=!this.nottoggled},e.prototype.onSubmit=function(e){this.error=!1;var t=new c.a(e.name,e.description);this._validateTag(t)},e.prototype._validateTag=function(e){var t=this;this._tagService.getTags(new a.e("name="+e.name)).subscribe(function(n){0!==n.length?(t.error=!0,t.notready=!1):(t._createTag(e),t.toggleCreateTagForm(),t.notready=!1)},function(e){return t._errorMessage=e})},e.prototype._createTag=function(e){var t=this;this._tagService.createTag(e).subscribe(function(e){t._getTags(),t.name.setValue(null),t.description.setValue(null)},function(e){return t._errorMessage=e})},e=d([n.i(r._10)({providers:[s.a,l.a],template:n("P9if")}),f("design:paramtypes",["function"==typeof(t=void 0!==o.d&&o.d)&&t||Object,"function"==typeof(p=void 0!==s.a&&s.a)&&p||Object,"function"==typeof(h=void 0!==l.a&&l.a)&&h||Object,"function"==typeof(m=void 0!==i.b&&i.b)&&m||Object])],e);var t,p,h,m}()},hihe:function(e,t,n){"use strict";var r=n("/oeL"),o=n("kWTR"),i=n("BkNc");n.d(t,"a",function(){return l});var a=this&&this.__extends||function(){var e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,t){e.__proto__=t}||function(e,t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n])};return function(t,n){function r(){this.constructor=t}e(t,n),t.prototype=null===n?Object.create(n):(r.prototype=n.prototype,new r)}}(),s=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},c=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},l=function(e){function t(t){var n=e.call(this)||this;return n._router=t,n.edit=new r.F,n}return a(t,e),t.prototype.onClick=function(e){this.edit.emit(e)},s([n.i(r._4)(),c("design:type","function"==typeof(o=void 0!==r.F&&r.F)&&o||Object)],t.prototype,"edit",void 0),t=s([n.i(r._10)({selector:"prohibitiondate-grid",inputs:["rows: rows","columns: columns","displayLookup: displayLookup"],template:n("Cj5t"),styles:[".gridHeader {cursor:pointer;}"]}),c("design:paramtypes",["function"==typeof(l=void 0!==i.b&&i.b)&&l||Object])],t);var o,l}(o.a)},jd32:function(e,t,n){"use strict";var r=n("2tha");n.d(t,"a",function(){return o});var o=[{path:"login",component:r.a}]},k6Xi:function(e,t,n){"use strict";var r=n("IGOF");n.d(t,"a",function(){return o});var o=function(){function e(){}return e.prototype.canActivate=function(){return r.a.IS_LOGGEDIN},e}()},kWTR:function(e,t,n){"use strict";var r=n("/oeL"),o=n("N6RZ");n.d(t,"a",function(){return s});var i=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},a=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},s=function(){function e(){this.sorter=new o.a}return e.prototype.sort=function(e){this.sorter.sort(e,this.rows)},e=i([n.i(r._10)({selector:"grid",inputs:["rows: rows","columns: columns"],template:n("6THY")}),a("design:paramtypes",[])],e)}()},m7xs:function(e,t,n){"use strict";var r=n("k6Xi"),o=n("f7LV"),i=n("4OYr");n.d(t,"a",function(){return a});var a=[{path:"",redirectTo:"/mapdata",pathMatch:"full"},{path:"mapdata",component:o.a,children:[{path:"",component:i.a,canActivate:[r.a]}]}]},mHso:function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("LhJz"),a=n("I6ER");n.d(t,"a",function(){return l});var s=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},c=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},l=function(){function e(e,t){this._router=e,this._systemunitService=t,this.notready=!0,this._getSystemunits()}return e.prototype._getSystemunits=function(){var e=this;this._systemunitService.getSystemunits().subscribe(function(t){e.systemunits=t.sort(a.a.dynamicSort("system_unit_number")),e.notready=!1},function(t){return e._errorMessage=t})},e.prototype.goToCasesByUnit=function(e){this._router.navigate(["/reports/casesbyunit"],{queryParams:{units:e}})},e=s([n.i(r._10)({template:n("uBgX"),providers:[i.a]}),c("design:paramtypes",["function"==typeof(t=void 0!==o.b&&o.b)&&t||Object,"function"==typeof(l=void 0!==i.a&&i.a)&&l||Object])],e);var t,l}()},n7du:function(e,t){function n(e){throw new Error("Cannot find module '"+e+"'.")}n.keys=function(){return[]},n.resolve=n,e.exports=n,n.id="n7du"},nOaH:function(e,t,n){"use strict";var r=n("BkNc"),o=n("k6Xi"),i=n("jd32"),a=n("+nOh"),s=n("m7xs"),c=n("quW/"),l=n("s8K+");n.d(t,"b",function(){return d}),n.d(t,"a",function(){return f});var u=i.a.concat(a.a,s.a,c.a,l.a),d=[o.a],f=r.a.forRoot(u)},oB8F:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n,r,o,i,a,s,c){this.street=e,this.city=t,this.state=n,this.zipcode=r,this.unit=o,this.legal_description=i,this.subdivision=a,this.policy_number=s,this.id=c}return e}()},oSyI:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getDetermination=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.DETERMINATIONS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.getDeterminations=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.DETERMINATIONS_URL,t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return console.error(e),i.Observable.throw(e.json().error||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},"p/K5":function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n,r,o,i,a,s,c,l,u,d,f,p,h,m,_,v){this.status=e,this.case_number=t,this.case_reference=n,this.request_date_after=r,this.request_date_before=o,this.distance_from=i,this.distance_to=a,this.analyst=s,this.qc_reviewer=c,this.cbrs_unit=l,this.tags=u,this.street=d,this.city=f,this.priority=p,this.on_hold=h,this.invalid=m,this.duplicate=_,this.id=v}return e}()},p5Ee:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r={production:!0}},"quW/":function(e,t,n){"use strict";var r=n("k6Xi"),o=n("TOka"),i=n("mHso"),a=n("+uZp"),s=n("5xWR"),c=n("AMi2"),l=n("JSyf");n.d(t,"a",function(){return u});var u=[{path:"",redirectTo:"reports",pathMatch:"full"},{path:"reports",component:o.a,children:[{path:"casesbyunit",component:a.a,canActivate:[r.a]},{path:"daystoresolution",component:s.a,canActivate:[r.a]},{path:"daystoeachstatus",component:c.a,canActivate:[r.a]},{path:"countcasesbystatus",component:l.a,canActivate:[r.a]},{path:"",component:i.a,canActivate:[r.a]}]}]},qy6B:function(e,t,n){"use strict";var r=n("/oeL"),o=n("kWTR"),i=n("BkNc");n.d(t,"a",function(){return l});var a=this&&this.__extends||function(){var e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,t){e.__proto__=t}||function(e,t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n])};return function(t,n){function r(){this.constructor=t}e(t,n),t.prototype=null===n?Object.create(n):(r.prototype=n.prototype,new r)}}(),s=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},c=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},l=function(e){function t(t){var n=e.call(this)||this;return n._router=t,n}return a(t,e),t.prototype.onClick=function(e){this._router.navigate(["/workbench",e.id])},t=s([n.i(r._10)({selector:"workbench-grid",inputs:["rows: rows","columns: columns"],template:n("GiSL"),styles:[".gridHeader {cursor:pointer;}"]}),c("design:paramtypes",["function"==typeof(o=void 0!==i.b&&i.b)&&o||Object])],t);var o}(o.a)},qyOe:function(e,t){e.exports='<br /><br />\r\n<span class="app-header">\r\n    CBRS Determinations Management\r\n</span>\r\n<router-outlet></router-outlet>\r\n'},s0K2:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("Dqrr"),a=(n.n(i),n("5v8a")),s=(n.n(a),n("xpf9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e){this.http=e}return e.prototype.getSystemmap=function(e){var t=this,n=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.get(c.a.SYSTEMMAPS_URL+e+"/",n).map(function(e){return e.json()}).catch(function(e){return t.handleError(e)})},e.prototype.getSystemmaps=function(e){var t=this,n=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.SYSTEMMAPS_URL,n).map(function(e){return e.json()}).catch(function(e){return t.handleError(e)})},e.prototype.createSystemmap=function(e){var t=this,n=JSON.stringify(e),r=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.post(c.a.SYSTEMMAPS_URL,n,r).map(function(e){return e.json()}).catch(function(e){return t.handleError(e)})},e.prototype.updateSystemmap=function(e){var t=this,n=e.id;delete e.id;var r=JSON.stringify(e),i=new o.b({headers:c.a.AUTH_JSON_HEADERS});return this.http.put(c.a.SYSTEMMAPS_URL+n+"/",r,i).map(function(e){return e.json()}).catch(function(e){return t.handleError(e)})},e.prototype.deleteSystemmap=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.delete(c.a.SYSTEMMAPS_URL+e+"/",t).map(function(e){return e.json()}).catch(this.handleError)},e.prototype.handleError=function(e){return i.Observable.throw(e.json()||"Server error")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object])],e);var t}()},s2xg:function(e,t,n){"use strict";var r=n("/oeL"),o=n("fc+i"),i=n("UvWG");n.d(t,"a",function(){return l});var a=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},s=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},c=this&&this.__param||function(e,t){return function(n,r){t(n,r,e)}},l=function(){function e(e,t,n){this.modalService=e,this.el=t,this.document=n,this.className="modal-open",this.element=t.nativeElement}return e.prototype.ngOnInit=function(){if(!this.id)return void console.error("modal must have an id");this.document.body.appendChild(this.element),this.modalService.add(this)},e.prototype.ngOnDestroy=function(){this.modalService.remove(this.id),this.element.remove()},e.prototype.open=function(){this.element.style.display="block",this.document.body.className?this.document.body.className+=" "+this.className:this.document.body.className+=this.className},e.prototype.close=function(){this.element.style.display="none",this.document.body.className=this.document.body.className.replace(this.className,"")},a([n.i(r.O)(),s("design:type",String)],e.prototype,"id",void 0),e=a([n.i(r._10)({selector:"modal",template:"<ng-content></ng-content>"}),c(2,n.i(r.g)(o.c)),s("design:paramtypes",["function"==typeof(t=void 0!==i.a&&i.a)&&t||Object,"function"==typeof(l=void 0!==r.M&&r.M)&&l||Object,Object])],e);var t,l}()},"s8K+":function(e,t,n){"use strict";var r=n("k6Xi"),o=n("zNhw"),i=n("hAw6");n.d(t,"a",function(){return a});var a=[{path:"tag/:id",component:o.a,canActivate:[r.a]},{path:"tags",component:i.a,canActivate:[r.a]}]},tNCC:function(e,t){e.exports='<div class="container cbra-form">\n\n    <div *ngIf="filternotready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"></div>\n    <div *ngIf="!filternotready">\n\n        <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">\n\n            <div class="dms-group noheader">\n\n                <div class="row">\n\n                    <div formGroupName="workbenchfiltergroup">\n\n                        <div class="col-md-10">\n\n                            <div class="row">\n\n                                <div class="col-md-2 dms-form-group bb br">\n                                    <label for="status">Status</label>\n                                    <select id="status" formControlName="status">\n                                        <option value=""></option>\n                                        <option *ngFor="let status of myStatuses" [value]="status" [selected]="status == myWorkbenchFilter.status">{{status}}</option>\n                                    </select>\n                                </div>\n\n                                <div class="col-md-2 dms-form-group bb br">\n                                    <label for="case_number">Case ID</label>\n                                    <input id="case_number" type="text" formControlName="case_number">\n                                </div>\n\n                                <div class="col-md-2 dms-form-group bb br">\n                                    <label for="case_reference">Case Reference</label>\n                                    <input id="case_reference" type="text" formControlName="case_reference">\n                                </div>\n\n                                <div class="col-md-2 dms-form-group bb br">\n                                    <label for="request_date_after">Request Date After</label>\n                                    <my-date-picker id="request_date_after" [options]="myDatePickerOptions" formControlName="request_date_after"></my-date-picker>\n                                </div>\n\n                                <div class="col-md-2 dms-form-group bb br">\n                                    <label for="request_date_before">Request Date Before</label>\n                                    <my-date-picker id="request_date_before" [options]="myDatePickerOptions" formControlName="request_date_before"></my-date-picker>\n                                </div>\n\n                                <div class="col-md-1 dms-form-group bb br">\n                                    <label for="distance_from">Distance From</label>\n                                    <input id="distance_from" type="text" formControlName="distance_from">\n                                </div>\n\n                                <div class="col-md-1 dms-form-group bb br">\n                                    <label for="distance_to">Distance To</label>\n                                    <input id="distance_to" type="text" formControlName="distance_to">\n                                </div>\n\n                            </div> \x3c!-- /row --\x3e\n\n                            <div class="row">\n\n                                <div class="col-md-2 dms-form-group br">\n                                    <label for="analyst">Analyst</label>\n                                    <select id="analyst" formControlName="analyst">\n                                        <option value=""></option>\n                                        <option *ngFor="let analyst of myUsers" [value]="analyst.id" [selected]="analyst.id == myWorkbenchFilter.analyst">{{analyst.username}}</option>\n                                    </select>\n                                </div>\n\n                                <div class="col-md-2 dms-form-group br">\n                                    <label for="qc_reviewer">QC Reviewer</label>\n                                    <select id="qc_reviewer" formControlName="qc_reviewer">\n                                        <option value=""></option>\n                                        <option *ngFor="let qc_reviewer of myUsers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == myWorkbenchFilter.qc_reviewer">{{qc_reviewer.username}}</option>\n                                    </select>\n                                </div>\n\n                                <div class="col-md-2 dms-form-group br">\n                                    <label for="cbrs_unit">CBRS Unit</label>\n                                    <select id="cbrs_unit" formControlName="cbrs_unit">\n                                        <option value=""></option>\n                                        <option *ngFor="let unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myWorkbenchFilter.cbrs_unit">{{unit.system_unit_number}}</option>\n                                    </select>\n                                </div>\n\n                                <div class="col-md-2 dms-form-group br">\n                                    <label for="tags">Tag</label>\n                                    <select id="tags" formControlName="tags">\n                                        <option value=""></option>\n                                        <option *ngFor="let tag of myTags" [value]="tag.id" [selected]="tag.id == myWorkbenchFilter.tags[0]">{{tag.name}}</option>\n                                    </select>\n                                </div>\n\n                                <div class="col-md-2 dms-form-group br">\n                                    <label for="street">Street</label>\n                                    <input id="street" type="text" formControlName="street">\n                                </div>\n\n                                <div class="col-md-2 dms-form-group br">\n                                    <label for="city">City</label>\n                                    <input id="city" type="text" formControlName="city">\n                                </div>\n\n                            </div> \x3c!-- /row --\x3e\n\n                        </div> \x3c!-- /col-md-10 --\x3e\n\n                        <div class="col-md-2">\n                            <div class="chx-group">\n                                <label for="priority">Priority</label>\x3c!--\n                                --\x3e<div class="chx">\n                                    <input id="priority" type="checkbox" formControlName="priority">\n                                </div>\n                            </div>\x3c!--\n                                --\x3e<div class="chx-group">\n                                <label for="on_hold">On Hold</label>\x3c!--\n                                --\x3e<div class="chx">\n                                    <input id="on_hold" type="checkbox" formControlName="on_hold">\n                                </div>\n                            </div>\x3c!--\n                                --\x3e<div class="chx-group">\n                                <label for="invalid">Invalid</label>\x3c!--\n                                --\x3e<div class="chx">\n                                    <input id="invalid" type="checkbox" formControlName="invalid">\n                                </div>\n                            </div>\x3c!--\n                                --\x3e<div class="chx-group">\n                                <label for="duplicate">Duplicate</label>\x3c!--\n                                --\x3e<div class="slct">\n                                    <select id="duplicate" formControlName="duplicate" style="width:120px">\n                                        <option value=""></option>\n                                        <option value="none">None</option>\n                                        <option *ngFor="let caseID of myCaseIDs" [value]="caseID.id" [selected]="caseID.id == myWorkbenchFilter.case_number">{{caseID.id}}</option>\n                                    </select>\n                                </div>\n                            </div>\n                        </div> \x3c!-- /col-md-2 --\x3e\n\n                    </div> \x3c!-- /workbenchfiltergroup --\x3e\n\n                </div> \x3c!-- /row --\x3e\n\n            </div> \x3c!-- /dms-group noheaders --\x3e\n\n            <div class="dms-group noheader">\n\n                <div class="row">\n\n                    <div formGroupName="workbenchfreetextgroup" class="col-md-10">\n\n\n                        <div class="col-md-2 dms-form-group br">\n                            <label for="fiscal_year">Fiscal Year</label>\n                            <input id="fiscal_year" type="text" formControlName="fiscal_year">\n                        </div>\x3c!--\n\n                        --\x3e<div class="col-md-10 dms-form-group br">\n                            <label for="freetext">Freetext</label>\n                            <input id="freetext" id="freetext" type="text" formControlName="freetext">\n                        </div>\n\n\n                    </div> \x3c!-- /workbenchfreetextgroup --\x3e\n\n                    <button type="submit" class="btn btn-default btn-save-all-inline col-md-1" [disabled]="!form.valid">Search</button>\n                    <button type="button" class="btn btn-default btn-save-all-inline col-md-1" (click)="clearFilter()">Clear</button>\n\n                </div> \x3c!-- /row --\x3e\n            </div> \x3c!-- /dms-group noheaders --\x3e\n        </form>\n\n    </div> \x3c!-- /filternotready --\x3e\n\n</div> \x3c!-- /container cbra-form --\x3e\n'},tl6H:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t,n,r,o,i){this.map_number=e,this.map_title=t,this.map_date=n,this.system_units=r,this.effective=o,this.id=i}return e}()},uBgX:function(e,t){e.exports='<div class="container">\r\n    <h3 class="subheader"><b>Reports</b></h3>\r\n    <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>\r\n    <div [hidden]="notready">\r\n        <ul class="reports-ul">\r\n            <li>\r\n                <a [routerLink]="[\'/reports/casesbyunit\']">Cases by Unit</a>\r\n                <label for="cbrs_unit">CBRS Unit</label>\r\n                <select id="cbrs_unit" (change)="goToCasesByUnit(newUnit.value)" #newUnit>\r\n                    <option value=""></option>\r\n                    <option *ngFor="let unit of systemunits" [value]="unit.id">{{unit.system_unit_number}}</option>\r\n                </select>\r\n            </li>\r\n            <li>\r\n                <a [routerLink]="[\'/reports/daystoresolution\']">Days to Resolution</a>\r\n            </li>\r\n            <li>\r\n                <a [routerLink]="[\'/reports/daystoeachstatus\']">Days to Each Status Complete</a>\r\n            </li>\r\n            <li>\r\n                <a [routerLink]="[\'/reports/countcasesbystatus\']">Count of Cases by Status</a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</div>\r\n'},v8bh:function(e,t){e.exports='<navbar></navbar>\r\n<div class="container">\r\n    <h3>Tag #{{tag_ID}}</h3>\r\n    <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>\r\n    <div [hidden]="notready">\r\n        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">\r\n            <div *ngIf="error" class="alert alert-danger">That tag name already exists</div>\r\n            <table>\r\n                <tr>\r\n                    <td><label for="name">Name</label></td>\r\n                    <td><label for="description">Description</label></td>\r\n                </tr>\r\n                <tr>\r\n                    <td><input type="text" id="name" formControlName="name"></td>\r\n                    <td><input type="text" id="description" formControlName="description"></td>\r\n                </tr>\r\n            </table>\r\n            <div class="form-group">\r\n                <button type="submit" [disabled]="!form.valid">Save</button>\r\n                <button (click)="cancel()">Cancel</button>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n'},vjQt:function(e,t,n){"use strict";var r=n("/oeL"),o=n("fc+i"),i=n("bm2B"),a=n("CPp0"),s=n("BkNc"),c=n("53Kq"),l=n("ytJH"),u=n("GrU7"),d=n("+KkJ"),f=n("oSyI"),p=n("HlYD"),h=n("cI4O"),m=n("s0K2"),_=n("dcqu"),v=n("LhJz"),y=n("Akkd"),b=n("YY7q"),g=n("bW5i"),S=n("Qv/7"),w=n("zAlM"),C=n("Tevn"),O=n("Qm8h"),R=n("CLpo"),D=n("8XIc"),T=n("kWTR"),P=n("+8no"),j=n("2tha"),I=n("hAw6"),E=n("zNhw"),x=n("JsGG"),N=n("cQEx"),F=n("qy6B"),k=n("GkEs"),A=n("ZWWC"),U=n("f7LV"),M=n("4OYr"),q=n("X8VJ"),L=n("YHsf"),H=n("hihe"),J=n("TOka"),V=n("mHso"),z=n("8QhN"),G=n("+uZp"),B=n("a+TD"),W=n("5xWR"),Y=n("AMi2"),Q=n("JSyf"),X=n("F2s6"),K=n("UvWG"),$=n("s2xg"),Z=n("nOaH"),ee=n("ltIv"),te=n("jJff");n.n(te);n.d(t,"a",function(){return re});var ne=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},re=function(){function e(){}return e=ne([n.i(r.b)({imports:[Z.a,o.a,i.a,i.b,s.a,a.a,ee.a,te.MyDatePickerModule],declarations:[D.a,$.a,T.a,P.a,j.a,I.a,E.a,x.a,N.a,F.a,k.a,A.a,U.a,M.a,q.a,L.a,H.a,J.a,V.a,z.a,B.a,G.a,W.a,Y.a,Q.a,X.a],providers:[Z.b,c.a,l.a,u.a,g.a,S.a,w.a,d.a,f.a,p.a,h.a,m.a,_.a,v.a,y.a,b.a,C.a,O.a,R.a,K.a],bootstrap:[D.a]})],e)}()},xXmq:function(e,t,n){"use strict";n.d(t,"a",function(){return r});var r=function(){function e(e,t){this.name=e,this.descr=t}return e}()},ytJH:function(e,t,n){"use strict";var r=n("/oeL"),o=n("CPp0"),i=n("zAlM"),a=n("xpf9"),s=(n.n(a),n("82j9")),c=(n.n(s),n("IGOF"));n.d(t,"a",function(){return d});var l=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},u=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},d=function(){function e(e,t){this.http=e,this._authenticationService=t}return e.prototype.getCasefiles=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS,search:e});return this.http.get(c.a.CASEFILES_URL,t).toPromise().then(function(e){return e.json()}).catch(this.handleError)},e.prototype.createCasefiles=function(e,t,n){return new Promise(function(r,o){for(var i=0;i<t.length;i++)!function(i){var a=new FormData;a.append("case",e),a.append("file",t[i]),n&&a.append("final_letter",n);var s=new XMLHttpRequest;s.onreadystatechange=function(){4===s.readyState&&(201===s.status?r(JSON.parse(s.response)):o(s.response))},s.open("POST",c.a.CASEFILES_URL,!0),s.setRequestHeader("Authorization","Basic "+btoa(sessionStorage.getItem("username")+":"+sessionStorage.getItem("password"))),s.send(a)}(i)})},e.prototype.deleteCasefile=function(e){var t=new o.b({headers:c.a.MIN_AUTH_JSON_HEADERS});return this.http.delete(c.a.CASEFILES_URL+e+"/",t)},e.prototype.handleError=function(e){return console.error(e),Promise.reject(e.message||e.json().error||"Server error via Casefile Service")},e=l([n.i(r.c)(),u("design:paramtypes",["function"==typeof(t=void 0!==o.c&&o.c)&&t||Object,"function"==typeof(a=void 0!==i.a&&i.a)&&a||Object])],e);var t,a}()},zAlM:function(e,t,n){"use strict";var r=n("/oeL"),o=n("Dqrr"),i=(n.n(o),n("5v8a")),a=(n.n(i),n("+zVg")),s=(n.n(a),n("CPp0")),c=n("BkNc"),l=n("IGOF");n.d(t,"a",function(){return f});var u=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},d=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},f=function(){function e(e,t){this._http=e,this._router=t}return e.prototype.login=function(e,t){var n=this,r=new s.b({headers:new s.d({Authorization:"Basic "+btoa(e+":"+t),Accept:"application/json"})});return this._http.post(l.a.AUTH_URL,null,r).map(function(r){var o=r.json();return o.is_active?(o.password=t,n.user=o,sessionStorage.setItem("username",e),sessionStorage.setItem("password",t),sessionStorage.setItem("first_name",n.user.first_name),sessionStorage.setItem("last_name",n.user.last_name),o):(alert("This user is not authorized!"),!1)})},e.prototype.getUser=function(){return console.log("Auth.getUser: "+this.user.first_name),this.user},e.prototype.logout=function(){return this._router.navigate(["/login"]),this.user=void 0,sessionStorage.removeItem("username"),sessionStorage.removeItem("password"),sessionStorage.removeItem("first_name"),sessionStorage.removeItem("last_name"),o.Observable.of(!0)},e=u([n.i(r.c)(),d("design:paramtypes",["function"==typeof(t=void 0!==s.c&&s.c)&&t||Object,"function"==typeof(i=void 0!==c.b&&c.b)&&i||Object])],e);var t,i}()},zNhw:function(e,t,n){"use strict";var r=n("/oeL"),o=n("BkNc"),i=n("CPp0"),a=n("bm2B"),s=n("53Kq"),c=n("Akkd"),l=n("f78x");n.d(t,"a",function(){return f});var u=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,a=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(a=(i<3?o(a):i>3?o(t,n,a):o(t,n))||a);return i>3&&a&&Object.defineProperty(t,n,a),a},d=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)},f=function(){function e(e,t,n,r,o){this._route=t,this._router=n,this._caseService=r,this._tagService=o,this.error=!1,this.cases_properties=[],this.notready=!0,this.editName=new a.c("",a.f.required),this.editDescription=new a.c(""),this.form=e.group({name:this.editName,description:this.editDescription})}return e.prototype.ngOnInit=function(){var e=this;this._params=this._route.params.subscribe(function(t){e.tag_ID=+t.id,e._getTag(e.tag_ID)})},e.prototype.ngOnDestroy=function(){this._params&&this._params.unsubscribe()},e.prototype.cancel=function(){this.goToTags()},e.prototype.onSubmit=function(e){this.notready=!0;var t=new l.a(e.name,e.description);this._validateTag(t)},e.prototype.goToTags=function(){this._router.navigate(["/tags"])},e.prototype._getTag=function(e){var t=this;this._tagService.getTag(e).subscribe(function(e){t.myTag=e,t.editName.setValue(t.myTag.name),t.editDescription.setValue(t.myTag.description),t.notready=!1},function(e){return t._errorMessage=e})},e.prototype._validateTag=function(e){var t=this;this._tagService.getTags(new i.e("name="+e.name)).subscribe(function(n){e.name!==t.myTag.name&&0!==n.length?(t.error=!0,t.notready=!1):(t.myTag.name=e.name,t.myTag.description=e.description,t._updateTag(t.myTag),t.notready=!1)},function(e){return t._errorMessage=e})},e.prototype._updateTag=function(e){var t=this;this._tagService.updateTag(e).subscribe(function(e){t.goToTags()},function(e){return t._errorMessage=e})},e=u([n.i(r._10)({providers:[c.a],template:n("v8bh")}),d("design:paramtypes",["function"==typeof(t=void 0!==a.d&&a.d)&&t||Object,"function"==typeof(f=void 0!==o.c&&o.c)&&f||Object,"function"==typeof(p=void 0!==o.b&&o.b)&&p||Object,"function"==typeof(h=void 0!==s.a&&s.a)&&h||Object,"function"==typeof(m=void 0!==c.a&&c.a)&&m||Object])],e);var t,f,p,h,m}()}},[0]);
+webpackJsonp(["main"],{
+
+/***/ "../../../../../src/$$_gendir lazy recursive":
+/***/ (function(module, exports) {
+
+function webpackEmptyAsyncContext(req) {
+	// Here Promise.resolve().then() is used instead of new Promise() to prevent
+	// uncatched exception popping up in devtools
+	return Promise.resolve().then(function() {
+		throw new Error("Cannot find module '" + req + "'.");
+	});
+}
+webpackEmptyAsyncContext.keys = function() { return []; };
+webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
+module.exports = webpackEmptyAsyncContext;
+webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
+
+/***/ }),
+
+/***/ "../../../../../src/app.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<br /><br />\r\n<span class=\"app-header\">\r\n    CBRS Determinations Management\r\n</span>\r\n<router-outlet></router-outlet>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AppComponent = /** @class */ (function () {
+    function AppComponent(router) {
+        this.router = router;
+    }
+    AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        setTimeout(function () { if (!__WEBPACK_IMPORTED_MODULE_2__app_settings__["a" /* APP_SETTINGS */].IS_LOGGEDIN) {
+            _this.router.navigateByUrl('login');
+        } }, 500);
+    };
+    AppComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'my-app',
+            template: __webpack_require__("../../../../../src/app.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _a || Object])
+    ], AppComponent);
+    return AppComponent;
+    var _a;
+}());
+
+//# sourceMappingURL=app.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__cases_case_service__ = __webpack_require__("../../../../../src/cases/case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__casefiles_casefile_service__ = __webpack_require__("../../../../../src/casefiles/casefile.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__casetags_casetag_service__ = __webpack_require__("../../../../../src/casetags/casetag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__comments_comment_service__ = __webpack_require__("../../../../../src/comments/comment.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__determinations_determination_service__ = __webpack_require__("../../../../../src/determinations/determination.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__fieldoffices_fieldoffice_service__ = __webpack_require__("../../../../../src/fieldoffices/fieldoffice.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__prohibitiondates_prohibitiondate_service__ = __webpack_require__("../../../../../src/prohibitiondates/prohibitiondate.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__systemmaps_systemmap_service__ = __webpack_require__("../../../../../src/systemmaps/systemmap.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__systemunitmaps_systemunitmap_service__ = __webpack_require__("../../../../../src/systemunitmaps/systemunitmap.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__systemunits_systemunit_service__ = __webpack_require__("../../../../../src/systemunits/systemunit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__tags_tag_service__ = __webpack_require__("../../../../../src/tags/tag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__users_user_service__ = __webpack_require__("../../../../../src/users/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__properties_property_service__ = __webpack_require__("../../../../../src/properties/property.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__requesters_requester_service__ = __webpack_require__("../../../../../src/requesters/requester.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__authentication_authentication_service__ = __webpack_require__("../../../../../src/authentication/authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__workbench_workbench_filter_service__ = __webpack_require__("../../../../../src/workbench/workbench-filter.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__reports_report_case_service__ = __webpack_require__("../../../../../src/reports/report-case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__reports_report_case_count_service__ = __webpack_require__("../../../../../src/reports/report-case-count.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__app_component__ = __webpack_require__("../../../../../src/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__grid_grid__ = __webpack_require__("../../../../../src/grid/grid.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__navbar_component__ = __webpack_require__("../../../../../src/navbar.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__authentication_login_component__ = __webpack_require__("../../../../../src/authentication/login.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__tags_tag_list_component__ = __webpack_require__("../../../../../src/tags/tag-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__tags_tag_detail_component__ = __webpack_require__("../../../../../src/tags/tag-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__workbench_workbench_component__ = __webpack_require__("../../../../../src/workbench/workbench.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__workbench_workbench_list_component__ = __webpack_require__("../../../../../src/workbench/workbench-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__workbench_workbench_grid_component__ = __webpack_require__("../../../../../src/workbench/workbench-grid.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__workbench_workbench_filter_component__ = __webpack_require__("../../../../../src/workbench/workbench-filter.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__workbench_workbench_detail_component__ = __webpack_require__("../../../../../src/workbench/workbench-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__mapdata_mapdata_component__ = __webpack_require__("../../../../../src/mapdata/mapdata.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__mapdata_mapdata_list_component__ = __webpack_require__("../../../../../src/mapdata/mapdata-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__mapdata_systemmap_grid_component__ = __webpack_require__("../../../../../src/mapdata/systemmap-grid.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__mapdata_systemunit_grid_component__ = __webpack_require__("../../../../../src/mapdata/systemunit-grid.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__mapdata_prohibitiondate_grid_component__ = __webpack_require__("../../../../../src/mapdata/prohibitiondate-grid.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__reports_report_component__ = __webpack_require__("../../../../../src/reports/report.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__reports_report_list_component__ = __webpack_require__("../../../../../src/reports/report-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__reports_report_grid_component__ = __webpack_require__("../../../../../src/reports/report-grid.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__reports_report_cases_by_unit_component__ = __webpack_require__("../../../../../src/reports/report-cases-by-unit.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__reports_report_filter_component__ = __webpack_require__("../../../../../src/reports/report-filter.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__reports_report_days_to_resolution_component__ = __webpack_require__("../../../../../src/reports/report-days-to-resolution.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__reports_report_days_to_each_status_component__ = __webpack_require__("../../../../../src/reports/report-days-to-each-status.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__reports_report_count_cases_by_status_component__ = __webpack_require__("../../../../../src/reports/report-count-cases-by-status.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__display_value_pipe__ = __webpack_require__("../../../../../src/display-value.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__modal_service__ = __webpack_require__("../../../../../src/modal.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__modal_component__ = __webpack_require__("../../../../../src/modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__app_routing__ = __webpack_require__("../../../../../src/app.routing.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51_angular_2_dropdown_multiselect__ = __webpack_require__("../../../../angular-2-dropdown-multiselect/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52_mydatepicker__ = __webpack_require__("../../../../mydatepicker/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52_mydatepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_52_mydatepicker__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var AppModule = /** @class */ (function () {
+    function AppModule() {
+    }
+    AppModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_50__app_routing__["b" /* routing */], __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["e" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* ReactiveFormsModule */], __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* RouterModule */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["c" /* HttpModule */], __WEBPACK_IMPORTED_MODULE_51_angular_2_dropdown_multiselect__["a" /* MultiselectDropdownModule */], __WEBPACK_IMPORTED_MODULE_52_mydatepicker__["MyDatePickerModule"]
+            ],
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_23__app_component__["a" /* AppComponent */], __WEBPACK_IMPORTED_MODULE_49__modal_component__["a" /* ModalComponent */], __WEBPACK_IMPORTED_MODULE_24__grid_grid__["a" /* Grid */], __WEBPACK_IMPORTED_MODULE_25__navbar_component__["a" /* NavbarComponent */], __WEBPACK_IMPORTED_MODULE_26__authentication_login_component__["a" /* LoginComponent */], __WEBPACK_IMPORTED_MODULE_27__tags_tag_list_component__["a" /* TagListComponent */], __WEBPACK_IMPORTED_MODULE_28__tags_tag_detail_component__["a" /* TagDetailComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__workbench_workbench_component__["a" /* WorkbenchComponent */], __WEBPACK_IMPORTED_MODULE_30__workbench_workbench_list_component__["a" /* WorkbenchListComponent */], __WEBPACK_IMPORTED_MODULE_31__workbench_workbench_grid_component__["a" /* WorkbenchGridComponent */], __WEBPACK_IMPORTED_MODULE_32__workbench_workbench_filter_component__["a" /* WorkbenchFilterComponent */], __WEBPACK_IMPORTED_MODULE_33__workbench_workbench_detail_component__["a" /* WorkbenchDetailComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__mapdata_mapdata_component__["a" /* MapdataComponent */], __WEBPACK_IMPORTED_MODULE_35__mapdata_mapdata_list_component__["a" /* MapdataListComponent */], __WEBPACK_IMPORTED_MODULE_36__mapdata_systemmap_grid_component__["a" /* SystemmapGridComponent */], __WEBPACK_IMPORTED_MODULE_37__mapdata_systemunit_grid_component__["a" /* SystemunitGridComponent */], __WEBPACK_IMPORTED_MODULE_38__mapdata_prohibitiondate_grid_component__["a" /* ProhibitiondateGridComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__reports_report_component__["a" /* ReportComponent */], __WEBPACK_IMPORTED_MODULE_40__reports_report_list_component__["a" /* ReportListComponent */], __WEBPACK_IMPORTED_MODULE_41__reports_report_grid_component__["a" /* ReportGridComponent */], __WEBPACK_IMPORTED_MODULE_43__reports_report_filter_component__["a" /* ReportFilterComponent */], __WEBPACK_IMPORTED_MODULE_42__reports_report_cases_by_unit_component__["a" /* ReportCasesByUnitComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__reports_report_days_to_resolution_component__["a" /* ReportDaysToResolutionComponent */], __WEBPACK_IMPORTED_MODULE_45__reports_report_days_to_each_status_component__["a" /* ReportDaysToEachStatusComponent */], __WEBPACK_IMPORTED_MODULE_46__reports_report_count_cases_by_status_component__["a" /* ReportCountCasesByStatusComponent */], __WEBPACK_IMPORTED_MODULE_47__display_value_pipe__["a" /* DisplayValuePipe */]
+            ],
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_50__app_routing__["a" /* appRoutingProviders */], __WEBPACK_IMPORTED_MODULE_5__cases_case_service__["a" /* CaseService */], __WEBPACK_IMPORTED_MODULE_6__casefiles_casefile_service__["a" /* CasefileService */], __WEBPACK_IMPORTED_MODULE_7__casetags_casetag_service__["a" /* CasetagService */], __WEBPACK_IMPORTED_MODULE_17__properties_property_service__["a" /* PropertyService */], __WEBPACK_IMPORTED_MODULE_18__requesters_requester_service__["a" /* RequesterService */], __WEBPACK_IMPORTED_MODULE_19__authentication_authentication_service__["a" /* AuthenticationService */],
+                __WEBPACK_IMPORTED_MODULE_8__comments_comment_service__["a" /* CommentService */], __WEBPACK_IMPORTED_MODULE_9__determinations_determination_service__["a" /* DeterminationService */], __WEBPACK_IMPORTED_MODULE_10__fieldoffices_fieldoffice_service__["a" /* FieldofficeService */], __WEBPACK_IMPORTED_MODULE_11__prohibitiondates_prohibitiondate_service__["a" /* ProhibitiondateService */], __WEBPACK_IMPORTED_MODULE_12__systemmaps_systemmap_service__["a" /* SystemmapService */], __WEBPACK_IMPORTED_MODULE_13__systemunitmaps_systemunitmap_service__["a" /* SystemunitmapService */],
+                __WEBPACK_IMPORTED_MODULE_14__systemunits_systemunit_service__["a" /* SystemunitService */], __WEBPACK_IMPORTED_MODULE_15__tags_tag_service__["a" /* TagService */], __WEBPACK_IMPORTED_MODULE_16__users_user_service__["a" /* UserService */], __WEBPACK_IMPORTED_MODULE_20__workbench_workbench_filter_service__["a" /* WorkbenchFilterService */], __WEBPACK_IMPORTED_MODULE_21__reports_report_case_service__["a" /* ReportCaseService */], __WEBPACK_IMPORTED_MODULE_22__reports_report_case_count_service__["a" /* ReportCaseCountService */], __WEBPACK_IMPORTED_MODULE_48__modal_service__["a" /* ModalService */]
+            ],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_23__app_component__["a" /* AppComponent */]]
+        })
+    ], AppModule);
+    return AppModule;
+}());
+
+//# sourceMappingURL=app.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app.routing.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return appRoutingProviders; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return routing; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__authentication_authentication_guard__ = __webpack_require__("../../../../../src/authentication/authentication.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_routes__ = __webpack_require__("../../../../../src/authentication/authentication.routes.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__workbench_workbench_routes__ = __webpack_require__("../../../../../src/workbench/workbench.routes.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mapdata_mapdata_routes__ = __webpack_require__("../../../../../src/mapdata/mapdata.routes.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reports_report_routes__ = __webpack_require__("../../../../../src/reports/report.routes.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tags_tag_routes__ = __webpack_require__("../../../../../src/tags/tag.routes.ts");
+
+
+
+
+
+
+
+var routes = __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_routes__["a" /* AuthenticationRoutes */].concat(__WEBPACK_IMPORTED_MODULE_3__workbench_workbench_routes__["a" /* WorkbenchRoutes */], __WEBPACK_IMPORTED_MODULE_4__mapdata_mapdata_routes__["a" /* MapdataRoutes */], __WEBPACK_IMPORTED_MODULE_5__reports_report_routes__["a" /* ReportRoutes */], __WEBPACK_IMPORTED_MODULE_6__tags_tag_routes__["a" /* TagRoutes */]);
+var appRoutingProviders = [
+    __WEBPACK_IMPORTED_MODULE_1__authentication_authentication_guard__["a" /* AuthenticationGuard */]
+];
+var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* RouterModule */].forRoot(routes);
+//# sourceMappingURL=app.routing.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app.settings.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return APP_SETTINGS; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var APP_SETTINGS = /** @class */ (function () {
+    function APP_SETTINGS() {
+    }
+    Object.defineProperty(APP_SETTINGS, "environment", {
+        set: function (env) { this._environment = env; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "IS_LOGGEDIN", {
+        get: function () { return (!!sessionStorage.getItem('username') && !!sessionStorage.getItem('password')); },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "AUTH_URL", {
+        get: function () { return this._API_ENDPOINT + 'auth/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "CASES_URL", {
+        get: function () { return this._API_ENDPOINT + 'cases/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "PROPERTIES_URL", {
+        get: function () { return this._API_ENDPOINT + 'properties/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "REQUESTERS_URL", {
+        get: function () { return this._API_ENDPOINT + 'requesters/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "CASEFILES_URL", {
+        get: function () { return this._API_ENDPOINT + 'casefiles/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "COMMENTS_URL", {
+        get: function () { return this._API_ENDPOINT + 'comments/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "TAGS_URL", {
+        get: function () { return this._API_ENDPOINT + 'tags/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "CASETAGS_URL", {
+        get: function () { return this._API_ENDPOINT + 'casetags/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "SYSTEMUNITS_URL", {
+        get: function () { return this._API_ENDPOINT + 'systemunits/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "FIELDOFFICES_URL", {
+        get: function () { return this._API_ENDPOINT + 'fieldoffices/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "SYSTEMMAPS_URL", {
+        get: function () { return this._API_ENDPOINT + 'systemmaps/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "SYSTEMUNITMAPS_URL", {
+        get: function () { return this._API_ENDPOINT + 'systemunitmaps/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "USERS_URL", {
+        get: function () { return this._API_ENDPOINT + 'users/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "DETERMINATIONS_URL", {
+        get: function () { return this._API_ENDPOINT + 'determinations/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "SYSTEMUNITPROHIBITIONDATES_URL", {
+        get: function () { return this._API_ENDPOINT + 'systemunitprohibitiondates/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "REPORTCASES_URL", {
+        get: function () { return this._API_ENDPOINT + 'reportcases/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "REPORTCASECOUNTS_URL", {
+        get: function () { return this._API_ENDPOINT + 'reportcasecounts/'; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "MIN_JSON_HEADERS", {
+        get: function () { return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Accept': 'application/json' }); },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "JSON_HEADERS", {
+        get: function () { return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Accept': 'application/json', 'Content-Type': 'application/json' }); },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "AUTH_HEADERS", {
+        get: function () {
+            return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Basic ' +
+                    btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')) });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "MIN_AUTH_JSON_HEADERS", {
+        get: function () {
+            return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({
+                'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')),
+                'Accept': 'application/json'
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "AUTH_JSON_HEADERS", {
+        get: function () {
+            return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({
+                'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')),
+                'Accept': 'application/json', 'Content-Type': 'application/json'
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "STATUSES", {
+        get: function () {
+            return ['Closed with no Final Letter', 'Final', 'Awaiting Final Letter', 'Awaiting QC', 'Received'];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(APP_SETTINGS, "SALUTATIONS", {
+        get: function () { return ['Mr.', 'Ms.', 'Dr.']; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "US_STATES", {
+        get: function () {
+            return ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS',
+                'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND',
+                'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "CONTENT_TYPES", {
+        get: function () {
+            return ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/pdf', 'text/plain', 'image/jpeg', 'image/png', 'image/gif', 'image/tiff', 'image/bmp',
+                'application/zip', 'application/x-bzip', 'application/x-bzip2'];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(APP_SETTINGS, "MAX_UPLOAD_SIZE", {
+        get: function () { return 10485760; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    APP_SETTINGS._environment = 'production';
+    // private static _API_ENDPOINT = 'http://localhost:8000/cbrsservices/';
+    // private static _API_ENDPOINT = 'http://cbrsdev.wim.usgs.gov/cbrsservices/';
+    APP_SETTINGS._API_ENDPOINT = 'https://' + window.location.hostname + '/cbrsservices/';
+    APP_SETTINGS = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    ], APP_SETTINGS);
+    return APP_SETTINGS;
+}());
+
+//# sourceMappingURL=app.settings.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app.utilities.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return APP_UTILITIES; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var APP_UTILITIES = /** @class */ (function () {
+    function APP_UTILITIES() {
+    }
+    Object.defineProperty(APP_UTILITIES, "TODAY", {
+        get: function () { return new Date().toISOString().substr(0, 10); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(APP_UTILITIES, "TIME", {
+        get: function () { return new Date().toISOString().substr(14, 22); },
+        enumerable: true,
+        configurable: true
+    });
+    APP_UTILITIES.showToast = function (message, timeout) {
+        var toast = document.querySelector('#cbrs_toast');
+        toast.className = 'cbrsToast toastVisible';
+        toast.innerHTML = message;
+        setTimeout(function () {
+            toast.className = 'cbrsToast';
+        }, (timeout ? timeout : 5000));
+    };
+    APP_UTILITIES.convertDateToISOString = function (datePickerObject) {
+        return ('0000' + datePickerObject.date.year).slice(-4)
+            + '-' + ('00' + datePickerObject.date.month).slice(-2)
+            + '-' + ('00' + datePickerObject.date.day).slice(-2);
+    };
+    APP_UTILITIES.convertArrayOfObjectsToCSV = function (args) {
+        var result, counter, keys, columnDelimiter, lineDelimiter, data, headers;
+        headers = [];
+        data = args.data || null;
+        if (data == null || !data.length) {
+            return null;
+        }
+        columnDelimiter = args.columnDelimiter || ',';
+        lineDelimiter = args.lineDelimiter || '\n';
+        keys = Object.keys(data[0]);
+        // put the headers array in the same order as the data keys
+        keys.forEach(function (item) {
+            var obj = args.headers.filter(function (o) {
+                return o.name === item;
+            })[0];
+            headers.push(obj.descr);
+        });
+        // remove keys that aren't in the headers array, ensuring those data columns won't be exported
+        // keys.forEach(function(item){
+        //     if (headers.indexOf(item) < 0) {
+        //         let ndx = keys.indexOf(item);
+        //         keys.splice(ndx, 1);
+        //     }
+        // });
+        result = '';
+        result += (args.headers) ? headers.join(columnDelimiter) : keys.join(columnDelimiter);
+        result += lineDelimiter;
+        data.forEach(function (item) {
+            counter = 0;
+            keys.forEach(function (key) {
+                if (counter > 0) {
+                    result += columnDelimiter;
+                }
+                if (item[key] == null) {
+                    result += '';
+                }
+                else if (typeof item[key] === 'string' && item[key].includes(',')) {
+                    result += '"' + item[key] + '"';
+                }
+                else {
+                    result += item[key];
+                }
+                counter++;
+            });
+            result += lineDelimiter;
+        });
+        return result;
+    };
+    APP_UTILITIES.downloadCSV = function (args) {
+        var data, filename, link;
+        var csv = this.convertArrayOfObjectsToCSV({
+            data: args.data,
+            headers: args.headers
+        });
+        if (csv == null) {
+            return;
+        }
+        filename = args.filename || 'export.csv';
+        if (!csv.match(/^data:text\/csv/i)) {
+            csv = 'data:text/csv;charset=utf-8,' + csv;
+        }
+        data = encodeURI(csv);
+        link = document.createElement('a');
+        link.setAttribute('href', data);
+        link.setAttribute('download', filename);
+        link.click();
+    };
+    // the following functions found here:
+    // http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript/4760279#4760279
+    APP_UTILITIES.dynamicSort = function (property) {
+        var sortOrder = 1;
+        if (property[0] === '-') {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a, b) {
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        };
+    };
+    APP_UTILITIES.dynamicSortMultiple = function (args) {
+        function dynamicSort(property) {
+            var sortOrder = 1;
+            if (property[0] === '-') {
+                sortOrder = -1;
+                property = property.substr(1);
+            }
+            return function (a, b) {
+                var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+                return result * sortOrder;
+            };
+        }
+        /*
+         * save the arguments object as it will be overwritten
+         * note that arguments object is an array-like object
+         * consisting of the names of the properties to sort by
+         */
+        // let props = arguments;
+        var props = args;
+        return function (obj1, obj2) {
+            var i = 0, result = 0;
+            var numberOfProperties = props.length;
+            /* try getting a different result from 0 (equal)
+             * as long as we have extra properties to compare
+             */
+            while (result === 0 && i < numberOfProperties) {
+                result = dynamicSort(props[i])(obj1, obj2);
+                i++;
+            }
+            return result;
+        };
+    };
+    APP_UTILITIES = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    ], APP_UTILITIES);
+    return APP_UTILITIES;
+}());
+
+//# sourceMappingURL=app.utilities.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/authentication/authentication.guard.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationGuard; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+
+var AuthenticationGuard = /** @class */ (function () {
+    function AuthenticationGuard() {
+    }
+    AuthenticationGuard.prototype.canActivate = function () {
+        return __WEBPACK_IMPORTED_MODULE_0__app_settings__["a" /* APP_SETTINGS */].IS_LOGGEDIN;
+    };
+    return AuthenticationGuard;
+}());
+
+//# sourceMappingURL=authentication.guard.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/authentication/authentication.routes.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationRoutes; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__login_component__ = __webpack_require__("../../../../../src/authentication/login.component.ts");
+
+var AuthenticationRoutes = [
+    {
+        path: 'login',
+        component: __WEBPACK_IMPORTED_MODULE_0__login_component__["a" /* LoginComponent */]
+    }
+];
+//# sourceMappingURL=authentication.routes.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/authentication/authentication.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__ = __webpack_require__("../../../../rxjs/_esm5/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var AuthenticationService = /** @class */ (function () {
+    function AuthenticationService(_http, _router) {
+        this._http = _http;
+        this._router = _router;
+    }
+    AuthenticationService.prototype.login = function (username, password) {
+        var _this = this;
+        var options = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["d" /* RequestOptions */]({ headers: new __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Headers */]({ 'Authorization': 'Basic ' + btoa(username + ':' + password), 'Accept': 'application/json' })
+        });
+        return this._http.post(__WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].AUTH_URL, null, options)
+            .map(function (res) {
+            var u = res.json();
+            if (u.is_active) {
+                u.password = password;
+                _this.user = u;
+                sessionStorage.setItem('username', username);
+                sessionStorage.setItem('password', password);
+                sessionStorage.setItem('first_name', _this.user.first_name);
+                sessionStorage.setItem('last_name', _this.user.last_name);
+                return u;
+            }
+            else {
+                // TODO: do something more professional here
+                alert('This user is not authorized!');
+                return false;
+            }
+        });
+    };
+    AuthenticationService.prototype.getUser = function () {
+        console.log('Auth.getUser: ' + this.user.first_name);
+        return this.user;
+    };
+    AuthenticationService.prototype.logout = function () {
+        this._router.navigate(['/login']);
+        this.user = undefined;
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('password');
+        sessionStorage.removeItem('first_name');
+        sessionStorage.removeItem('last_name');
+        return __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["a" /* Observable */].of(true);
+    };
+    AuthenticationService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_router__["b" /* Router */]) === "function" && _b || Object])
+    ], AuthenticationService);
+    return AuthenticationService;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=authentication.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/authentication/login.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<form [formGroup]=\"form\" (ngSubmit)=\"onSubmit(form.value)\" class=\"login-form\">\r\n    <div *ngIf=\"error\">Username/Password combination invalid.</div>\r\n    <div>\r\n        <label for=\"username\">Username</label>\r\n        <input id=\"username\" type=\"text\" formControlName=\"username\">\r\n    </div>\r\n    <div>\r\n        <label for=\"password\">Password</label>\r\n        <input id=\"password\" type=\"password\" formControlName=\"password\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n        <button type=\"submit\" [disabled]=\"!form.valid\">Login</button>\r\n    </div>\r\n</form>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/authentication/login.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__authentication_service__ = __webpack_require__("../../../../../src/authentication/authentication.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var LoginComponent = /** @class */ (function () {
+    function LoginComponent(fb, _authenticationService, router) {
+        this._authenticationService = _authenticationService;
+        this.router = router;
+        this.error = false;
+        this.form = fb.group({
+            username: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["h" /* Validators */].required],
+            password: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["h" /* Validators */].required]
+        });
+    }
+    LoginComponent.prototype.onSubmit = function (value) {
+        var _this = this;
+        if (sessionStorage.getItem('username')) {
+            this._authenticationService.logout();
+        }
+        this._authenticationService.login(value.username, value.password)
+            .subscribe(function (user) { _this.router.navigateByUrl('workbench'); }, function () { _this.error = true; });
+    };
+    LoginComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'login',
+            template: __webpack_require__("../../../../../src/authentication/login.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__authentication_service__["a" /* AuthenticationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _c || Object])
+    ], LoginComponent);
+    return LoginComponent;
+    var _a, _b, _c;
+}());
+
+//# sourceMappingURL=login.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/casefiles/casefile.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CasefileService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__ = __webpack_require__("../../../../../src/authentication/authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var CasefileService = /** @class */ (function () {
+    function CasefileService(http, _authenticationService) {
+        this.http = http;
+        this._authenticationService = _authenticationService;
+    }
+    CasefileService.prototype.getCasefiles = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].CASEFILES_URL, options)
+            .toPromise()
+            .then(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CasefileService.prototype.createCasefiles = function (caseid, files, final_letter) {
+        return new Promise(function (resolve, reject) {
+            var _loop_1 = function (i) {
+                var formData = new FormData();
+                formData.append('case', caseid);
+                formData.append('file', files[i]);
+                if (final_letter) {
+                    formData.append('final_letter', final_letter);
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 201) {
+                            resolve(JSON.parse(xhr.response));
+                        }
+                        else {
+                            reject(xhr.response);
+                        }
+                    }
+                };
+                xhr.open('POST', __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].CASEFILES_URL, true);
+                xhr.setRequestHeader('Authorization', 'Basic '
+                    + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')));
+                xhr.send(formData);
+            };
+            for (var i = 0; i < files.length; i++) {
+                _loop_1(i);
+            }
+        });
+    };
+    CasefileService.prototype.deleteCasefile = function (casefileid) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].CASEFILES_URL + casefileid + '/', options);
+    };
+    CasefileService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return Promise.reject(error.message || error.json().error || 'Server error via Casefile Service');
+    };
+    CasefileService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__["a" /* AuthenticationService */]) === "function" && _b || Object])
+    ], CasefileService);
+    return CasefileService;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=casefile.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/cases/case.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CaseService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__ = __webpack_require__("../../../../../src/authentication/authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var CaseService = /** @class */ (function () {
+    function CaseService(http, _authenticationService) {
+        this.http = http;
+        this._authenticationService = _authenticationService;
+    }
+    CaseService.prototype.getCase = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].CASES_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CaseService.prototype.getCases = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].CASES_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CaseService.prototype.createCase = function (acase) {
+        var body = JSON.stringify(acase);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].CASES_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CaseService.prototype.updateCase = function (acase) {
+        // pull out the ID
+        var id = acase.id;
+        delete acase['id'];
+        var body = JSON.stringify(acase);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].CASES_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CaseService.prototype.createFinalLeter = function (caseid) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var filename = '';
+                        var disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        resolve([xhr.response, filename]);
+                    }
+                    else {
+                        reject(xhr.response);
+                    }
+                }
+            };
+            xhr.responseType = 'blob';
+            xhr.open('GET', __WEBPACK_IMPORTED_MODULE_6__app_settings__["a" /* APP_SETTINGS */].CASES_URL + '?case_number=' + caseid + '&format=docx', true);
+            xhr.setRequestHeader('Authorization', 'Basic '
+                + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')));
+            xhr.send();
+        });
+    };
+    CaseService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_3_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    CaseService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__["a" /* AuthenticationService */]) === "function" && _b || Object])
+    ], CaseService);
+    return CaseService;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=case.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/cases/case.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Case; });
+var Case = /** @class */ (function () {
+    function Case(requester, property, property_string, case_number, case_reference, duplicate, status, request_date, casefiles, cbrs_unit, cbrs_unit_string, map_number, map_number_string, cbrs_map_date, determination, determination_string, prohibition_date, prohibition_date_mdy, distance, fws_fo_received_date, fws_hq_received_date, final_letter_date, close_date, final_letter_recipient, analyst, analyst_string, analyst_signoff_date, qc_reviewer, qc_reviewer_string, qc_reviewer_signoff_date, priority, on_hold, invalid, comments, tags, id) {
+        this.requester = requester;
+        this.property = property;
+        this.property_string = property_string;
+        this.case_number = case_number;
+        this.case_reference = case_reference;
+        this.duplicate = duplicate;
+        this.status = status;
+        this.request_date = request_date;
+        this.casefiles = casefiles;
+        this.cbrs_unit = cbrs_unit;
+        this.cbrs_unit_string = cbrs_unit_string;
+        this.map_number = map_number;
+        this.map_number_string = map_number_string;
+        this.cbrs_map_date = cbrs_map_date;
+        this.determination = determination;
+        this.determination_string = determination_string;
+        this.prohibition_date = prohibition_date;
+        this.prohibition_date_mdy = prohibition_date_mdy;
+        this.distance = distance;
+        this.fws_fo_received_date = fws_fo_received_date;
+        this.fws_hq_received_date = fws_hq_received_date;
+        this.final_letter_date = final_letter_date;
+        this.close_date = close_date;
+        this.final_letter_recipient = final_letter_recipient;
+        this.analyst = analyst;
+        this.analyst_string = analyst_string;
+        this.analyst_signoff_date = analyst_signoff_date;
+        this.qc_reviewer = qc_reviewer;
+        this.qc_reviewer_string = qc_reviewer_string;
+        this.qc_reviewer_signoff_date = qc_reviewer_signoff_date;
+        this.priority = priority;
+        this.on_hold = on_hold;
+        this.invalid = invalid;
+        this.comments = comments;
+        this.tags = tags;
+        this.id = id;
+    }
+    return Case;
+}());
+
+//# sourceMappingURL=case.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/casetags/casetag.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CasetagService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var CasetagService = /** @class */ (function () {
+    function CasetagService(http) {
+        this.http = http;
+    }
+    CasetagService.prototype.getCasetag = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].CASETAGS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CasetagService.prototype.getCasetags = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].CASETAGS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CasetagService.prototype.createCasetag = function (casetag) {
+        var acasetag = { 'case': casetag.caseid, 'tag': casetag.tag };
+        var body = JSON.stringify(acasetag);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].CASETAGS_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CasetagService.prototype.updateCasetag = function (casetag) {
+        // pull out the ID
+        var id = casetag.id;
+        delete casetag['id'];
+        var body = JSON.stringify(casetag);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].CASETAGS_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CasetagService.prototype.deleteCasetag = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].CASETAGS_URL + id + '/', options)
+            .map(function (res) { return console.log(res); })
+            .catch(this.handleError);
+    };
+    CasetagService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    CasetagService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], CasetagService);
+    return CasetagService;
+    var _a;
+}());
+
+//# sourceMappingURL=casetag.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/casetags/casetag.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Casetag; });
+var Casetag = /** @class */ (function () {
+    function Casetag(caseid, tag, tagname, id) {
+        this.caseid = caseid;
+        this.tag = tag;
+        this.tagname = tagname;
+        this.id = id;
+    }
+    return Casetag;
+}());
+
+//# sourceMappingURL=casetag.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/comments/comment.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CommentService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var CommentService = /** @class */ (function () {
+    function CommentService(http) {
+        this.http = http;
+    }
+    CommentService.prototype.getComment = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].COMMENTS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CommentService.prototype.getComments = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].COMMENTS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CommentService.prototype.createComment = function (comment) {
+        var acomment = { 'acase': comment.acase, 'comment': comment.comment };
+        var body = JSON.stringify(acomment);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].COMMENTS_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CommentService.prototype.updateComment = function (comment) {
+        // pull out the ID
+        var id = comment.id;
+        delete comment['id'];
+        var acomment = { 'acase': comment.acase, 'comment': comment.comment, 'created_by': comment.created_by };
+        var body = JSON.stringify(acomment);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].COMMENTS_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    CommentService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    CommentService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], CommentService);
+    return CommentService;
+    var _a;
+}());
+
+//# sourceMappingURL=comment.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/comments/comment.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Comment; });
+var Comment = /** @class */ (function () {
+    function Comment(acase, comment, created_by, created_by_string, created_date, id) {
+        this.acase = acase;
+        this.comment = comment;
+        this.created_by = created_by;
+        this.created_by_string = created_by_string;
+        this.created_date = created_date;
+        this.id = id;
+    }
+    return Comment;
+}());
+
+//# sourceMappingURL=comment.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/determinations/determination.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DeterminationService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var DeterminationService = /** @class */ (function () {
+    function DeterminationService(http) {
+        this.http = http;
+    }
+    DeterminationService.prototype.getDetermination = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].DETERMINATIONS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    DeterminationService.prototype.getDeterminations = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].DETERMINATIONS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    DeterminationService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    DeterminationService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], DeterminationService);
+    return DeterminationService;
+    var _a;
+}());
+
+//# sourceMappingURL=determination.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/display-value.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DisplayValuePipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var DisplayValuePipe = /** @class */ (function () {
+    function DisplayValuePipe() {
+    }
+    DisplayValuePipe.prototype.transform = function (value, displayProperty, sourceArray) {
+        var displayValue;
+        if (Array.isArray(value)) {
+            displayValue = [];
+            for (var i = 0, j = value.length; i < j; i++) {
+                for (var k = 0, l = sourceArray.length; k < l; k++) {
+                    if (sourceArray[k].id === value[i]) {
+                        displayValue.push(sourceArray[k][displayProperty]);
+                    }
+                }
+            }
+        }
+        else {
+            for (var i = 0, j = sourceArray.length; i < j; i++) {
+                if (sourceArray[i].id === value) {
+                    displayValue = sourceArray[i][displayProperty];
+                    break;
+                }
+            }
+        }
+        return displayValue;
+    };
+    DisplayValuePipe = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["X" /* Pipe */])({ name: 'displayValue' })
+    ], DisplayValuePipe);
+    return DisplayValuePipe;
+}());
+
+//# sourceMappingURL=display-value.pipe.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/environments/environment.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
+// The file contents for the current environment will overwrite these during build.
+// The build system defaults to the dev environment which uses `environment.ts`, but if you do
+// `ng build --env=prod` then `environment.prod.ts` will be used instead.
+// The list of which env maps to which file can be found in `angular-cli.json`.
+var environment = {
+    production: false
+};
+//# sourceMappingURL=environment.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/fieldoffices/fieldoffice.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FieldofficeService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var FieldofficeService = /** @class */ (function () {
+    function FieldofficeService(http) {
+        this.http = http;
+    }
+    FieldofficeService.prototype.getFieldoffice = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].FIELDOFFICES_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    FieldofficeService.prototype.getFieldoffices = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].FIELDOFFICES_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    FieldofficeService.prototype.createFieldoffice = function (fieldoffice) {
+        var body = JSON.stringify(fieldoffice);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].FIELDOFFICES_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    FieldofficeService.prototype.updateFieldoffice = function (fieldoffice) {
+        // pull out the ID
+        var id = fieldoffice.id;
+        delete fieldoffice['id'];
+        var body = JSON.stringify(fieldoffice);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].FIELDOFFICES_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    FieldofficeService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    FieldofficeService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], FieldofficeService);
+    return FieldofficeService;
+    var _a;
+}());
+
+//# sourceMappingURL=fieldoffice.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/grid/column.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Column; });
+var Column = /** @class */ (function () {
+    function Column(name, descr) {
+        this.name = name;
+        this.descr = descr;
+    }
+    return Column;
+}());
+
+//# sourceMappingURL=column.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/grid/grid.html":
+/***/ (function(module, exports) {
+
+module.exports = "<table class=\"dms-table table table-striped table-bordered table-hover table-condensed\">\r\n    <thead>\r\n        <tr>\r\n            <th *ngFor=\"let col of columns\"><a (click)=\"sort(col.name)\">{{col.descr}}</a></th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr *ngFor=\"let row of rows\">\r\n            <td *ngFor=\"let col of columns\">{{row[col.name]}}</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/grid/grid.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Grid; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sorter__ = __webpack_require__("../../../../../src/grid/sorter.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var Grid = /** @class */ (function () {
+    function Grid() {
+        this.sorter = new __WEBPACK_IMPORTED_MODULE_1__sorter__["a" /* Sorter */]();
+    }
+    Grid.prototype.sort = function (key) {
+        this.sorter.sort(key, this.rows);
+    };
+    Grid = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'grid',
+            inputs: ['rows: rows', 'columns: columns'],
+            template: __webpack_require__("../../../../../src/grid/grid.html")
+        }),
+        __metadata("design:paramtypes", [])
+    ], Grid);
+    return Grid;
+}());
+
+//# sourceMappingURL=grid.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/grid/sorter.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Sorter; });
+var Sorter = /** @class */ (function () {
+    function Sorter() {
+        this.direction = 1;
+    }
+    Sorter.prototype.sort = function (key, data) {
+        var _this = this;
+        if (this.key === key) {
+            this.direction = -this.direction;
+        }
+        else {
+            this.direction = 1;
+        }
+        this.key = key;
+        data.sort(function (a, b) {
+            if (a[key] === b[key]) {
+                return 0;
+            }
+            else if (a[key] > b[key]) {
+                return _this.direction;
+            }
+            else {
+                return -_this.direction;
+            }
+        });
+    };
+    return Sorter;
+}());
+
+//# sourceMappingURL=sorter.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/main.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_ts__ = __webpack_require__("../../../../../src/polyfills.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__("../../../platform-browser-dynamic/@angular/platform-browser-dynamic.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_module__ = __webpack_require__("../../../../../src/app.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+
+
+
+
+
+
+if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
+    Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["_23" /* enableProdMode */])();
+    __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].environment = 'production';
+}
+else {
+    __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].environment = 'development';
+}
+Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_4__app_module__["a" /* AppModule */]);
+//# sourceMappingURL=main.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/mapdata/mapdata-grid.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\n    <table class=\"dms-table table table-bordered\">\n        <thead>\n            <tr>\n                <th *ngFor=\"let col of columns\">\n                    <a (click)=\"sort(col.name)\" class=\"gridHeader\">{{col.descr}} <i class=\"fa fa-sort\"></i></a>\n                </th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr *ngFor=\"let row of rows\" (click)=\"onClick(row)\">\n                <td *ngFor=\"let col of columns\">\n                    <!--<span>{{row[col.name]}}</span>-->\n                    <span *ngIf=\"col.name !== 'system_units' && col.name !== 'system_unit' && !(col.name.includes('date'))\">{{row[col.name]}}</span>\n                    <span *ngIf=\"col.name.includes('date')\">{{row[col.name] | date:'shortDate'}}</span>\n                    <span *ngIf=\"col.name === 'system_units' || col.name === 'system_unit'\">{{row[col.name] | displayValue:'system_unit_number':displayLookup}}</span>\n                </td>\n            </tr>\n        </tbody>\n    </table>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/mapdata/mapdata-list.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n    <div *ngIf=\"notready\" align=\"center\" id=\"loading-spinner\">\n        <i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i>\n    </div>\n    <div *ngIf=\"!notready\" style=\"display: flex; justify-content: center;\">\n        <!--<div *ngIf=\"noSystemmapsFound\" style=\"display:inline;\" align=\"center\"><br /><br />No maps found.</div>-->\n        <div *ngIf=\"!noSystemmapsFound\" class=\"mapData-filter\">\n            <div align=\"center\">\n                <label for=\"systemmap-filter\">Maps</label><br />\n                <button type=\"button\" (click)=\"openModal('modalMap')\" class=\"btn btn-default btn-save-all\">Add Map</button><br />\n                <input id=\"systemmap-filter\" placeholder=\"Filter\" (keyup)=\"filterGrid(systemmap.id, systemmap.value)\" #systemmap>\n            </div>\n            <systemmap-grid *ngIf=\"systemunits\" [rows]=\"systemmaps\" [columns]=\"systemmapColumns\" [displayLookup]=\"systemunits\" (edit)=\"openModal('modalMap', $event)\" class=\"multi-table\"></systemmap-grid>\n        </div>\n        <!--<div *ngIf=\"noSystemunitsFound\" style=\"display:inline;\" align=\"center\"><br /><br />No units found.</div>-->\n        <div *ngIf=\"!noSystemunitsFound\" class=\"mapData-filter\">\n            <div align=\"center\">\n                <label for=\"systemunit-filter\">Units</label><br />\n                <button type=\"button\" (click)=\"openModal('modalUnit')\" class=\"btn btn-default btn-save-all\">Add Unit</button><br />\n                <input id=\"systemunit-filter\" placeholder=\"Filter\" (keyup)=\"filterGrid(systemunit.id, systemunit.value)\" #systemunit>\n            </div>\n            <systemunit-grid [rows]=\"systemunits\" [columns]=\"systemunitColumns\" (edit)=\"openModal('modalUnit', $event)\" class=\"multi-table\"></systemunit-grid>\n        </div>\n        <!--<div *ngIf=\"noProhibitiondatesFound\" style=\"display:inline;\" align=\"center\"><br /><br />No prohibition dates found.</div>-->\n        <div *ngIf=\"!noProhibitiondatesFound\" class=\"mapData-filter\">\n            <div align=\"center\">\n                <label for=\"prohibitiondates-filter\">Prohibition Dates</label><br />\n                <button type=\"button\" (click)=\"openModal('modalDate')\" class=\"btn btn-default btn-save-all\">Add Date</button><br />\n                <input id=\"prohibitiondates-filter\" placeholder=\"Filter\" (keyup)=\"filterGrid(prohibitiondate.id, prohibitiondate.value)\" #prohibitiondate>\n            </div>\n            <prohibitiondate-grid *ngIf=\"systemunits\" [rows]=\"prohibitiondates\" [columns]=\"prohibitiondateColumns\" [displayLookup]=\"systemunits\" (edit)=\"openModal('modalDate', $event)\" class=\"multi-table\"></prohibitiondate-grid>\n        </div>\n    </div>\n</div>\n\n<modal id=\"modalMap\">\n    <div class=\"modal\">\n        <div class=\"modal-body\">\n            <div class=\"container cbrs-form\">\n                <h3 *ngIf=\"!row\">Add Map</h3><h3 *ngIf=\"row\">Edit Map {{row?.id}}</h3>\n                <form [formGroup]=\"mapForm\" (ngSubmit)=\"onSubmit(mapForm, 'modalMap')\">\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"map_number\">Map Number</label>\n                            <input id=\"map_number\" type=\"text\" formControlName=\"map_number\">\n                        </div>\n                    </div>\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"map_title\">Map Title</label>\n                            <input id=\"map_title\" type=\"text\" formControlName=\"map_title\">\n                        </div>\n                    </div>\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"map_date\">Map Date</label>\n                            <!--<input id=\"map_date\" formControlName=\"map_date\">-->\n                            <my-date-picker id=\"map_date\" formControlName=\"map_date\" [options]=\"myDatePickerOptions\"></my-date-picker>\n                        </div>\n                    </div>\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"system_units\">System Units</label>\n                            <!--<input id=\"system_units\" formControlName=\"system_units\">-->\n                            <ss-multiselect-dropdown *ngIf=\"systemunits\" id=\"system_units\" formControlName=\"system_units\" [options]=\"systemunitoptions\" [settings]=\"systemunitsettings\"></ss-multiselect-dropdown>\n                        </div>\n                    </div>\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\" style=\"display: inline;\">\n                            <label for=\"effective\" style=\"display: inline-block;\">Effective</label>\n                            <input id=\"effective\" name=\"effective\" type=\"checkbox\" [checked]=\"row?.effective\" value=\"true\" formControlName=\"effective\" style=\"display: inline-block;\">\n                        </div>\n                    </div>\n                    <button type=\"submit\" class=\"btn btn-default btn-primary btn-group\" [disabled]=\"!mapForm.valid\">Save</button>\n                    <button type=\"button\" class=\"btn btn-default btn-danger btn-group\" (click)=\"deleteRow('modalMap', row?.id)\">Delete</button>\n                    <button type=\"button\" class=\"btn btn-default btn-group\" (click)=\"closeModal('modalMap')\">Cancel</button>\n                </form>\n            </div>\n        </div>\n    </div>\n    <div class=\"modal-background\"></div>\n</modal>\n<modal id=\"modalUnit\">\n    <div class=\"modal\">\n        <div class=\"modal-body\">\n            <div class=\"container cbrs-form\">\n                <h3 *ngIf=\"!row\">Add Unit</h3><h3 *ngIf=\"row\">Edit Unit {{row?.id}}</h3>\n                <form [formGroup]=\"unitForm\" (ngSubmit)=\"onSubmit(unitForm, 'modalUnit')\">\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"system_unit_number\">Unit Number</label>\n                            <input id=\"system_unit_number\" type=\"text\" formControlName=\"system_unit_number\">\n                        </div>\n                    </div>\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"system_unit_name\">Unit Name</label>\n                            <input id=\"system_unit_name\" type=\"text\" formControlName=\"system_unit_name\">\n                        </div>\n                    </div>\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"field_office\">Field Office</label>\n                            <input id=\"field_office\" type=\"text\" formControlName=\"field_office\">\n                        </div>\n                    </div>\n                    <button type=\"submit\" class=\"btn btn-default btn-primary btn-group\" [disabled]=\"!unitForm.valid\">Save</button>\n                    <button type=\"button\" class=\"btn btn-default btn-danger btn-group\" (click)=\"deleteRow('modalUnit', row?.id)\">Delete</button>\n                    <button type=\"button\" class=\"btn btn-default btn-group\" (click)=\"closeModal('modalUnit')\">Cancel</button>\n                </form>\n            </div>\n        </div>\n    </div>\n    <div class=\"modal-background\"></div>\n</modal>\n<modal id=\"modalDate\">\n    <div class=\"modal\">\n        <div class=\"modal-body\">\n            <div class=\"container cbrs-form\">\n                <h3 *ngIf=\"!row\">Add Prohibition Date</h3><h3 *ngIf=\"row\">Edit Prohib. Date {{row?.id}}</h3>\n                <form [formGroup]=\"dateForm\" (ngSubmit)=\"onSubmit(dateForm, 'modalDate')\">\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"system_unit\">Unit Number</label>\n                            <select id=\"system_unit\" formControlName=\"system_unit\">\n                                <option value=\"\"></option>\n                                <option *ngFor=\"let unit of systemunits\" [value]=\"unit.id\" [selected]=\"unit.id == myProhibitiondate.system_unit_number\">{{unit.system_unit_number}}</option>\n                            </select>\n                        </div>\n                    </div>\n                    <div class=\"dms-group\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"prohibition_date\">Prohibition Date</label>\n                            <my-date-picker id=\"prohibition_date\" formControlName=\"prohibition_date\" [options]=\"myDatePickerOptions\"></my-date-picker>\n                        </div>\n                    </div>\n                    <button type=\"submit\" class=\"btn btn-default btn-primary btn-group\" style=\"display:inline;\" [disabled]=\"!dateForm.valid\">Save</button>\n                    <button type=\"button\" class=\"btn btn-default btn-danger btn-group\" (click)=\"deleteRow('modalDate', row?.id)\">Delete</button>\n                    <button type=\"button\" class=\"btn btn-default\" style=\"display:inline;\" (click)=\"closeModal('modalDate')\">Cancel</button>\n                </form>\n            </div>\n        </div>\n    </div>\n    <div class=\"modal-background\"></div>\n</modal>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/mapdata/mapdata-list.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapdataListComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__systemmaps_systemmap__ = __webpack_require__("../../../../../src/systemmaps/systemmap.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__systemmaps_systemmap_service__ = __webpack_require__("../../../../../src/systemmaps/systemmap.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__systemunitmaps_systemunitmap__ = __webpack_require__("../../../../../src/systemunitmaps/systemunitmap.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__systemunitmaps_systemunitmap_service__ = __webpack_require__("../../../../../src/systemunitmaps/systemunitmap.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__systemunits_systemunit__ = __webpack_require__("../../../../../src/systemunits/systemunit.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__systemunits_systemunit_service__ = __webpack_require__("../../../../../src/systemunits/systemunit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__prohibitiondates_prohibitiondate__ = __webpack_require__("../../../../../src/prohibitiondates/prohibitiondate.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__prohibitiondates_prohibitiondate_service__ = __webpack_require__("../../../../../src/prohibitiondates/prohibitiondate.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__grid_column__ = __webpack_require__("../../../../../src/grid/column.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__modal_service__ = __webpack_require__("../../../../../src/modal.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var MapdataListComponent = /** @class */ (function () {
+    function MapdataListComponent(_systemmapService, _systemunitmapService, _systemunitService, _prohibitiondateService, _modalService) {
+        this._systemmapService = _systemmapService;
+        this._systemunitmapService = _systemunitmapService;
+        this._systemunitService = _systemunitService;
+        this._prohibitiondateService = _prohibitiondateService;
+        this._modalService = _modalService;
+        this.systemunitoptions = [];
+        this.systemunitsettings = {
+            enableSearch: true,
+            checkedStyle: 'fontawesome',
+            buttonClasses: 'btn btn-default btn-block',
+            dynamicTitleMaxItems: 3,
+            displayAllSelectedText: true
+        };
+        this.mySystemmap = new __WEBPACK_IMPORTED_MODULE_2__systemmaps_systemmap__["a" /* Systemmap */]();
+        this.mySystemunit = new __WEBPACK_IMPORTED_MODULE_6__systemunits_systemunit__["a" /* Systemunit */]();
+        this.myProhibitiondate = new __WEBPACK_IMPORTED_MODULE_8__prohibitiondates_prohibitiondate__["a" /* Prohibitiondate */]();
+        this._requiredFields = ['map_number', ' map_date', 'system_unit_number', 'prohibition_date', 'system_unit'];
+        this.notready = true;
+        this.noSystemmapsFound = true;
+        this.noSystemunitsFound = true;
+        this.noProhibitiondatesFound = true;
+        this._today = new Date();
+        this.myDatePickerOptions = {
+            dateFormat: 'mm/dd/yyyy',
+            disableSince: { year: this._today.getFullYear(), month: this._today.getMonth() + 1, day: this._today.getDate() + 1 }
+        };
+        // get the fields for each object type
+        this._mapFields = Object.keys(this.mySystemmap);
+        this._unitFields = Object.keys(this.mySystemunit);
+        this._dateFields = Object.keys(this.myProhibitiondate);
+        // make the controls for each control group
+        this._mapControls = this._makeControls(this._mapFields);
+        this._unitControls = this._makeControls(this._unitFields);
+        this._dateControls = this._makeControls(this._dateFields);
+        // populate the forms with the controls
+        this.mapForm = new __WEBPACK_IMPORTED_MODULE_11__angular_forms__["d" /* FormGroup */](this._mapControls);
+        this.unitForm = new __WEBPACK_IMPORTED_MODULE_11__angular_forms__["d" /* FormGroup */](this._unitControls);
+        this.dateForm = new __WEBPACK_IMPORTED_MODULE_11__angular_forms__["d" /* FormGroup */](this._dateControls);
+    }
+    MapdataListComponent.prototype._makeControls = function (fields) {
+        var controls = {};
+        for (var i = 0, j = fields.length; i < j; i++) {
+            // add a validator for required fields
+            if (this._requiredFields.indexOf(fields) > -1) {
+                controls[fields[i]] = new __WEBPACK_IMPORTED_MODULE_11__angular_forms__["c" /* FormControl */]({ value: '', disabled: false }, __WEBPACK_IMPORTED_MODULE_11__angular_forms__["h" /* Validators */].required);
+            }
+            else if (['system_units'].indexOf(fields[i]) > -1) {
+                // special case for Multiselect field
+                controls[fields[i]] = new __WEBPACK_IMPORTED_MODULE_11__angular_forms__["c" /* FormControl */]({ value: [], disabled: false });
+            }
+            else {
+                controls[fields[i]] = new __WEBPACK_IMPORTED_MODULE_11__angular_forms__["c" /* FormControl */]({ value: '', disabled: false });
+            }
+        }
+        return controls;
+    };
+    MapdataListComponent.prototype._updateControls = function (fields, controls, values) {
+        for (var i = 0, j = fields.length; i < j; i++) {
+            var field = fields[i];
+            if (field.slice(-4) === 'date') {
+                if (values[field] !== undefined && values[field] !== null) {
+                    var thisDate = new Date(values[field]);
+                    thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset() * 60000));
+                    controls[field].setValue({ date: { year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate() } });
+                }
+                else {
+                    controls[field].setValue('');
+                }
+            }
+            else {
+                controls[field].setValue(values[field]);
+            }
+        }
+    };
+    MapdataListComponent.prototype.ngOnInit = function () {
+        this._getSystemmaps();
+        this._getSystemunits();
+        this._getProhibitiondates();
+        this._getColumns();
+        // this.mapForm.controls['system_units'].valueChanges
+        //     .subscribe((selectedOptions) => {
+        //         console.log(selectedOptions);
+        //     });
+    };
+    MapdataListComponent.prototype._getSystemmaps = function (urlSearchParams) {
+        var _this = this;
+        this._systemmapService.getSystemmaps(new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* URLSearchParams */](urlSearchParams))
+            .subscribe(function (res) {
+            _this.systemmaps = res;
+            if (_this.systemmaps.length > 0) {
+                _this.noSystemmapsFound = false;
+                _this.notready = false;
+            }
+            else {
+                _this.noSystemmapsFound = true;
+                _this.notready = false;
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    MapdataListComponent.prototype._createSystemmap = function (map) {
+        var _this = this;
+        this.notready = true;
+        var system_units = map.system_units;
+        this._systemmapService.createSystemmap(map)
+            .subscribe(function (result) {
+            if (system_units) {
+                _this._createSystemunitmap(result.id, system_units);
+            }
+            _this._getSystemmaps();
+            _this.row = result;
+            _this._updateControls(_this._mapFields, _this._mapControls, result);
+        }, function (error) { return __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('ERROR: Could not create System Map' + ':\n'
+            + error['non_field_errors'][0], 10000); });
+    };
+    MapdataListComponent.prototype._updateSystemmap = function (map) {
+        var _this = this;
+        this.notready = true;
+        var system_units = map.system_units;
+        this._systemmapService.updateSystemmap(map)
+            .subscribe(function (result) {
+            if (system_units) {
+                _this._createSystemunitmap(result.id, system_units);
+            }
+            _this._getSystemmaps();
+            _this.row = result;
+            _this._updateControls(_this._mapFields, _this._mapControls, result);
+        }, function (error) { return __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('ERROR: Could not update System Map' + ':\n'
+            + error['non_field_errors'][0], 10000); });
+    };
+    MapdataListComponent.prototype._createSystemunitmap = function (mapID, unitIDs) {
+        var _this = this;
+        this.notready = true;
+        var _loop_1 = function (unitID) {
+            this_1._systemunitmapService.getSystemunitmaps(new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* URLSearchParams */]('unit=' + unitID.toString() + '&map=' + mapID.toString()))
+                .subscribe(function (res) {
+                if (res.length === 0) {
+                    _this._systemunitmapService.createSystemunitmap(new __WEBPACK_IMPORTED_MODULE_4__systemunitmaps_systemunitmap__["a" /* Systemunitmap */](unitID, mapID))
+                        .subscribe(function (result) { return _this.notready = false; }, function (error) { return _this._errorMessage = error; });
+                }
+            }, function (error) { return _this._errorMessage = error; });
+        };
+        var this_1 = this;
+        for (var _i = 0, unitIDs_1 = unitIDs; _i < unitIDs_1.length; _i++) {
+            var unitID = unitIDs_1[_i];
+            _loop_1(unitID);
+        }
+    };
+    MapdataListComponent.prototype._getSystemunits = function (urlSearchParams) {
+        var _this = this;
+        this._systemunitService.getSystemunits(new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* URLSearchParams */](urlSearchParams))
+            .subscribe(function (res) {
+            _this.systemunits = res;
+            if (_this.systemunits.length > 0) {
+                for (var i = 0, j = _this.systemunits.length; i < j; i++) {
+                    _this.systemunitoptions.push({ id: _this.systemunits[i].id, name: _this.systemunits[i].system_unit_number });
+                }
+                _this.noSystemunitsFound = false;
+                _this.notready = false;
+            }
+            else {
+                _this.noSystemunitsFound = true;
+                _this.notready = false;
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    MapdataListComponent.prototype._createSystemunit = function (unit) {
+        var _this = this;
+        this.notready = true;
+        this._systemunitService.createSystemunit(unit)
+            .subscribe(function (result) {
+            _this._getSystemunits();
+            _this.row = result;
+            _this._updateControls(_this._unitFields, _this._unitControls, result);
+        }, function (error) { return __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('ERROR: Could not create System Unit' + ':\n'
+            + error['non_field_errors'][0], 10000); });
+    };
+    MapdataListComponent.prototype._updateSystemunit = function (unit) {
+        var _this = this;
+        this.notready = true;
+        this._systemunitService.updateSystemunit(unit)
+            .subscribe(function (result) {
+            _this._getSystemunits();
+            _this.row = result;
+            _this._updateControls(_this._unitFields, _this._unitControls, result);
+        }, function (error) { return __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('ERROR: Could not update System Unit' + ':\n'
+            + error['non_field_errors'][0], 10000); });
+    };
+    MapdataListComponent.prototype._getProhibitiondates = function (urlSearchParams) {
+        var _this = this;
+        this._prohibitiondateService.getProhibitiondates(new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* URLSearchParams */](urlSearchParams))
+            .subscribe(function (res) {
+            _this.prohibitiondates = res;
+            if (_this.prohibitiondates.length > 0) {
+                _this.noProhibitiondatesFound = false;
+                _this.notready = false;
+            }
+            else {
+                _this.noProhibitiondatesFound = true;
+                _this.notready = false;
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    MapdataListComponent.prototype._createProhibitiondate = function (date) {
+        var _this = this;
+        this.notready = true;
+        this._prohibitiondateService.createProhibitiondate(date)
+            .subscribe(function (result) {
+            _this._getProhibitiondates();
+            _this.row = result;
+            _this._updateControls(_this._dateFields, _this._dateControls, result);
+        }, function (error) { return __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('ERROR: Could not create Prohibition Date' + ':\n'
+            + error['non_field_errors'][0], 10000); });
+    };
+    MapdataListComponent.prototype._updateProhibitiondate = function (date) {
+        var _this = this;
+        this.notready = true;
+        this._prohibitiondateService.updateProhibitiondate(date)
+            .subscribe(function (result) {
+            _this._getProhibitiondates();
+            _this.row = result;
+            _this._updateControls(_this._dateFields, _this._dateControls, result);
+        }, function (error) { return __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('ERROR: Could not update Prohibition Date' + ':\n'
+            + error['non_field_errors'][0], 10000); });
+    };
+    MapdataListComponent.prototype.deleteRow = function (modalID, recordID) {
+        var _this = this;
+        this.notready = true;
+        if (confirm('Are you certain you want to delete this record?')) {
+            switch (modalID) {
+                case 'modalMap':
+                    this._systemmapService.deleteSystemmap(recordID)
+                        .subscribe(function (res) {
+                        _this._getSystemmaps();
+                    }, function (err) { return console.log(err); });
+                    this.closeModal(modalID);
+                    break;
+                case 'modalUnit':
+                    this._systemunitService.deleteSystemunit(recordID)
+                        .subscribe(function (res) {
+                        _this._getSystemunits();
+                    }, function (err) { return console.log(err); });
+                    this.closeModal(modalID);
+                    break;
+                case 'modalDate':
+                    this._prohibitiondateService.deleteProhibitiondate(recordID)
+                        .subscribe(function (res) {
+                        _this._getProhibitiondates();
+                    }, function (err) { return console.log(err); });
+                    this.closeModal(modalID);
+                    break;
+                default:
+                    this.notready = false;
+                    break;
+            }
+        }
+    };
+    MapdataListComponent.prototype._getColumns = function () {
+        this.systemmapColumns = [
+            new __WEBPACK_IMPORTED_MODULE_10__grid_column__["a" /* Column */]('map_number', 'Map Number'),
+            new __WEBPACK_IMPORTED_MODULE_10__grid_column__["a" /* Column */]('map_title', 'Map Title'),
+            new __WEBPACK_IMPORTED_MODULE_10__grid_column__["a" /* Column */]('map_date', 'Map Date'),
+            new __WEBPACK_IMPORTED_MODULE_10__grid_column__["a" /* Column */]('system_units', 'Unit ID'),
+            new __WEBPACK_IMPORTED_MODULE_10__grid_column__["a" /* Column */]('effective', 'Effective'),
+        ];
+        this.systemunitColumns = [
+            new __WEBPACK_IMPORTED_MODULE_10__grid_column__["a" /* Column */]('system_unit_number', 'Unit Number'),
+            new __WEBPACK_IMPORTED_MODULE_10__grid_column__["a" /* Column */]('system_unit_name', 'Unit Name'),
+        ];
+        this.prohibitiondateColumns = [
+            new __WEBPACK_IMPORTED_MODULE_10__grid_column__["a" /* Column */]('system_unit', 'Unit ID'),
+            new __WEBPACK_IMPORTED_MODULE_10__grid_column__["a" /* Column */]('prohibition_date', 'Prohibition Date'),
+        ];
+    };
+    MapdataListComponent.prototype.filterGrid = function (filterID, filterValue) {
+        var filterClass = filterID.slice(0, -7);
+        switch (filterClass) {
+            case 'systemmap':
+                filterValue ? this._getSystemmaps('freetext=' + filterValue) : this._getSystemmaps();
+                break;
+            case 'systemunit':
+                filterValue ? this._getSystemunits('freetext=' + filterValue) : this._getSystemunits();
+                break;
+            case 'prohibitiondate':
+                filterValue ? this._getProhibitiondates('freetext=' + filterValue) : this._getProhibitiondates();
+                break;
+        }
+    };
+    MapdataListComponent.prototype.openModal = function (modalID, row) {
+        if (row) {
+            switch (modalID) {
+                case 'modalMap':
+                    this.row = row;
+                    this._updateControls(this._mapFields, this._mapControls, row);
+                    break;
+                case 'modalUnit':
+                    this.row = row;
+                    this._updateControls(this._unitFields, this._unitControls, row);
+                    break;
+                case 'modalDate':
+                    this.row = row;
+                    this._updateControls(this._dateFields, this._dateControls, row);
+                    break;
+                default:
+                    this.row = row;
+            }
+        }
+        else {
+            this._clearModalControls();
+        }
+        this._modalService.open(modalID);
+    };
+    MapdataListComponent.prototype.closeModal = function (modalID) {
+        this._modalService.close(modalID);
+        this._clearModalControls();
+        this.row = undefined;
+    };
+    MapdataListComponent.prototype._clearModalControls = function () {
+        this._updateControls(this._mapFields, this._mapControls, new __WEBPACK_IMPORTED_MODULE_2__systemmaps_systemmap__["a" /* Systemmap */]());
+        this._updateControls(this._unitFields, this._unitControls, new __WEBPACK_IMPORTED_MODULE_6__systemunits_systemunit__["a" /* Systemunit */]());
+        this._updateControls(this._dateFields, this._dateControls, new __WEBPACK_IMPORTED_MODULE_8__prohibitiondates_prohibitiondate__["a" /* Prohibitiondate */]());
+    };
+    MapdataListComponent.prototype.onSubmit = function (form, modalID) {
+        this.notready = true;
+        if (form.dirty) {
+            switch (modalID) {
+                case 'modalMap':
+                    var map = form.value;
+                    // validate that required fields have values
+                    if (!map.map_number || !map.map_date) {
+                        __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('System Map NOT saved:\n'
+                            + 'Map Number and Map Date must both have a value!');
+                    }
+                    else {
+                        var thisDate = map.map_date;
+                        if (thisDate === '') {
+                            map.map_date = null;
+                        }
+                        if (thisDate !== null) {
+                            thisDate = ('0000' + thisDate.date.year).slice(-4)
+                                + '-' + ('00' + thisDate.date.month).slice(-2)
+                                + '-' + ('00' + thisDate.date.day).slice(-2);
+                            map.map_date = thisDate;
+                        }
+                        if (map.id) {
+                            this._updateSystemmap(map);
+                        }
+                        else {
+                            this._createSystemmap(map);
+                        }
+                    }
+                    break;
+                case 'modalUnit':
+                    var unit = form.value;
+                    // validate that required fields have values
+                    if (!unit.system_unit_number) {
+                        __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('System Unit NOT saved:\nUnit Number must have a value!');
+                    }
+                    else {
+                        if (unit.id) {
+                            this._updateSystemunit(unit);
+                        }
+                        else {
+                            this._createSystemunit(unit);
+                        }
+                    }
+                    break;
+                case 'modalDate':
+                    var date = form.value;
+                    // validate that required fields have values
+                    if (!date.prohibition_date || !date.system_unit) {
+                        __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('Prohibition Date NOT saved:\n'
+                            + 'Unit Number and Prohibition Date must both have a value!');
+                    }
+                    else {
+                        if (date.id) {
+                            this._updateProhibitiondate(date);
+                        }
+                        else {
+                            this._createProhibitiondate(date);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        this.closeModal(modalID);
+        this.notready = false;
+    };
+    MapdataListComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: __webpack_require__("../../../../../src/mapdata/mapdata-list.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__systemmaps_systemmap_service__["a" /* SystemmapService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__systemmaps_systemmap_service__["a" /* SystemmapService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__systemunitmaps_systemunitmap_service__["a" /* SystemunitmapService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__systemunitmaps_systemunitmap_service__["a" /* SystemunitmapService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__systemunits_systemunit_service__["a" /* SystemunitService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__systemunits_systemunit_service__["a" /* SystemunitService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_9__prohibitiondates_prohibitiondate_service__["a" /* ProhibitiondateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__prohibitiondates_prohibitiondate_service__["a" /* ProhibitiondateService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_13__modal_service__["a" /* ModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__modal_service__["a" /* ModalService */]) === "function" && _e || Object])
+    ], MapdataListComponent);
+    return MapdataListComponent;
+    var _a, _b, _c, _d, _e;
+}());
+
+//# sourceMappingURL=mapdata-list.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/mapdata/mapdata.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapdataComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var MapdataComponent = /** @class */ (function () {
+    function MapdataComponent() {
+    }
+    MapdataComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: "<navbar></navbar><router-outlet></router-outlet>",
+        })
+    ], MapdataComponent);
+    return MapdataComponent;
+}());
+
+//# sourceMappingURL=mapdata.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/mapdata/mapdata.routes.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapdataRoutes; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__ = __webpack_require__("../../../../../src/authentication/authentication.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mapdata_component__ = __webpack_require__("../../../../../src/mapdata/mapdata.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mapdata_list_component__ = __webpack_require__("../../../../../src/mapdata/mapdata-list.component.ts");
+
+
+
+var MapdataRoutes = [
+    {
+        path: '',
+        redirectTo: '/mapdata',
+        pathMatch: 'full'
+    },
+    {
+        path: 'mapdata',
+        component: __WEBPACK_IMPORTED_MODULE_1__mapdata_component__["a" /* MapdataComponent */],
+        children: [
+            {
+                path: '',
+                component: __WEBPACK_IMPORTED_MODULE_2__mapdata_list_component__["a" /* MapdataListComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+            }
+        ]
+    }
+];
+//# sourceMappingURL=mapdata.routes.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/mapdata/prohibitiondate-grid.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProhibitiondateGridComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__grid_grid__ = __webpack_require__("../../../../../src/grid/grid.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ProhibitiondateGridComponent = /** @class */ (function (_super) {
+    __extends(ProhibitiondateGridComponent, _super);
+    function ProhibitiondateGridComponent(_router) {
+        var _this = _super.call(this) || this;
+        _this._router = _router;
+        _this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        return _this;
+    }
+    ProhibitiondateGridComponent.prototype.onClick = function (row) {
+        this.edit.emit(row);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _a || Object)
+    ], ProhibitiondateGridComponent.prototype, "edit", void 0);
+    ProhibitiondateGridComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'prohibitiondate-grid',
+            inputs: ['rows: rows', 'columns: columns', 'displayLookup: displayLookup'],
+            template: __webpack_require__("../../../../../src/mapdata/mapdata-grid.component.html"),
+            styles: ['.gridHeader {cursor:pointer;}']
+        }),
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _b || Object])
+    ], ProhibitiondateGridComponent);
+    return ProhibitiondateGridComponent;
+    var _a, _b;
+}(__WEBPACK_IMPORTED_MODULE_1__grid_grid__["a" /* Grid */]));
+
+//# sourceMappingURL=prohibitiondate-grid.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/mapdata/systemmap-grid.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SystemmapGridComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__grid_grid__ = __webpack_require__("../../../../../src/grid/grid.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SystemmapGridComponent = /** @class */ (function (_super) {
+    __extends(SystemmapGridComponent, _super);
+    function SystemmapGridComponent(_router) {
+        var _this = _super.call(this) || this;
+        _this._router = _router;
+        _this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        return _this;
+    }
+    SystemmapGridComponent.prototype.onClick = function (row) {
+        this.edit.emit(row);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _a || Object)
+    ], SystemmapGridComponent.prototype, "edit", void 0);
+    SystemmapGridComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'systemmap-grid',
+            inputs: ['rows: rows', 'columns: columns', 'displayLookup: displayLookup'],
+            template: __webpack_require__("../../../../../src/mapdata/mapdata-grid.component.html"),
+            styles: ['.gridHeader {cursor:pointer;}']
+        }),
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _b || Object])
+    ], SystemmapGridComponent);
+    return SystemmapGridComponent;
+    var _a, _b;
+}(__WEBPACK_IMPORTED_MODULE_1__grid_grid__["a" /* Grid */]));
+
+//# sourceMappingURL=systemmap-grid.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/mapdata/systemunit-grid.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SystemunitGridComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__grid_grid__ = __webpack_require__("../../../../../src/grid/grid.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SystemunitGridComponent = /** @class */ (function (_super) {
+    __extends(SystemunitGridComponent, _super);
+    function SystemunitGridComponent(_router) {
+        var _this = _super.call(this) || this;
+        _this._router = _router;
+        _this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        return _this;
+    }
+    SystemunitGridComponent.prototype.onClick = function (row) {
+        this.edit.emit(row);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _a || Object)
+    ], SystemunitGridComponent.prototype, "edit", void 0);
+    SystemunitGridComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'systemunit-grid',
+            inputs: ['rows: rows', 'columns: columns'],
+            template: __webpack_require__("../../../../../src/mapdata/mapdata-grid.component.html"),
+            styles: ['.gridHeader {cursor:pointer;}']
+        }),
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _b || Object])
+    ], SystemunitGridComponent);
+    return SystemunitGridComponent;
+    var _a, _b;
+}(__WEBPACK_IMPORTED_MODULE_1__grid_grid__["a" /* Grid */]));
+
+//# sourceMappingURL=systemunit-grid.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/modal.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_service__ = __webpack_require__("../../../../../src/modal.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+var ModalComponent = /** @class */ (function () {
+    function ModalComponent(modalService, el, document) {
+        this.modalService = modalService;
+        this.el = el;
+        this.document = document;
+        this.className = 'modal-open';
+        this.element = el.nativeElement;
+    }
+    ModalComponent.prototype.ngOnInit = function () {
+        var modal = this;
+        // ensure id attribute exists
+        if (!this.id) {
+            console.error('modal must have an id');
+            return;
+        }
+        // move element to bottom of page (just before </body>) so it can be displayed above everything else
+        this.document.body.appendChild(this.element);
+        // add self (this modal instance) to the modal service so it's accessible from controllers
+        this.modalService.add(this);
+    };
+    // remove self from modal service when directive is destroyed
+    ModalComponent.prototype.ngOnDestroy = function () {
+        this.modalService.remove(this.id);
+        this.element.remove();
+    };
+    // open modal
+    ModalComponent.prototype.open = function () {
+        this.element.style.display = 'block';
+        this.document.body.className ?
+            this.document.body.className += ' ' + this.className :
+            this.document.body.className += this.className;
+    };
+    // close modal
+    ModalComponent.prototype.close = function () {
+        this.element.style.display = 'none';
+        this.document.body.className = this.document.body.className.replace(this.className, '');
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], ModalComponent.prototype, "id", void 0);
+    ModalComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'modal',
+            template: '<ng-content></ng-content>'
+        }),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["b" /* DOCUMENT */])),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__modal_service__["a" /* ModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__modal_service__["a" /* ModalService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */]) === "function" && _b || Object, Object])
+    ], ModalComponent);
+    return ModalComponent;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=modal.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/modal.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalService; });
+var ModalService = /** @class */ (function () {
+    function ModalService() {
+        this.modals = [];
+    }
+    ModalService.prototype.add = function (modal) {
+        // add modal to array of active modals
+        this.modals.push(modal);
+    };
+    ModalService.prototype.remove = function (id) {
+        // remove modal from array of active modals
+        var modalToRemove = this.modals.find(function (o) { return o.id === id; });
+        this.modals = this.modals.filter(function (val) { return val !== modalToRemove; });
+    };
+    ModalService.prototype.open = function (id) {
+        // open modal specified by id
+        var modal = this.modals.find(function (o) { return o.id === id; });
+        modal.open();
+    };
+    ModalService.prototype.close = function (id) {
+        // close modal specified by id
+        var modal = this.modals.find(function (o) { return o.id === id; });
+        modal.close();
+    };
+    return ModalService;
+}());
+
+//# sourceMappingURL=modal.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/navbar.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<nav [hidden]=\"hideNavbar\">\n    <div style=\"float: left;\">\n        <a routerLink=\"/workbench\" [queryParams]=\"{home: true}\">Workbench</a>\n        <!-- <a href=\"../../cbrsrequests/\">Create Case</a> -->\n        <a routerLink=\"/workbench/new\">Create Case</a>\n        <a routerLink=\"/mapdata\">Map Data</a>\n        <a routerLink=\"/reports\">Reports</a>\n        <a routerLink=\"/tags\">Tags</a>\n    </div>\n    <div style=\"float: right;\">\n        <b class=\"nav-user\">User: {{ first_name }} {{ last_name }}</b>\n        <a (click)=\"onLogout()\">Logout <i class=\"fa fa-sign-out\"></i></a>\n    </div>\n</nav>\n<div id=\"cbrs_toast\" class=\"cbrsToast\"></div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/navbar.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavbarComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__ = __webpack_require__("../../../../../src/authentication/authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var NavbarComponent = /** @class */ (function () {
+    function NavbarComponent(_authenticationService, _router) {
+        this._authenticationService = _authenticationService;
+        this._router = _router;
+        this.hideNavbar = false;
+    }
+    NavbarComponent.prototype.ngOnInit = function () {
+        this.hideNavbar = !__WEBPACK_IMPORTED_MODULE_3__app_settings__["a" /* APP_SETTINGS */].IS_LOGGEDIN;
+        this.first_name = sessionStorage.getItem('first_name');
+        this.last_name = sessionStorage.getItem('last_name');
+    };
+    NavbarComponent.prototype.onLogout = function () {
+        this._authenticationService.logout();
+    };
+    NavbarComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'navbar',
+            template: __webpack_require__("../../../../../src/navbar.component.html"),
+            providers: [__WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__["a" /* AuthenticationService */]]
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__authentication_authentication_service__["a" /* AuthenticationService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object])
+    ], NavbarComponent);
+    return NavbarComponent;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=navbar.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/polyfills.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_core_js_es6_symbol__ = __webpack_require__("../../../../core-js/es6/symbol.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_core_js_es6_symbol___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_core_js_es6_symbol__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_core_js_es6_object__ = __webpack_require__("../../../../core-js/es6/object.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_core_js_es6_object___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_core_js_es6_object__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_core_js_es6_function__ = __webpack_require__("../../../../core-js/es6/function.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_core_js_es6_function___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_core_js_es6_function__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_es6_parse_int__ = __webpack_require__("../../../../core-js/es6/parse-int.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_es6_parse_int___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_core_js_es6_parse_int__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_core_js_es6_parse_float__ = __webpack_require__("../../../../core-js/es6/parse-float.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_core_js_es6_parse_float___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_core_js_es6_parse_float__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_core_js_es6_number__ = __webpack_require__("../../../../core-js/es6/number.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_core_js_es6_number___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_core_js_es6_number__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_core_js_es6_math__ = __webpack_require__("../../../../core-js/es6/math.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_core_js_es6_math___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_core_js_es6_math__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_core_js_es6_string__ = __webpack_require__("../../../../core-js/es6/string.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_core_js_es6_string___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_core_js_es6_string__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_core_js_es6_date__ = __webpack_require__("../../../../core-js/es6/date.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_core_js_es6_date___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_core_js_es6_date__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_core_js_es6_array__ = __webpack_require__("../../../../core-js/es6/array.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_core_js_es6_array___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_core_js_es6_array__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_core_js_es6_regexp__ = __webpack_require__("../../../../core-js/es6/regexp.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_core_js_es6_regexp___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_core_js_es6_regexp__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_core_js_es6_map__ = __webpack_require__("../../../../core-js/es6/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_core_js_es6_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_core_js_es6_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_core_js_es6_set__ = __webpack_require__("../../../../core-js/es6/set.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_core_js_es6_set___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_core_js_es6_set__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect__ = __webpack_require__("../../../../core-js/es6/reflect.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect__ = __webpack_require__("../../../../core-js/es7/reflect.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__ = __webpack_require__("../../../../zone.js/dist/zone.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__);
+// This file includes polyfills needed by Angular 2 and is loaded before
+// the app. You can add your own extra polyfills to this file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//# sourceMappingURL=polyfills.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/prohibitiondates/prohibitiondate.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProhibitiondateService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var ProhibitiondateService = /** @class */ (function () {
+    function ProhibitiondateService(http) {
+        this.http = http;
+    }
+    ProhibitiondateService.prototype.getProhibitiondate = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITPROHIBITIONDATES_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    ProhibitiondateService.prototype.getProhibitiondates = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITPROHIBITIONDATES_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    ProhibitiondateService.prototype.createProhibitiondate = function (systemmap) {
+        var body = JSON.stringify(systemmap);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITPROHIBITIONDATES_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    ProhibitiondateService.prototype.updateProhibitiondate = function (prohibitiondate) {
+        // pull out the ID
+        var id = prohibitiondate.id;
+        delete prohibitiondate['id'];
+        var body = JSON.stringify(prohibitiondate);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITPROHIBITIONDATES_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    ProhibitiondateService.prototype.deleteProhibitiondate = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITPROHIBITIONDATES_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    ProhibitiondateService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    ProhibitiondateService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], ProhibitiondateService);
+    return ProhibitiondateService;
+    var _a;
+}());
+
+//# sourceMappingURL=prohibitiondate.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/prohibitiondates/prohibitiondate.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Prohibitiondate; });
+var Prohibitiondate = /** @class */ (function () {
+    function Prohibitiondate(system_unit, prohibition_date, id) {
+        this.system_unit = system_unit;
+        this.prohibition_date = prohibition_date;
+        this.id = id;
+    }
+    return Prohibitiondate;
+}());
+
+//# sourceMappingURL=prohibitiondate.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/properties/property.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PropertyService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var PropertyService = /** @class */ (function () {
+    function PropertyService(http) {
+        this.http = http;
+    }
+    PropertyService.prototype.getProperty = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].PROPERTIES_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    PropertyService.prototype.getProperties = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].PROPERTIES_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    PropertyService.prototype.createProperty = function (property) {
+        var body = JSON.stringify(property);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].PROPERTIES_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    PropertyService.prototype.updateProperty = function (property) {
+        // pull out the ID
+        var id = property.id;
+        delete property['id'];
+        var body = JSON.stringify(property);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].PROPERTIES_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    PropertyService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    PropertyService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], PropertyService);
+    return PropertyService;
+    var _a;
+}());
+
+//# sourceMappingURL=property.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/properties/property.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Property; });
+var Property = /** @class */ (function () {
+    function Property(street, city, state, zipcode, unit, legal_description, subdivision, policy_number, id) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.unit = unit;
+        this.legal_description = legal_description;
+        this.subdivision = subdivision;
+        this.policy_number = policy_number;
+        this.id = id;
+    }
+    return Property;
+}());
+
+//# sourceMappingURL=property.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-case-count.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportCaseCountService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var ReportCaseCountService = /** @class */ (function () {
+    function ReportCaseCountService(http) {
+        this.http = http;
+    }
+    ReportCaseCountService.prototype.getReportCaseCounts = function () {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].REPORTCASECOUNTS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    ReportCaseCountService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    ReportCaseCountService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], ReportCaseCountService);
+    return ReportCaseCountService;
+    var _a;
+}());
+
+//# sourceMappingURL=report-case-count.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-case.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportCaseService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var ReportCaseService = /** @class */ (function () {
+    function ReportCaseService(http) {
+        this.http = http;
+    }
+    ReportCaseService.prototype.getReportCases = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].REPORTCASES_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    ReportCaseService.prototype.getReportCasesCSV = function (urlSearchParams) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var filename = '';
+                        var disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        resolve([xhr.response, filename]);
+                    }
+                    else {
+                        reject(xhr.response);
+                    }
+                }
+            };
+            xhr.responseType = 'blob';
+            xhr.open('GET', __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].REPORTCASES_URL + '?' + urlSearchParams, true);
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')));
+            xhr.send();
+        });
+    };
+    ReportCaseService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    ReportCaseService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], ReportCaseService);
+    return ReportCaseService;
+    var _a;
+}());
+
+//# sourceMappingURL=report-case.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-cases-by-unit.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i></div>\n<div [hidden]=\"notready\">\n    <div align=\"center\">\n        <label for=\"cbrs_unit_top\">CBRS Unit</label>\n        <select id=\"cbrs_unit_top\" (change)=\"onFilter(newUnitTop.value)\" #newUnitTop>\n            <option value=\"\"></option>\n            <option *ngFor=\"let unit of systemunits\" [value]=\"unit.id\" [selected]=\"unit.id == selected_unit\">{{unit.system_unit_number}}</option>\n        </select>\n        <br/><br/>\n        <!-- <button class=\"btn btn-default btn-save-all\" (click)=\"clearFilter()\">Clear</button> -->\n        <button type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"prevPage(newUnitTop.value)\"><i class=\"fa fa-arrow-left\"></i> Prev Page</button>\n        <button type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"exportToCSV(newUnitTop.value)\"><i class=\"fa fa-download\"></i> Export CSV</button>\n        <button type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"nextPage(newUnitTop.value)\">Next Page <i class=\"fa fa-arrow-right\"></i></button>\n    </div>\n    <report-grid [rows]=\"cases_properties\" [columns]=\"columns\"></report-grid>\n    <div align=\"center\">\n        <label for=\"cbrs_unit_bottom\">CBRS Unit</label>\n        <select id=\"cbrs_unit_bottom\" (change)=\"onFilter(newUnitBottom.value)\" #newUnitBottom>\n            <option value=\"\"></option>\n            <option *ngFor=\"let unit of systemunits\" [value]=\"unit.id\" [selected]=\"unit.id == selected_unit\">{{unit.system_unit_number}}</option>\n        </select>\n        <br/><br/>\n        <!-- <button class=\"btn btn-default btn-save-all\" (click)=\"clearFilter()\">Clear</button> -->\n        <button type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"prevPage(newUnitBottom.value)\"><i class=\"fa fa-arrow-left\"></i> Prev Page</button>\n        <button type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"exportToCSV(newUnitBottom.value)\"><i class=\"fa fa-download\"></i> Export CSV</button>\n        <button type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"nextPage(newUnitBottom.value)\">Next Page <i class=\"fa fa-arrow-right\"></i></button>\n    </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-cases-by-unit.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportCasesByUnitComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__report_case_service__ = __webpack_require__("../../../../../src/reports/report-case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__systemunits_systemunit_service__ = __webpack_require__("../../../../../src/systemunits/systemunit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__grid_column__ = __webpack_require__("../../../../../src/grid/column.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_file_saver__ = __webpack_require__("../../../../file-saver/FileSaver.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_file_saver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_file_saver__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+var ReportCasesByUnitComponent = /** @class */ (function () {
+    function ReportCasesByUnitComponent(_route, _reportCaseService, _systemunitService) {
+        this._route = _route;
+        this._reportCaseService = _reportCaseService;
+        this._systemunitService = _systemunitService;
+        this.page_size = 100;
+        this._reportcases = [];
+        this.cases_properties = [];
+        this.notready = true;
+    }
+    ReportCasesByUnitComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._params = this._route.queryParams
+            .subscribe(function (params) {
+            if (params['units']) {
+                var urlSearchParams = 'report=casesbyunit&cbrs_unit=' + params['units'];
+                _this.selected_unit = Number(params['units']);
+                _this._getReportCases(urlSearchParams);
+                _this._getSystemunits();
+                _this._getColumns();
+            }
+            else {
+                _this._getReportCases();
+                _this._getSystemunits();
+                _this._getColumns();
+            }
+        });
+    };
+    ReportCasesByUnitComponent.prototype.ngOnDestroy = function () {
+        if (this._params) {
+            this._params.unsubscribe();
+        }
+    };
+    ReportCasesByUnitComponent.prototype.prevPage = function (unit) {
+        if (this._prevPage == null) {
+            __WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].showToast('This is the first page.');
+        }
+        else {
+            this.notready = true;
+            var prevPageNum = void 0;
+            var ndxStart = this._prevPage.indexOf('page=');
+            if (ndxStart === -1) {
+                var urlSearchParams = (unit.toString() === '') ? null : 'report=casesbyunit&cbrs_unit=' + unit.toString();
+                this._getReportCases(urlSearchParams);
+            }
+            else {
+                ndxStart += 5;
+                var ndxEnd = this._prevPage.indexOf('&', ndxStart);
+                ndxEnd === -1 ? prevPageNum = this._prevPage.slice(ndxStart) : prevPageNum = this._prevPage.slice(ndxStart, ndxEnd);
+                var urlSearchParams = (unit.toString() === '') ?
+                    'page=' + prevPageNum + '&report=casesbyunit' : 'page=' + prevPageNum + '&report=casesbyunit';
+                this._getReportCases(urlSearchParams);
+            }
+        }
+    };
+    ReportCasesByUnitComponent.prototype.nextPage = function (unit) {
+        if (this._nextPage == null) {
+            __WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].showToast('This is the last page.');
+        }
+        else {
+            this.notready = true;
+            var nextPageNum = void 0;
+            var ndxStart = this._nextPage.indexOf('page=') + 5;
+            var ndxEnd = this._nextPage.indexOf('&', ndxStart);
+            ndxEnd === -1 ? nextPageNum = this._nextPage.slice(ndxStart) : nextPageNum = this._nextPage.slice(ndxStart, ndxEnd);
+            var urlSearchParams = (unit.toString() === '') ?
+                'page=' + nextPageNum + '&report=casesbyunit' :
+                'page=' + nextPageNum + '&report=casesbyunit' + '&cbrs_unit=' + unit.toString();
+            this._getReportCases(urlSearchParams);
+        }
+    };
+    ReportCasesByUnitComponent.prototype.onFilter = function (unit) {
+        this.notready = true;
+        this.selected_unit = unit;
+        var urlSearchParams = (unit.toString() === '') ? null : 'report=casesbyunit&cbrs_unit=' + unit.toString();
+        this._getReportCases(urlSearchParams);
+    };
+    ReportCasesByUnitComponent.prototype.clearFilter = function () {
+        this.notready = true;
+        this.selected_unit = null;
+        this._getReportCases();
+    };
+    ReportCasesByUnitComponent.prototype.exportToCSV = function (unit) {
+        this.notready = true;
+        var urlSearchParams = (unit.toString() === '') ?
+            'report=casesbyunit&format=csv&page_size=' + this.page_size :
+            'report=casesbyunit&format=csv&page_size=' + this.page_size + '&cbrs_unit=' + unit.toString();
+        this._getReportCasesCSV(urlSearchParams);
+    };
+    ReportCasesByUnitComponent.prototype._getReportCasesCSV = function (urlSearchParams) {
+        this._reportCaseService.getReportCasesCSV(urlSearchParams)
+            .then(function (data) {
+            var blob = new Blob([data[0]], { type: 'text/csv' });
+            __WEBPACK_IMPORTED_MODULE_7_file_saver__["saveAs"](blob, data[1]);
+        });
+    };
+    ReportCasesByUnitComponent.prototype._getReportCases = function (newUrlSearchParams) {
+        var _this = this;
+        var urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=casesbyunit';
+        this._reportCaseService.getReportCases(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */](urlSearchParams))
+            .subscribe(function (reportcases) {
+            if (Number(reportcases.count) > 0) {
+                __WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].showToast(reportcases.count + ' cases found.');
+                var max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
+                _this.page_size < 100 ? _this.page_size = 100 : _this.page_size = max_records;
+                _this._prevPage = reportcases.previous;
+                _this._nextPage = reportcases.next;
+                _this._reportcases.length = 0;
+                _this._reportcases = reportcases.results;
+                _this.cases_properties.length = 0;
+                for (var i = 0, j = _this._reportcases.length; i < j; i++) {
+                    var case_property = _this._reportcases[i];
+                    var address = case_property.property_string.split(',');
+                    case_property.street_address = address[0];
+                    delete case_property['property_string'];
+                    _this.cases_properties.push(case_property);
+                    // if (this._reportcases.length == this.cases_properties.length - 1) {
+                    //     this._sortAndShow();
+                    // }
+                }
+                setTimeout(function () {
+                    _this._sortAndShow();
+                }, 500);
+            }
+            else {
+                _this.notready = false;
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    ReportCasesByUnitComponent.prototype._getSystemunits = function () {
+        var _this = this;
+        this._systemunitService.getSystemunits()
+            .subscribe(function (systemunits) {
+            _this.systemunits = systemunits.sort(__WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].dynamicSort('system_unit_number'));
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    ReportCasesByUnitComponent.prototype._getColumns = function () {
+        this.columns = [
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('id', 'Case ID'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('status', 'Status'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('prohibition_date', 'Prohibition Date'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('cbrs_unit_string', 'CBRS Unit'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('request_date', 'Request Date'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('final_letter_date', 'Final Letter Date'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('determination_string', 'Determination'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('street_address', 'Street Address'),
+        ];
+    };
+    ReportCasesByUnitComponent.prototype._sortAndShow = function () {
+        this.cases_properties.sort(__WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].dynamicSort('id'));
+        this.notready = false;
+    };
+    ReportCasesByUnitComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: __webpack_require__("../../../../../src/reports/report-cases-by-unit.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__report_case_service__["a" /* ReportCaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__report_case_service__["a" /* ReportCaseService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__systemunits_systemunit_service__["a" /* SystemunitService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__systemunits_systemunit_service__["a" /* SystemunitService */]) === "function" && _c || Object])
+    ], ReportCasesByUnitComponent);
+    return ReportCasesByUnitComponent;
+    var _a, _b, _c;
+}());
+
+//# sourceMappingURL=report-cases-by-unit.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-count-cases-by-status.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportCountCasesByStatusComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__report_case_count_service__ = __webpack_require__("../../../../../src/reports/report-case-count.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__grid_column__ = __webpack_require__("../../../../../src/grid/column.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ReportCountCasesByStatusComponent = /** @class */ (function () {
+    function ReportCountCasesByStatusComponent(_route, _reportCaseCountService) {
+        this._route = _route;
+        this._reportCaseCountService = _reportCaseCountService;
+        this.paginated = false;
+        this.allow_filter = false;
+        this.notready = true;
+    }
+    ReportCountCasesByStatusComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._params = this._route.queryParams
+            .subscribe(function (params) {
+            _this._getCaseCounts();
+            _this._getColumns();
+        });
+    };
+    ReportCountCasesByStatusComponent.prototype.exportToCSV = function () {
+        var filename = 'Report_CountCasesByStatus_' + __WEBPACK_IMPORTED_MODULE_4__app_utilities__["a" /* APP_UTILITIES */].TODAY + '.csv';
+        __WEBPACK_IMPORTED_MODULE_4__app_utilities__["a" /* APP_UTILITIES */].downloadCSV({ filename: filename, data: this.reportcases, headers: this.columns });
+    };
+    ReportCountCasesByStatusComponent.prototype._getCaseCounts = function () {
+        var _this = this;
+        this._reportCaseCountService.getReportCaseCounts()
+            .subscribe(function (reportcases) {
+            _this.reportcases = reportcases;
+            _this._show();
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    ReportCountCasesByStatusComponent.prototype._getColumns = function () {
+        this.columns = [
+            new __WEBPACK_IMPORTED_MODULE_3__grid_column__["a" /* Column */]('count_received', 'Count Received'),
+            new __WEBPACK_IMPORTED_MODULE_3__grid_column__["a" /* Column */]('count_awaiting_level_1_qc', 'Count Awaiting Level 1 QC'),
+            new __WEBPACK_IMPORTED_MODULE_3__grid_column__["a" /* Column */]('count_awaiting_level_2_qc', 'Count Awaiting Level 2 QC'),
+            new __WEBPACK_IMPORTED_MODULE_3__grid_column__["a" /* Column */]('count_awaiting_final_letter', 'Count Awaiting Final Letter'),
+            new __WEBPACK_IMPORTED_MODULE_3__grid_column__["a" /* Column */]('count_closed', 'Count Closed'),
+            new __WEBPACK_IMPORTED_MODULE_3__grid_column__["a" /* Column */]('count_closed_no_final_letter', 'Count Closed with No Final Letter'),
+        ];
+    };
+    ReportCountCasesByStatusComponent.prototype._show = function () {
+        this.notready = false;
+    };
+    ReportCountCasesByStatusComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: __webpack_require__("../../../../../src/reports/report-detail.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__report_case_count_service__["a" /* ReportCaseCountService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__report_case_count_service__["a" /* ReportCaseCountService */]) === "function" && _b || Object])
+    ], ReportCountCasesByStatusComponent);
+    return ReportCountCasesByStatusComponent;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=report-count-cases-by-status.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-days-to-each-status.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportDaysToEachStatusComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__report_case_service__ = __webpack_require__("../../../../../src/reports/report-case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__report_filter_component__ = __webpack_require__("../../../../../src/reports/report-filter.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__grid_column__ = __webpack_require__("../../../../../src/grid/column.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_file_saver__ = __webpack_require__("../../../../file-saver/FileSaver.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_file_saver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_file_saver__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+var ReportDaysToEachStatusComponent = /** @class */ (function () {
+    function ReportDaysToEachStatusComponent(_route, _reportCaseService) {
+        this._route = _route;
+        this._reportCaseService = _reportCaseService;
+        this.paginated = true;
+        this.allow_filter = true;
+        this.page_size = 100;
+        this.notready = true;
+        this.hideFilter = true;
+    }
+    ReportDaysToEachStatusComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._params = this._route.queryParams
+            .subscribe(function (params) {
+            _this._getReportCases();
+            _this._getColumns();
+        });
+    };
+    ReportDaysToEachStatusComponent.prototype.prevPage = function () {
+        if (this._prevPage == null) {
+            __WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].showToast('This is the first page.');
+        }
+        else {
+            this.notready = true;
+            var prevPageNum = void 0;
+            var ndxStart = this._prevPage.indexOf('page=');
+            if (ndxStart === -1) {
+                var urlSearchParams = 'report=daystoeachstatus';
+                this._getReportCases(urlSearchParams);
+            }
+            else {
+                ndxStart += 5;
+                var ndxEnd = this._prevPage.indexOf('&', ndxStart);
+                ndxEnd === -1 ? prevPageNum = this._prevPage.slice(ndxStart) : prevPageNum = this._prevPage.slice(ndxStart, ndxEnd);
+                var urlSearchParams = 'page=' + prevPageNum + '&report=daystoeachstatus';
+                this._getReportCases(urlSearchParams);
+            }
+        }
+    };
+    ReportDaysToEachStatusComponent.prototype.nextPage = function () {
+        if (this._nextPage == null) {
+            __WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].showToast('This is the last page.');
+        }
+        else {
+            this.notready = true;
+            var nextPageNum = void 0;
+            var ndxStart = this._nextPage.indexOf('page=') + 5;
+            var ndxEnd = this._nextPage.indexOf('&', ndxStart);
+            ndxEnd === -1 ? nextPageNum = this._nextPage.slice(ndxStart) : nextPageNum = this._nextPage.slice(ndxStart, ndxEnd);
+            var urlSearchParams = 'page=' + nextPageNum + '&report=daystoeachstatus';
+            this._getReportCases(urlSearchParams);
+        }
+    };
+    ReportDaysToEachStatusComponent.prototype.exportToCSV = function (unit) {
+        var urlSearchParams = 'report=daystoeachstatus&format=csv&page_size=' + this.page_size;
+        this._getReportCasesCSV(urlSearchParams);
+    };
+    ReportDaysToEachStatusComponent.prototype._getReportCasesCSV = function (urlSearchParams) {
+        this._reportCaseService.getReportCasesCSV(urlSearchParams)
+            .then(function (data) {
+            var blob = new Blob([data[0]], { type: 'text/csv' });
+            __WEBPACK_IMPORTED_MODULE_7_file_saver__["saveAs"](blob, data[1]);
+        });
+    };
+    ReportDaysToEachStatusComponent.prototype.toggleFilter = function () {
+        this.hideFilter ? this.hideFilter = false : this.hideFilter = true;
+    };
+    ReportDaysToEachStatusComponent.prototype.onFilter = function (urlSearchParams) {
+        this._getReportCases(urlSearchParams);
+    };
+    ReportDaysToEachStatusComponent.prototype._getReportCases = function (newUrlSearchParams) {
+        var _this = this;
+        var urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=daystoeachstatus';
+        this._reportCaseService.getReportCases(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */](urlSearchParams))
+            .subscribe(function (reportcases) {
+            if (Number(reportcases.count) > 0) {
+                __WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].showToast(reportcases.count + ' cases found.');
+                var max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
+                _this.page_size < 100 ? _this.page_size = 100 : _this.page_size = max_records;
+                _this._prevPage = reportcases.previous;
+                _this._nextPage = reportcases.next;
+                _this.reportcases = reportcases.results;
+                _this._sortAndShow();
+            }
+            else {
+                _this.notready = false;
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    ReportDaysToEachStatusComponent.prototype._getColumns = function () {
+        this.columns = [
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('id', 'Case ID'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('case_reference', 'Case Reference'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('request_date', 'Request Date'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('analyst_signoff_date', 'Awaiting QC'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('analyst_days', 'Days to QC'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('qc_reviewer_signoff_date', 'Awaiting Final Letter Date'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('qc_reviewer_days', 'Days to Awaiting Final Letter'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('final_letter_date', 'Final Letter Date'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('final_letter_days', 'Days to Final Letter'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('close_date', 'Close Date'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('close_days', 'Days to Close'),
+        ];
+    };
+    ReportDaysToEachStatusComponent.prototype._sortAndShow = function () {
+        this.reportcases.sort(__WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].dynamicSort('-close_days'));
+        this.notready = false;
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_4__report_filter_component__["a" /* ReportFilterComponent */]),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__report_filter_component__["a" /* ReportFilterComponent */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__report_filter_component__["a" /* ReportFilterComponent */]) === "function" && _a || Object)
+    ], ReportDaysToEachStatusComponent.prototype, "reportComponent", void 0);
+    ReportDaysToEachStatusComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: __webpack_require__("../../../../../src/reports/report-detail.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__report_case_service__["a" /* ReportCaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__report_case_service__["a" /* ReportCaseService */]) === "function" && _c || Object])
+    ], ReportDaysToEachStatusComponent);
+    return ReportDaysToEachStatusComponent;
+    var _a, _b, _c;
+}());
+
+//# sourceMappingURL=report-days-to-each-status.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-days-to-resolution.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportDaysToResolutionComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__report_case_service__ = __webpack_require__("../../../../../src/reports/report-case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__grid_column__ = __webpack_require__("../../../../../src/grid/column.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_file_saver__ = __webpack_require__("../../../../file-saver/FileSaver.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_file_saver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_file_saver__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var ReportDaysToResolutionComponent = /** @class */ (function () {
+    function ReportDaysToResolutionComponent(_route, _reportCaseService) {
+        this._route = _route;
+        this._reportCaseService = _reportCaseService;
+        this.paginated = true;
+        this.allow_filter = false;
+        this.page_size = 100;
+        this.notready = true;
+    }
+    ReportDaysToResolutionComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._params = this._route.queryParams
+            .subscribe(function (params) {
+            _this._getReportCases();
+            _this._getColumns();
+        });
+    };
+    ReportDaysToResolutionComponent.prototype.prevPage = function () {
+        if (this._prevPage == null) {
+            __WEBPACK_IMPORTED_MODULE_5__app_utilities__["a" /* APP_UTILITIES */].showToast('This is the first page.');
+        }
+        else {
+            this.notready = true;
+            var prevPageNum = void 0;
+            var ndxStart = this._prevPage.indexOf('page=');
+            if (ndxStart === -1) {
+                var urlSearchParams = 'report=daystoresolution';
+                this._getReportCases(urlSearchParams);
+            }
+            else {
+                ndxStart += 5;
+                var ndxEnd = this._prevPage.indexOf('&', ndxStart);
+                ndxEnd === -1 ? prevPageNum = this._prevPage.slice(ndxStart) : prevPageNum = this._prevPage.slice(ndxStart, ndxEnd);
+                var urlSearchParams = 'page=' + prevPageNum + '&report=daystoresolution';
+                this._getReportCases(urlSearchParams);
+            }
+        }
+    };
+    ReportDaysToResolutionComponent.prototype.nextPage = function () {
+        if (this._nextPage == null) {
+            __WEBPACK_IMPORTED_MODULE_5__app_utilities__["a" /* APP_UTILITIES */].showToast('This is the last page.');
+        }
+        else {
+            this.notready = true;
+            var nextPageNum = void 0;
+            var ndxStart = this._nextPage.indexOf('page=') + 5;
+            var ndxEnd = this._nextPage.indexOf('&', ndxStart);
+            ndxEnd === -1 ? nextPageNum = this._nextPage.slice(ndxStart) : nextPageNum = this._nextPage.slice(ndxStart, ndxEnd);
+            var urlSearchParams = 'page=' + nextPageNum + '&report=daystoresolution';
+            this._getReportCases(urlSearchParams);
+        }
+    };
+    ReportDaysToResolutionComponent.prototype.exportToCSV = function (unit) {
+        var urlSearchParams = 'report=daystoresolution&format=csv&page_size=' + this.page_size;
+        this._getReportCasesCSV(urlSearchParams);
+    };
+    ReportDaysToResolutionComponent.prototype._getReportCasesCSV = function (urlSearchParams) {
+        this._reportCaseService.getReportCasesCSV(urlSearchParams)
+            .then(function (data) {
+            var blob = new Blob([data[0]], { type: 'text/csv' });
+            __WEBPACK_IMPORTED_MODULE_6_file_saver__["saveAs"](blob, data[1]);
+        });
+    };
+    ReportDaysToResolutionComponent.prototype._getReportCases = function (newUrlSearchParams) {
+        var _this = this;
+        var urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=daystoresolution';
+        this._reportCaseService.getReportCases(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */](urlSearchParams))
+            .subscribe(function (reportcases) {
+            if (Number(reportcases.count) > 0) {
+                __WEBPACK_IMPORTED_MODULE_5__app_utilities__["a" /* APP_UTILITIES */].showToast(reportcases.count + ' cases found.');
+                var max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
+                _this.page_size < 100 ? _this.page_size = 100 : _this.page_size = max_records;
+                _this._prevPage = reportcases.previous;
+                _this._nextPage = reportcases.next;
+                _this.reportcases = reportcases.results;
+                _this._sortAndShow();
+            }
+            else {
+                _this.notready = false;
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    ReportDaysToResolutionComponent.prototype._getColumns = function () {
+        this.columns = [
+            new __WEBPACK_IMPORTED_MODULE_4__grid_column__["a" /* Column */]('id', 'Case ID'),
+            new __WEBPACK_IMPORTED_MODULE_4__grid_column__["a" /* Column */]('case_reference', 'Case Reference'),
+            new __WEBPACK_IMPORTED_MODULE_4__grid_column__["a" /* Column */]('request_date', 'Request Date'),
+            new __WEBPACK_IMPORTED_MODULE_4__grid_column__["a" /* Column */]('close_date', 'Close Date'),
+            new __WEBPACK_IMPORTED_MODULE_4__grid_column__["a" /* Column */]('close_days', 'Days to Close'),
+        ];
+    };
+    ReportDaysToResolutionComponent.prototype._sortAndShow = function () {
+        this.reportcases.sort(__WEBPACK_IMPORTED_MODULE_5__app_utilities__["a" /* APP_UTILITIES */].dynamicSort('-close_days'));
+        this.notready = false;
+    };
+    ReportDaysToResolutionComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: __webpack_require__("../../../../../src/reports/report-detail.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__report_case_service__["a" /* ReportCaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__report_case_service__["a" /* ReportCaseService */]) === "function" && _b || Object])
+    ], ReportDaysToResolutionComponent);
+    return ReportDaysToResolutionComponent;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=report-days-to-resolution.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-detail.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i></div>\n<div [hidden]=\"notready\">\n    <button *ngIf=\"allow_filter\" class=\"filter-cases-btn\" (click)=\"toggleFilter()\"><i class=\"fa fa-filter\"></i> Filter Cases</button>\n    <report-filter *ngIf=\"allow_filter\" [hidden]=\"hideFilter\" (onFilter)=\"onFilter($event)\"></report-filter>\n    <div align=\"center\">\n        <button *ngIf=\"paginated\" type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"prevPage()\"><i class=\"fa fa-arrow-left\"></i> Prev Page</button>\n        <button type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"exportToCSV()\"><i class=\"fa fa-download\"></i> Export CSV</button>\n        <button *ngIf=\"paginated\" type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"nextPage()\">Next Page <i class=\"fa fa-arrow-right\"></i></button>\n    </div>\n    <report-grid [rows]=\"reportcases\" [columns]=\"columns\"></report-grid>\n    <div align=\"center\">\n        <button *ngIf=\"paginated\" type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"prevPage()\"><i class=\"fa fa-arrow-left\"></i> Prev Page</button>\n        <button type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"exportToCSV()\"><i class=\"fa fa-download\"></i> Export CSV</button>\n        <button *ngIf=\"paginated\" type=\"button\" class=\"btn btn-default reports-export-btn\" style=\"display:inline;\" (click)=\"nextPage()\">Next Page <i class=\"fa fa-arrow-right\"></i></button>\n    </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-filter.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container cbrs-form\">\n\n    <div *ngIf=\"filternotready\" align=\"center\" id=\"loading-spinner\"><i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i><img src=\"https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif\"></div>\n    <div *ngIf=\"!filternotready\">\n\n        <form [formGroup]=\"form\" *ngIf=\"active\" (ngSubmit)=\"onSubmit(form)\">\n\n            <div class=\"dms-group noheader\">\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-3\"></div>\n\n                    <div class=\"col-md-2 dms-form-group bb br\">\n                        <label for=\"date_field\">Date Field</label>\n                        <select id=\"date_field\" formControlName=\"date_field\">\n                            <option value=\"\"></option>\n                            <option *ngFor=\"let dateField of myDateFields\" [value]=\"dateField.name\">{{dateField.label}}</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-md-2 dms-form-group bb br\">\n                        <label for=\"from_date\">From Date</label>\n                        <my-date-picker id=\"from_date\" [options]=\"myDatePickerOptions\" formControlName=\"from_date\"></my-date-picker>\n                    </div>\n\n                    <div class=\"col-md-2 dms-form-group bb br\">\n                        <label for=\"to_date\">To Date</label>\n                        <my-date-picker id=\"to_date\" [options]=\"myDatePickerOptions\" formControlName=\"to_date\"></my-date-picker>\n                    </div>\n\n                    <button type=\"submit\" class=\"btn btn-default btn-save-all-inline col-md-1\" [disabled]=\"!form.valid\">Search</button>\n\n                    <div class=\"col-md-3\"></div>\n\n                </div> <!-- /row -->\n\n            </div> <!-- /dms-group noheaders -->\n\n        </form>\n\n    </div> <!-- /filternotready -->\n\n</div> <!-- /container cbrs-form -->\n"
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-filter.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportFilterComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ReportFilterComponent = /** @class */ (function () {
+    function ReportFilterComponent(fb) {
+        this.onFilter = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.myDateFields = [
+            { name: 'request_date', label: 'Request Date' },
+            { name: 'fws_fo_received_date', label: 'Field Office Received Date' },
+            { name: 'fws_hq_received_date', label: 'Headquarters Received Date' },
+            { name: 'analyst_signoff_date', label: 'Analyst Signoff Date' },
+            { name: 'qc_reviewer_signoff_date', label: 'QC Reviewer Signoff Date' },
+            { name: 'final_letter_date', label: 'Final Letter Date' },
+            { name: 'close_date', label: 'Close Date' }
+        ];
+        this.active = true;
+        this.filternotready = true;
+        this.myDatePickerOptions = {
+            dateFormat: 'mm/dd/yyyy',
+        };
+        this.form = fb.group({
+            date_field: new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */](),
+            from_date: new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */](),
+            to_date: new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]()
+        });
+        this.filternotready = false;
+    }
+    ReportFilterComponent.prototype.onSubmit = function (form) {
+        // check each FormControl for changes
+        if (form.dirty) {
+            this.filternotready = true;
+            var urlSearchParams = 'report=daystoeachstatus';
+            var date_field_val = form.controls['date_field'].value;
+            var from_date_val = form.controls['from_date'].value;
+            console.log(from_date_val);
+            var to_date_val = form.controls['to_date'].value;
+            console.log(to_date_val);
+            if (date_field_val) {
+                urlSearchParams += '&date_field=' + date_field_val;
+            }
+            if (from_date_val) {
+                urlSearchParams += '&from_date=' + __WEBPACK_IMPORTED_MODULE_2__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(from_date_val);
+            }
+            if (to_date_val) {
+                urlSearchParams += '&to_date=' + __WEBPACK_IMPORTED_MODULE_2__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(to_date_val);
+            }
+            if (!date_field_val) {
+                __WEBPACK_IMPORTED_MODULE_2__app_utilities__["a" /* APP_UTILITIES */].showToast('You cannot filter without a date field selected.');
+                this.filternotready = false;
+            }
+            else if (!from_date_val && !to_date_val) {
+                __WEBPACK_IMPORTED_MODULE_2__app_utilities__["a" /* APP_UTILITIES */].showToast('You cannot filter without at least one date value (from or to) selected.');
+                this.filternotready = false;
+            }
+            else {
+                this.filternotready = false;
+                this.onFilter.emit(urlSearchParams);
+            }
+        }
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", Object)
+    ], ReportFilterComponent.prototype, "onFilter", void 0);
+    ReportFilterComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'report-filter',
+            template: __webpack_require__("../../../../../src/reports/report-filter.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */]) === "function" && _a || Object])
+    ], ReportFilterComponent);
+    return ReportFilterComponent;
+    var _a;
+}());
+
+//# sourceMappingURL=report-filter.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-grid.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\r\n    <table class=\"dms-table table table-bordered\">\r\n        <thead>\r\n            <tr>\r\n                <th *ngFor=\"let col of columns\"><a (click)=\"sort(col.name)\" class=\"gridHeader\">{{col.descr}} <i class=\"fa fa-sort\"></i></a></th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            <tr *ngFor=\"let row of rows\" (click)=\"onClick(row)\">\r\n                <td *ngFor=\"let col of columns\">{{row[col.name]}}</td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-grid.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportGridComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__grid_grid__ = __webpack_require__("../../../../../src/grid/grid.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ReportGridComponent = /** @class */ (function (_super) {
+    __extends(ReportGridComponent, _super);
+    function ReportGridComponent(_router) {
+        var _this = _super.call(this) || this;
+        _this._router = _router;
+        return _this;
+    }
+    ReportGridComponent.prototype.onClick = function (row) {
+        this._router.navigate(['/workbench', row.id]);
+    };
+    ReportGridComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'report-grid',
+            inputs: ['rows: rows', 'columns: columns'],
+            template: __webpack_require__("../../../../../src/reports/report-grid.component.html"),
+            styles: ['.gridHeader {cursor:pointer;}']
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _a || Object])
+    ], ReportGridComponent);
+    return ReportGridComponent;
+    var _a;
+}(__WEBPACK_IMPORTED_MODULE_1__grid_grid__["a" /* Grid */]));
+
+//# sourceMappingURL=report-grid.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-list.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\r\n    <h3 class=\"subheader\"><b>Reports</b></h3>\r\n    <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i></div>\r\n    <div [hidden]=\"notready\">\r\n        <ul class=\"reports-ul\">\r\n            <li>\r\n                <a [routerLink]=\"['/reports/casesbyunit']\">Cases by Unit</a>\r\n                <label for=\"cbrs_unit\">CBRS Unit</label>\r\n                <select id=\"cbrs_unit\" (change)=\"goToCasesByUnit(newUnit.value)\" #newUnit>\r\n                    <option value=\"\"></option>\r\n                    <option *ngFor=\"let unit of systemunits\" [value]=\"unit.id\">{{unit.system_unit_number}}</option>\r\n                </select>\r\n            </li>\r\n            <li>\r\n                <a [routerLink]=\"['/reports/daystoresolution']\">Days to Resolution</a>\r\n            </li>\r\n            <li>\r\n                <a [routerLink]=\"['/reports/daystoeachstatus']\">Days to Each Status Complete</a>\r\n            </li>\r\n            <li>\r\n                <a [routerLink]=\"['/reports/countcasesbystatus']\">Count of Cases by Status</a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report-list.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportListComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__systemunits_systemunit_service__ = __webpack_require__("../../../../../src/systemunits/systemunit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ReportListComponent = /** @class */ (function () {
+    function ReportListComponent(_router, _systemunitService) {
+        this._router = _router;
+        this._systemunitService = _systemunitService;
+        this.notready = true;
+        this._getSystemunits();
+    }
+    ReportListComponent.prototype._getSystemunits = function () {
+        var _this = this;
+        this._systemunitService.getSystemunits()
+            .subscribe(function (systemunits) {
+            _this.systemunits = systemunits.sort(__WEBPACK_IMPORTED_MODULE_3__app_utilities__["a" /* APP_UTILITIES */].dynamicSort('system_unit_number'));
+            _this.notready = false;
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    ReportListComponent.prototype.goToCasesByUnit = function (unit) {
+        this._router.navigate(['/reports/casesbyunit'], { queryParams: { 'units': unit } });
+    };
+    ReportListComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: __webpack_require__("../../../../../src/reports/report-list.component.html"),
+            providers: [__WEBPACK_IMPORTED_MODULE_2__systemunits_systemunit_service__["a" /* SystemunitService */]]
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__systemunits_systemunit_service__["a" /* SystemunitService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__systemunits_systemunit_service__["a" /* SystemunitService */]) === "function" && _b || Object])
+    ], ReportListComponent);
+    return ReportListComponent;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=report-list.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var ReportComponent = /** @class */ (function () {
+    function ReportComponent() {
+    }
+    ReportComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: "<navbar></navbar><router-outlet></router-outlet>"
+        })
+    ], ReportComponent);
+    return ReportComponent;
+}());
+
+//# sourceMappingURL=report.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/reports/report.routes.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportRoutes; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__ = __webpack_require__("../../../../../src/authentication/authentication.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__report_component__ = __webpack_require__("../../../../../src/reports/report.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__report_list_component__ = __webpack_require__("../../../../../src/reports/report-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__report_cases_by_unit_component__ = __webpack_require__("../../../../../src/reports/report-cases-by-unit.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__report_days_to_resolution_component__ = __webpack_require__("../../../../../src/reports/report-days-to-resolution.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__report_days_to_each_status_component__ = __webpack_require__("../../../../../src/reports/report-days-to-each-status.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__report_count_cases_by_status_component__ = __webpack_require__("../../../../../src/reports/report-count-cases-by-status.component.ts");
+
+
+
+
+
+
+
+var ReportRoutes = [
+    {
+        path: '',
+        redirectTo: 'reports',
+        pathMatch: 'full'
+    },
+    {
+        path: 'reports',
+        component: __WEBPACK_IMPORTED_MODULE_1__report_component__["a" /* ReportComponent */],
+        children: [
+            {
+                path: 'casesbyunit',
+                component: __WEBPACK_IMPORTED_MODULE_3__report_cases_by_unit_component__["a" /* ReportCasesByUnitComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+            },
+            {
+                path: 'daystoresolution',
+                component: __WEBPACK_IMPORTED_MODULE_4__report_days_to_resolution_component__["a" /* ReportDaysToResolutionComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+            },
+            {
+                path: 'daystoeachstatus',
+                component: __WEBPACK_IMPORTED_MODULE_5__report_days_to_each_status_component__["a" /* ReportDaysToEachStatusComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+            },
+            {
+                path: 'countcasesbystatus',
+                component: __WEBPACK_IMPORTED_MODULE_6__report_count_cases_by_status_component__["a" /* ReportCountCasesByStatusComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+            },
+            {
+                path: '',
+                component: __WEBPACK_IMPORTED_MODULE_2__report_list_component__["a" /* ReportListComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+            }
+        ]
+    }
+];
+//# sourceMappingURL=report.routes.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/requesters/requester.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RequesterService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var RequesterService = /** @class */ (function () {
+    function RequesterService(http) {
+        this.http = http;
+    }
+    RequesterService.prototype.getRequester = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].REQUESTERS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    RequesterService.prototype.getRequesters = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].REQUESTERS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    RequesterService.prototype.createRequester = function (requester) {
+        var body = JSON.stringify(requester);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].REQUESTERS_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    RequesterService.prototype.updateRequester = function (requester) {
+        // pull out the ID
+        var id = requester.id;
+        delete requester['id'];
+        var body = JSON.stringify(requester);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].REQUESTERS_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    RequesterService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    RequesterService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], RequesterService);
+    return RequesterService;
+    var _a;
+}());
+
+//# sourceMappingURL=requester.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/requesters/requester.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Requester; });
+var Requester = /** @class */ (function () {
+    function Requester(first_name, last_name, salutation, organization, email, street, unit, city, state, zipcode, id) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.salutation = salutation;
+        this.organization = organization;
+        this.email = email;
+        this.street = street;
+        this.unit = unit;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.id = id;
+    }
+    return Requester;
+}());
+
+//# sourceMappingURL=requester.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/systemmaps/systemmap.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SystemmapService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var SystemmapService = /** @class */ (function () {
+    function SystemmapService(http) {
+        this.http = http;
+    }
+    SystemmapService.prototype.getSystemmap = function (id) {
+        var _this = this;
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMMAPS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(function (err) { return _this.handleError(err); });
+    };
+    SystemmapService.prototype.getSystemmaps = function (searchArgs) {
+        var _this = this;
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMMAPS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(function (err) { return _this.handleError(err); });
+    };
+    SystemmapService.prototype.createSystemmap = function (systemmap) {
+        var _this = this;
+        var body = JSON.stringify(systemmap);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMMAPS_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(function (err) { return _this.handleError(err); });
+    };
+    SystemmapService.prototype.updateSystemmap = function (systemmap) {
+        var _this = this;
+        // pull out the ID
+        var id = systemmap.id;
+        delete systemmap['id'];
+        var body = JSON.stringify(systemmap);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMMAPS_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(function (err) { return _this.handleError(err); });
+    };
+    SystemmapService.prototype.deleteSystemmap = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMMAPS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemmapService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json() || 'Server error');
+    };
+    SystemmapService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], SystemmapService);
+    return SystemmapService;
+    var _a;
+}());
+
+//# sourceMappingURL=systemmap.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/systemmaps/systemmap.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Systemmap; });
+var Systemmap = /** @class */ (function () {
+    function Systemmap(map_number, map_title, map_date, system_units, effective, id) {
+        this.map_number = map_number;
+        this.map_title = map_title;
+        this.map_date = map_date;
+        this.system_units = system_units;
+        this.effective = effective;
+        this.id = id;
+    }
+    return Systemmap;
+}());
+
+//# sourceMappingURL=systemmap.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/systemunitmaps/systemunitmap.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SystemunitmapService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var SystemunitmapService = /** @class */ (function () {
+    function SystemunitmapService(http) {
+        this.http = http;
+    }
+    SystemunitmapService.prototype.getSystemunitmap = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITMAPS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemunitmapService.prototype.getSystemunitmaps = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITMAPS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemunitmapService.prototype.createSystemunitmap = function (systemunitmap) {
+        var body = JSON.stringify(systemunitmap);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITMAPS_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemunitmapService.prototype.updateSystemunitmap = function (systemunitmap) {
+        // pull out the ID
+        var id = systemunitmap.id;
+        delete systemunitmap['id'];
+        var body = JSON.stringify(systemunitmap);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITMAPS_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemunitmapService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    SystemunitmapService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], SystemunitmapService);
+    return SystemunitmapService;
+    var _a;
+}());
+
+//# sourceMappingURL=systemunitmap.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/systemunitmaps/systemunitmap.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Systemunitmap; });
+var Systemunitmap = /** @class */ (function () {
+    function Systemunitmap(system_unit, system_map, id) {
+        this.system_unit = system_unit;
+        this.system_map = system_map;
+        this.id = id;
+    }
+    return Systemunitmap;
+}());
+
+//# sourceMappingURL=systemunitmap.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/systemunits/systemunit.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SystemunitService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var SystemunitService = /** @class */ (function () {
+    function SystemunitService(http) {
+        this.http = http;
+    }
+    SystemunitService.prototype.getSystemunit = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemunitService.prototype.getSystemunits = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemunitService.prototype.createSystemunit = function (systemunit) {
+        var body = JSON.stringify(systemunit);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITS_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemunitService.prototype.updateSystemunit = function (systemunit) {
+        // pull out the ID
+        var id = systemunit.id;
+        delete systemunit['id'];
+        var body = JSON.stringify(systemunit);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITS_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemunitService.prototype.deleteSystemunit = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    SystemunitService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    SystemunitService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], SystemunitService);
+    return SystemunitService;
+    var _a;
+}());
+
+//# sourceMappingURL=systemunit.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/systemunits/systemunit.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Systemunit; });
+var Systemunit = /** @class */ (function () {
+    function Systemunit(system_unit_number, system_unit_name, field_office, id) {
+        this.system_unit_number = system_unit_number;
+        this.system_unit_name = system_unit_name;
+        this.field_office = field_office;
+        this.id = id;
+    }
+    return Systemunit;
+}());
+
+//# sourceMappingURL=systemunit.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/tags/tag-detail.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<navbar></navbar>\r\n<div class=\"container\">\r\n    <h3>Tag #{{tag_ID}}</h3>\r\n    <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i></div>\r\n    <div [hidden]=\"notready\">\r\n        <form [formGroup]=\"form\" (ngSubmit)=\"onSubmit(form.value)\">\r\n            <div *ngIf=\"error\" class=\"alert alert-danger\">That tag name already exists</div>\r\n            <table>\r\n                <tr>\r\n                    <td><label for=\"name\">Name</label></td>\r\n                    <td><label for=\"description\">Description</label></td>\r\n                </tr>\r\n                <tr>\r\n                    <td><input type=\"text\" id=\"name\" formControlName=\"name\"></td>\r\n                    <td><input type=\"text\" id=\"description\" formControlName=\"description\"></td>\r\n                </tr>\r\n            </table>\r\n            <div class=\"form-group\">\r\n                <button type=\"submit\" [disabled]=\"!form.valid\">Save</button>\r\n                <button (click)=\"cancel()\">Cancel</button>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/tags/tag-detail.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TagDetailComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__cases_case_service__ = __webpack_require__("../../../../../src/cases/case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tag_service__ = __webpack_require__("../../../../../src/tags/tag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tag__ = __webpack_require__("../../../../../src/tags/tag.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var TagDetailComponent = /** @class */ (function () {
+    function TagDetailComponent(fb, _route, _router, _caseService, _tagService) {
+        this._route = _route;
+        this._router = _router;
+        this._caseService = _caseService;
+        this._tagService = _tagService;
+        this.error = false;
+        this.cases_properties = [];
+        this.notready = true;
+        this.editName = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["c" /* FormControl */]('', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["h" /* Validators */].required);
+        this.editDescription = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["c" /* FormControl */]('');
+        this.form = fb.group({
+            'name': this.editName,
+            'description': this.editDescription
+        });
+    }
+    TagDetailComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._params = this._route.params
+            .subscribe(function (params) {
+            _this.tag_ID = +params['id'];
+            _this._getTag(_this.tag_ID);
+        });
+    };
+    TagDetailComponent.prototype.ngOnDestroy = function () {
+        if (this._params) {
+            this._params.unsubscribe();
+        }
+    };
+    TagDetailComponent.prototype.cancel = function () {
+        this.goToTags();
+    };
+    TagDetailComponent.prototype.onSubmit = function (value) {
+        this.notready = true;
+        var newtag = new __WEBPACK_IMPORTED_MODULE_6__tag__["a" /* Tag */](value.name, value.description);
+        this._validateTag(newtag);
+    };
+    TagDetailComponent.prototype.goToTags = function () {
+        this._router.navigate(['/tags']);
+    };
+    TagDetailComponent.prototype._getTag = function (tagID) {
+        var _this = this;
+        this._tagService.getTag(tagID)
+            .subscribe(function (tag) {
+            _this.myTag = tag;
+            _this.editName.setValue(_this.myTag.name);
+            _this.editDescription.setValue(_this.myTag.description);
+            _this.notready = false;
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    TagDetailComponent.prototype._validateTag = function (tag) {
+        var _this = this;
+        this._tagService.getTags(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('name=' + tag.name))
+            .subscribe(function (tags) {
+            if (tag.name !== _this.myTag.name && tags.length !== 0) {
+                _this.error = true;
+                _this.notready = false;
+            }
+            else {
+                _this.myTag.name = tag.name;
+                _this.myTag.description = tag.description;
+                _this._updateTag(_this.myTag);
+                _this.notready = false;
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    TagDetailComponent.prototype._updateTag = function (tag) {
+        var _this = this;
+        this._tagService.updateTag(tag)
+            .subscribe(function (res) {
+            _this.goToTags();
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    TagDetailComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            providers: [__WEBPACK_IMPORTED_MODULE_5__tag_service__["a" /* TagService */]],
+            template: __webpack_require__("../../../../../src/tags/tag-detail.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__cases_case_service__["a" /* CaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__cases_case_service__["a" /* CaseService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__tag_service__["a" /* TagService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__tag_service__["a" /* TagService */]) === "function" && _e || Object])
+    ], TagDetailComponent);
+    return TagDetailComponent;
+    var _a, _b, _c, _d, _e;
+}());
+
+//# sourceMappingURL=tag-detail.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/tags/tag-list.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<navbar></navbar>\n        <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i></div>\n        <div [hidden]=\"notready\">\n            <div class=\"container\">\n                <h3 class=\"subheader\"><b>Tags</b></h3>\n                <div align=\"center\">\n                    <button type=\"button\" class=\"btn btn-default\" (click)=\"toggleCreateTagForm()\">Create a Tag</button><br /><br />\n                    <div [hidden]=\"nottoggled\">\n                        <form [formGroup]=\"form\" (ngSubmit)=\"onSubmit(form.value)\" class=\"add-tag-form\">\n                            <div *ngIf=\"error\" class=\"alert alert-danger\">That tag name already exists</div>\n                            <div class=\"form-group\">\n                                <label for=\"name\">Name</label>\n                                <input type=\"text\" id=\"name\" formControlName=\"name\">\n                            </div>\n                            <div class=\"form-group\">\n                                <label for=\"description\">Description</label>\n                                <input type=\"text\" id=\"description\" formControlName=\"description\">\n                            </div>\n                            <div class=\"form-group\">\n                                <button type=\"submit\" [disabled]=\"!form.valid\">Submit</button>\n                            </div>\n                        </form>\n                    </div>\n                </div>\n                <table class=\"table table-striped table-bordered table-hover table-condensed tags-table\">\n                    <tbody>\n                        <tr class=\"head\">\n                            <td>Tag</td>\n                            <td>Description</td>\n                            <td>Delete</td>\n                            <td>Cases</td>\n                        </tr>\n                        <tr *ngFor=\"let tag of tags\">\n                            <td (click)=\"goToTag(tag.id)\">{{tag.name}}</td>\n                            <td>{{tag.description}}</td>\n                            <td><button class=\"btn-tags delete\" type=\"button\" (click)=\"deleteTag(tag.id)\">Delete <i class=\"fa fa-remove\"></i></button></td>\n                            <td><button class=\"btn-tags\" type=\"button\" (click)=\"goToCases(tag.id)\">Open <i class=\"fa fa-arrow-right\"></i></button></td>\n                        </tr>\n                    </tbody>\n                </table>\n            </div>\n        </div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/tags/tag-list.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TagListComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tag_service__ = __webpack_require__("../../../../../src/tags/tag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tag__ = __webpack_require__("../../../../../src/tags/tag.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__cases_case_service__ = __webpack_require__("../../../../../src/cases/case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+var TagListComponent = /** @class */ (function () {
+    function TagListComponent(fb, _tagService, _caseService, _router) {
+        this._tagService = _tagService;
+        this._caseService = _caseService;
+        this._router = _router;
+        this.error = false;
+        this.name = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["h" /* Validators */].required);
+        this.description = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('');
+        this.notready = true;
+        this.nottoggled = true;
+        this.form = fb.group({
+            'name': this.name,
+            'description': this.description
+        });
+        this._getTags();
+    }
+    TagListComponent.prototype._getTags = function () {
+        var _this = this;
+        this.error = false;
+        this._tagService.getTags()
+            .subscribe(function (tags) {
+            _this.tags = tags;
+            _this.notready = false;
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    TagListComponent.prototype.deleteTag = function (tag) {
+        var _this = this;
+        this.error = false;
+        if (window.confirm('Are you sure you want to delete this tag?')) {
+            this._caseService.getCases(new __WEBPACK_IMPORTED_MODULE_3__angular_http__["e" /* URLSearchParams */]('tags=' + tag))
+                .subscribe(function (cases) {
+                if (cases.length > 0) {
+                    __WEBPACK_IMPORTED_MODULE_7__app_utilities__["a" /* APP_UTILITIES */].showToast('This tag cannot be removed because it is assigned to one or more determination cases.');
+                }
+                else {
+                    _this._tagService.deleteTag(tag)
+                        .subscribe(function (res) { return _this._getTags(); }, function (error) { return _this._errorMessage = error; });
+                }
+            }, function (error) { return _this._errorMessage = error; });
+        }
+    };
+    TagListComponent.prototype.goToTag = function (tag) {
+        this._router.navigate(['/tag', tag]);
+    };
+    TagListComponent.prototype.goToCases = function (tag) {
+        this._router.navigate(['/workbench'], { queryParams: { 'tags': tag } });
+    };
+    TagListComponent.prototype.toggleCreateTagForm = function () {
+        this.nottoggled = !this.nottoggled;
+    };
+    TagListComponent.prototype.onSubmit = function (value) {
+        this.error = false;
+        var newtag = new __WEBPACK_IMPORTED_MODULE_5__tag__["a" /* Tag */](value.name, value.description);
+        this._validateTag(newtag);
+    };
+    TagListComponent.prototype._validateTag = function (tag) {
+        var _this = this;
+        this._tagService.getTags(new __WEBPACK_IMPORTED_MODULE_3__angular_http__["e" /* URLSearchParams */]('name=' + tag.name))
+            .subscribe(function (tags) {
+            if (tags.length !== 0) {
+                _this.error = true;
+                _this.notready = false;
+            }
+            else {
+                _this._createTag(tag);
+                _this.toggleCreateTagForm();
+                _this.notready = false;
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    TagListComponent.prototype._createTag = function (tag) {
+        var _this = this;
+        this._tagService.createTag(tag)
+            .subscribe(function (res) {
+            _this._getTags();
+            // reset the form
+            _this.name.setValue(null);
+            _this.description.setValue(null);
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    TagListComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            providers: [__WEBPACK_IMPORTED_MODULE_4__tag_service__["a" /* TagService */], __WEBPACK_IMPORTED_MODULE_6__cases_case_service__["a" /* CaseService */]],
+            template: __webpack_require__("../../../../../src/tags/tag-list.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__tag_service__["a" /* TagService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__tag_service__["a" /* TagService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_6__cases_case_service__["a" /* CaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__cases_case_service__["a" /* CaseService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _d || Object])
+    ], TagListComponent);
+    return TagListComponent;
+    var _a, _b, _c, _d;
+}());
+
+//# sourceMappingURL=tag-list.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/tags/tag.routes.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TagRoutes; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__ = __webpack_require__("../../../../../src/authentication/authentication.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tag_detail_component__ = __webpack_require__("../../../../../src/tags/tag-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tag_list_component__ = __webpack_require__("../../../../../src/tags/tag-list.component.ts");
+
+
+
+var TagRoutes = [
+    {
+        path: 'tag/:id',
+        component: __WEBPACK_IMPORTED_MODULE_1__tag_detail_component__["a" /* TagDetailComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+    },
+    {
+        path: 'tags',
+        component: __WEBPACK_IMPORTED_MODULE_2__tag_list_component__["a" /* TagListComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+    }
+];
+//# sourceMappingURL=tag.routes.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/tags/tag.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TagService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var TagService = /** @class */ (function () {
+    function TagService(http) {
+        this.http = http;
+    }
+    TagService.prototype.getTag = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].TAGS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    TagService.prototype.getTags = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].TAGS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    TagService.prototype.createTag = function (tag) {
+        var body = JSON.stringify(tag);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].TAGS_URL, body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    TagService.prototype.updateTag = function (tag) {
+        // pull out the ID
+        var id = tag.id;
+        delete tag['id'];
+        var body = JSON.stringify(tag);
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].AUTH_JSON_HEADERS });
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].TAGS_URL + id + '/', body, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    TagService.prototype.deleteTag = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].TAGS_URL + id + '/', options)
+            .map(function (res) { return console.log(res); })
+            .catch(this.handleError);
+    };
+    TagService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    TagService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], TagService);
+    return TagService;
+    var _a;
+}());
+
+//# sourceMappingURL=tag.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/tags/tag.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Tag; });
+var Tag = /** @class */ (function () {
+    function Tag(name, description, id) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+    }
+    return Tag;
+}());
+
+//# sourceMappingURL=tag.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/users/user.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var UserService = /** @class */ (function () {
+    function UserService(http) {
+        this.http = http;
+    }
+    UserService.prototype.getUser = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].USERS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    UserService.prototype.getUsers = function (searchArgs) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].USERS_URL, options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
+    UserService.prototype.handleError = function (error) {
+        // TODO figure out a better error handler
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__["a" /* Observable */].throw(error.json().error || 'Server error');
+    };
+    UserService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    ], UserService);
+    return UserService;
+    var _a;
+}());
+
+//# sourceMappingURL=user.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-detail.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container cbrs-form\">\n\n    <div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i></div>\n    <div [hidden]=\"notready\">\n\n        <div id=\"main-header\" align=\"center\" *ngIf=\"myCase.case_number || case_ID\">\n            <div class=\"row\">\n                <div class=\"form-main-header\" style=\"font-size:20px;\">\n                    <div class=\"col-md-3\"></div><div class=\"col-md-2\">Case ID</div><div class=\"col-md-2\">Case Reference</div><div class=\"col-md-2\">Current Status</div><div class=\"col-md-3\"></div>\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"form-main-header\" style=\"font-size:24px; font-weight: bold;\">\n                    <div class=\"col-md-3\"></div><div class=\"col-md-2\">{{ myCase.case_number || case_ID }}</div><div class=\"col-md-2\">{{ myCase.case_reference || \"None\" }}</div><div class=\"col-md-2\">{{ myCase.status }}</div><div class=\"col-md-3\"></div>\n                </div>\n            </div>\n        </div><br /><br />\n\n        <form [formGroup]=\"form\" *ngIf=\"active\" (ngSubmit)=\"onSubmit(form)\">\n\n            <button type=\"submit\" class=\"btn btn-default btn-save-all\" [disabled]=\"!form.valid\">Save</button><br /><br />\n\n            <div formGroupName=\"casegroup\">\n\n                <div class=\"dms-group noheader\" *ngIf=\"!case_ID\">\n                    <div class=\"row\">\n                        <div class=\"col-md-12\">\n                            <div class=\"file-group\">\n                                <label class=\"half-label fifty\" for=\"casefiles\">Case Files</label><!--\n                                --><label class=\"bb\" style=\"width:25%\"></label><!--\n                                --><label class=\"file-upload-label\" for=\"casefileSelect\">Upload Files</label>\n                                <div class=\"col-md-12\" *ngIf=\"!noxhr\">\n                                    <div id=\"casefiledrag\" class=\"filedropzone\" (dragover)=\"fileDragHover($event)\" (dragleave)=\"fileDragHover($event)\" (drop)=\"casefileSelectHandler($event)\">or drop files here <br/><br/></div>\n                                </div>\n\n                                <div class=\"col-md-12\">\n                                    <div id=\"casefilesToUpload\">\n                                        <p *ngFor=\"let fileDetails of filesToUploadDetails; let i=index\">\n                                            <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span>\n                                            <button type=\"button\" (click)=\"removeCasefile(i)\" class=\"removeCaseFileButton\">-</button>\n                                        </p>\n                                    </div>\n                                </div>\n                                <input class=\"custom-file-input\" id=\"casefileSelect\" type=\"file\" multiple (change)=\"casefileSelectHandler($event)\" formControlName=\"casefiles\" />\n                            </div>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"dms-group noheader\" *ngIf=\"case_ID\">\n\n                    <div class=\"row\">\n\n                        <div class=\"col-xs-12 nopadd\">\n                            <div class=\"row nopadd\">\n                                <div class=\"col-md-3 chx-group\">\n                                    <label for=\"priority\">Priority</label><!--\n                                    --><div class=\"chx\">\n                                        <input id=\"priority\" type=\"checkbox\" formControlName=\"priority\">\n                                    </div>\n                                </div><!--\n                                    --><div class=\"col-md-3 chx-group\">\n                                    <label for=\"on_hold\">On Hold</label><!--\n                                    --><div class=\"chx\">\n                                        <input id=\"on_hold\" type=\"checkbox\" (change)=\"toggleOnHold();\" formControlName=\"on_hold\">\n                                    </div>\n                                </div><!--\n                                    --><div class=\"col-md-3 chx-group\">\n                                    <label for=\"invalid\">Invalid</label><!--\n                                    --><div class=\"chx\">\n                                        <input id=\"invalid\" type=\"checkbox\" formControlName=\"invalid\">\n                                    </div>\n                                </div><!--\n                                    --><div class=\"col-md-3 chx-group\">\n                                    <label for=\"duplicate\">Duplicate of</label><!--\n                                    --><div class=\"slct\">\n                                        <select id=\"duplicate\" formControlName=\"duplicate\" style=\"width:120px\">\n                                            <option value=\"\"></option>\n                                            <option *ngFor=\"let caseID of myCaseIDs\" [value]=\"caseID.id\" [selected]=\"caseID.id == myCase.duplicate\">{{caseID.id}}</option>\n                                        </select>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n\n                        <div class=\"col-md-12\">\n                            <div class=\"col-md-2 dms-form-group bb br\">\n                                <label for=\"cbrs_unit\">CBRS Unit</label>\n                                <select id=\"cbrs_unit\" formControlName=\"cbrs_unit\" (change)=\"getSystemmaps(newUnit.value); getProhibitiondates(newUnit.value); updateCaseControlValue(newUnit.id, newUnit.value)\" #newUnit>\n                                    <option value=\"\"></option>\n                                    <option *ngFor=\"let unit of mySystemunits\" [value]=\"unit.id\" [selected]=\"unit.id == myCase.cbrs_unit\">{{unit.system_unit_number}}</option>\n                                </select>\n                            </div>\n                            <div class=\"col-md-2 dms-form-group bb br\">\n                                <label for=\"map_number\">Map Number</label>\n                                <select id=\"map_number\" formControlName=\"map_number\" (change)=\"getSystemmapdate(newMap.value); updateCaseControlValue(newMap.id, newMap.value)\" #newMap>\n                                    <option value=\"\"></option>\n                                    <option *ngFor=\"let map of mySystemmaps\" [style.background-color]=\"map.effective ? '' : 'gray'\" [value]=\"map.id\" [selected]=\"map.id == selectedMap\">{{map.effective? map.map_number : map.map_number + \" (superseded)\"}}</option>\n                                </select>\n                            </div>\n                            <div class=\"col-md-2 dms-form-group bb br\">\n                                <label for=\"cbrs_map_date\">Map Date</label>\n                                <input id=\"cbrs_map_date\" formControlName=\"cbrs_map_date\" readonly>\n                            </div>\n                            <div class=\"col-md-2 dms-form-group bb br\">\n                                <label for=\"determination\">Determination</label>\n                                <select id=\"determination\" formControlName=\"determination\" (change)=\"toggleReadOnlyProhibitionDate(newDetermination.value); updateCaseControlValue(newDetermination.id, newDetermination.value)\" #newDetermination>\n                                    <option value=\"\"></option>\n                                    <option *ngFor=\"let determination of myDeterminations\" [value]=\"determination.id\" [selected]=\"determination.id == myCase.determination\">{{determination.determination}}</option>\n                                </select>\n                            </div>\n                            <div class=\"col-md-2 dms-form-group bb br\" [style.background-color]=\"isreadonly_prohibitiondate ? 'lightgray' : ''\">\n                                <label for=\"prohibition_date\">Prohibition Date</label>\n                                <select *ngIf=\"!isreadonly_prohibitiondate\" id=\"prohibition_date\" formControlName=\"prohibition_date\" (change)=\"updateCaseControlValue(newProhibitionDate.id, newProhibitionDate.value)\" #newProhibitionDate>\n                                    <option value=\"\"></option>\n                                    <option *ngFor=\"let prohibitiondate of myProhibitiondates\" [value]=\"prohibitiondate.prohibition_date\" [selected]=\"prohibitiondate.prohibition_date == myCase.prohibition_date\">{{prohibitiondate.prohibition_date_mdy}}</option>\n                                </select>\n                                <!-- <select *ngIf=\"isreadonly_prohibitiondate\" [style.background-color]=\"isreadonly_prohibitiondate ? 'black' : 'gray'\"></select> -->\n                            </div>\n                            <div class=\"col-md-2 dms-form-group bb\">\n                                <label for=\"distance\">Distance</label>\n                                <input id=\"distance\" type=\"number\" formControlName=\"distance\">\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row\">\n\n                        <div class=\"col-md-12 nopadd\">\n\n                            <div *ngIf=\"!noxhr\" style=\"background-color: white\" id=\"casefiledrag\" (dragover)=\"fileDragHover($event)\" (dragleave)=\"fileDragHover($event)\" (drop)=\"casefileSelectHandler($event)\">\n                                <div class=\"file-group\">\n                                    <label class=\"half-label fifty\" for=\"casefiles\">Case Files</label><!--\n                                    --><label class=\"bb\" style=\"width:25%\"></label><!--\n                                    --><label class=\"file-upload-label\" for=\"casefileSelect\">Upload</label>\n\n                                    <div class=\"filedropzone\" (dragover)=\"fileDragHover($event)\" (dragleave)=\"fileDragHover($event)\">or drop files here <br/><br/></div>\n\n                                    <div class=\"col-xs-12 col-md-6 filepad\">\n                                        <ul id=\"casefiles\" *ngIf=\"myCasefiles.length > 0\">\n                                            <div *ngFor=\"let casefile of myCasefiles\">\n                                                <li *ngIf=\"!casefile.final_letter\">\n                                                    <a target=\"_blank\" [href]=\"casefile.file\" >{{ casefile.name }}</a>&nbsp;&nbsp;\n                                                    <button type=\"button\" (click)=\"deleteCasefile(casefile.id)\" class=\"removeCaseFileButton\">x</button>\n                                                </li>\n                                            </div>\n                                        </ul>\n                                    </div>\n\n                                    <div class=\"col-xs-12 col-md-6 filepad\">\n                                        <div id=\"casefilesToUpload\">\n                                            <p *ngFor=\"let fileDetails of filesToUploadDetails; let i=index\">\n                                                <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>\n                                                <button type=\"button\" (click)=\"removeCasefile(i)\" class=\"removeCaseFileButton\">-</button>\n                                            </p>\n                                        </div>\n                                    </div>\n\n                                    <input class=\"custom-file-input\" id=\"casefileSelect\" type=\"file\" multiple (change)=\"casefileSelectHandler($event)\" formControlName=\"casefiles\" />\n                                </div>\n                            </div>\n\n                            <div *ngIf=\"noxhr\" style=\"background-color: white\">\n                                <div class=\"file-group\">\n                                    <label class=\"half-label fifty\" for=\"casefiles\">Case Files</label><!--\n                                    --><label class=\"bb\" style=\"width:25%\"></label><!--\n                                    --><label class=\"file-upload-label\" for=\"casefileSelect\">Upload</label>\n\n                                    <div class=\"filedropzone\" (dragover)=\"fileDragHover($event)\" (dragleave)=\"fileDragHover($event)\">or drop files here <br/><br/></div>\n\n                                    <div class=\"col-xs-12 col-md-6 filepad\">\n                                        <ul id=\"casefiles\" *ngIf=\"myCasefiles.length > 0\">\n                                            <div *ngFor=\"let casefile of myCasefiles\">\n                                                <li *ngIf=\"!casefile.final_letter\">\n                                                    <a target=\"_blank\" [href]=\"casefile.file\">{{ casefile.name }}</a>&nbsp;&nbsp;\n                                                    <button type=\"button\" *ngIf=\"!casefile.final_letter\" (click)=\"deleteCasefile(casefile.id)\" class=\"removeCaseFileButton\">x</button>\n                                                </li>\n                                            </div>\n                                        </ul>\n                                    </div>\n\n                                    <div class=\"col-xs-12 col-md-6 filepad\">\n                                        <div id=\"casefilesToUpload\">\n                                            <p *ngFor=\"let fileDetails of filesToUploadDetails; let i=index\">\n                                                <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>\n                                                <button type=\"button\" (click)=\"removeCasefile(i)\" class=\"removeCaseFileButton\">-</button>\n                                            </p>\n                                        </div>\n                                    </div>\n\n                                    <input class=\"custom-file-input\" id=\"casefileSelect\" type=\"file\" multiple (change)=\"casefileSelectHandler($event)\" formControlName=\"casefiles\" />\n                                </div>\n                            </div>\n\n                        </div>\n\n\n\n                        <div *ngIf=\"!noxhr\" class=\"col-xs-12 nopadd\" style=\"background-color: white\" id=\"finalletterfiledrag\" (dragover)=\"fileDragHover($event)\" (dragleave)=\"fileDragHover($event)\" (drop)=\"finalletterSelectHandler($event)\">\n                            <div class=\"file-group\">\n                                <label class=\"label fifty\" style=\"border-top: 1px solid #E8E8E8;\" for=\"finalletter\">Final Letter</label><!--\n                                --><label class=\"file-upload-label\" style=\"width:25%; border-top: 1px solid #E8E8E8;\" for=\"finalLetterSelect\">Upload</label><!--\n                                --><label class=\"file-upload-label\" style=\"width:25%; border-top: 1px solid #E8E8E8;\" for=\"draftletter\">Draft</label>\n\n                                    <div class=\"filedropzone\" (dragover)=\"fileDragHover($event)\" (dragleave)=\"fileDragHover($event)\">or drop files here <br/><br/></div>\n\n                                <div class=\"col-xs-12 col-md-6 filepad\">\n                                    <ul id=\"finalletter\" *ngIf=\"myCasefiles.length > 0\">\n                                        <div *ngFor=\"let casefile of myCasefiles\">\n                                            <li *ngIf=\"casefile.final_letter\">\n                                                <a target=\"_blank\" [href]=\"casefile.file\" *ngIf=\"casefile.final_letter\">{{ casefile.name }}</a>&nbsp;&nbsp;\n                                                <button type=\"button\" *ngIf=\"casefile.final_letter\" (click)=\"deleteCasefile(casefile.id)\" class=\"removeCaseFileButton\">x</button>\n                                            </li>\n                                        </div>\n                                    </ul>\n                                </div>\n\n                                <div class=\"col-xs-12 col-md-6 filepad\">\n                                    <div id=\"finalletterToUpload\" *ngIf=\"finalletterToUploadDetails\">\n                                        <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }}</span>\n                                        <button type=\"button\" (click)=\"removeFinalLetter()\" class=\"removeCaseFileButton\">-</button>\n                                    </div>\n\n                                    <input class=\"custom-file-input\" id=\"finalLetterSelect\" type=\"file\" (change)=\"finalletterSelectHandler($event)\" formControlName=\"final_letter\" />\n                                    <input class=\"custom-file-input\" id=\"draftletter\" type=\"button\" (click)=\"generateLetter()\" />\n                                </div>\n\n                            </div>\n                        </div>\n\n\n\n                        <div *ngIf=\"noxhr\" class=\"col-xs-12\" style=\"background-color: white\">\n                            <div class=\"file-group\">\n                                <label class=\"label fifty\" style=\"border-top: 1px solid #E8E8E8;\" for=\"finalletter\">Final Letter</label><!--\n                                --><label class=\"file-upload-label\" style=\"width:25%; border-top: 1px solid #E8E8E8;\" for=\"finalLetterSelect\">Upload Letter</label><!--\n                                --><label class=\"file-upload-label\" style=\"width:25%; border-top: 1px solid #E8E8E8;\" for=\"draftletter\">Draft Letter</label>\n\n                                    <div class=\"filedropzone\" (dragover)=\"fileDragHover($event)\" (dragleave)=\"fileDragHover($event)\">or drop files here <br/><br/></div>\n\n                                <div class=\"col-md-6 col-xs-12 filepad\">\n                                    <ul id=\"finalletter\" *ngIf=\"myCasefiles.length > 0\">\n                                        <div *ngFor=\"let casefile of myCasefiles\">\n                                            <li *ngIf=\"casefile.final_letter\">\n                                                <a target=\"_blank\" [href]=\"casefile.file\" *ngIf=\"casefile.final_letter\">{{ casefile.name }}</a>&nbsp;&nbsp;\n                                                <button type=\"button\" *ngIf=\"casefile.final_letter\" (click)=\"deleteCasefile(casefile.id)\" class=\"removeCaseFileButton\">x</button>\n                                            </li>\n                                        </div>\n                                    </ul>\n                                </div>\n\n                                <div class=\"col-md-6 col-xs-12 filepad\">\n                                    <div id=\"finalletterToUpload\" *ngIf=\"finalletterToUploadDetails\">\n                                        <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }}</span>\n                                        <button type=\"button\" (click)=\"removeFinalLetter()\" class=\"removeCaseFileButton\">-</button>\n                                    </div>\n\n                                    <input class=\"custom-file-input\" id=\"finalLetterSelect\" type=\"file\" (change)=\"finalletterSelectHandler($event)\" formControlName=\"final_letter\" />\n                                    <input class=\"custom-file-input\" id=\"draftletter\" type=\"button\" (click)=\"generateLetter()\" />\n                                </div>\n\n                            </div>\n                        </div>\n\n                    </div>\n\n                    <div class=\"row\" id=\"case_messages\" *ngIf=\"!mapsfound\"><pre>No maps found for this unit.</pre></div>\n                </div>\n\n                <div class=\"dms-group\" *ngIf=\"case_ID\">\n                    <h2 class=\"dms-group-header\">Important Dates</h2>\n\n                    <div class=\"row\" id=\"dates\">\n                        <div class=\"col-md-2\">\n                            <div class=\"dms-form-group br\">\n                                <label for=\"request_date\">Request Date</label>\n                                <my-date-picker id=\"request_date\" formControlName=\"request_date\" [options]=\"myDatePickerOptions\" (inputFieldChanged)=\"validateDate(newRequestDate.elem.nativeElement.id, newRequestDate.selectedDate)\" #newRequestDate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class=\"col-md-3\">\n                            <div class=\"dms-form-group br\">\n                                <label for=\"fws_fo_received_date\">Field Office Received Date</label>\n                                <my-date-picker id=\"fws_fo_received_date\" formControlName=\"fws_fo_received_date\" [options]=\"myDatePickerOptions\" (inputFieldChanged)=\"validateDate(newFODate.elem.nativeElement.id, newFODate.selectedDate)\" #newFODate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class=\"col-md-3\">\n                            <div class=\"dms-form-group br\">\n                                <label for=\"fws_hq_received_date\">Headquarters Received Date</label>\n                                <my-date-picker id=\"fws_hq_received_date\" formControlName=\"fws_hq_received_date\" [options]=\"myDatePickerOptions\" (inputFieldChanged)=\"validateDate(newHQDate.elem.nativeElement.id, newHQDate.selectedDate)\" #newHQDate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class=\"col-md-2\">\n                            <div class=\"dms-form-group br\" [style.background-color]=\"isOnHold ? 'lightgray' : ''\">\n                                <label for=\"final_letter_date\">Final Letter Date</label>\n                                <my-date-picker *ngIf=\"!isOnHold\" id=\"final_letter_date\" formControlName=\"final_letter_date\" [options]=\"myDatePickerOptions\" (inputFieldChanged)=\"validateDate(newFinalLetterDate.elem.nativeElement.id, newFinalLetterDate.selectedDate)\" #newFinalLetterDate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class=\"col-md-2\">\n                            <div class=\"dms-form-group br\" [style.background-color]=\"isOnHold ? 'lightgray' : ''\">\n                                <label for=\"close_date\">Close Date</label>\n                                <my-date-picker *ngIf=\"!isOnHold\" id=\"close_date\" formControlName=\"close_date\" [options]=\"myDatePickerOptions\" (inputFieldChanged)=\"validateDate(newCloseDate.elem.nativeElement.id, newCloseDate.selectedDate)\" #newCloseDate></my-date-picker>\n                            </div>\n                        </div>\n\n                    </div>\n\n                </div>\n\n                <div class=\"dms-group\" *ngIf=\"case_ID\">\n                    <h2 class=\"dms-group-header\">CASE ASSIGNMENT & SIGNOFF</h2>\n\n                    <div class=\"row\" id=\"signoff\">\n                        <div class=\"col-md-3\">\n                            <div class=\"dms-form-group br\">\n                                <label for=\"analyst\">Analyst</label>\n                                <select id=\"analyst\" formControlName=\"analyst\" (change)=\"updateCaseControlValue(newAnalyst.id, newAnalyst.value)\" #newAnalyst>\n                                    <option value=\"\"></option>\n                                    <option *ngFor=\"let analyst of availableAnalysts\" [value]=\"analyst.id\" [selected]=\"analyst.id == selectedAnalyst\">{{analyst.username}}</option>\n                                </select>\n                            </div>\n                        </div>\n                        <div class=\"col-md-3\">\n                            <div class=\"dms-form-group br\" [style.background-color]=\"isOnHold ? 'lightgray' : ''\">\n                                <label for=\"analyst_signoff_date\">Analyst Signoff Date</label>\n                                <my-date-picker *ngIf=\"!isOnHold\" id=\"analyst_signoff_date\" formControlName=\"analyst_signoff_date\" [options]=\"myDatePickerOptions\" (inputFieldChanged)=\"validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)\" #newAnalystDate></my-date-picker>\n                            </div>\n                        </div>\n\n                        <div class=\"col-md-3\">\n                            <div class=\"dms-form-group br\">\n                                <label for=\"qc_reviewer\">QC Reviewer</label>\n                                <select id=\"qc_reviewer\" formControlName=\"qc_reviewer\" (change)=\"updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)\" #newQCReviewer>\n                                    <option value=\"\"></option>\n                                    <option *ngFor=\"let qc_reviewer of availableQCReviewers\" [value]=\"qc_reviewer.id\" [selected]=\"qc_reviewer.id == selectedQCReviewer\">{{qc_reviewer.username}}</option>\n                                </select>\n                            </div>\n                        </div>\n                        <div class=\"col-md-3\">\n                            <div class=\"dms-form-group br\" [style.background-color]=\"isOnHold ? 'lightgray' : ''\">\n                                <label for=\"qc_reviewer_signoff_date\">QC Reviewer Signoff Date</label>\n                                <my-date-picker *ngIf=\"!isOnHold\" id=\"qc_reviewer_signoff_date\" formControlName=\"qc_reviewer_signoff_date\" [options]=\"myDatePickerOptions\" (inputFieldChanged)=\"validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)\" #newQC1Date></my-date-picker>\n                            </div>\n                        </div>\n\n                    </div>\n\n                </div>\n\n            </div>\n\n            <div class=\"dms-group\">\n                <h2 class=\"dms-group-header\">Property Information</h2>\n                <div class=\"row\" formGroupName=\"propertygroup\">\n\n                    <div class=\"col-md-3\">\n                        <div class=\"dms-form-group br bb\">\n                            <label for=\"street\">Street</label>\n                            <input id=\"street\" type=\"text\" formControlName=\"street\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-2\">\n                        <div class=\"dms-form-group br bb\">\n                            <label for=\"unit\">Suite/Apt #</label>\n                            <input id=\"unit\" type=\"text\" formControlName=\"unit\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-3\">\n                        <div class=\"dms-form-group br bb\">\n                            <label for=\"city\">City</label>\n                            <input id=\"city\" type=\"text\" formControlName=\"city\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-2\">\n                        <div class=\"dms-form-group br bb\">\n                            <label for=\"state\">State</label>\n                            <select id=\"state\" formControlName=\"state\" (change)=\"updatePropertyControlValue(newPState.id, newPState.value)\" #newPState>\n                                <option value=\"\"></option>\n                                <option *ngFor=\"let state of states\" [value]=\"state\" [selected]=\"state == myProperty.state\">{{state}}</option>\n                            </select>\n                        </div>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <div class=\"dms-form-group bb\">\n                            <label for=\"zipcode\">Zipcode</label>\n                            <input id=\"zipcode\" type=\"text\" formControlName=\"zipcode\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <div class=\"dms-form-group br\">\n                            <label for=\"legal_description\">Legal Description</label>\n                            <input id=\"legal_description\" type=\"text\" formControlName=\"legal_description\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <div class=\"dms-form-group br\">\n                            <label for=\"subdivision\">Subdivision</label>\n                            <input id=\"subdivision\" type=\"text\" formControlName=\"subdivision\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"policy_number\">Policy Number</label>\n                            <input id=\"policy_number\" type=\"text\" formControlName=\"policy_number\">\n                        </div>\n                    </div>\n\n                </div>\n\n            </div>\n\n\n            <div class=\"dms-group\">\n                <h2 class=\"dms-group-header\">Requester Information</h2>\n                <div class=\"row\" formGroupName=\"requestergroup\">\n\n                    <div class=\"col-md-2\">\n                        <div class=\"dms-form-group br bb\">\n                            <label for=\"salutation\">Salutation</label>\n                            <select id=\"salutation\" formControlName=\"salutation\" (change)=\"updateRequesterControlValue(newSalutation.id, newSalutation.value)\" #newSalutation>\n                                <option value=\"\"></option>\n                                <option *ngFor=\"let salutation of salutations\" [value]=\"salutation\" [selected]=\"salutation == myRequester.salutation\">{{salutation}}</option>\n                            </select>\n                        </div>\n                    </div>\n                    <div class=\"col-md-2\">\n                        <div class=\"dms-form-group br bb\">\n                            <label for=\"first_name\">First Name</label>\n                            <input id=\"first_name\" type=\"text\" formControlName=\"first_name\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-2\">\n                        <div class=\"dms-form-group br bb\">\n                            <label for=\"last_name\">Last Name</label>\n                            <input id=\"last_name\" type=\"text\" formControlName=\"last_name\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-3\">\n                        <div class=\"dms-form-group br bb\">\n                            <label for=\"organization\">Organization</label>\n                            <input id=\"organization\" type=\"text\" formControlName=\"organization\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-3\">\n                        <div class=\"dms-form-group bb\">\n                            <label for=\"email\">Email</label>\n                            <input id=\"email\" type=\"email\" formControlName=\"email\">\n                        </div>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <div class=\"dms-form-group br\">\n                            <label for=\"street\">Street</label>\n                            <input id=\"street\" type=\"text\" formControlName=\"street\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-2\">\n                        <div class=\"dms-form-group br\">\n                            <label for=\"unit\">Suite/Apt #</label>\n                            <input id=\"unit\" type=\"text\" formControlName=\"unit\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-3\">\n                        <div class=\"dms-form-group br\">\n                            <label for=\"city\">City</label>\n                            <input id=\"city\" type=\"text\" formControlName=\"city\">\n                        </div>\n                    </div>\n                    <div class=\"col-md-2\">\n                        <div class=\"dms-form-group br\">\n                            <label for=\"state\">State</label>\n                            <select id=\"state\" formControlName=\"state\" (change)=\"updateRequesterControlValue(newRState.id, newRState.value)\" #newRState>\n                                <option value=\"\"></option>\n                                <option *ngFor=\"let state of states\" [value]=\"state\" [selected]=\"state == myRequester.state\">{{state}}</option>\n                            </select>\n                        </div>\n                    </div>\n\n                    <div class=\"col-md-2\">\n                        <div class=\"dms-form-group\">\n                            <label for=\"zipcode\">Zipcode</label>\n                            <input id=\"zipcode\" type=\"text\" formControlName=\"zipcode\">\n                        </div>\n                    </div>\n\n                </div>\n\n            </div>\n\n            <div class=\"dms-group noheader\" *ngIf=\"case_ID\">\n                <div class=\"row\">\n                    <div class=\"col-md-6\" style=\"border-right: 1px solid #E8E8E8\">\n                        <h2 class=\"dms-group-header\">Comments</h2>\n\n                        <div class=\"add-comment-wrap\">\n                            <input type=\"text\" placeholder=\"Add New Comment\" class=\"new-comment-input\" #newComment><!--\n                            --><button class=\"btn-add-comment\" type=\"button\" (click)=\"addComment(newComment.value); newComment.value='';\">Add a comment</button>\n                            <span *ngIf=\"!commentUnique\" style=\"position:relative;top:20px;\" class=\"alert alert-danger\">That comment already exists for this case.</span>\n                        </div>\n\n                        <span *ngIf=\"!commentOwner\" class=\"alert alert-danger\">You do not have permission edit this comment since you did not create it.</span>\n\n                        <ul class=\"comment-ul\">\n                            <div *ngFor=\"let comment of myComments\">\n                                <div *ngIf=\"!editingComment || editCommentID != comment.id\" (click)=\"editComment(comment.id)\">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</div>\n                                <br /><br />\n                                <div *ngIf=\"editingComment && editCommentID == comment.id\">\n                                    <div class=\"add-comment-wrap\">\n                                        <input type=\"text\" class=\"new-comment-input\" style=\"width:50%\" value={{comment.comment}} #editedComment><!--\n                                        --><button class=\"btn-add-comment\" style=\"width:20%\" type=\"button\" (click)=\"updateComment(editedComment.value);\">Update comment</button>\n                                        <button class=\"btn-add-comment\" style=\"width:10%; background-color: burlywood\" type=\"button\" (click)=\"cancelEditComment();\">Cancel</button>\n                                    </div>\n                                </div>\n                            </div>\n                        </ul>\n\n                    </div>\n                    <div class=\"col-md-6\">\n                        <h2 class=\"dms-group-header\">Tags</h2>\n\n                        <div class=\"add-comment-wrap\">\n                            <select class=\"new-comment-input new-comment-select\" #newTag>\n                                <option value=\"\"></option>\n                                <option *ngFor=\"let tag of availableTags\" [value]=\"tag.id\">{{tag.name}}</option>\n                            </select><!--\n                            --><button class=\"btn-add-comment\" type=\"button\" (click)=\"addCasetag(newTag.value)\">Add a tag</button>\n                        </div>\n\n                        <ul class=\"tag-ul\">\n                            <li *ngFor=\"let casetag of myCasetags\">{{ casetag.tagname }} <button class=\"btn-remove\" type=\"button\" (click)=\"removeCasetag(casetag.id)\"><i class=\"fa fa-remove\"></i></button></li>\n                        </ul>\n                    </div>\n                </div>\n\n            </div>\n\n            <br/>\n\n            <button type=\"submit\" class=\"btn btn-default btn-save-all\" [disabled]=\"!form.valid\">Save</button>\n\n        </form>\n\n    </div>\n\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-detail.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WorkbenchDetailComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__cases_case__ = __webpack_require__("../../../../../src/cases/case.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__properties_property__ = __webpack_require__("../../../../../src/properties/property.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requesters_requester__ = __webpack_require__("../../../../../src/requesters/requester.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__comments_comment__ = __webpack_require__("../../../../../src/comments/comment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__tags_tag__ = __webpack_require__("../../../../../src/tags/tag.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__casetags_casetag__ = __webpack_require__("../../../../../src/casetags/casetag.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__cases_case_service__ = __webpack_require__("../../../../../src/cases/case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__casefiles_casefile_service__ = __webpack_require__("../../../../../src/casefiles/casefile.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__properties_property_service__ = __webpack_require__("../../../../../src/properties/property.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__requesters_requester_service__ = __webpack_require__("../../../../../src/requesters/requester.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__comments_comment_service__ = __webpack_require__("../../../../../src/comments/comment.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__tags_tag_service__ = __webpack_require__("../../../../../src/tags/tag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__casetags_casetag_service__ = __webpack_require__("../../../../../src/casetags/casetag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__systemunits_systemunit_service__ = __webpack_require__("../../../../../src/systemunits/systemunit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__systemmaps_systemmap_service__ = __webpack_require__("../../../../../src/systemmaps/systemmap.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__fieldoffices_fieldoffice_service__ = __webpack_require__("../../../../../src/fieldoffices/fieldoffice.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__users_user_service__ = __webpack_require__("../../../../../src/users/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__determinations_determination_service__ = __webpack_require__("../../../../../src/determinations/determination.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__prohibitiondates_prohibitiondate_service__ = __webpack_require__("../../../../../src/prohibitiondates/prohibitiondate.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__authentication_authentication_service__ = __webpack_require__("../../../../../src/authentication/authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_file_saver__ = __webpack_require__("../../../../file-saver/FileSaver.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_file_saver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26_file_saver__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var WorkbenchDetailComponent = /** @class */ (function () {
+    function WorkbenchDetailComponent(fb, _route, _router, _caseService, _casefileService, _propertyService, _requesterService, _commentService, _tagService, _casetagService, _systemunitService, _systemmapService, _fieldofficeService, _userService, _determinationService, _prohibitiondateService, _authenticationService) {
+        var _this = this;
+        this._route = _route;
+        this._router = _router;
+        this._caseService = _caseService;
+        this._casefileService = _casefileService;
+        this._propertyService = _propertyService;
+        this._requesterService = _requesterService;
+        this._commentService = _commentService;
+        this._tagService = _tagService;
+        this._casetagService = _casetagService;
+        this._systemunitService = _systemunitService;
+        this._systemmapService = _systemmapService;
+        this._fieldofficeService = _fieldofficeService;
+        this._userService = _userService;
+        this._determinationService = _determinationService;
+        this._prohibitiondateService = _prohibitiondateService;
+        this._authenticationService = _authenticationService;
+        this._filesToUpload = [];
+        this.filesToUploadDetails = [];
+        this.caseFileClass = 'col-md-4';
+        this.inInit = true;
+        this.mapsfound = true;
+        this.active = true;
+        this.notready = true;
+        this.noxhr = true;
+        this.isOnHold = false;
+        this.isreadonly_prohibitiondate = false;
+        this.commentUnique = true;
+        this.commentOwner = true;
+        this.editingComment = false;
+        this._isNewCase = false;
+        this._today = new Date();
+        this._userFields = ['analyst', 'qc_reviewer'];
+        this._debug = false;
+        this.myCase = new __WEBPACK_IMPORTED_MODULE_3__cases_case__["a" /* Case */]();
+        this.myProperty = new __WEBPACK_IMPORTED_MODULE_4__properties_property__["a" /* Property */]();
+        this.myRequester = new __WEBPACK_IMPORTED_MODULE_5__requesters_requester__["a" /* Requester */]();
+        this.myComment = new __WEBPACK_IMPORTED_MODULE_6__comments_comment__["a" /* Comment */]();
+        this.myCasetag = new __WEBPACK_IMPORTED_MODULE_8__casetags_casetag__["a" /* Casetag */]();
+        this.myTag = new __WEBPACK_IMPORTED_MODULE_7__tags_tag__["a" /* Tag */]();
+        this.myCaseIDs = [];
+        this.availableTags = [];
+        this.availableSystemmapdates = [];
+        this.availableAnalysts = [];
+        this.availableQCReviewers = [];
+        this.salutations = __WEBPACK_IMPORTED_MODULE_24__app_settings__["a" /* APP_SETTINGS */].SALUTATIONS;
+        this.states = __WEBPACK_IMPORTED_MODULE_24__app_settings__["a" /* APP_SETTINGS */].US_STATES;
+        this.myCasefiles = [];
+        this._commentsControls = [];
+        this._casetagsControls = [];
+        this.myDatePickerOptions = {
+            dateFormat: 'mm/dd/yyyy',
+            disableSince: { year: this._today.getFullYear(), month: this._today.getMonth() + 1, day: this._today.getDate() + 1 }
+        };
+        if (this._debug) {
+            console.log('0: ' + __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
+        }
+        // append a temporary 'final_letter' field to a case object so that it can be a control in the form
+        var case_with_final_letter = this.myCase;
+        case_with_final_letter.final_letter = null;
+        // get the fields for each object type
+        this._myCase_fields = Object.keys(case_with_final_letter);
+        this._myProperty_fields = Object.keys(this.myProperty);
+        this._myRequester_fields = Object.keys(this.myRequester);
+        // make the controls for each control group
+        this._caseControls = this._makeControls(this._myCase_fields);
+        this._propertyControls = this._makeControls(this._myProperty_fields);
+        this._requesterControls = this._makeControls(this._myRequester_fields);
+        // populate the control groups with the controls
+        this.casegroup = new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["d" /* FormGroup */](this._caseControls);
+        this.propertygroup = new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["d" /* FormGroup */](this._propertyControls);
+        this.requestergroup = new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["d" /* FormGroup */](this._requesterControls);
+        this.commentgroup = new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["a" /* FormArray */](this._commentsControls);
+        this.taggroup = new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["a" /* FormArray */](this._casetagsControls);
+        // build the form
+        this.form = fb.group({
+            casegroup: this.casegroup,
+            propertygroup: this.propertygroup,
+            requestergroup: this.requestergroup,
+            commentgroup: this.commentgroup,
+            taggroup: this.taggroup
+        });
+        // get the Case ID from the route
+        this._route.params.subscribe(function (params) { return _this.case_ID = +params['id']; });
+        if (this.case_ID) {
+            // if the Case ID exists, get the case details
+            this._isNewCase = false;
+            this._getCase(this.case_ID);
+            this._getCasefiles(this.case_ID);
+            this._getProperties(this.case_ID);
+            this._getRequesters(this.case_ID);
+            this._getComments(this.case_ID);
+            this._getCasetags(this.case_ID);
+        }
+        else {
+            // otherwise this is a new case, so get user values for the select inputs
+            this._isNewCase = true;
+            this._getUsers();
+            this._getSystemunits();
+        }
+        // get values for the select inputs
+        this._getCaseIDs();
+        this._getFieldoffices();
+        this._getDeterminations();
+        // check if the browser supports XHR2, which allows file drag and drop
+        var xhr = new XMLHttpRequest();
+        if (xhr.upload) {
+            this.noxhr = false;
+        }
+    }
+    WorkbenchDetailComponent.prototype._makeControls = function (fields) {
+        var controls = {};
+        for (var i = 0, j = fields.length; i < j; i++) {
+            // add a validator for zipcode fields
+            if (fields[i] === 'zipcode') {
+                controls[fields[i]] = new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["c" /* FormControl */]({ value: '', disabled: false }, __WEBPACK_IMPORTED_MODULE_23__angular_forms__["h" /* Validators */].maxLength(5));
+            }
+            if (['legal_description'].indexOf(fields) > -1) {
+                // add validator for property control required fields: street, city, state)
+                // although we don't know the source of the submitted fields,
+                // we can determine if they are from a property object by testing if a uniquely property field is present
+                if (['street', 'city', 'state'].indexOf(fields[i]) > -1) {
+                    controls[fields[i]] = new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["c" /* FormControl */]({ value: '', disabled: false }, __WEBPACK_IMPORTED_MODULE_23__angular_forms__["h" /* Validators */].required);
+                }
+            }
+            else if (['email'].indexOf(fields) > -1) {
+                // add validator for requester control required fields: first_name, last_name, email
+                // although we don't know the source of the submitted fields,
+                // we can determine if they are from a requester object by testing if a uniquely requester field is present
+                if (['first_name', 'last_name', 'email'].indexOf(fields[i]) > -1) {
+                    controls[fields[i]] = new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["c" /* FormControl */]({ value: '', disabled: false }, __WEBPACK_IMPORTED_MODULE_23__angular_forms__["h" /* Validators */].required);
+                }
+            }
+            else {
+                // otherwise don't impose any validators
+                controls[fields[i]] = new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["c" /* FormControl */]({ value: '', disabled: false });
+            }
+        }
+        return controls;
+    };
+    WorkbenchDetailComponent.prototype._updateControls = function (fields, controls, values) {
+        for (var i = 0, j = fields.length; i < j; i++) {
+            var field = fields[i];
+            if (field.slice(-4) === 'date' && values[field] !== null && field !== 'cbrs_map_date' && field !== 'prohibition_date') {
+                var thisDate = new Date(values[field]);
+                thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset() * 60000));
+                controls[field].setValue({ date: { year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate() } });
+            }
+            else {
+                controls[field].setValue(values[field]);
+            }
+        }
+    };
+    WorkbenchDetailComponent.prototype._updateControl = function (field, fields, controls, values) {
+        var i = fields.indexOf(field);
+        controls[fields[i]].setValue(values[fields[i]]);
+    };
+    // private _updateValues(fields, controls, values): void {
+    //     for (let i = 0, j = fields.length; i < j; i++) {
+    //         // console.log(fields[i] + ' : ' + values[fields[i]] + ' : ' + controls[fields[i]].value);
+    //         // values[fields[i]] = controls[fields[i]].value;
+    //     }
+    // }
+    WorkbenchDetailComponent.prototype.updateCaseControlValue = function (formControl, value) {
+        this._caseControls[formControl].setValue(value);
+        if (this._userFields.indexOf(formControl) > -1) {
+            this._buildUserOptions(formControl, value);
+        }
+    };
+    WorkbenchDetailComponent.prototype.updatePropertyControlValue = function (formControl, value) {
+        this._propertyControls[formControl].setValue(value);
+    };
+    WorkbenchDetailComponent.prototype.updateRequesterControlValue = function (formControl, value) {
+        this._requesterControls[formControl].setValue(value);
+    };
+    WorkbenchDetailComponent.prototype._addCommentControl = function (value) {
+        this._commentsControls.push(new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["c" /* FormControl */](value));
+    };
+    WorkbenchDetailComponent.prototype._addCasetagControl = function (value) {
+        this._casetagsControls.push(new __WEBPACK_IMPORTED_MODULE_23__angular_forms__["c" /* FormControl */](value));
+    };
+    WorkbenchDetailComponent.prototype.ngOnInit = function () {
+        this.inInit = true;
+    };
+    WorkbenchDetailComponent.prototype.ngAfterViewInit = function () {
+        this.inInit = false;
+    };
+    WorkbenchDetailComponent.prototype._getCase = function (caseID) {
+        var _this = this;
+        this._caseService.getCase(caseID)
+            .subscribe(function (acase) {
+            _this.myCase = acase;
+            if (_this._debug) {
+                console.log('1: ' + __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].TIME + ': ' + _this.myCase.map_number + ' : ' + _this.selectedMap);
+            }
+            _this.selectedAnalyst = acase.analyst;
+            _this.selectedQCReviewer = acase.qc_reviewer;
+            _this.selectedMap = _this.myCase.map_number;
+            _this._updateControls(_this._myCase_fields, _this._caseControls, _this.myCase);
+            _this._getSystemunits();
+            _this._getUsers();
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._getCasefiles = function (caseID) {
+        var _this = this;
+        this._casefileService.getCasefiles(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('case=' + caseID))
+            .then(function (casefiles) {
+            _this.myCasefiles = casefiles;
+            // this.updateControls(this.myCase_fields, this.caseControls, this.myCase);
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._getCaseIDs = function () {
+        var _this = this;
+        this._caseService.getCases(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('view=caseid'))
+            .subscribe(function (cases) {
+            _this.myCaseIDs.length = 0;
+            for (var i = 0, j = cases.length; i < j; i++) {
+                _this.myCaseIDs.push(cases[i]);
+            }
+            _this.myCaseIDs.sort(__WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].dynamicSort('id'));
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._getProperties = function (caseID) {
+        var _this = this;
+        this._propertyService.getProperties(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('case=' + caseID))
+            .subscribe(function (properties) {
+            _this.myProperty = properties[0];
+            _this._updateControls(_this._myProperty_fields, _this._propertyControls, _this.myProperty);
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._getRequesters = function (caseID) {
+        var _this = this;
+        this._requesterService.getRequesters(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('case=' + caseID))
+            .subscribe(function (requesters) {
+            _this.myRequester = requesters[0];
+            _this._updateControls(_this._myRequester_fields, _this._requesterControls, _this.myRequester);
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._getComments = function (caseID) {
+        var _this = this;
+        this._commentService.getComments(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('case=' + caseID))
+            .subscribe(function (comments) {
+            _this.myComments = comments;
+            for (var i = 0, j = comments.length; i < j; i++) {
+                _this._addCommentControl(comments[i].comment);
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._getCasetags = function (caseID) {
+        var _this = this;
+        this._casetagService.getCasetags(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('case=' + caseID))
+            .subscribe(function (casetags) {
+            _this.myCasetags = casetags;
+            for (var i = 0, j = casetags.length; i < j; i++) {
+                _this._addCasetagControl(casetags[i].tagname);
+            }
+            _this._getTags();
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._getTags = function () {
+        var _this = this;
+        this._tagService.getTags()
+            .subscribe(function (tags) {
+            _this.myTags = tags;
+            _this._buildTagOptions();
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._buildTagOptions = function () {
+        this.availableTags.length = 0;
+        var usedTagIDs = [];
+        for (var i = 0, j = this.myCasetags.length; i < j; i++) {
+            usedTagIDs.push(this.myCasetags[i].tag);
+        }
+        for (var i = 0, j = this.myTags.length; i < j; i++) {
+            if (usedTagIDs.indexOf(this.myTags[i].id) < 0) {
+                this.availableTags.push(this.myTags[i]);
+            }
+        }
+    };
+    WorkbenchDetailComponent.prototype._getSystemunits = function () {
+        var _this = this;
+        this._systemunitService.getSystemunits()
+            .subscribe(function (systemunits) {
+            _this.mySystemunits = systemunits.sort(__WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].dynamicSort('system_unit_number'));
+            if (_this._debug) {
+                console.log('2: ' + __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].TIME + ': ' + _this.myCase.map_number + ' : ' + _this.selectedMap);
+            }
+            if (_this.myCase.cbrs_unit) {
+                _this.getSystemmaps(_this.myCase.cbrs_unit);
+                _this.getProhibitiondates(_this.myCase.cbrs_unit);
+            }
+            else {
+                _this.notready = false;
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype.getSystemmaps = function (unitID) {
+        var _this = this;
+        this._systemmapService.getSystemmaps(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('unit=' + unitID))
+            .subscribe(function (systemmaps) {
+            _this.mySystemmaps = systemmaps.sort(__WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].dynamicSortMultiple(['-effective', 'map_number']));
+            if (_this.mySystemmaps.length === 0) {
+                _this.mapsfound = false;
+                _this.notready = false;
+            }
+            else {
+                _this.mapsfound = true;
+                if (_this._debug) {
+                    console.log('3: ' + __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].TIME + ': ' + _this.myCase.map_number + ' : ' + _this.selectedMap);
+                }
+                _this._updateControl('map_number', _this._myCase_fields, _this._caseControls, _this.mySystemmaps);
+                if (_this._debug) {
+                    console.log('4: ' + __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].TIME + ': ' + _this.myCase.map_number + ' : ' + _this.selectedMap);
+                }
+                if (_this.myCase.map_number) {
+                    _this.selectedMap = _this.myCase.map_number;
+                    _this.updateCaseControlValue('map_number', _this.myCase.map_number);
+                    _this.getSystemmapdate(_this.myCase.map_number);
+                }
+                else {
+                    _this.notready = false;
+                }
+            }
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype.getSystemmapdate = function (mapID) {
+        if (!mapID) {
+            this._caseControls['cbrs_map_date'].setValue('');
+            this.notready = false;
+        }
+        else {
+            var maps = this.mySystemmaps.filter(function (map) { return map.id == mapID; });
+            // map_date comes in yyyy-mm-dd format
+            var date_parts = maps[0].map_date.split('-');
+            var mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
+            this._caseControls['cbrs_map_date'].setValue(mdy);
+            if (this._debug) {
+                console.log('5: ' + __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
+            }
+            this.notready = false;
+        }
+    };
+    WorkbenchDetailComponent.prototype.toggleReadOnlyProhibitionDate = function (determination) {
+        (determination === 2 || determination === 4) ?
+            this.isreadonly_prohibitiondate = true : this.isreadonly_prohibitiondate = false;
+    };
+    WorkbenchDetailComponent.prototype.toggleOnHold = function () {
+        this.isOnHold = !this.isOnHold;
+    };
+    WorkbenchDetailComponent.prototype.validateDate = function (thisDateControl, thisDate) {
+        if (this.inInit) {
+            return false;
+        }
+        if (this.notready) {
+            return false;
+        }
+        if (typeof thisDate === 'undefined' || thisDate === null || thisDate === '') {
+            return false;
+        }
+        if (typeof thisDate === 'object' && thisDate.year === 0) {
+            return false;
+        }
+        else {
+            thisDate = ('0000' + thisDate.year).slice(-4)
+                + '-' + ('00' + thisDate.month).slice(-2)
+                + '-' + ('00' + thisDate.day).slice(-2);
+        }
+        // ensure the date value is a valid date by converting it to a date object and testing the constituent date values
+        var thisDateAsDate = new Date(thisDate);
+        thisDateAsDate = new Date(thisDateAsDate.getTime() + Math.abs(thisDateAsDate.getTimezoneOffset() * 60000));
+        if (thisDateAsDate.getFullYear() < 1000 || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 1
+            || thisDateAsDate.getMonth() > 12 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
+            __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(thisDate
+                + ' (' + thisDateAsDate.toISOString().substr(0, 10) + ') is not a valid date. Please enter a valid date.');
+            return false;
+        }
+        // establish two parallel arrays of the date controls and their labels
+        var dateControls = ['request_date', 'fws_fo_received_date', 'fws_hq_received_date', 'analyst_signoff_date',
+            'qc_reviewer_signoff_date', 'final_letter_date', 'close_date'];
+        var dateControlLabels = ['Request Date', 'Field Office Received Date', 'Headquarters Received Date',
+            'Analyst Signoff Date', 'QC Signoff Date', 'Final Letter Date', 'Close Date'];
+        // determine the index of the current date control within the date control array
+        var thisDateControlIndex = dateControls.indexOf(thisDateControl);
+        // declare variables for potential use
+        var prevDateControl, prevDate, nextDateControl, nextDate;
+        // if this date control is the last or a middle date control in the array (i.e., not the first)
+        if (thisDateControlIndex !== 0) {
+            // determine the previous date control and its value
+            // if the previous date has not been entered, the user should not be allowed to enter a value in the current date control,
+            // except for Close Date (Final Letter Date can be null),
+            // and Headquarters Received Date (Field Office Received Date seems to be null in a majority of cases)
+            if (thisDateControl === 'close_date') {
+                prevDateControl = dateControls[dateControls.indexOf(thisDateControl) - 1];
+                prevDate = this._caseControls[prevDateControl].value;
+                if (!prevDate) {
+                    prevDateControl = dateControls[dateControls.indexOf(thisDateControl) - 2];
+                    prevDate = this._caseControls[prevDateControl].value;
+                    if (!prevDate) {
+                        // warn the user of the invalid date selection
+                        __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(dateControlLabels[thisDateControlIndex] + ' should not be entered until '
+                            + dateControlLabels[thisDateControlIndex - 3] + ' has been entered!');
+                        // clear the current date control value
+                        // this.updateCaseControlValue(thisDateControl, null);
+                        // short circuit this validation function and exit
+                        return false;
+                    }
+                }
+            }
+            else if (thisDateControl === 'fws_hq_received_date') {
+                prevDateControl = dateControls[dateControls.indexOf(thisDateControl) - 1];
+                prevDate = this._caseControls[prevDateControl].value;
+                if (!prevDate) {
+                    prevDateControl = dateControls[dateControls.indexOf(thisDateControl) - 2];
+                    prevDate = this._caseControls[prevDateControl].value;
+                    if (!prevDate) {
+                        // warn the user of the invalid date selection
+                        __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(dateControlLabels[thisDateControlIndex] + ' should not be entered until '
+                            + dateControlLabels[thisDateControlIndex - 2] + ' has been entered!');
+                        // clear the current date control value
+                        // this.updateCaseControlValue(thisDateControl, null);
+                        // short circuit this validation function and exit
+                        return false;
+                    }
+                }
+            }
+            else {
+                prevDateControl = dateControls[dateControls.indexOf(thisDateControl) - 1];
+                prevDate = this._caseControls[prevDateControl].value;
+                if (!prevDate) {
+                    // warn the user of the invalid date selection
+                    __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(dateControlLabels[thisDateControlIndex] + ' should not be entered until '
+                        + dateControlLabels[thisDateControlIndex - 1] + ' has been entered!');
+                    // clear the current date control value
+                    // this.updateCaseControlValue(thisDateControl, null);
+                    // short circuit this validation function and exit
+                    return false;
+                }
+            }
+        }
+        // if this date control is the first or a middle date control in the array (i.e., not the last)
+        if (thisDateControlIndex !== dateControls.length - 1) {
+            // determine the next date control and its value
+            if (thisDateControl === 'analyst_signoff_date') {
+                nextDateControl = dateControls[dateControls.indexOf(thisDateControl) + 1];
+                nextDate = this._caseControls[nextDateControl].value;
+                if (!nextDate) {
+                    nextDateControl = dateControls[dateControls.indexOf(thisDateControl) + 2];
+                    nextDate = this._caseControls[nextDateControl].value;
+                }
+            }
+            else if (thisDateControl === 'final_letter_date') {
+                nextDateControl = dateControls[dateControls.indexOf(thisDateControl) + 1];
+                nextDate = this._caseControls[nextDateControl].value;
+                // if close_date is not already set, then set it equal to final_letter_date
+                if (!nextDate) {
+                    var thisDateObj = new Date(thisDate);
+                    thisDateObj = new Date(thisDateObj.getTime() + Math.abs(thisDateObj.getTimezoneOffset() * 60000));
+                    this.updateCaseControlValue('close_date', { date: { year: thisDateObj.getFullYear(), month: thisDateObj.getMonth() + 1, day: thisDateObj.getDate() } });
+                    nextDate = thisDate;
+                }
+            }
+            else {
+                nextDateControl = dateControls[dateControls.indexOf(thisDateControl) + 1];
+                nextDate = this._caseControls[nextDateControl].value;
+            }
+            // note that it is possible (and expected, in a normal workflow)
+            // that the next date does not yet exist, which is perfectly valid
+        }
+        // finally, validate the chronology of the entered dates
+        // convert thisDate, prevDate, and nextDate to actual date values in order to properly compare them
+        if (typeof thisDate !== 'undefined' && thisDate !== null && thisDate !== '' && typeof thisDate === 'object') {
+            if (thisDate.date.year === 0) {
+                return false;
+            }
+            else {
+                thisDate = ('0000' + thisDate.date.year).slice(-4) + '-'
+                    + ('00' + thisDate.date.month).slice(-2)
+                    + '-' + ('00' + thisDate.date.day).slice(-2);
+            }
+        }
+        if (typeof prevDate !== 'undefined' && prevDate !== null && prevDate !== '' && typeof prevDate === 'object') {
+            if (prevDate.date.year === 0) {
+                return false;
+            }
+            else {
+                prevDate = ('0000' + prevDate.date.year).slice(-4)
+                    + '-' + ('00' + prevDate.date.month).slice(-2)
+                    + '-' + ('00' + prevDate.date.day).slice(-2);
+            }
+        }
+        if (typeof nextDate !== 'undefined' && nextDate !== null && nextDate !== '' && typeof nextDate === 'object') {
+            if (nextDate.date.year === 0) {
+                return false;
+            }
+            else {
+                nextDate = ('0000' + nextDate.date.year).slice(-4)
+                    + '-' + ('00' + nextDate.date.month).slice(-2)
+                    + '-' + ('00' + nextDate.date.day).slice(-2);
+            }
+        }
+        // if this date control is the last date control in the array,
+        // check if the current date is not null and predates the previous date (which is invalid)
+        // (note that the previous date MUST exist (although it could be Final Letter Date, or QC Signoff Date))
+        if (thisDate && thisDateControlIndex === dateControls.length - 1 && (thisDate < prevDate)) {
+            // warn the user of the invalid date selection
+            if (prevDateControl === 'final_letter_date') {
+                __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(dateControlLabels[thisDateControlIndex]
+                    + ' can not be earlier than ' + dateControlLabels[thisDateControlIndex - 2] + '!');
+            }
+            else {
+                __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(dateControlLabels[thisDateControlIndex]
+                    + ' can not be earlier than ' + dateControlLabels[thisDateControlIndex - 1] + '!');
+            }
+            // clear the current date control value
+            // this.updateCaseControlValue(thisDateControl, null);
+        }
+        else if (thisDateControlIndex === 0 && nextDate && (thisDate > nextDate)) {
+            // if this date control is the first date control in the array
+            // check if the current date postdates the next date (which is invalid)
+            // (note that the next date MAY OR MAY NOT exist)
+            // warn the user of the invalid date selection
+            __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(dateControlLabels[thisDateControlIndex]
+                + ' can not be later than ' + dateControlLabels[thisDateControlIndex + 1] + '!');
+            // clear the current date control value
+            // this.updateCaseControlValue(thisDateControl, null);
+        }
+        else {
+            // else it is a middle date control in the array
+            // (note that the next date MAY OR MAY NOT exist)
+            // if the next date does not yet exist, which is perfectly valid,
+            // check if the current date is not null and predates the previous date (which is invalid)
+            if (!nextDate && thisDate && (thisDate < prevDate)) {
+                // warn the user of the invalid date selection
+                __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(dateControlLabels[thisDateControlIndex]
+                    + ' can not be earlier than ' + dateControlLabels[thisDateControlIndex - 1] + '!');
+                // clear the current date control value
+                // this.updateCaseControlValue(thisDateControl, null);
+            }
+            else if ((thisDate && (thisDate < prevDate)) || (nextDate && (thisDate > nextDate))) {
+                // else check if the current date is not null and predates the previous date,
+                // or postdates the next date (both of which are invalid)
+                // warn the user of the invalid date selection
+                if (thisDateControl === 'qc_reviewer_signoff_date' && nextDateControl === 'close_date') {
+                    __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(dateControlLabels[thisDateControlIndex]
+                        + ' must be between ' + dateControlLabels[thisDateControlIndex - 1]
+                        + ' and ' + dateControlLabels[thisDateControlIndex + 2] + '!');
+                }
+                else {
+                    __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(dateControlLabels[thisDateControlIndex]
+                        + ' must be between ' + dateControlLabels[thisDateControlIndex - 1]
+                        + ' and ' + dateControlLabels[thisDateControlIndex + 1] + '!');
+                }
+                // clear the current date control value
+                // this.updateCaseControlValue(thisDateControl, null);
+            }
+            else {
+                // else all is well!
+                // // if this date control is Final Letter Date, then also close the case by setting the Close Date to the same date
+                // if (thisDateControl === 'final_letter_date') {
+                //     this.updateCaseControlValue('close_date', thisDate);
+                // }
+                return false;
+            }
+        }
+    };
+    WorkbenchDetailComponent.prototype._getUsers = function () {
+        var _this = this;
+        this._userService.getUsers(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('used_users=True'))
+            .subscribe(function (users) {
+            _this.myUsers = users;
+            _this._buildUserOptions();
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._buildUserOptions = function (formControl, userID) {
+        var usedUserIDs = [];
+        var availableUserIDs = [];
+        // clear out the select lists for every user field in order to rebuild them with the latest application state information
+        this.availableAnalysts.length = 0;
+        this.availableQCReviewers.length = 0;
+        // make a list of user IDs that are already in use ('usedUserIDs')
+        // the content of this list depends on whether a formControl has just been updated (one of the switch cases) or not (default)
+        switch (formControl) {
+            case 'analyst':
+                if (this.myCase.qc_reviewer) {
+                    usedUserIDs.push(this.myCase.qc_reviewer);
+                }
+                if (userID && usedUserIDs.indexOf(userID) < 0) {
+                    usedUserIDs.push(Number(userID));
+                }
+                break;
+            case 'qc_reviewer':
+                if (this.myCase.analyst) {
+                    usedUserIDs.push(this.myCase.analyst);
+                }
+                if (userID && usedUserIDs.indexOf(userID) < 0) {
+                    usedUserIDs.push(Number(userID));
+                }
+                break;
+            default:
+                if (this.myCase.analyst) {
+                    usedUserIDs.push(this.myCase.analyst);
+                }
+                if (this.myCase.qc_reviewer) {
+                    usedUserIDs.push(this.myCase.qc_reviewer);
+                }
+                if (userID && usedUserIDs.indexOf(userID) < 0) {
+                    usedUserIDs.push(Number(userID));
+                }
+                break;
+        }
+        // allow each select list to contain any unused users who are current (active) employees
+        for (var i = 0, j = this.myUsers.length; i < j; i++) {
+            if (usedUserIDs.indexOf(this.myUsers[i].id) < 0 && this.myUsers[i].is_active) {
+                this.availableAnalysts.push(this.myUsers[i]);
+                this.availableQCReviewers.push(this.myUsers[i]);
+                // also store these unused/available user IDs ('availableUserIDs') for later comparison to avoid duplicates
+                availableUserIDs.push(this.myUsers[i].id);
+            }
+        }
+        // for the analyst select list only, add back the analyst assigned from the database and/or a user-selected analyst
+        var addAnalystUserIDs = [];
+        var caseAnalystUserID = this.myCase.analyst;
+        // if the analyst formControl was changed, add the selected value to the analyst select list
+        if (formControl === 'analyst') {
+            addAnalystUserIDs.push(Number(userID));
+            this.selectedAnalyst = userID;
+        }
+        else if (caseAnalystUserID) {
+            // otherwise, if the analyst formControl was not changed, add back the analyst assigned from the database
+            addAnalystUserIDs.push(caseAnalystUserID);
+            this.selectedAnalyst = caseAnalystUserID;
+        }
+        // if the analyst formControl was changed, but the selected value was not a user (i.e., null),
+        // and the analyst assigned from the database has not been re-assigned already,
+        // add back the analyst assigned from the database
+        if (formControl === 'analyst' && !userID) {
+            if (caseAnalystUserID && availableUserIDs.indexOf(caseAnalystUserID) < 0) {
+                addAnalystUserIDs.push(caseAnalystUserID);
+            }
+        }
+        for (var i = 0, j = this.myUsers.length; i < j; i++) {
+            if (addAnalystUserIDs.indexOf(this.myUsers[i].id) > -1) {
+                this.availableAnalysts.push(this.myUsers[i]);
+            }
+        }
+        // for the qc_reviewer select list only, add back the qc_reviewer assigned from the database and/or a user-selected qc_reviewer
+        var addQCReviewerUserIDs = [];
+        var caseQCReviewerUserID = this.myCase.qc_reviewer;
+        // if the qc_reviewer formControl was changed, add the selected value to the qc_reviewer select list
+        if (formControl === 'qc_reviewer') {
+            addQCReviewerUserIDs.push(Number(userID));
+            this.selectedQCReviewer = userID;
+        }
+        else if (caseQCReviewerUserID) {
+            // otherwise, if the qc_reviewer formControl was not changed, add back the qc_reviewer assigned from the database
+            addQCReviewerUserIDs.push(caseQCReviewerUserID);
+            this.selectedQCReviewer = caseQCReviewerUserID;
+        }
+        // if the qc_reviewer formControl was changed, but the selected value was not a user (i.e., null),
+        // and the qc_reviewer assigned from the database has not been re-assigned already,
+        // add back the qc_reviewer assigned from the database
+        if (formControl === 'qc_reviewer' && !userID) {
+            if (caseQCReviewerUserID && availableUserIDs.indexOf(caseQCReviewerUserID) < 0) {
+                addQCReviewerUserIDs.push(caseQCReviewerUserID);
+            }
+        }
+        for (var i = 0, j = this.myUsers.length; i < j; i++) {
+            if (addQCReviewerUserIDs.indexOf(this.myUsers[i].id) > -1) {
+                this.availableQCReviewers.push(this.myUsers[i]);
+            }
+        }
+    };
+    WorkbenchDetailComponent.prototype._getDeterminations = function () {
+        var _this = this;
+        this._determinationService.getDeterminations()
+            .subscribe(function (determinations) {
+            _this.myDeterminations = determinations;
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype.getProhibitiondates = function (unitID) {
+        var _this = this;
+        this._prohibitiondateService.getProhibitiondates(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('unit=' + unitID))
+            .subscribe(function (prohibitiondates) {
+            _this.myProhibitiondates = prohibitiondates;
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._getFieldoffices = function () {
+        var _this = this;
+        this._fieldofficeService.getFieldoffices()
+            .subscribe(function (fieldoffices) {
+            _this.myFieldoffices = fieldoffices;
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype.addComment = function (newcomment) {
+        var _this = this;
+        if (!newcomment) {
+            return;
+        }
+        var matchingComment = this.myComments.filter(function (comment) { return comment.comment === newcomment; });
+        if (matchingComment[0]) {
+            this.commentUnique = false;
+            return;
+        }
+        else {
+            this.commentUnique = true;
+            this._commentService.createComment(new __WEBPACK_IMPORTED_MODULE_6__comments_comment__["a" /* Comment */](this.case_ID, newcomment))
+                .subscribe(function (comment) {
+                _this.myComments.push(comment);
+                _this._addCommentControl(comment.comment);
+            }, function (error) { return _this._errorMessage = error; });
+        }
+    };
+    WorkbenchDetailComponent.prototype.editComment = function (commentID) {
+        var _this = this;
+        var oldcomment = this.myComments.filter(function (comment) { return comment.id === commentID; })[0];
+        if (oldcomment.created_by_string === this._authenticationService.user.username) {
+            this.commentOwner = true;
+            this.editingComment = true;
+            this.editCommentID = commentID;
+        }
+        else {
+            this.commentOwner = false;
+            setTimeout(function () {
+                _this.commentOwner = true;
+            }, 5000);
+        }
+    };
+    WorkbenchDetailComponent.prototype.cancelEditComment = function () {
+        this.editingComment = false;
+    };
+    WorkbenchDetailComponent.prototype.updateComment = function (newcomment) {
+        var _this = this;
+        if (!this.editCommentID || !newcomment) {
+            return;
+        }
+        var commentID = this.editCommentID;
+        var matchingComment = this.myComments.filter(function (comment) { return comment.comment === newcomment; });
+        if (matchingComment[0]) {
+            this.commentUnique = false;
+            return;
+        }
+        else {
+            this.commentUnique = true;
+            var oldcomment_1 = this.myComments.filter(function (comment) { return comment.id === commentID; })[0];
+            // let me = this.myUsers.filter(function(user) {return user.username === newcomment.created_by_string})[0];
+            this._commentService.updateComment(new __WEBPACK_IMPORTED_MODULE_6__comments_comment__["a" /* Comment */](oldcomment_1.acase, newcomment, oldcomment_1.created_by, oldcomment_1.created_by_string, oldcomment_1.created_date, oldcomment_1.id))
+                .subscribe(function (comment) {
+                var ndx = _this.myComments.indexOf(oldcomment_1);
+                _this.myComments.splice(ndx, 1, comment);
+                _this._addCommentControl(comment.comment);
+                _this.editingComment = false;
+            }, function (error) { return _this._errorMessage = error; });
+        }
+    };
+    WorkbenchDetailComponent.prototype.addCasetag = function (newtag) {
+        var _this = this;
+        if (!newtag) {
+            return;
+        }
+        this._casetagService.createCasetag(new __WEBPACK_IMPORTED_MODULE_8__casetags_casetag__["a" /* Casetag */](this.case_ID, newtag))
+            .subscribe(function (casetag) {
+            _this.myCasetags.push(casetag);
+            _this._buildTagOptions();
+            _this._addCasetagControl(casetag.tagname);
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype.removeCasetag = function (oldtag) {
+        var _this = this;
+        this._casetagService.deleteCasetag(oldtag)
+            .subscribe(function (casetag) {
+            _this._getCasetags(_this.case_ID);
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype.setSignoffDateToday = function (field) {
+        var controlName = field + '_signoff_date';
+        if (this.casegroup.contains(controlName)) {
+            this._caseControls[controlName].setValue(__WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].TODAY);
+        }
+    };
+    WorkbenchDetailComponent.prototype.setFinalLetterDate = function (checked) {
+        if (checked) {
+            this._caseControls['final_letter_date'].setValue(__WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].TODAY);
+            var close_case = confirm('Do you also want to close this case?');
+            if (close_case) {
+                this._caseControls['close_date'].setValue(__WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].TODAY);
+            }
+            else {
+                this._caseControls['close_date'].setValue('');
+            }
+        }
+        else {
+            this._caseControls['final_letter_date'].setValue('');
+        }
+    };
+    WorkbenchDetailComponent.prototype.fileDragHover = function (fileInput) {
+        fileInput.stopPropagation();
+        fileInput.preventDefault();
+    };
+    WorkbenchDetailComponent.prototype.casefileSelectHandler = function (fileInput) {
+        this.fileDragHover(fileInput);
+        var selectedFiles = fileInput.target.files || fileInput.dataTransfer.files;
+        for (var i = 0, j = selectedFiles.length; i < j; i++) {
+            var f = selectedFiles[i];
+            this._filesToUpload.push(f);
+            var fileDetails = { 'name': f.name };
+            this.filesToUploadDetails.push(fileDetails);
+        }
+    };
+    WorkbenchDetailComponent.prototype.finalletterSelectHandler = function (fileInput) {
+        this.fileDragHover(fileInput);
+        // if (this._finalletterToUpload) {
+        //     let message = 'There is already a final leader ready for upload.\n';
+        //     message += 'If you want to upload a different final letter, remove the current final letter.';
+        //     APP_UTILITIES.showToast(message);
+        // } else if (this.myCasefiles) {
+        //     for (const casefile of this.myCasefiles) {
+        //         if (casefile.final_letter) {
+        //             let message = 'There is already a final leader that has been uploaded.\n';
+        //             message += 'If you want to upload a different final letter, remove the current final letter.';
+        //             APP_UTILITIES.showToast(message);
+        //         }
+        //     }
+        // } else {
+        var selectedFiles = fileInput.target.files || fileInput.dataTransfer.files;
+        this._finalletterToUpload = selectedFiles[0];
+        this.finalletterToUploadDetails = { 'name': this._finalletterToUpload.name };
+        // }
+    };
+    WorkbenchDetailComponent.prototype.removeCasefile = function (index) {
+        this._filesToUpload.splice(index, 1);
+        this.filesToUploadDetails.splice(index, 1);
+    };
+    WorkbenchDetailComponent.prototype.removeFinalLetter = function () {
+        this._finalletterToUpload = undefined;
+        this.finalletterToUploadDetails = undefined;
+    };
+    WorkbenchDetailComponent.prototype.deleteCasefile = function (casefileid) {
+        var _this = this;
+        this._casefileService.deleteCasefile(casefileid)
+            .subscribe(function (response) { _this._getCasefiles(_this.myCase.id); }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchDetailComponent.prototype._callCreateCasefiles = function () {
+        var _this = this;
+        // create the new casefiles
+        this._casefileService.createCasefiles(this.myCase.id, this._filesToUpload)
+            .then(function (result) {
+            _this._getCasefiles(_this.myCase.id);
+            _this._filesToUpload.length = 0;
+            _this.filesToUploadDetails.length = 0;
+            if (_this._finalletterToUpload) {
+                _this._callCreateFinalLetter();
+            }
+            else if (_this._isNewCase) {
+                _this._isNewCase = false;
+                _this._router.navigate(['/workbench/' + _this.case_ID]);
+            }
+        }, function (error) {
+            // console.error(error);
+            __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(error);
+        });
+    };
+    WorkbenchDetailComponent.prototype._callCreateFinalLetter = function () {
+        var _this = this;
+        // create the new final letter
+        var uploadFiles = [this._finalletterToUpload];
+        this._casefileService.createCasefiles(this.myCase.id, uploadFiles, true)
+            .then(function (result) {
+            _this._getCasefiles(_this.myCase.id);
+            _this.removeFinalLetter();
+            if (_this._isNewCase) {
+                _this._isNewCase = false;
+                _this._router.navigate(['/workbench/' + _this.case_ID]);
+            }
+        }, function (error) {
+            // console.error(error);
+            __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(error);
+        });
+    };
+    WorkbenchDetailComponent.prototype.generateLetter = function () {
+        this._caseService.createFinalLeter(this.case_ID)
+            .then(function (data) {
+            var blob = new Blob([data[0]], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+            __WEBPACK_IMPORTED_MODULE_26_file_saver__["saveAs"](blob, data[1]);
+        });
+    };
+    WorkbenchDetailComponent.prototype.onSubmit = function (form) {
+        var _this = this;
+        this.notready = true;
+        // check each formControl group for changes, then send the changed objects to their respective services
+        if (form.dirty || this._filesToUpload || this._finalletterToUpload) {
+            var changedCaseGroup = form.controls.casegroup;
+            var changedPropertyGroup = form.controls.propertygroup;
+            var changedRequesterGroup = form.controls.requestergroup;
+            // check if this is a create or update (case_number will only exist if this is an update)
+            if (this.myCase.case_number) {
+                if (changedCaseGroup.dirty) {
+                    // for each date field, replace empty string with null (Django Date fields don't allow empty strings)
+                    // and for all date fields with values, reformat from mm/dd/yyyy to yyyy-mm-dd
+                    // note that cbrs_map_date and prohibition_date are slightly different,
+                    // since they're plain text and not mydatepicker objects
+                    var thisDate = changedCaseGroup.controls.request_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup.controls.request_date.setValue(null);
+                    }
+                    else if (thisDate !== null) {
+                        thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
+                        changedCaseGroup.controls.request_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.cbrs_map_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup.controls.cbrs_map_date.setValue(null);
+                    }
+                    thisDate = changedCaseGroup.controls.prohibition_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup.controls.prohibition_date.setValue(null);
+                    }
+                    thisDate = changedCaseGroup.controls.fws_fo_received_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup.controls.fws_fo_received_date.setValue(null);
+                    }
+                    else if (thisDate !== null) {
+                        thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
+                        changedCaseGroup.controls.fws_fo_received_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.fws_hq_received_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup.controls.fws_hq_received_date.setValue(null);
+                    }
+                    else if (thisDate !== null) {
+                        thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
+                        changedCaseGroup.controls.fws_hq_received_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.final_letter_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup.controls.final_letter_date.setValue(null);
+                    }
+                    else if (thisDate !== null) {
+                        thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
+                        changedCaseGroup.controls.final_letter_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.close_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup.controls.close_date.setValue(null);
+                    }
+                    else if (thisDate !== null) {
+                        // it is possible that close_date has already been set to be equal to final_letter_date,
+                        // in which case it will be a string, otherwise it will be a mydatepicker object
+                        if (typeof thisDate !== 'string') {
+                            thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
+                            changedCaseGroup.controls.close_date.setValue(thisDate);
+                        }
+                    }
+                    thisDate = changedCaseGroup.controls.analyst_signoff_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup.controls.analyst_signoff_date.setValue(null);
+                    }
+                    else if (thisDate !== null) {
+                        thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
+                        changedCaseGroup.controls.analyst_signoff_date.setValue(thisDate);
+                    }
+                    thisDate = changedCaseGroup.controls.qc_reviewer_signoff_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(null);
+                    }
+                    else if (thisDate !== null) {
+                        thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
+                        changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(thisDate);
+                    }
+                    this._caseService.updateCase(changedCaseGroup.value)
+                        .subscribe(function (acase) {
+                        _this.myCase = acase;
+                        _this._updateControls(_this._myCase_fields, _this._caseControls, _this.myCase);
+                    }, function (error) { return _this._errorMessage = error; });
+                }
+                if (changedPropertyGroup.dirty) {
+                    this._propertyService.updateProperty(changedPropertyGroup.value)
+                        .subscribe(function (property) {
+                        _this.myProperty = property;
+                        _this._updateControls(_this._myProperty_fields, _this._propertyControls, _this.myProperty);
+                    }, function (error) { return _this._errorMessage = error; });
+                }
+                if (changedRequesterGroup.dirty) {
+                    this._requesterService.updateRequester(changedRequesterGroup.value)
+                        .subscribe(function (requester) {
+                        _this.myRequester = requester;
+                        _this._updateControls(_this._myRequester_fields, _this._requesterControls, _this.myRequester);
+                    }, function (error) { return _this._errorMessage = error; });
+                }
+                if (this._filesToUpload) {
+                    this._callCreateCasefiles();
+                }
+                if (this._finalletterToUpload) {
+                    this._callCreateFinalLetter();
+                }
+            }
+            else {
+                this._createCase(form);
+            }
+        }
+        else if (this._filesToUpload) {
+            this._callCreateCasefiles();
+        }
+        else if (this._finalletterToUpload) {
+            this._callCreateFinalLetter();
+        }
+        // reset the form
+        this.active = false;
+        setTimeout(function () { _this.notready = false; _this.active = true; }, 5000);
+    };
+    WorkbenchDetailComponent.prototype._createCase = function (form) {
+        // adapted from cbrarequests: https://github.com/USGS-WiM/CBRARequests/blob/master/src/app.component.ts
+        var changedPropertyGroup = form.controls.propertygroup;
+        var changedRequesterGroup = form.controls.requestergroup;
+        // ensure required fields have values
+        var hasRequiredValues = true;
+        if (!changedPropertyGroup.controls.street && !changedPropertyGroup.controls.city && !changedPropertyGroup.controls.state) {
+            __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast('Could not find the property street and/or city and/or state. Some address value is required.');
+            hasRequiredValues = false;
+        }
+        if (!changedRequesterGroup.controls.first_name && !changedRequesterGroup.controls.last_name
+            && !changedRequesterGroup.controls.email) {
+            __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast('Could not find the requester first name and/or last name and/or email. Some name is required.');
+            hasRequiredValues = false;
+        }
+        if (!hasRequiredValues) {
+            return;
+        }
+        // ensure no property fields are null (use empty strings if null)
+        for (var _i = 0, changedPropertyGroup_1 = changedPropertyGroup; _i < changedPropertyGroup_1.length; _i++) {
+            var group = changedPropertyGroup_1[_i];
+            for (var _a = 0, group_1 = group; _a < group_1.length; _a++) {
+                var key = group_1[_a];
+                if (!changedPropertyGroup[key]) {
+                    changedPropertyGroup[key] = '';
+                }
+            }
+        }
+        // ensure no requester fields are null (use empty strings if null)
+        for (var _b = 0, changedRequesterGroup_1 = changedRequesterGroup; _b < changedRequesterGroup_1.length; _b++) {
+            var group = changedRequesterGroup_1[_b];
+            for (var _c = 0, group_2 = group; _c < group_2.length; _c++) {
+                var key = group_2[_c];
+                if (!changedRequesterGroup[key]) {
+                    changedRequesterGroup[key] = '';
+                }
+            }
+        }
+        // create the local models
+        this._newCase = new __WEBPACK_IMPORTED_MODULE_3__cases_case__["a" /* Case */]();
+        this._newProperty = new __WEBPACK_IMPORTED_MODULE_4__properties_property__["a" /* Property */](changedPropertyGroup.controls.street.value, changedPropertyGroup.controls.city.value, changedPropertyGroup.controls.state.value, changedPropertyGroup.controls.zipcode.value, changedPropertyGroup.controls.unit.value, changedPropertyGroup.controls.legal_description.value, changedPropertyGroup.controls.subdivision.value, changedPropertyGroup.controls.policy_number.value);
+        this._newRequester = new __WEBPACK_IMPORTED_MODULE_5__requesters_requester__["a" /* Requester */](changedRequesterGroup.controls.first_name.value, changedRequesterGroup.controls.last_name.value, changedRequesterGroup.controls.salutation.value, changedRequesterGroup.controls.organization.value, changedRequesterGroup.controls.email.value, changedRequesterGroup.controls.street.value, changedRequesterGroup.controls.unit.value, changedRequesterGroup.controls.city.value, changedRequesterGroup.controls.state.value, changedRequesterGroup.controls.zipcode.value);
+        // check if the property, requester, or case already exist, and create them as necessary
+        this.__getProperties(this._newProperty);
+    };
+    //////
+    //
+    // _createCase functions
+    //
+    //////
+    WorkbenchDetailComponent.prototype.__getCases = function (propertyID, requesterID) {
+        var _this = this;
+        this._caseService.getCases(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('property=' + propertyID + '&requester=' + requesterID))
+            .subscribe(function (cases) {
+            if (cases.length > 0) {
+                // inform the user that the request already exists and show the summary
+                _this._newCase.id = cases[0].id;
+                // TODO: replace this alert with a better UX, like a modal
+                __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast('That case already exists! Loading the case details...');
+                _this.__goToCase(_this._newCase.id);
+                _this.notready = false;
+            }
+            else {
+                // send the new request to the DB
+                _this.__createRequest();
+            }
+        }, function (error) { return console.error(error); });
+    };
+    WorkbenchDetailComponent.prototype.__getProperties = function (property) {
+        var _this = this;
+        this._propertyService.getProperties(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('street=' + property.street
+            + '&unit=' + property.unit
+            + '&city=' + property.city
+            + '&state=' + property.state
+            + '&zipcode=' + property.zipcode
+        // + '&legal_description=' +property.legal_description
+        ))
+            .subscribe(function (properties) {
+            if (properties.length > 0) {
+                _this._newProperty.id = properties[0].id;
+            }
+            _this.__getRequesters(_this._newRequester);
+        }, function (error) { return console.error(error); });
+    };
+    WorkbenchDetailComponent.prototype.__getRequesters = function (requester) {
+        var _this = this;
+        this._requesterService.getRequesters(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('salutation=' + requester.salutation
+            + '&first_name=' + requester.first_name
+            + '&last_name=' + requester.last_name
+            + '&organization=' + requester.organization
+            + '&email=' + requester.email
+            + '&street=' + requester.street
+            + '&unit=' + requester.unit
+            + '&city=' + requester.city
+            + '&state=' + requester.state
+            + '&zipcode=' + requester.zipcode))
+            .subscribe(function (requesters) {
+            if (requesters.length > 0) {
+                _this._newRequester.id = requesters[0].id;
+            }
+            if (_this._newProperty.id && _this._newRequester.id) {
+                _this.__getCases(_this._newProperty.id, _this._newRequester.id);
+            }
+            else {
+                // send the new request to the DB
+                _this.__createRequest();
+            }
+        }, function (error) { return console.error(error); });
+    };
+    WorkbenchDetailComponent.prototype.__createRequest = function () {
+        if (this._newRequester.id && this._newProperty.id) {
+            this.__assignRequesterID();
+            this.__assignPropertyID();
+            this.__callCreateCase();
+        }
+        else if (this._newRequester.id && !this._newProperty.id) {
+            this.__assignRequesterID();
+            this.__callCreatePropertyAndCase();
+        }
+        else {
+            this.__callCreateRequesterAndPropertyAndCase();
+        }
+    };
+    WorkbenchDetailComponent.prototype.__assignRequesterID = function () {
+        this._newCase.requester = this._newRequester.id;
+    };
+    WorkbenchDetailComponent.prototype.__assignPropertyID = function () {
+        this._newCase.property = this._newProperty.id;
+    };
+    WorkbenchDetailComponent.prototype.__callCreateRequesterAndPropertyAndCase = function () {
+        var _this = this;
+        // create the requester object, then grab its ID for the relation to the case
+        this._requesterService.createRequester(this._newRequester)
+            .subscribe(function (newrequester) {
+            _this._newRequester = newrequester;
+            _this.__assignRequesterID();
+            // create the property object, then grab its ID for the relation to the case
+            _this.__callCreatePropertyAndCase();
+        }, function (error) { return console.error(error); });
+    };
+    WorkbenchDetailComponent.prototype.__callCreatePropertyAndCase = function () {
+        var _this = this;
+        // create the property object, then grab its ID for the relation to the case
+        this._propertyService.createProperty(this._newProperty)
+            .subscribe(function (newproperty) {
+            _this._newProperty = newproperty;
+            _this.__assignPropertyID();
+            // create the new case
+            _this.__callCreateCase();
+        }, function (error) { return console.error(error); });
+    };
+    WorkbenchDetailComponent.prototype.__callCreateCase = function () {
+        var _this = this;
+        // create the new case
+        this._caseService.createCase(this._newCase)
+            .subscribe(function (newcase) {
+            _this._newCase = newcase;
+            if (_this._filesToUpload) {
+                _this._callCreateCasefiles();
+            }
+            if (_this._finalletterToUpload) {
+                _this._callCreateFinalLetter();
+            }
+            else {
+                _this.__goToCase(_this._newCase.id);
+                _this.notready = false;
+            }
+        }, function (error) { return console.error(error); });
+    };
+    WorkbenchDetailComponent.prototype.__goToCase = function (caseID) {
+        this._router.navigate(['/workbench/' + caseID]);
+    };
+    WorkbenchDetailComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: __webpack_require__("../../../../../src/workbench/workbench-detail.component.html"),
+            styles: ['.error {color:red;}']
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_23__angular_forms__["b" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_23__angular_forms__["b" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_9__cases_case_service__["a" /* CaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__cases_case_service__["a" /* CaseService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_10__casefiles_casefile_service__["a" /* CasefileService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__casefiles_casefile_service__["a" /* CasefileService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_11__properties_property_service__["a" /* PropertyService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__properties_property_service__["a" /* PropertyService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_12__requesters_requester_service__["a" /* RequesterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__requesters_requester_service__["a" /* RequesterService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_13__comments_comment_service__["a" /* CommentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__comments_comment_service__["a" /* CommentService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_14__tags_tag_service__["a" /* TagService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__tags_tag_service__["a" /* TagService */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_15__casetags_casetag_service__["a" /* CasetagService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__casetags_casetag_service__["a" /* CasetagService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_16__systemunits_systemunit_service__["a" /* SystemunitService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_16__systemunits_systemunit_service__["a" /* SystemunitService */]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_17__systemmaps_systemmap_service__["a" /* SystemmapService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_17__systemmaps_systemmap_service__["a" /* SystemmapService */]) === "function" && _m || Object, typeof (_o = typeof __WEBPACK_IMPORTED_MODULE_18__fieldoffices_fieldoffice_service__["a" /* FieldofficeService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_18__fieldoffices_fieldoffice_service__["a" /* FieldofficeService */]) === "function" && _o || Object, typeof (_p = typeof __WEBPACK_IMPORTED_MODULE_19__users_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_19__users_user_service__["a" /* UserService */]) === "function" && _p || Object, typeof (_q = typeof __WEBPACK_IMPORTED_MODULE_20__determinations_determination_service__["a" /* DeterminationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_20__determinations_determination_service__["a" /* DeterminationService */]) === "function" && _q || Object, typeof (_r = typeof __WEBPACK_IMPORTED_MODULE_21__prohibitiondates_prohibitiondate_service__["a" /* ProhibitiondateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_21__prohibitiondates_prohibitiondate_service__["a" /* ProhibitiondateService */]) === "function" && _r || Object, typeof (_s = typeof __WEBPACK_IMPORTED_MODULE_22__authentication_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_22__authentication_authentication_service__["a" /* AuthenticationService */]) === "function" && _s || Object])
+    ], WorkbenchDetailComponent);
+    return WorkbenchDetailComponent;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
+}());
+
+//# sourceMappingURL=workbench-detail.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-filter.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container cbrs-form\">\n\n    <div *ngIf=\"filternotready\" align=\"center\" id=\"loading-spinner\"><i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i><img src=\"https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif\"></div>\n    <div *ngIf=\"!filternotready\">\n\n        <form [formGroup]=\"form\" *ngIf=\"active\" (ngSubmit)=\"onSubmit(form)\">\n\n            <div class=\"dms-group noheader\">\n\n                <div class=\"row\">\n\n                    <div formGroupName=\"workbenchfiltergroup\">\n\n                        <div class=\"col-md-10\">\n\n                            <div class=\"row\">\n\n                                <div class=\"col-md-2 dms-form-group bb br\">\n                                    <label for=\"status\">Status</label>\n                                    <select id=\"status\" formControlName=\"status\">\n                                        <option value=\"\"></option>\n                                        <option *ngFor=\"let status of myStatuses\" [value]=\"status\" [selected]=\"status == myWorkbenchFilter.status\">{{status}}</option>\n                                    </select>\n                                </div>\n\n                                <div class=\"col-md-2 dms-form-group bb br\">\n                                    <label for=\"case_number\">Case ID</label>\n                                    <input id=\"case_number\" type=\"text\" formControlName=\"case_number\">\n                                </div>\n\n                                <div class=\"col-md-2 dms-form-group bb br\">\n                                    <label for=\"case_reference\">Case Reference</label>\n                                    <input id=\"case_reference\" type=\"text\" formControlName=\"case_reference\">\n                                </div>\n\n                                <div class=\"col-md-2 dms-form-group bb br\">\n                                    <label for=\"request_date_after\">Request Date After</label>\n                                    <my-date-picker id=\"request_date_after\" [options]=\"myDatePickerOptions\" formControlName=\"request_date_after\"></my-date-picker>\n                                </div>\n\n                                <div class=\"col-md-2 dms-form-group bb br\">\n                                    <label for=\"request_date_before\">Request Date Before</label>\n                                    <my-date-picker id=\"request_date_before\" [options]=\"myDatePickerOptions\" formControlName=\"request_date_before\"></my-date-picker>\n                                </div>\n\n                                <div class=\"col-md-1 dms-form-group bb br\">\n                                    <label for=\"distance_from\">Distance From</label>\n                                    <input id=\"distance_from\" type=\"text\" formControlName=\"distance_from\">\n                                </div>\n\n                                <div class=\"col-md-1 dms-form-group bb br\">\n                                    <label for=\"distance_to\">Distance To</label>\n                                    <input id=\"distance_to\" type=\"text\" formControlName=\"distance_to\">\n                                </div>\n\n                            </div> <!-- /row -->\n\n                            <div class=\"row\">\n\n                                <div class=\"col-md-2 dms-form-group br\">\n                                    <label for=\"analyst\">Analyst</label>\n                                    <select id=\"analyst\" formControlName=\"analyst\">\n                                        <option value=\"\"></option>\n                                        <option *ngFor=\"let analyst of myUsers\" [value]=\"analyst.id\" [selected]=\"analyst.id == myWorkbenchFilter.analyst\">{{analyst.username}}</option>\n                                    </select>\n                                </div>\n\n                                <div class=\"col-md-2 dms-form-group br\">\n                                    <label for=\"qc_reviewer\">QC Reviewer</label>\n                                    <select id=\"qc_reviewer\" formControlName=\"qc_reviewer\">\n                                        <option value=\"\"></option>\n                                        <option *ngFor=\"let qc_reviewer of myUsers\" [value]=\"qc_reviewer.id\" [selected]=\"qc_reviewer.id == myWorkbenchFilter.qc_reviewer\">{{qc_reviewer.username}}</option>\n                                    </select>\n                                </div>\n\n                                <div class=\"col-md-2 dms-form-group br\">\n                                    <label for=\"cbrs_unit\">CBRS Unit</label>\n                                    <select id=\"cbrs_unit\" formControlName=\"cbrs_unit\">\n                                        <option value=\"\"></option>\n                                        <option *ngFor=\"let unit of mySystemunits\" [value]=\"unit.id\" [selected]=\"unit.id == myWorkbenchFilter.cbrs_unit\">{{unit.system_unit_number}}</option>\n                                    </select>\n                                </div>\n\n                                <div class=\"col-md-2 dms-form-group br\">\n                                    <label for=\"tags\">Tag</label>\n                                    <select id=\"tags\" formControlName=\"tags\">\n                                        <option value=\"\"></option>\n                                        <option *ngFor=\"let tag of myTags\" [value]=\"tag.id\" [selected]=\"tag.id == myWorkbenchFilter.tags[0]\">{{tag.name}}</option>\n                                    </select>\n                                </div>\n\n                                <div class=\"col-md-2 dms-form-group br\">\n                                    <label for=\"street\">Street</label>\n                                    <input id=\"street\" type=\"text\" formControlName=\"street\">\n                                </div>\n\n                                <div class=\"col-md-2 dms-form-group br\">\n                                    <label for=\"city\">City</label>\n                                    <input id=\"city\" type=\"text\" formControlName=\"city\">\n                                </div>\n\n                            </div> <!-- /row -->\n\n                        </div> <!-- /col-md-10 -->\n\n                        <div class=\"col-md-2\">\n                            <div class=\"chx-group\">\n                                <label for=\"priority\">Priority</label><!--\n                                --><div class=\"chx\">\n                                    <input id=\"priority\" type=\"checkbox\" formControlName=\"priority\">\n                                </div>\n                            </div><!--\n                                --><div class=\"chx-group\">\n                                <label for=\"on_hold\">On Hold</label><!--\n                                --><div class=\"chx\">\n                                    <input id=\"on_hold\" type=\"checkbox\" formControlName=\"on_hold\">\n                                </div>\n                            </div><!--\n                                --><div class=\"chx-group\">\n                                <label for=\"invalid\">Invalid</label><!--\n                                --><div class=\"chx\">\n                                    <input id=\"invalid\" type=\"checkbox\" formControlName=\"invalid\">\n                                </div>\n                            </div><!--\n                                --><div class=\"chx-group\">\n                                <label for=\"duplicate\">Duplicate</label><!--\n                                --><div class=\"slct\">\n                                    <select id=\"duplicate\" formControlName=\"duplicate\" style=\"width:120px\">\n                                        <option value=\"\"></option>\n                                        <option value=\"none\">None</option>\n                                        <option *ngFor=\"let caseID of myCaseIDs\" [value]=\"caseID.id\" [selected]=\"caseID.id == myWorkbenchFilter.case_number\">{{caseID.id}}</option>\n                                    </select>\n                                </div>\n                            </div>\n                        </div> <!-- /col-md-2 -->\n\n                    </div> <!-- /workbenchfiltergroup -->\n\n                </div> <!-- /row -->\n\n            </div> <!-- /dms-group noheaders -->\n\n            <div class=\"dms-group noheader\">\n\n                <div class=\"row\">\n\n                    <div formGroupName=\"workbenchfreetextgroup\" class=\"col-md-10\">\n\n\n                        <div class=\"col-md-2 dms-form-group br\">\n                            <label for=\"fiscal_year\">Fiscal Year</label>\n                            <input id=\"fiscal_year\" type=\"text\" formControlName=\"fiscal_year\">\n                        </div><!--\n\n                        --><div class=\"col-md-10 dms-form-group br\">\n                            <label for=\"freetext\">Freetext</label>\n                            <input id=\"freetext\" id=\"freetext\" type=\"text\" formControlName=\"freetext\">\n                        </div>\n\n\n                    </div> <!-- /workbenchfreetextgroup -->\n\n                    <button type=\"submit\" class=\"btn btn-default btn-save-all-inline col-md-1\" [disabled]=\"!form.valid\">Search</button>\n                    <button type=\"button\" class=\"btn btn-default btn-save-all-inline col-md-1\" (click)=\"clearFilter()\">Clear</button>\n\n                </div> <!-- /row -->\n            </div> <!-- /dms-group noheaders -->\n        </form>\n\n    </div> <!-- /filternotready -->\n\n</div> <!-- /container cbrs-form -->\n"
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-filter.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WorkbenchFilterComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__workbench_filter__ = __webpack_require__("../../../../../src/workbench/workbench-filter.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__workbench_filter_service__ = __webpack_require__("../../../../../src/workbench/workbench-filter.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__cases_case_service__ = __webpack_require__("../../../../../src/cases/case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tags_tag_service__ = __webpack_require__("../../../../../src/tags/tag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__systemunits_systemunit_service__ = __webpack_require__("../../../../../src/systemunits/systemunit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__users_user_service__ = __webpack_require__("../../../../../src/users/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_settings__ = __webpack_require__("../../../../../src/app.settings.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+var WorkbenchFilterComponent = /** @class */ (function () {
+    function WorkbenchFilterComponent(fb, _workbenchFilterService, _caseService, _tagService, _systemunitService, _userService) {
+        this._workbenchFilterService = _workbenchFilterService;
+        this._caseService = _caseService;
+        this._tagService = _tagService;
+        this._systemunitService = _systemunitService;
+        this._userService = _userService;
+        this.onFilter = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.myWorkbenchFilter = new __WEBPACK_IMPORTED_MODULE_1__workbench_filter__["a" /* WorkbenchFilter */]();
+        this.myWorkbenchFreeText = { fiscal_year: undefined, freetext: undefined };
+        this.myStatuses = __WEBPACK_IMPORTED_MODULE_9__app_settings__["a" /* APP_SETTINGS */].STATUSES;
+        this.myCaseIDs = [];
+        this.myUsers = [];
+        this._myWorkbenchFilter_fields = Object.keys(this.myWorkbenchFilter);
+        this._workbenchFreeText_fields = Object.keys(this.myWorkbenchFreeText);
+        this.cleared = false;
+        this.active = true;
+        this.filternotready = true;
+        this.myDatePickerOptions = {
+            dateFormat: 'mm/dd/yyyy',
+        };
+        this._workbenchFilterControls = this._makeControls(this._myWorkbenchFilter_fields);
+        this.workbenchfiltergroup = new __WEBPACK_IMPORTED_MODULE_8__angular_forms__["d" /* FormGroup */](this._workbenchFilterControls);
+        this._workbenchFreeTextControls = this._makeControls(this._workbenchFreeText_fields);
+        this.workbenchfreetextgroup = new __WEBPACK_IMPORTED_MODULE_8__angular_forms__["d" /* FormGroup */](this._workbenchFreeTextControls);
+        this.form = fb.group({
+            workbenchfiltergroup: this.workbenchfiltergroup,
+            workbenchfreetextgroup: this.workbenchfreetextgroup
+        });
+        // get values for the select inputs
+        this._getCaseIDs();
+        this._getUsers();
+        this._getSystemunits();
+        this._getTags();
+        this.myStatuses.push('Open');
+    }
+    WorkbenchFilterComponent.prototype._makeControls = function (fields) {
+        var controls = {};
+        for (var i = 0, j = fields.length; i < j; i++) {
+            controls[fields[i]] = new __WEBPACK_IMPORTED_MODULE_8__angular_forms__["c" /* FormControl */]('');
+        }
+        return controls;
+    };
+    WorkbenchFilterComponent.prototype._updateControls = function (fields, controls, values) {
+        for (var i = 0, j = fields.length; i < j; i++) {
+            var field = fields[i];
+            if (field.slice(-4) === 'date' && values[field] != null) {
+                var thisDate = new Date(values[field]);
+                controls[field].setValue({ date: { year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate() } });
+            }
+            else {
+                controls[field].setValue(values[field]);
+            }
+        }
+    };
+    WorkbenchFilterComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (sessionStorage.getItem('filterUrlSearchParams')) {
+            for (var prop in this.myWorkbenchFilter) {
+                if (sessionStorage.getItem(prop)) {
+                    this.myWorkbenchFilter[prop] = sessionStorage.getItem(prop);
+                }
+            }
+        }
+        if (!this.myWorkbenchFilter.status) {
+            this.myWorkbenchFilter.status = 'Open';
+        }
+        this.selectedTag =
+            typeof this.myWorkbenchFilter.tags !== 'undefined' && this.myWorkbenchFilter.tags.length > 0 ?
+                this.myWorkbenchFilter.tags[0] : null;
+        setTimeout(function () { return _this._updateControls(_this._myWorkbenchFilter_fields, _this._workbenchFilterControls, _this.myWorkbenchFilter); }, 0);
+        this.filternotready = false;
+    };
+    WorkbenchFilterComponent.prototype._getCaseIDs = function () {
+        var _this = this;
+        this._caseService.getCases(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('view=caseid'))
+            .subscribe(function (cases) {
+            _this.myCaseIDs.length = 0;
+            for (var i = 0, j = cases.length; i < j; i++) {
+                if (cases[i].duplicate) {
+                    _this.myCaseIDs.push(cases[i]);
+                }
+            }
+            _this.myCaseIDs.sort(__WEBPACK_IMPORTED_MODULE_10__app_utilities__["a" /* APP_UTILITIES */].dynamicSort('id'));
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchFilterComponent.prototype._getTags = function () {
+        var _this = this;
+        this._tagService.getTags()
+            .subscribe(function (tags) {
+            _this.myTags = tags;
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchFilterComponent.prototype._getSystemunits = function () {
+        var _this = this;
+        this._systemunitService.getSystemunits()
+            .subscribe(function (systemunits) {
+            _this.mySystemunits = systemunits.sort(__WEBPACK_IMPORTED_MODULE_10__app_utilities__["a" /* APP_UTILITIES */].dynamicSort('system_unit_number'));
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchFilterComponent.prototype._getUsers = function () {
+        var _this = this;
+        this._userService.getUsers(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */]('used_users=True'))
+            .subscribe(function (users) {
+            _this.myUsers = users;
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchFilterComponent.prototype.defaultFilter = function () {
+        this.myWorkbenchFilter = new __WEBPACK_IMPORTED_MODULE_1__workbench_filter__["a" /* WorkbenchFilter */]();
+        this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, this.myWorkbenchFilter);
+        this._updateControls(this._workbenchFreeText_fields, this._workbenchFreeTextControls, this.myWorkbenchFreeText);
+        this._workbenchFilterService.deleteFilter();
+        this._workbenchFilterService.deleteUrlSearchParams();
+    };
+    WorkbenchFilterComponent.prototype.clearFilter = function () {
+        this.cleared = true;
+        this.filternotready = true;
+        var wbf = new __WEBPACK_IMPORTED_MODULE_1__workbench_filter__["a" /* WorkbenchFilter */]();
+        this._updateControls(this._myWorkbenchFilter_fields, this._workbenchFilterControls, wbf);
+        this._updateControls(this._workbenchFreeText_fields, this._workbenchFreeTextControls, this.myWorkbenchFreeText);
+        this._workbenchFilterService.deleteFilter();
+        this._workbenchFilterService.deleteUrlSearchParams();
+        this.filternotready = false;
+    };
+    WorkbenchFilterComponent.prototype.onSubmit = function (form) {
+        // check each FormControl for changes
+        if (form.dirty || this.cleared) {
+            this.filternotready = true;
+            var wbf = {};
+            var urlSearchParams = 'view=workbench';
+            // the following check is a hack because the Status field is set to Open by default,
+            // meaning it doesn't make the form dirty because the field may not have changed value
+            if (form.controls.workbenchfiltergroup.controls['status'].value === 'Open') {
+                urlSearchParams += '&status=Open';
+            }
+            for (var i = 0, j = this._myWorkbenchFilter_fields.length; i < j; i++) {
+                var field = form.controls.workbenchfiltergroup.controls[this._myWorkbenchFilter_fields[i]];
+                if (field.dirty && field.value != null && field.value !== '') {
+                    if (this._myWorkbenchFilter_fields[i] === 'request_date_after' ||
+                        this._myWorkbenchFilter_fields[i] === 'request_date_before') {
+                        var newval = ('0' + field.value.year).slice(-4)
+                            + '-' + ('0' + field.value.month).slice(-2)
+                            + '-' + ('0' + field.value.day).slice(-2);
+                        wbf[this._myWorkbenchFilter_fields[i]] = newval;
+                        urlSearchParams += '&' + this._myWorkbenchFilter_fields[i] + '=' + newval;
+                    }
+                    else {
+                        wbf[this._myWorkbenchFilter_fields[i]] = field.value;
+                        urlSearchParams += '&' + this._myWorkbenchFilter_fields[i] + '=' + field.value;
+                    }
+                }
+            }
+            for (var i = 0, j = this._workbenchFreeText_fields.length; i < j; i++) {
+                var field = form.controls.workbenchfreetextgroup.controls[this._workbenchFreeText_fields[i]];
+                if (field.dirty && field.value != null && field.value !== '') {
+                    wbf[this._workbenchFreeText_fields[i]] = field.value;
+                    urlSearchParams += '&' + this._workbenchFreeText_fields[i] + '=' + field.value;
+                }
+            }
+            this.filternotready = false;
+            this._workbenchFilterService.setFilter(wbf);
+            this._workbenchFilterService.setUrlSearchParams(urlSearchParams);
+            this.onFilter.emit(urlSearchParams);
+        }
+        this.cleared = false;
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", Object)
+    ], WorkbenchFilterComponent.prototype, "onFilter", void 0);
+    WorkbenchFilterComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'workbench-filter',
+            template: __webpack_require__("../../../../../src/workbench/workbench-filter.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_8__angular_forms__["b" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__angular_forms__["b" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__workbench_filter_service__["a" /* WorkbenchFilterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__workbench_filter_service__["a" /* WorkbenchFilterService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__cases_case_service__["a" /* CaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__cases_case_service__["a" /* CaseService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__tags_tag_service__["a" /* TagService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__tags_tag_service__["a" /* TagService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6__systemunits_systemunit_service__["a" /* SystemunitService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__systemunits_systemunit_service__["a" /* SystemunitService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_7__users_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__users_user_service__["a" /* UserService */]) === "function" && _f || Object])
+    ], WorkbenchFilterComponent);
+    return WorkbenchFilterComponent;
+    var _a, _b, _c, _d, _e, _f;
+}());
+
+//# sourceMappingURL=workbench-filter.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-filter.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WorkbenchFilterService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__workbench_filter__ = __webpack_require__("../../../../../src/workbench/workbench-filter.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var WorkbenchFilterService = /** @class */ (function () {
+    function WorkbenchFilterService() {
+        this._myWorkbenchFilter = new __WEBPACK_IMPORTED_MODULE_1__workbench_filter__["a" /* WorkbenchFilter */]();
+        this._myWorkbenchFilterUrlSearchParams = '';
+    }
+    WorkbenchFilterService.prototype.getFilter = function () {
+        return this._myWorkbenchFilter;
+    };
+    WorkbenchFilterService.prototype.getUrlSearchParams = function () {
+        return this._myWorkbenchFilterUrlSearchParams;
+    };
+    WorkbenchFilterService.prototype.setFilter = function (newWorkbenchFilterValues) {
+        for (var prop in newWorkbenchFilterValues) {
+            this._myWorkbenchFilter[prop] = newWorkbenchFilterValues[prop];
+            sessionStorage.setItem(prop, newWorkbenchFilterValues[prop]);
+        }
+    };
+    WorkbenchFilterService.prototype.setUrlSearchParams = function (newUrlSearchParams) {
+        this._myWorkbenchFilterUrlSearchParams = newUrlSearchParams;
+        sessionStorage.setItem('filterUrlSearchParams', newUrlSearchParams);
+    };
+    WorkbenchFilterService.prototype.deleteFilter = function () {
+        for (var prop in this._myWorkbenchFilter) {
+            sessionStorage.removeItem(prop);
+        }
+    };
+    WorkbenchFilterService.prototype.deleteUrlSearchParams = function () {
+        sessionStorage.removeItem('filterUrlSearchParams');
+    };
+    WorkbenchFilterService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], WorkbenchFilterService);
+    return WorkbenchFilterService;
+}());
+
+//# sourceMappingURL=workbench-filter.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-filter.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WorkbenchFilter; });
+var WorkbenchFilter = /** @class */ (function () {
+    function WorkbenchFilter(status, case_number, case_reference, request_date_after, request_date_before, distance_from, distance_to, analyst, qc_reviewer, cbrs_unit, tags, street, city, priority, on_hold, invalid, duplicate, id) {
+        this.status = status;
+        this.case_number = case_number;
+        this.case_reference = case_reference;
+        this.request_date_after = request_date_after;
+        this.request_date_before = request_date_before;
+        this.distance_from = distance_from;
+        this.distance_to = distance_to;
+        this.analyst = analyst;
+        this.qc_reviewer = qc_reviewer;
+        this.cbrs_unit = cbrs_unit;
+        this.tags = tags;
+        this.street = street;
+        this.city = city;
+        this.priority = priority;
+        this.on_hold = on_hold;
+        this.invalid = invalid;
+        this.duplicate = duplicate;
+        this.id = id;
+    }
+    return WorkbenchFilter;
+}());
+
+//# sourceMappingURL=workbench-filter.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-grid.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\r\n    <table class=\"dms-table table table-bordered\">\r\n        <thead>\r\n            <tr>\r\n                <th *ngFor=\"let col of columns\">\r\n                    <a (click)=\"sort(col.name)\" class=\"gridHeader\">{{col.descr}} <i class=\"fa fa-sort\"></i></a>\r\n                </th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            <tr *ngFor=\"let row of rows\" (click)=\"onClick(row)\">\r\n                <td *ngFor=\"let col of columns\">\r\n                    <span *ngIf=\"row[col.name] !== true && row[col.name] !== false\">{{row[col.name]}}</span>\r\n                    <span *ngIf=\"row[col.name] === true\"><i class=\"fa fa-check true-false-icon\"></i></span>\r\n                    <span *ngIf=\"row[col.name] === false\"><i class=\"fa fa-close true-false-icon\"></i></span>\r\n                </td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-grid.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WorkbenchGridComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__grid_grid__ = __webpack_require__("../../../../../src/grid/grid.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var WorkbenchGridComponent = /** @class */ (function (_super) {
+    __extends(WorkbenchGridComponent, _super);
+    function WorkbenchGridComponent(_router) {
+        var _this = _super.call(this) || this;
+        _this._router = _router;
+        return _this;
+    }
+    WorkbenchGridComponent.prototype.onClick = function (row) {
+        this._router.navigate(['/workbench', row.id]);
+    };
+    WorkbenchGridComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'workbench-grid',
+            inputs: ['rows: rows', 'columns: columns'],
+            template: __webpack_require__("../../../../../src/workbench/workbench-grid.component.html"),
+            styles: ['.gridHeader {cursor:pointer;}']
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _a || Object])
+    ], WorkbenchGridComponent);
+    return WorkbenchGridComponent;
+    var _a;
+}(__WEBPACK_IMPORTED_MODULE_1__grid_grid__["a" /* Grid */]));
+
+//# sourceMappingURL=workbench-grid.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-list.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div [hidden]=\"!notready\" align=\"center\" id=\"loading-spinner\"><i class=\"fa fa-circle-o-notch fa-spin fa-3x fa-fw\"></i></div>\r\n<div [hidden]=\"notready\">\r\n    <button class=\"filter-cases-btn\" (click)=\"toggleFilter()\"><i class=\"fa fa-filter\"></i> Filter Cases</button>\r\n    <workbench-filter [hidden]=\"hideFilter\" (onFilter)=\"onFilter($event)\"></workbench-filter>\r\n    <div *ngIf=\"noCasesFound\" align=\"center\"><br /><br />No cases found.</div>\r\n    <div *ngIf=\"!noCasesFound\"><workbench-grid [rows]=\"cases_properties\" [columns]=\"columns\"></workbench-grid></div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench-list.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WorkbenchListComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__cases_case_service__ = __webpack_require__("../../../../../src/cases/case.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__workbench_filter_component__ = __webpack_require__("../../../../../src/workbench/workbench-filter.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__grid_column__ = __webpack_require__("../../../../../src/grid/column.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_utilities__ = __webpack_require__("../../../../../src/app.utilities.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+var WorkbenchListComponent = /** @class */ (function () {
+    function WorkbenchListComponent(_route, _router, _caseService) {
+        this._route = _route;
+        this._router = _router;
+        this._caseService = _caseService;
+        this.cases_properties = [];
+        this.notready = true;
+        this.hideFilter = true;
+        this.noCasesFound = false;
+    }
+    WorkbenchListComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._params = this._route.queryParams
+            .subscribe(function (params) {
+            if (params['tags']) {
+                _this.tag_ID = params['tags'];
+                var urlSearchParams = 'view=workbench&tags=' + params['tags'];
+                _this._getCases(urlSearchParams);
+                _this._getColumns();
+            }
+            else if (sessionStorage.getItem('filterUrlSearchParams')) {
+                _this._getCases(sessionStorage.getItem('filterUrlSearchParams'));
+                _this._getColumns();
+            }
+            else {
+                _this._getCases();
+                _this._getColumns();
+            }
+        });
+    };
+    WorkbenchListComponent.prototype.ngOnDestroy = function () {
+        if (this._params) {
+            this._params.unsubscribe();
+        }
+    };
+    WorkbenchListComponent.prototype.ngAfterViewInit = function () {
+        this.filterComponent.myWorkbenchFilter.tags = [+this.tag_ID];
+    };
+    WorkbenchListComponent.prototype.toggleFilter = function () {
+        this.hideFilter ? this.hideFilter = false : this.hideFilter = true;
+    };
+    WorkbenchListComponent.prototype.onFilter = function (urlSearchParams) {
+        this._getCases(urlSearchParams);
+    };
+    WorkbenchListComponent.prototype._getCases = function (newUrlSearchParams) {
+        var _this = this;
+        var urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'view=workbench&status=Open';
+        this._caseService.getCases(new __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* URLSearchParams */](urlSearchParams))
+            .subscribe(function (cases) {
+            _this._cases = cases;
+            if (_this._cases.length > 0) {
+                _this.cases_properties.length = 0;
+                for (var i = 0, j = _this._cases.length; i < j; i++) {
+                    var case_property = _this._cases[i];
+                    var address = case_property.property_string.split(',');
+                    case_property.street = address[0];
+                    case_property.city = address[2];
+                    _this.cases_properties.push(case_property);
+                    if (_this._cases.length === _this.cases_properties.length) {
+                        if (!newUrlSearchParams) {
+                            _this._router.navigate(['/workbench']);
+                        }
+                    }
+                }
+                _this.noCasesFound = false;
+            }
+            else {
+                _this.noCasesFound = true;
+            }
+            _this._sortAndShow();
+        }, function (error) { return _this._errorMessage = error; });
+    };
+    WorkbenchListComponent.prototype._getColumns = function () {
+        this.columns = [
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('status', 'Status'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('request_date', 'Request Date'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('id', 'Case ID'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('case_reference', 'Case Reference'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('distance', 'Distance'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('analyst_string', 'Analyst'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('qc_reviewer_string', 'QC Review'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('cbrs_unit_string', 'CBRS Unit'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('street', 'Street Address'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('city', 'City'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('priority', 'Priority'),
+            new __WEBPACK_IMPORTED_MODULE_5__grid_column__["a" /* Column */]('duplicate', 'Duplicate of'),
+        ];
+    };
+    WorkbenchListComponent.prototype._sortAndShow = function () {
+        this.cases_properties.sort(__WEBPACK_IMPORTED_MODULE_6__app_utilities__["a" /* APP_UTILITIES */].dynamicSortMultiple(['-priority', 'id']));
+        this.notready = false;
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_4__workbench_filter_component__["a" /* WorkbenchFilterComponent */]),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__workbench_filter_component__["a" /* WorkbenchFilterComponent */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__workbench_filter_component__["a" /* WorkbenchFilterComponent */]) === "function" && _a || Object)
+    ], WorkbenchListComponent.prototype, "filterComponent", void 0);
+    WorkbenchListComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: __webpack_require__("../../../../../src/workbench/workbench-list.component.html"),
+            providers: [__WEBPACK_IMPORTED_MODULE_7__angular_forms__["b" /* FormBuilder */]]
+        }),
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__cases_case_service__["a" /* CaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__cases_case_service__["a" /* CaseService */]) === "function" && _d || Object])
+    ], WorkbenchListComponent);
+    return WorkbenchListComponent;
+    var _a, _b, _c, _d;
+}());
+
+//# sourceMappingURL=workbench-list.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WorkbenchComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var WorkbenchComponent = /** @class */ (function () {
+    function WorkbenchComponent() {
+    }
+    WorkbenchComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            template: "<navbar></navbar><router-outlet></router-outlet>",
+        })
+    ], WorkbenchComponent);
+    return WorkbenchComponent;
+}());
+
+//# sourceMappingURL=workbench.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/workbench/workbench.routes.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WorkbenchRoutes; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__ = __webpack_require__("../../../../../src/authentication/authentication.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__workbench_component__ = __webpack_require__("../../../../../src/workbench/workbench.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__workbench_detail_component__ = __webpack_require__("../../../../../src/workbench/workbench-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__workbench_list_component__ = __webpack_require__("../../../../../src/workbench/workbench-list.component.ts");
+
+
+
+
+var WorkbenchRoutes = [
+    {
+        path: '',
+        redirectTo: '/workbench',
+        pathMatch: 'full'
+    },
+    {
+        path: 'workbench',
+        component: __WEBPACK_IMPORTED_MODULE_1__workbench_component__["a" /* WorkbenchComponent */],
+        children: [
+            {
+                path: 'new',
+                component: __WEBPACK_IMPORTED_MODULE_2__workbench_detail_component__["a" /* WorkbenchDetailComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+            },
+            {
+                path: ':id',
+                component: __WEBPACK_IMPORTED_MODULE_2__workbench_detail_component__["a" /* WorkbenchDetailComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+            },
+            {
+                path: '',
+                component: __WEBPACK_IMPORTED_MODULE_3__workbench_list_component__["a" /* WorkbenchListComponent */],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_0__authentication_authentication_guard__["a" /* AuthenticationGuard */]]
+            }
+        ]
+    }
+];
+//# sourceMappingURL=workbench.routes.js.map
+
+/***/ }),
+
+/***/ 0:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("../../../../../src/main.ts");
+
+
+/***/ })
+
+},[0]);
+//# sourceMappingURL=main.bundle.js.map

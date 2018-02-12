@@ -36,7 +36,7 @@
 <modal id="modalMap">
     <div class="modal">
         <div class="modal-body">
-            <div class="container cbra-form">
+            <div class="container cbrs-form">
                 <h3 *ngIf="!row">Add Map</h3><h3 *ngIf="row">Edit Map {{row?.id}}</h3>
                 <form [formGroup]="mapForm" (ngSubmit)="onSubmit(mapForm, 'modalMap')">
                     <div class="dms-group">
@@ -83,7 +83,7 @@
 <modal id="modalUnit">
     <div class="modal">
         <div class="modal-body">
-            <div class="container cbra-form">
+            <div class="container cbrs-form">
                 <h3 *ngIf="!row">Add Unit</h3><h3 *ngIf="row">Edit Unit {{row?.id}}</h3>
                 <form [formGroup]="unitForm" (ngSubmit)="onSubmit(unitForm, 'modalUnit')">
                     <div class="dms-group">
@@ -116,7 +116,7 @@
 <modal id="modalDate">
     <div class="modal">
         <div class="modal-body">
-            <div class="container cbra-form">
+            <div class="container cbrs-form">
                 <h3 *ngIf="!row">Add Prohibition Date</h3><h3 *ngIf="row">Edit Prohib. Date {{row?.id}}</h3>
                 <form [formGroup]="dateForm" (ngSubmit)="onSubmit(dateForm, 'modalDate')">
                     <div class="dms-group">

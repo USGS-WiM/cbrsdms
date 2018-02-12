@@ -5,9 +5,9 @@ import {Headers} from '@angular/http';
 export class APP_SETTINGS {
 
     private static _environment = 'production';
-    // private static _API_ENDPOINT = 'http://localhost:8000/cbraservices/';
-    // private static _API_ENDPOINT = 'http://cbradev.wim.usgs.gov/cbra/cbraservices/';
-    private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbra/cbraservices/';
+    // private static _API_ENDPOINT = 'http://localhost:8000/cbrsservices/';
+    // private static _API_ENDPOINT = 'http://cbrsdev.wim.usgs.gov/cbrsservices/';
+    private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbrsservices/';
     public static set environment (env: string) { this._environment = env };
 
     public static get IS_LOGGEDIN(): boolean { return (!!sessionStorage.getItem('username') && !!sessionStorage.getItem('password')); };
