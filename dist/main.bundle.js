@@ -5616,88 +5616,98 @@ var WorkbenchDetailComponent = /** @class */ (function () {
         this.notready = true;
         // check each formControl group for changes, then send the changed objects to their respective services
         if (form.dirty || this._filesToUpload || this._finalletterToUpload) {
-            var changedCaseGroup = form.controls.casegroup;
+            var changedCaseGroup_1 = form.controls.casegroup;
             var changedPropertyGroup = form.controls.propertygroup;
             var changedRequesterGroup = form.controls.requestergroup;
             // check if this is a create or update (case_number will only exist if this is an update)
             if (this.myCase.case_number) {
-                if (changedCaseGroup.dirty) {
+                if (changedCaseGroup_1.dirty) {
                     // for each date field, replace empty string with null (Django Date fields don't allow empty strings)
                     // and for all date fields with values, reformat from mm/dd/yyyy to yyyy-mm-dd
                     // note that cbrs_map_date and prohibition_date are slightly different,
                     // since they're plain text and not mydatepicker objects
-                    var thisDate = changedCaseGroup.controls.request_date.value;
+                    var thisDate = changedCaseGroup_1.controls.request_date.value;
                     if (thisDate === '') {
-                        changedCaseGroup.controls.request_date.setValue(null);
+                        changedCaseGroup_1.controls.request_date.setValue(null);
                     }
                     else if (thisDate !== null) {
                         thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
-                        changedCaseGroup.controls.request_date.setValue(thisDate);
+                        changedCaseGroup_1.controls.request_date.setValue(thisDate);
                     }
-                    thisDate = changedCaseGroup.controls.cbrs_map_date.value;
+                    thisDate = changedCaseGroup_1.controls.cbrs_map_date.value;
                     if (thisDate === '') {
-                        changedCaseGroup.controls.cbrs_map_date.setValue(null);
+                        changedCaseGroup_1.controls.cbrs_map_date.setValue(null);
                     }
-                    thisDate = changedCaseGroup.controls.prohibition_date.value;
-                    if (thisDate === '') {
-                        changedCaseGroup.controls.prohibition_date.setValue(null);
+                    else {
+                        // map_date comes in mm/dd/yyyy format
+                        var date_parts = thisDate.split('/');
+                        var ymd = date_parts[2] + '-' + date_parts[0] + '-' + date_parts[1];
+                        changedCaseGroup_1.controls.cbrs_map_date.setValue(ymd);
                     }
-                    thisDate = changedCaseGroup.controls.fws_fo_received_date.value;
+                    thisDate = changedCaseGroup_1.controls.prohibition_date.value;
                     if (thisDate === '') {
-                        changedCaseGroup.controls.fws_fo_received_date.setValue(null);
+                        changedCaseGroup_1.controls.prohibition_date.setValue(null);
+                    }
+                    thisDate = changedCaseGroup_1.controls.fws_fo_received_date.value;
+                    if (thisDate === '') {
+                        changedCaseGroup_1.controls.fws_fo_received_date.setValue(null);
                     }
                     else if (thisDate !== null) {
                         thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
-                        changedCaseGroup.controls.fws_fo_received_date.setValue(thisDate);
+                        changedCaseGroup_1.controls.fws_fo_received_date.setValue(thisDate);
                     }
-                    thisDate = changedCaseGroup.controls.fws_hq_received_date.value;
+                    thisDate = changedCaseGroup_1.controls.fws_hq_received_date.value;
                     if (thisDate === '') {
-                        changedCaseGroup.controls.fws_hq_received_date.setValue(null);
+                        changedCaseGroup_1.controls.fws_hq_received_date.setValue(null);
                     }
                     else if (thisDate !== null) {
                         thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
-                        changedCaseGroup.controls.fws_hq_received_date.setValue(thisDate);
+                        changedCaseGroup_1.controls.fws_hq_received_date.setValue(thisDate);
                     }
-                    thisDate = changedCaseGroup.controls.final_letter_date.value;
+                    thisDate = changedCaseGroup_1.controls.final_letter_date.value;
                     if (thisDate === '') {
-                        changedCaseGroup.controls.final_letter_date.setValue(null);
+                        changedCaseGroup_1.controls.final_letter_date.setValue(null);
                     }
                     else if (thisDate !== null) {
                         thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
-                        changedCaseGroup.controls.final_letter_date.setValue(thisDate);
+                        changedCaseGroup_1.controls.final_letter_date.setValue(thisDate);
                     }
-                    thisDate = changedCaseGroup.controls.close_date.value;
+                    thisDate = changedCaseGroup_1.controls.close_date.value;
                     if (thisDate === '') {
-                        changedCaseGroup.controls.close_date.setValue(null);
+                        changedCaseGroup_1.controls.close_date.setValue(null);
                     }
                     else if (thisDate !== null) {
                         // it is possible that close_date has already been set to be equal to final_letter_date,
                         // in which case it will be a string, otherwise it will be a mydatepicker object
                         if (typeof thisDate !== 'string') {
                             thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
-                            changedCaseGroup.controls.close_date.setValue(thisDate);
+                            changedCaseGroup_1.controls.close_date.setValue(thisDate);
                         }
                     }
-                    thisDate = changedCaseGroup.controls.analyst_signoff_date.value;
+                    thisDate = changedCaseGroup_1.controls.analyst_signoff_date.value;
                     if (thisDate === '') {
-                        changedCaseGroup.controls.analyst_signoff_date.setValue(null);
+                        changedCaseGroup_1.controls.analyst_signoff_date.setValue(null);
                     }
                     else if (thisDate !== null) {
                         thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
-                        changedCaseGroup.controls.analyst_signoff_date.setValue(thisDate);
+                        changedCaseGroup_1.controls.analyst_signoff_date.setValue(thisDate);
                     }
-                    thisDate = changedCaseGroup.controls.qc_reviewer_signoff_date.value;
+                    thisDate = changedCaseGroup_1.controls.qc_reviewer_signoff_date.value;
                     if (thisDate === '') {
-                        changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(null);
+                        changedCaseGroup_1.controls.qc_reviewer_signoff_date.setValue(null);
                     }
                     else if (thisDate !== null) {
                         thisDate = __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].convertDateToISOString(thisDate);
-                        changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(thisDate);
+                        changedCaseGroup_1.controls.qc_reviewer_signoff_date.setValue(thisDate);
                     }
-                    this._caseService.updateCase(changedCaseGroup.value)
+                    this._caseService.updateCase(changedCaseGroup_1.value)
                         .subscribe(function (acase) {
                         _this.myCase = acase;
                         _this._updateControls(_this._myCase_fields, _this._caseControls, _this.myCase);
+                        // map_date comes in yyyy-mm-dd format
+                        var date_parts = changedCaseGroup_1.controls.cbrs_map_date.value.split('-');
+                        var mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
+                        _this._caseControls['cbrs_map_date'].setValue(mdy);
                     }, function (error) { return _this._errorMessage = error; });
                 }
                 if (changedPropertyGroup.dirty) {
