@@ -1026,7 +1026,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     thisDate = changedCaseGroup.controls.cbrs_map_date.value;
                     if (thisDate === '') {
                         changedCaseGroup.controls.cbrs_map_date.setValue(null);
-                    } else {
+                    } else if (thisDate !== null) {
                         // map_date comes in mm/dd/yyyy format
                         const date_parts = thisDate.split('/');
                         const ymd = date_parts[2] + '-' + date_parts[0] + '-' + date_parts[1];
@@ -1087,9 +1087,11 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                                 this.myCase = acase;
                                 this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                                 // map_date comes in yyyy-mm-dd format
-                                const date_parts = changedCaseGroup.controls.cbrs_map_date.value.split('-');
-                                const mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
-                                this._caseControls['cbrs_map_date'].setValue(mdy);
+                                if (this.myCase.cbrs_map_date) {
+                                    const date_parts = changedCaseGroup.controls.cbrs_map_date.value.split('-');
+                                    const mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
+                                    this._caseControls['cbrs_map_date'].setValue(mdy);
+                                }
                             },
                             error => this._errorMessage = <any>error
                         );
