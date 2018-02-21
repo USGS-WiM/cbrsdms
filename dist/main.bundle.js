@@ -5638,7 +5638,7 @@ var WorkbenchDetailComponent = /** @class */ (function () {
                     if (thisDate === '') {
                         changedCaseGroup_1.controls.cbrs_map_date.setValue(null);
                     }
-                    else {
+                    else if (thisDate !== null) {
                         // map_date comes in mm/dd/yyyy format
                         var date_parts = thisDate.split('/');
                         var ymd = date_parts[2] + '-' + date_parts[0] + '-' + date_parts[1];
@@ -5705,9 +5705,11 @@ var WorkbenchDetailComponent = /** @class */ (function () {
                         _this.myCase = acase;
                         _this._updateControls(_this._myCase_fields, _this._caseControls, _this.myCase);
                         // map_date comes in yyyy-mm-dd format
-                        var date_parts = changedCaseGroup_1.controls.cbrs_map_date.value.split('-');
-                        var mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
-                        _this._caseControls['cbrs_map_date'].setValue(mdy);
+                        if (_this.myCase.cbrs_map_date) {
+                            var date_parts = changedCaseGroup_1.controls.cbrs_map_date.value.split('-');
+                            var mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
+                            _this._caseControls['cbrs_map_date'].setValue(mdy);
+                        }
                     }, function (error) { return _this._errorMessage = error; });
                 }
                 if (changedPropertyGroup.dirty) {
