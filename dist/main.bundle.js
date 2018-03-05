@@ -5806,8 +5806,10 @@ var WorkbenchDetailComponent = /** @class */ (function () {
                 _this._newCase.id = cases[0].id;
                 // TODO: replace this alert with a better UX, like a modal
                 __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast('That case already exists! Loading the case details...');
-                _this.__goToCase(_this._newCase.id);
-                _this.notready = false;
+                setTimeout(function () {
+                    _this.notready = false;
+                    _this.__goToCase(_this._newCase.id);
+                }, 5000);
             }
             else {
                 // send the new request to the DB
@@ -5866,6 +5868,10 @@ var WorkbenchDetailComponent = /** @class */ (function () {
             this.__assignRequesterID();
             this.__callCreatePropertyAndCase();
         }
+        else if (!this._newRequester.id && this._newProperty.id) {
+            this.__assignPropertyID();
+            this.__callCreateRequestAndCase();
+        }
         else {
             this.__callCreateRequesterAndPropertyAndCase();
         }
@@ -5885,6 +5891,17 @@ var WorkbenchDetailComponent = /** @class */ (function () {
             _this.__assignRequesterID();
             // create the property object, then grab its ID for the relation to the case
             _this.__callCreatePropertyAndCase();
+        }, function (error) { return console.error(error); });
+    };
+    WorkbenchDetailComponent.prototype.__callCreateRequestAndCase = function () {
+        var _this = this;
+        // create the request object, then grab its ID for the relation to the case
+        this._requesterService.createRequester(this._newRequester)
+            .subscribe(function (newrequester) {
+            _this._newRequester = newrequester;
+            _this.__assignRequesterID();
+            // create the new case
+            _this.__callCreateCase();
         }, function (error) { return console.error(error); });
     };
     WorkbenchDetailComponent.prototype.__callCreatePropertyAndCase = function () {
