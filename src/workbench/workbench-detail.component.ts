@@ -1216,8 +1216,10 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                         this._newCase.id = cases[0].id;
                         // TODO: replace this alert with a better UX, like a modal
                         APP_UTILITIES.showToast('That case already exists! Loading the case details...');
-                        this.__goToCase(this._newCase.id);
-                        this.notready = false;
+                        setTimeout(() => {
+                            this.notready = false;
+                            this.__goToCase(this._newCase.id);
+                        }, 5000);
                     } else {
                         // send the new request to the DB
                         this.__createRequest();
@@ -1279,6 +1281,9 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         } else if (this._newRequester.id && !this._newProperty.id) {
             this.__assignRequesterID();
             this.__callCreatePropertyAndCase();
+        } else if (!this._newRequester.id && this._newProperty.id) {
+            this.__assignPropertyID();
+            this.__callCreateRequestAndCase();
         } else {
             this.__callCreateRequesterAndPropertyAndCase();
         }
@@ -1301,6 +1306,19 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     this.__assignRequesterID();
                     // create the property object, then grab its ID for the relation to the case
                     this.__callCreatePropertyAndCase();
+                },
+                error =>  console.error(<any>error));
+    }
+
+    private __callCreateRequestAndCase () {
+        // create the request object, then grab its ID for the relation to the case
+        this._requesterService.createRequester(this._newRequester)
+            .subscribe(
+                newrequester => {
+                    this._newRequester = newrequester;
+                    this.__assignRequesterID();
+                    // create the new case
+                    this.__callCreateCase();
                 },
                 error =>  console.error(<any>error));
     }
