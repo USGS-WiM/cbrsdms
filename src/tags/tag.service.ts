@@ -52,7 +52,7 @@ export class TagService {
         const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
 
         return this.http.delete(APP_SETTINGS.TAGS_URL + id + '/', options)
-            .map(res => console.log(res))
+            .map(res => res.json())
             .catch(this.handleError);
     }
 

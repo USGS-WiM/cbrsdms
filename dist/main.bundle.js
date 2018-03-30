@@ -265,6 +265,8 @@ var APP_SETTINGS = /** @class */ (function () {
     function APP_SETTINGS() {
     }
     Object.defineProperty(APP_SETTINGS, "environment", {
+        // private static _API_ENDPOINT = 'http://cbrsdev.wim.usgs.gov/cbrsservices/';
+        // private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbrsservices/';
         set: function (env) { this._environment = env; },
         enumerable: true,
         configurable: true
@@ -461,9 +463,7 @@ var APP_SETTINGS = /** @class */ (function () {
     });
     ;
     APP_SETTINGS._environment = 'production';
-    // private static _API_ENDPOINT = 'http://localhost:8000/cbrsservices/';
-    // private static _API_ENDPOINT = 'http://cbrsdev.wim.usgs.gov/cbrsservices/';
-    APP_SETTINGS._API_ENDPOINT = 'https://' + window.location.hostname + '/cbrsservices/';
+    APP_SETTINGS._API_ENDPOINT = 'http://localhost:8000/cbrsservices/';
     APP_SETTINGS = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
     ], APP_SETTINGS);
@@ -1131,7 +1131,7 @@ var CasetagService = /** @class */ (function () {
     CasetagService.prototype.deleteCasetag = function (id) {
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
         return this.http.delete(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].CASETAGS_URL + id + '/', options)
-            .map(function (res) { return console.log(res); })
+            .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     CasetagService.prototype.handleError = function (error) {
@@ -1681,6 +1681,7 @@ var MapdataListComponent = /** @class */ (function () {
         this.mySystemunit = new __WEBPACK_IMPORTED_MODULE_6__systemunits_systemunit__["a" /* Systemunit */]();
         this.myProhibitiondate = new __WEBPACK_IMPORTED_MODULE_8__prohibitiondates_prohibitiondate__["a" /* Prohibitiondate */]();
         this._requiredFields = ['map_number', ' map_date', 'system_unit_number', 'prohibition_date', 'system_unit'];
+        this._currentMapSystemUnits = [];
         this.notready = true;
         this.noSystemmapsFound = true;
         this.noSystemunitsFound = true;
@@ -1770,7 +1771,7 @@ var MapdataListComponent = /** @class */ (function () {
         this._systemmapService.createSystemmap(map)
             .subscribe(function (result) {
             if (system_units) {
-                _this._createSystemunitmap(result.id, system_units);
+                _this._updateSystemunitmap(result.id, system_units);
             }
             _this._getSystemmaps();
             _this.row = result;
@@ -1785,7 +1786,7 @@ var MapdataListComponent = /** @class */ (function () {
         this._systemmapService.updateSystemmap(map)
             .subscribe(function (result) {
             if (system_units) {
-                _this._createSystemunitmap(result.id, system_units);
+                _this._updateSystemunitmap(result.id, system_units);
             }
             _this._getSystemmaps();
             _this.row = result;
@@ -1793,22 +1794,63 @@ var MapdataListComponent = /** @class */ (function () {
         }, function (error) { return __WEBPACK_IMPORTED_MODULE_12__app_utilities__["a" /* APP_UTILITIES */].showToast('ERROR: Could not update System Map' + ':\n'
             + error['non_field_errors'][0], 10000); });
     };
-    MapdataListComponent.prototype._createSystemunitmap = function (mapID, unitIDs) {
+    MapdataListComponent.prototype._updateSystemunitmap = function (mapID, unitIDs) {
         var _this = this;
         this.notready = true;
-        var _loop_1 = function (unitID) {
-            this_1._systemunitmapService.getSystemunitmaps(new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* URLSearchParams */]('unit=' + unitID.toString() + '&map=' + mapID.toString()))
-                .subscribe(function (res) {
-                if (res.length === 0) {
-                    _this._systemunitmapService.createSystemunitmap(new __WEBPACK_IMPORTED_MODULE_4__systemunitmaps_systemunitmap__["a" /* Systemunitmap */](unitID, mapID))
-                        .subscribe(function (result) { return _this.notready = false; }, function (error) { return _this._errorMessage = error; });
-                }
-            }, function (error) { return _this._errorMessage = error; });
-        };
-        var this_1 = this;
-        for (var _i = 0, unitIDs_1 = unitIDs; _i < unitIDs_1.length; _i++) {
-            var unitID = unitIDs_1[_i];
-            _loop_1(unitID);
+        //let currentSet = new Set(this._currentMapSystemUnits);
+        //let newSet = new Set(unitIDs);
+        //let deleteSet = new Set([...currentSet].filter(x => !newSet.has(x)));
+        //let createSet = new Set([...newSet].filter(x => !currentSet.has(x)));
+        //let deleteSetCount = deleteSet.size;
+        //let createSetCount = createSet.size;
+        var deleteArray = this._currentMapSystemUnits.filter(function (x) { return unitIDs.indexOf(x) < 0; });
+        var createArray = unitIDs.filter(function (x) { return _this._currentMapSystemUnits.indexOf(x) < 0; });
+        var deleteArrayCount = deleteArray.length;
+        var createArrayCount = createArray.length;
+        var deleteCount = 0;
+        var createCount = 0;
+        var getSystemMapsCalled = false;
+        // delete any units that have been removed from this map
+        if (deleteArrayCount > 0) {
+            for (var _i = 0, deleteArray_1 = deleteArray; _i < deleteArray_1.length; _i++) {
+                var unitID = deleteArray_1[_i];
+                this._systemunitmapService.getSystemunitmaps(new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* URLSearchParams */]('unit=' + unitID.toString() + '&map=' + mapID.toString()))
+                    .subscribe(function (res) {
+                    if (res.length != 0) {
+                        _this._systemunitmapService.deleteSystemunitmap(res[0].id)
+                            .subscribe((function (result) {
+                            deleteCount++;
+                            if (deleteCount == deleteArrayCount && createCount == createArrayCount && !getSystemMapsCalled) {
+                                getSystemMapsCalled = true;
+                                _this._getSystemmaps();
+                            }
+                        }), function (error) { _this._errorMessage = error; _this.notready = true; });
+                    }
+                }, function (error) { return _this._errorMessage = error; });
+            }
+        }
+        // create any new additions to the set of units for this map
+        if (createArrayCount > 0) {
+            var _loop_1 = function (unitID) {
+                this_1._systemunitmapService.getSystemunitmaps(new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* URLSearchParams */]('unit=' + unitID.toString() + '&map=' + mapID.toString()))
+                    .subscribe(function (res) {
+                    if (res.length === 0) {
+                        _this._systemunitmapService.createSystemunitmap(new __WEBPACK_IMPORTED_MODULE_4__systemunitmaps_systemunitmap__["a" /* Systemunitmap */](unitID, mapID))
+                            .subscribe((function (result) {
+                            deleteCount++;
+                            if (deleteCount == deleteArrayCount && createCount == createArrayCount && !getSystemMapsCalled) {
+                                getSystemMapsCalled = true;
+                                _this._getSystemmaps();
+                            }
+                        }), function (error) { _this._errorMessage = error; _this.notready = true; });
+                    }
+                }, function (error) { return _this._errorMessage = error; });
+            };
+            var this_1 = this;
+            for (var _a = 0, createArray_1 = createArray; _a < createArray_1.length; _a++) {
+                var unitID = createArray_1[_a];
+                _loop_1(unitID);
+            }
         }
     };
     MapdataListComponent.prototype._getSystemunits = function (urlSearchParams) {
@@ -1956,6 +1998,7 @@ var MapdataListComponent = /** @class */ (function () {
             switch (modalID) {
                 case 'modalMap':
                     this.row = row;
+                    this._currentMapSystemUnits = JSON.parse(JSON.stringify(this.row.system_units));
                     this._updateControls(this._mapFields, this._mapControls, row);
                     break;
                 case 'modalUnit':
@@ -4063,6 +4106,12 @@ var SystemunitmapService = /** @class */ (function () {
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
+    SystemunitmapService.prototype.deleteSystemunitmap = function (id) {
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].SYSTEMUNITMAPS_URL + id + '/', options)
+            .map(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
     SystemunitmapService.prototype.handleError = function (error) {
         // TODO figure out a better error handler
         // in a real world app, we may send the server to some remote logging infrastructure
@@ -4547,7 +4596,7 @@ var TagService = /** @class */ (function () {
     TagService.prototype.deleteTag = function (id) {
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: __WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].MIN_AUTH_JSON_HEADERS });
         return this.http.delete(__WEBPACK_IMPORTED_MODULE_5__app_settings__["a" /* APP_SETTINGS */].TAGS_URL + id + '/', options)
-            .map(function (res) { return console.log(res); })
+            .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     TagService.prototype.handleError = function (error) {
@@ -5076,6 +5125,9 @@ var WorkbenchDetailComponent = /** @class */ (function () {
         this.isOnHold = !this.isOnHold;
     };
     WorkbenchDetailComponent.prototype.validateDate = function (thisDateControl, thisDate) {
+        var thisDateMDY = ('00' + thisDate.month).slice(-2)
+            + '/' + ('00' + thisDate.day).slice(-2)
+            + '/' + ('0000' + thisDate.year).slice(-4);
         if (this.inInit) {
             return false;
         }
@@ -5096,9 +5148,9 @@ var WorkbenchDetailComponent = /** @class */ (function () {
         // ensure the date value is a valid date by converting it to a date object and testing the constituent date values
         var thisDateAsDate = new Date(thisDate);
         thisDateAsDate = new Date(thisDateAsDate.getTime() + Math.abs(thisDateAsDate.getTimezoneOffset() * 60000));
-        if (thisDateAsDate.getFullYear() < 1000 || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 1
-            || thisDateAsDate.getMonth() > 12 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
-            __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(thisDate
+        if (thisDateAsDate.getFullYear() < 1000 || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 0
+            || thisDateAsDate.getMonth() > 11 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
+            __WEBPACK_IMPORTED_MODULE_25__app_utilities__["a" /* APP_UTILITIES */].showToast(thisDateMDY
                 + ' (' + thisDateAsDate.toISOString().substr(0, 10) + ') is not a valid date. Please enter a valid date.');
             return false;
         }

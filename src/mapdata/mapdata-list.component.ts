@@ -54,6 +54,8 @@ export class MapdataListComponent implements OnInit {
     private _unitControls;
     private _dateControls;
 
+    private _currentMapSystemUnits = [];
+
     notready = true;
     noSystemmapsFound = true;
     noSystemunitsFound = true;
@@ -158,7 +160,7 @@ export class MapdataListComponent implements OnInit {
         this._systemmapService.createSystemmap(map)
             .subscribe(
                 result => {
-                    if (system_units) {this._createSystemunitmap(result.id, system_units)}
+                    if (system_units) {this._updateSystemunitmap(result.id, system_units)}
                     this._getSystemmaps();
                     this.row = <Systemmap>result;
                     this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
@@ -174,7 +176,7 @@ export class MapdataListComponent implements OnInit {
         this._systemmapService.updateSystemmap(map)
             .subscribe(
                 result => {
-                    if (system_units) {this._createSystemunitmap(result.id, system_units)}
+                    if (system_units) {this._updateSystemunitmap(result.id, system_units)}
                     this._getSystemmaps();
                     this.row = <Systemmap>result;
                     this._updateControls(this._mapFields, this._mapControls, <Systemmap>result);
@@ -184,23 +186,72 @@ export class MapdataListComponent implements OnInit {
             );
     }
 
-    private _createSystemunitmap(mapID: number, unitIDs: number[]) {
+    private _updateSystemunitmap(mapID: number, unitIDs: number[]) {
         this.notready = true;
-        for (const unitID of unitIDs) {
-            this._systemunitmapService.getSystemunitmaps(
-                new URLSearchParams('unit=' + unitID.toString() + '&map=' + mapID.toString()))
-                .subscribe(
-                    (res: Systemunitmap[]) => {
-                        if (res.length === 0) {
-                            this._systemunitmapService.createSystemunitmap(new Systemunitmap(unitID, mapID))
-                                .subscribe(
-                                    result => this.notready = false,
-                                    error =>  this._errorMessage = <any>error
-                                );
-                        }
-                    },
-                    error => this._errorMessage = <any>error
-                );
+        //let currentSet = new Set(this._currentMapSystemUnits);
+        //let newSet = new Set(unitIDs);
+        //let deleteSet = new Set([...currentSet].filter(x => !newSet.has(x)));
+        //let createSet = new Set([...newSet].filter(x => !currentSet.has(x)));
+        //let deleteSetCount = deleteSet.size;
+        //let createSetCount = createSet.size;
+        let deleteArray = this._currentMapSystemUnits.filter(x => unitIDs.indexOf(x) < 0 );
+        let createArray = unitIDs.filter(x => this._currentMapSystemUnits.indexOf(x) < 0);
+        let deleteArrayCount = deleteArray.length;
+        let createArrayCount = createArray.length;
+        let deleteCount = 0;
+        let createCount = 0;
+        let getSystemMapsCalled = false;
+
+        // delete any units that have been removed from this map
+        if (deleteArrayCount > 0) {
+            for (const unitID of deleteArray) {
+                this._systemunitmapService.getSystemunitmaps(
+                    new URLSearchParams('unit=' + unitID.toString() + '&map=' + mapID.toString()))
+                    .subscribe(
+                        (res: Systemunitmap[]) => {
+                            if (res.length != 0) {
+                                this._systemunitmapService.deleteSystemunitmap(res[0].id)
+                                    .subscribe(
+                                        (result => {
+                                            deleteCount++;
+                                            if (deleteCount == deleteArrayCount && createCount == createArrayCount && !getSystemMapsCalled) {
+                                                getSystemMapsCalled = true;
+                                                this._getSystemmaps();
+                                            }
+                                        }),
+                                        error =>  {this._errorMessage = <any>error; this.notready = true;}
+                                    );
+                            }
+                        },
+                        error => this._errorMessage = <any>error
+                    );
+            }
+        }
+
+        // create any new additions to the set of units for this map
+        if (createArrayCount > 0) {
+            for (const unitID of createArray) {
+                this._systemunitmapService.getSystemunitmaps(
+                    new URLSearchParams('unit=' + unitID.toString() + '&map=' + mapID.toString()))
+                    .subscribe(
+                        (res: Systemunitmap[]) => {
+                            if (res.length === 0) {
+                                this._systemunitmapService.createSystemunitmap(new Systemunitmap(unitID, mapID))
+                                    .subscribe(
+                                        (result => {
+                                            deleteCount++;
+                                            if (deleteCount == deleteArrayCount && createCount == createArrayCount && !getSystemMapsCalled) {
+                                                getSystemMapsCalled = true;
+                                                this._getSystemmaps();
+                                            }
+                                        }),
+                                        error =>  {this._errorMessage = <any>error; this.notready = true;}
+                                    );
+                            }
+                        },
+                        error => this._errorMessage = <any>error
+                    );
+            }
         }
     }
 
@@ -378,6 +429,7 @@ export class MapdataListComponent implements OnInit {
             switch (modalID) {
                 case 'modalMap':
                     this.row = <Systemmap>row;
+                    this._currentMapSystemUnits = JSON.parse(JSON.stringify(this.row.system_units));
                     this._updateControls(this._mapFields, this._mapControls, <Systemmap>row);
                     break;
                 case 'modalUnit':
