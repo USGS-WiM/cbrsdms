@@ -464,6 +464,9 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     public validateDate(thisDateControl, thisDate) {
+        let thisDateMDY = ('00' + thisDate.month).slice(-2)
+            + '/' + ('00' + thisDate.day).slice(-2) 
+            + '/' + ('0000' + thisDate.year).slice(-4);
         if (this.inInit) {
             return false;
         }
@@ -483,9 +486,9 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         // ensure the date value is a valid date by converting it to a date object and testing the constituent date values
         let thisDateAsDate = new Date(thisDate);
         thisDateAsDate = new Date(thisDateAsDate.getTime() + Math.abs(thisDateAsDate.getTimezoneOffset() * 60000));
-        if (thisDateAsDate.getFullYear() < 1000  || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 1
-            || thisDateAsDate.getMonth() > 12 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
-            APP_UTILITIES.showToast(thisDate
+        if (thisDateAsDate.getFullYear() < 1000  || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 0
+            || thisDateAsDate.getMonth() > 11 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
+            APP_UTILITIES.showToast(thisDateMDY
                 + ' (' + thisDateAsDate.toISOString().substr(0, 10) + ') is not a valid date. Please enter a valid date.');
             return false;
         }
