@@ -5,7 +5,7 @@ import {Headers} from '@angular/http';
 export class APP_SETTINGS {
 
     private static _environment = 'production';
-    private static _API_ENDPOINT = 'http://localhost:8000/cbrsservices/';
+    private static _API_ENDPOINT = 'https://cbrstest.wim.usgs.gov/cbrsservices/';
     // private static _API_ENDPOINT = 'http://cbrsdev.wim.usgs.gov/cbrsservices/';
     // private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbrsservices/';
     public static set environment (env: string) { this._environment = env };

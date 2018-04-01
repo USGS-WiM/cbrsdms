@@ -876,7 +876,7 @@ div.col-md-10 {
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  background-color: #2D3146;
+  background-color: rgb(202, 24, 24);
   transition: 0.15s;
   color: #FFFFFF;
   margin-left: 2px;

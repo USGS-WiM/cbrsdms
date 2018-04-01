@@ -156,7 +156,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private _updateControl(field, fields, controls, values): void {
+    private _updateControl(field, fields, controls, values): void {        
         const i = fields.indexOf(field);
         controls[fields[i]].setValue(values[fields[i]]);
     }
@@ -254,6 +254,8 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         this._route.params.subscribe(params => this.case_ID = +params['id']);
 
         if (this.case_ID) {
+
+            console.log("case ID exists, retrieving for: " + this.case_ID);
             // if the Case ID exists, get the case details
             this._isNewCase = false;
             this._getCase(this.case_ID);
@@ -263,6 +265,8 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
             this._getComments(this.case_ID);
             this._getCasetags(this.case_ID);
         } else {
+            console.log("case ID empty");
+
             // otherwise this is a new case, so get user values for the select inputs
             this._isNewCase = true;
             this._getUsers();
@@ -288,7 +292,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     this.myCase = acase;
                     if (this._debug) {
                         console.log('1: ' + APP_UTILITIES.TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
-                    }
+                    }                    
                     this.selectedAnalyst = acase.analyst;
                     this.selectedQCReviewer = acase.qc_reviewer;
                     this.selectedMap = this.myCase.map_number;
@@ -464,6 +468,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     public validateDate(thisDateControl, thisDate) {
+        
         let thisDateMDY = ('00' + thisDate.month).slice(-2)
             + '/' + ('00' + thisDate.day).slice(-2) 
             + '/' + ('0000' + thisDate.year).slice(-4);
@@ -1087,6 +1092,9 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     this._caseService.updateCase(changedCaseGroup.value)
                         .subscribe(
                             acase => {
+
+                                this.selectedMap = acase.map_number;
+
                                 this.myCase = acase;
                                 this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                                 // map_date comes in yyyy-mm-dd format

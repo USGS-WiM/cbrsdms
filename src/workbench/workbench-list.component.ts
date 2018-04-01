@@ -74,6 +74,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
         this._caseService.getCases(new URLSearchParams(urlSearchParams))
             .subscribe(
                 cases => {
+                    console.log(cases);
                     this._cases = cases;
                     if (this._cases.length > 0) {
                         this.cases_properties.length = 0;
@@ -109,6 +110,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             new Column('cbrs_unit_string', 'CBRS Unit'),
             new Column('street', 'Street Address'),
             new Column('city', 'City'),
+            //new Column('policy_number', 'Policy #'),
             new Column('priority', 'Priority'),
             new Column('duplicate', 'Duplicate of'),
         ];

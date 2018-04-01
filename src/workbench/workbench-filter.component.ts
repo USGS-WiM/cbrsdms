@@ -25,7 +25,7 @@ export class WorkbenchFilterComponent implements OnInit {
 
     myWorkbenchFilter = new WorkbenchFilter();
     selectedTag: number;
-    myWorkbenchFreeText = {fiscal_year: undefined, freetext: undefined};
+    myWorkbenchFreeText = {fiscal_year: undefined, freetext: undefined, policy_number: undefined};
     myStatuses: string[] = APP_SETTINGS.STATUSES;
     myCaseIDs = [];
     myTags: Tag[];
@@ -205,6 +205,9 @@ export class WorkbenchFilterComponent implements OnInit {
                 }
             }
             this.filternotready = false;
+
+            console.log(urlSearchParams);
+
             this._workbenchFilterService.setFilter(wbf);
             this._workbenchFilterService.setUrlSearchParams(urlSearchParams);
             this.onFilter.emit(urlSearchParams);

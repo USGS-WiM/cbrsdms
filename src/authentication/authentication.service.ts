@@ -19,7 +19,7 @@ export class AuthenticationService {
             {headers: new Headers(
                 { 'Authorization': 'Basic ' + btoa(username + ':' + password), 'Accept': 'application/json'})
             });
-
+            
         return this._http.post(APP_SETTINGS.AUTH_URL, null, options)
             .map((res: Response) => {
                 const u = res.json();

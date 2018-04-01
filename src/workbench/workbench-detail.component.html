@@ -141,7 +141,7 @@
                                             <div *ngFor="let casefile of myCasefiles">
                                                 <li *ngIf="!casefile.final_letter">
                                                     <a target="_blank" [href]="casefile.file" >{{ casefile.name }}</a>&nbsp;&nbsp;
-                                                    <button type="button" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
+                                                    <button type="button" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton pull-right">x</button>
                                                 </li>
                                             </div>
                                         </ul>
@@ -173,7 +173,7 @@
                                             <div *ngFor="let casefile of myCasefiles">
                                                 <li *ngIf="!casefile.final_letter">
                                                     <a target="_blank" [href]="casefile.file">{{ casefile.name }}</a>&nbsp;&nbsp;
-                                                    <button type="button" *ngIf="!casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
+                                                    <button type="button" *ngIf="!casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton pull-right">x</button>
                                                 </li>
                                             </div>
                                         </ul>
@@ -209,7 +209,7 @@
                                         <div *ngFor="let casefile of myCasefiles">
                                             <li *ngIf="casefile.final_letter">
                                                 <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
-                                                <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
+                                                <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton pull-right">x</button>
                                             </li>
                                         </div>
                                     </ul>
@@ -243,7 +243,7 @@
                                         <div *ngFor="let casefile of myCasefiles">
                                             <li *ngIf="casefile.final_letter">
                                                 <a target="_blank" [href]="casefile.file" *ngIf="casefile.final_letter">{{ casefile.name }}</a>&nbsp;&nbsp;
-                                                <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton">x</button>
+                                                <button type="button" *ngIf="casefile.final_letter" (click)="deleteCasefile(casefile.id)" class="removeCaseFileButton pull-right">x</button>
                                             </li>
                                         </div>
                                     </ul>
