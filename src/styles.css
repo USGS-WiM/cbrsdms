@@ -997,3 +997,4 @@ body.modal-open {
 
 .margin-bottom {margin-bottom:10px;}
 .margin-top {margin-top:10px;}
+.mydp, .mydp .headertodaybtn {border:none !important;padding: 4px;}
