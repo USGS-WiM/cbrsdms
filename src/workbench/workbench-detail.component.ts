@@ -1092,9 +1092,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     this._caseService.updateCase(changedCaseGroup.value)
                         .subscribe(
                             acase => {
-
                                 this.selectedMap = acase.map_number;
-
                                 this.myCase = acase;
                                 this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                                 // map_date comes in yyyy-mm-dd format
