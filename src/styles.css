@@ -994,3 +994,6 @@ body.modal-open {
   /* body overflow is hidden to hide main scrollbar when modal window is open */
   overflow: hidden;
 }
+
+.margin-bottom {margin-bottom:10px;}
+.margin-top {margin-top:10px;}

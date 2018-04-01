@@ -18,8 +18,15 @@
 
         <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
 
-            <button type="submit" class="btn btn-default btn-save-all" [disabled]="!form.valid">Save</button><br /><br />
-
+            <div class="row margin-bottom">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success btn-lg" [disabled]="!form.valid">Save</button>
+                    <span *ngIf="!noxhr">
+                        <button type="submit" class="btn btn-danger btn-md" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
+                    </span>
+                </div>
+            </div>
+            
             <div formGroupName="casegroup">
 
                 <div class="dms-group noheader" *ngIf="!case_ID">
@@ -37,7 +44,7 @@
                                     <div id="casefilesToUpload">
                                         <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
                                             <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }} MBs</span>
-                                            <button type="button" (click)="removeCasefile(i)" class="removeCaseFileButton">-</button>
+                                            <button type="button" (click)="removeCasefile(i)" class="removeCaseFileButton pull-right">-</button>
                                         </p>
                                     </div>
                                 </div>
@@ -151,7 +158,7 @@
                                         <div id="casefilesToUpload">
                                             <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
                                                 <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>
-                                                <button type="button" (click)="removeCasefile(i)" class="removeCaseFileButton">-</button>
+                                                <button type="button" (click)="removeCasefile(i)" class="removeCaseFileButton pull-right">-</button>
                                             </p>
                                         </div>
                                     </div>
@@ -183,7 +190,7 @@
                                         <div id="casefilesToUpload">
                                             <p *ngFor="let fileDetails of filesToUploadDetails; let i=index">
                                                 <span>{{ fileDetails.name }}: </span><span>{{ fileDetails.size }}</span>
-                                                <button type="button" (click)="removeCasefile(i)" class="removeCaseFileButton">-</button>
+                                                <button type="button" (click)="removeCasefile(i)" class="removeCaseFileButton pull-right">-</button>
                                             </p>
                                         </div>
                                     </div>
@@ -198,9 +205,9 @@
 
                         <div *ngIf="!noxhr" class="col-xs-12 nopadd" style="background-color: white" id="finalletterfiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="finalletterSelectHandler($event)">
                             <div class="file-group">
-                                <label class="label fifty" style="border-top: 1px solid #E8E8E8;" for="finalletter">Final Letter</label><!--
-                                --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload</label><!--
-                                --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft</label>
+                                <label class="label fifty" style="border-top: 1px solid #E8E8E8;" for="finalletter">Final Letter</label>                                
+                                <label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload</label>
+                                <label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft</label>
 
                                     <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
 
@@ -218,7 +225,7 @@
                                 <div class="col-xs-12 col-md-6 filepad">
                                     <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">
                                         <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }}</span>
-                                        <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton">-</button>
+                                        <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton pull-right">-</button>
                                     </div>
 
                                     <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
@@ -252,7 +259,7 @@
                                 <div class="col-md-6 col-xs-12 filepad">
                                     <div id="finalletterToUpload" *ngIf="finalletterToUploadDetails">
                                         <span>{{ finalletterToUploadDetails.name }}: </span><span>{{ finalletterToUploadDetails.size }}</span>
-                                        <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton">-</button>
+                                        <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton pull-right">-</button>
                                     </div>
 
                                     <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
@@ -538,9 +545,14 @@
 
             </div>
 
-            <br/>
-
-            <button type="submit" class="btn btn-default btn-save-all" [disabled]="!form.valid">Save</button>
+            <div class="row margin-top">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success btn-lg" [disabled]="!form.valid">Save</button>
+                    <span *ngIf="!noxhr">
+                        <button type="submit" class="btn btn-danger btn-md" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
+                    </span>
+                </div>
+            </div>
 
         </form>
 

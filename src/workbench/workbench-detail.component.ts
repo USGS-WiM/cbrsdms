@@ -943,6 +943,10 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         this.filesToUploadDetails.splice(index, 1);
     }
 
+    sendFinalLetter() {
+        alert("are you sure logic");
+    }
+
     removeFinalLetter() {
         this._finalletterToUpload = undefined;
         this.finalletterToUploadDetails = undefined;
