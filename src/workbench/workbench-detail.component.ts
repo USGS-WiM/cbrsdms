@@ -150,6 +150,9 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                 let thisDate = new Date(values[field]);
                 thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset() * 60000));
                 controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
+            } else if (field === 'casefiles') {
+                // do nothing with casefiles, these will be loaded separately
+                break;
             } else {
                 controls[field].setValue(values[field]);
             }
