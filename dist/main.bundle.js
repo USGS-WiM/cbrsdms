@@ -4925,7 +4925,7 @@ var WorkbenchDetailComponent = /** @class */ (function () {
             }
             else if (field === 'casefiles') {
                 // do nothing with casefiles, these will be loaded separately
-                break;
+                continue;
             }
             else {
                 controls[field].setValue(values[field]);

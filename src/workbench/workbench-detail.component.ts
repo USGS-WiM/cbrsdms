@@ -152,7 +152,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                 controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
             } else if (field === 'casefiles') {
                 // do nothing with casefiles, these will be loaded separately
-                break;
+                continue;
             } else {
                 controls[field].setValue(values[field]);
             }
