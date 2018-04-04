@@ -52,10 +52,7 @@ export class CasefileService {
     }
 
     sendFinalLetter(casefileid: number) {        
-        return this.http.post(APP_SETTINGS.SENDFINALLETTEREMAIL_URL + casefileid + '/send_final_email/', "{}")
-        .toPromise()
-        .then(res => console.log("response: " + res))
-        .catch(this.handleError);;
+        return this.http.post(APP_SETTINGS.SENDFINALLETTEREMAIL_URL + casefileid + '/send_final_email/', "{}");               
     }
 
     private handleError (error: any) {

@@ -52,6 +52,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     noxhr = true;
     isOnHold = false;
     sendFinalMailReady = false;
+    sendFinalMailComplete = false;
     isreadonly_prohibitiondate = false;
     commentUnique = true;
     commentOwner = true;
@@ -148,6 +149,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         for (let i = 0, j = fields.length; i < j; i++) {
             const field = fields[i];            
             if (field.slice(-4) === 'date' && values[field] !== null && field !== 'cbrs_map_date' && field !== 'prohibition_date') {
+                console.log(field + " " + values[field]);
                 let thisDate = new Date(values[field]);
                 thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset() * 60000));
                 controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
@@ -301,17 +303,20 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                     this._getSystemunits();
                     this._getUsers();
-
-                    // show the send final email button if final date set and presence of final letter
-                    if (acase.final_letter_date) {
-                        for (let casefile of this.myCasefiles) {
-                            if (casefile.final_letter) {
-                                this.sendFinalMailReady = true;
-                            }
-                        }                        
-                    }
+                    this._sendFinalMailCheck(acase);                    
                 },
                 error => this._errorMessage = <any>error);
+    }
+
+    // show the send final email button if final date set and presence of final letter
+    private _sendFinalMailCheck(acase: Case) {        
+        if (acase.final_letter_date) {
+            for (let casefile of this.myCasefiles) {
+                if (casefile.final_letter) {
+                    this.sendFinalMailReady = true;
+                }
+            }                        
+        }
     }
 
     private _getCasefiles(caseID: number) {
@@ -954,11 +959,10 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         this.filesToUploadDetails.splice(index, 1);
     }
 
-    sendFinalLetter() {
-       
-        if (this.case_ID) {
-            alert("are you sure");
-            this._casefileService.sendFinalLetter(this.case_ID);
+    sendFinalLetter() {       
+        if (this.case_ID && confirm("Are you sure you want to send the email with final letter?")) {            
+            this._casefileService.sendFinalLetter(this.case_ID);      
+            this.sendFinalMailComplete = true;      
         }        
     }
 
@@ -1050,6 +1054,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                         thisDate = APP_UTILITIES.convertDateToISOString(thisDate);
                         changedCaseGroup.controls.request_date.setValue(thisDate);
                     }
+
                     thisDate = changedCaseGroup.controls.cbrs_map_date.value;
                     if (thisDate === '') {
                         changedCaseGroup.controls.cbrs_map_date.setValue(null);
@@ -1059,15 +1064,18 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                         const ymd = date_parts[2] + '-' + date_parts[0] + '-' + date_parts[1];
                         changedCaseGroup.controls.cbrs_map_date.setValue(ymd);
                     }
+
                     thisDate = changedCaseGroup.controls.prohibition_date.value;
                     if (thisDate === '') { changedCaseGroup.controls.prohibition_date.setValue(null); }
+
                     thisDate = changedCaseGroup.controls.fws_fo_received_date.value;
                     if (thisDate === '') {
                         changedCaseGroup.controls.fws_fo_received_date.setValue(null);
                     } else if (thisDate !== null) {
                        thisDate = APP_UTILITIES.convertDateToISOString(thisDate);
-                        changedCaseGroup.controls.fws_fo_received_date.setValue(thisDate);
+                       changedCaseGroup.controls.fws_fo_received_date.setValue(thisDate);
                     }
+
                     thisDate = changedCaseGroup.controls.fws_hq_received_date.value;
                     if (thisDate === '') {
                         changedCaseGroup.controls.fws_hq_received_date.setValue(null);
@@ -1075,6 +1083,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                         thisDate = APP_UTILITIES.convertDateToISOString(thisDate);
                         changedCaseGroup.controls.fws_hq_received_date.setValue(thisDate);
                     }
+
                     thisDate = changedCaseGroup.controls.final_letter_date.value;
                     if (thisDate === '') {
                         changedCaseGroup.controls.final_letter_date.setValue(null);
@@ -1082,6 +1091,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                         thisDate = APP_UTILITIES.convertDateToISOString(thisDate);
                         changedCaseGroup.controls.final_letter_date.setValue(thisDate);
                     }
+
                     thisDate = changedCaseGroup.controls.close_date.value;
                     if (thisDate === '') {
                         changedCaseGroup.controls.close_date.setValue(null);
@@ -1093,6 +1103,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                             changedCaseGroup.controls.close_date.setValue(thisDate);
                         }
                     }
+
                     thisDate = changedCaseGroup.controls.analyst_signoff_date.value;
                     if (thisDate === '') {
                         changedCaseGroup.controls.analyst_signoff_date.setValue(null);
@@ -1100,6 +1111,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                         thisDate = APP_UTILITIES.convertDateToISOString(thisDate);
                         changedCaseGroup.controls.analyst_signoff_date.setValue(thisDate);
                     }
+
                     thisDate = changedCaseGroup.controls.qc_reviewer_signoff_date.value;
                     if (thisDate === '') {
                         changedCaseGroup.controls.qc_reviewer_signoff_date.setValue(null);
@@ -1120,6 +1132,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                                     const mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
                                     this._caseControls['cbrs_map_date'].setValue(mdy);
                                 }
+                                this._sendFinalMailCheck(acase);
                             },
                             error => this._errorMessage = <any>error
                         );
@@ -1170,7 +1183,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
 
         // reset the form
         this.active = false;
-        setTimeout(() => { this.notready = false; this.active = true; }, 5000);
+        setTimeout(() => { this.notready = false; this.active = true; }, 5000);        
     }
 
     private _createCase(form) {

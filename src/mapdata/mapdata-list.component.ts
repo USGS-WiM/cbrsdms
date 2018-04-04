@@ -138,6 +138,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemmaps(urlSearchParams?) {
+        console.log("_getsystemmaps called with: " + urlSearchParams);
         this._systemmapService.getSystemmaps(new URLSearchParams(urlSearchParams))
             .subscribe(
                 (res: Systemmap[]) => {
@@ -410,6 +411,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     filterGrid(filterID: string, filterValue: string) {
+        console.log("filter grid called with: " + filterID + " " + filterValue);
         const filterClass = filterID.slice(0, -7);
         switch (filterClass) {
             case 'systemmap':

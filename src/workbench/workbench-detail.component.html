@@ -22,7 +22,8 @@
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-success btn-lg" [disabled]="!form.valid">Save</button>
                     <span [hidden]="!sendFinalMailReady">
-                        <button type="submit" class="btn btn-danger btn-md" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
+                        <button type="submit" class="btn btn-danger btn-lg" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
+                        <span [hidden]="!sendFinalMailComplete">Mail sent successfully!</span>
                     </span>
                 </div>
             </div>
@@ -548,8 +549,9 @@
             <div class="row margin-top">
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-success btn-lg" [disabled]="!form.valid">Save</button>
-                    <span *ngIf="!noxhr">
-                        <button type="submit" class="btn btn-danger btn-md" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
+                    <span [hidden]="!sendFinalMailReady">
+                        <button type="submit" class="btn btn-danger btn-lg" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
+                        <span [hidden]="!sendFinalMailComplete">Mail sent successfully!</span>
                     </span>
                 </div>
             </div>
