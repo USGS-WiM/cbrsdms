@@ -21,7 +21,7 @@
             <div class="row margin-bottom">
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-success btn-lg" [disabled]="!form.valid">Save</button>
-                    <span *ngIf="!noxhr">
+                    <span [hidden]="!sendFinalMailReady">
                         <button type="submit" class="btn btn-danger btn-md" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
                     </span>
                 </div>

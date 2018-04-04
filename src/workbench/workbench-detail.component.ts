@@ -51,6 +51,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     notready= true;
     noxhr = true;
     isOnHold = false;
+    sendFinalMailReady = false;
     isreadonly_prohibitiondate = false;
     commentUnique = true;
     commentOwner = true;
@@ -61,7 +62,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     private _today = new Date();
 
     private _userFields: string[] = ['analyst', 'qc_reviewer'];
-    private _debug = false;
+    private _debug = true;
 
     private _newCase: Case;
     private _newProperty: Property;
@@ -145,13 +146,16 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
 
     private _updateControls(fields, controls, values): void {
         for (let i = 0, j = fields.length; i < j; i++) {
-            const field = fields[i];
+            const field = fields[i];            
             if (field.slice(-4) === 'date' && values[field] !== null && field !== 'cbrs_map_date' && field !== 'prohibition_date') {
                 let thisDate = new Date(values[field]);
                 thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset() * 60000));
                 controls[field].setValue({date: {year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate()}});
-            } else {
-                controls[field].setValue(values[field]);
+            } else {                
+                if (field !== "casefiles") {
+                    controls[field].setValue(values[field]);
+                }
+                
             }
         }
     }
@@ -253,9 +257,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         // get the Case ID from the route
         this._route.params.subscribe(params => this.case_ID = +params['id']);
 
-        if (this.case_ID) {
-
-            console.log("case ID exists, retrieving for: " + this.case_ID);
+        if (this.case_ID) {            
             // if the Case ID exists, get the case details
             this._isNewCase = false;
             this._getCase(this.case_ID);
@@ -264,9 +266,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
             this._getRequesters(this.case_ID);
             this._getComments(this.case_ID);
             this._getCasetags(this.case_ID);
-        } else {
-            console.log("case ID empty");
-
+        } else {            
             // otherwise this is a new case, so get user values for the select inputs
             this._isNewCase = true;
             this._getUsers();
@@ -292,13 +292,24 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     this.myCase = acase;
                     if (this._debug) {
                         console.log('1: ' + APP_UTILITIES.TIME + ': ' + this.myCase.map_number + ' : ' + this.selectedMap);
+                        console.log(acase);
                     }                    
                     this.selectedAnalyst = acase.analyst;
                     this.selectedQCReviewer = acase.qc_reviewer;
-                    this.selectedMap = this.myCase.map_number;
+                    this.selectedMap = this.myCase.map_number;                
+
                     this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                     this._getSystemunits();
                     this._getUsers();
+
+                    // show the send final email button if final date set and presence of final letter
+                    if (acase.final_letter_date) {
+                        for (let casefile of this.myCasefiles) {
+                            if (casefile.final_letter) {
+                                this.sendFinalMailReady = true;
+                            }
+                        }                        
+                    }
                 },
                 error => this._errorMessage = <any>error);
     }
@@ -307,7 +318,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         this._casefileService.getCasefiles(new URLSearchParams('case=' + caseID))
             .then(
                 casefiles => {
-                    this.myCasefiles = casefiles;
+                    this.myCasefiles = casefiles;                    
                     // this.updateControls(this.myCase_fields, this.caseControls, this.myCase);
                 },
                 error => this._errorMessage = <any>error);
@@ -944,7 +955,11 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     sendFinalLetter() {
-        alert("are you sure logic");
+       
+        if (this.case_ID) {
+            alert("are you sure");
+            this._casefileService.sendFinalLetter(this.case_ID);
+        }        
     }
 
     removeFinalLetter() {
