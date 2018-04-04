@@ -265,8 +265,6 @@ var APP_SETTINGS = /** @class */ (function () {
     function APP_SETTINGS() {
     }
     Object.defineProperty(APP_SETTINGS, "environment", {
-        // private static _API_ENDPOINT = 'http://cbrsdev.wim.usgs.gov/cbrsservices/';
-        // private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbrsservices/';
         set: function (env) { this._environment = env; },
         enumerable: true,
         configurable: true
@@ -463,7 +461,9 @@ var APP_SETTINGS = /** @class */ (function () {
     });
     ;
     APP_SETTINGS._environment = 'production';
-    APP_SETTINGS._API_ENDPOINT = 'http://localhost:8000/cbrsservices/';
+    // private static _API_ENDPOINT = 'http://localhost:8000/cbrsservices/';
+    // private static _API_ENDPOINT = 'http://cbrsdev.wim.usgs.gov/cbrsservices/';
+    APP_SETTINGS._API_ENDPOINT = 'https://' + window.location.hostname + '/cbrsservices/';
     APP_SETTINGS = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
     ], APP_SETTINGS);
@@ -4922,6 +4922,10 @@ var WorkbenchDetailComponent = /** @class */ (function () {
                 var thisDate = new Date(values[field]);
                 thisDate = new Date(thisDate.getTime() + Math.abs(thisDate.getTimezoneOffset() * 60000));
                 controls[field].setValue({ date: { year: thisDate.getFullYear(), month: thisDate.getMonth() + 1, day: thisDate.getDate() } });
+            }
+            else if (field === 'casefiles') {
+                // do nothing with casefiles, these will be loaded separately
+                break;
             }
             else {
                 controls[field].setValue(values[field]);
