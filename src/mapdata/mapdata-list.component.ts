@@ -62,6 +62,8 @@ export class MapdataListComponent implements OnInit {
     noProhibitiondatesFound = true;
     private _errorMessage: string;
     private _today = new Date();
+    private _slowDown = false;
+    private _currentMapFilter;
 
     myDatePickerOptions: IMyOptions = {
         dateFormat: 'mm/dd/yyyy',
@@ -138,10 +140,29 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemmaps(urlSearchParams?) {
-        console.log("_getsystemmaps called with: " + urlSearchParams);
+        console.log("_getsystemmaps called with: " + urlSearchParams);                     
+                
+        
+        
+
         this._systemmapService.getSystemmaps(new URLSearchParams(urlSearchParams))
-            .subscribe(
-                (res: Systemmap[]) => {
+        .subscribe(
+            (res: Systemmap[]) => {
+                
+                if (this._currentMapFilter != null) {
+                    if (this._currentMapFilter.length == urlSearchParams.split('=')[1].length) {
+                        this.systemmaps = res;
+                        if (this.systemmaps.length > 0) {
+                            this.noSystemmapsFound = false;
+                            this.notready = false;
+                        } else {
+                            this.noSystemmapsFound = true;
+                            this.notready = false;
+                        }
+                    } else {                        
+                        console.log("OLD search results | current filter: " + this._currentMapFilter + " results filter: " + urlSearchParams.split('=')[1]);
+                    }
+                } else {
                     this.systemmaps = res;
                     if (this.systemmaps.length > 0) {
                         this.noSystemmapsFound = false;
@@ -150,9 +171,10 @@ export class MapdataListComponent implements OnInit {
                         this.noSystemmapsFound = true;
                         this.notready = false;
                     }
-                },
-                error => this._errorMessage = <any>error
-            );
+                }  
+            },
+            error => this._errorMessage = <any>error
+        );        
     }
 
     private _createSystemmap(map: Systemmap) {
@@ -410,12 +432,16 @@ export class MapdataListComponent implements OnInit {
         ];
     }
 
+    
     filterGrid(filterID: string, filterValue: string) {
         console.log("filter grid called with: " + filterID + " " + filterValue);
         const filterClass = filterID.slice(0, -7);
+        this._currentMapFilter = filterValue;
+
         switch (filterClass) {
             case 'systemmap':
                 filterValue ? this._getSystemmaps('freetext=' + filterValue) : this._getSystemmaps();
+                this._slowDown = true;
                 break;
             case 'systemunit':
                 filterValue ? this._getSystemunits('freetext=' + filterValue) : this._getSystemunits();
@@ -423,7 +449,7 @@ export class MapdataListComponent implements OnInit {
             case 'prohibitiondate':
                 filterValue ? this._getProhibitiondates('freetext=' + filterValue) : this._getProhibitiondates();
                 break;
-        }
+        }       
     }
 
     openModal(modalID: string, row?: any) {

@@ -127,6 +127,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
         this._reportCaseService.getReportCases(new URLSearchParams(urlSearchParams))
             .subscribe(
                 (reportcases: any) => {
+                    console.log(reportcases);
                     if (Number(reportcases.count) > 0) {
                         APP_UTILITIES.showToast(reportcases.count + ' cases found.');
                         const max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
@@ -169,6 +170,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     private _getColumns() {
         this.columns = [
             new Column('id', 'Case ID'),
+            //new Column('id', 'Case Reference'),
             new Column('status', 'Status'),
             new Column('prohibition_date', 'Prohibition Date'),
             new Column('cbrs_unit_string', 'CBRS Unit'),

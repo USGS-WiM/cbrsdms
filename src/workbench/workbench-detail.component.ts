@@ -1134,7 +1134,11 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                                 }
                                 this._sendFinalMailCheck(acase);
                             },
-                            error => this._errorMessage = <any>error
+                            error => {
+                                this._errorMessage = <any>error;
+                                alert("Error updating case with message: " + this._errorMessage);
+                            }
+                            
                         );
                 }
 
