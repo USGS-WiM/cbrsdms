@@ -51,6 +51,8 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     notready= true;
     noxhr = true;
     isOnHold = false;
+    sendFinalMailReady = false;
+    sendFinalMailComplete = false;
     isreadonly_prohibitiondate = false;
     commentUnique = true;
     commentOwner = true;
@@ -298,8 +300,20 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                     this._getSystemunits();
                     this._getUsers();
+                    this._sendFinalMailCheck(acase);                    
                 },
                 error => this._errorMessage = <any>error);
+    }
+
+    // show the send final email button if final date set and presence of final letter
+    private _sendFinalMailCheck(acase: Case) {        
+        if (acase.final_letter_date) {
+            for (let casefile of this.myCasefiles) {
+                if (casefile.final_letter) {
+                    this.sendFinalMailReady = true;
+                }
+            }                        
+        }
     }
 
     private _getCasefiles(caseID: number) {
@@ -941,6 +955,13 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         this.filesToUploadDetails.splice(index, 1);
     }
 
+    sendFinalLetter() {       
+        if (this.case_ID && confirm("Are you sure you want to send the email with final letter?")) {            
+            this._casefileService.sendFinalLetter(this.case_ID);      
+            this.sendFinalMailComplete = true;      
+        }        
+    }
+
     removeFinalLetter() {
         this._finalletterToUpload = undefined;
         this.finalletterToUploadDetails = undefined;
@@ -1090,6 +1111,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     this._caseService.updateCase(changedCaseGroup.value)
                         .subscribe(
                             acase => {
+                                this.selectedMap = acase.map_number;
                                 this.myCase = acase;
                                 this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                                 // map_date comes in yyyy-mm-dd format
@@ -1098,6 +1120,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                                     const mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
                                     this._caseControls['cbrs_map_date'].setValue(mdy);
                                 }
+                                this._sendFinalMailCheck(acase);
                             },
                             error => this._errorMessage = <any>error
                         );
