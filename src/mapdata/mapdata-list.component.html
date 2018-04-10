@@ -8,7 +8,7 @@
             <div align="center">
                 <label for="systemmap-filter">Maps</label><br />
                 <button type="button" (click)="openModal('modalMap')" class="btn btn-default btn-save-all">Add Map</button><br />
-                <input id="systemmap-filter" placeholder="Filter" (keyup)="filterGrid(systemmap.id, systemmap.value)" #systemmap>
+                <input id="systemmap-filter" placeholder="Filter" (keyup)="filterGrid(systemmap.id, systemmap.value)" ng-model="_currentMapFilter" #systemmap>
             </div>
             <systemmap-grid *ngIf="systemunits" [rows]="systemmaps" [columns]="systemmapColumns" [displayLookup]="systemunits" (edit)="openModal('modalMap', $event)" class="multi-table"></systemmap-grid>
         </div>

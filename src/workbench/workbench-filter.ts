@@ -17,6 +17,7 @@ export class WorkbenchFilter {
         public on_hold?: Boolean,
         public invalid?: Boolean,
         public duplicate?: number,
-        public id?: number
+        public id?: number,
+        public policy_number?: number,
     ) {}
 }

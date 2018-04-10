@@ -51,6 +51,10 @@ export class CasefileService {
         return this.http.delete(APP_SETTINGS.CASEFILES_URL + casefileid + '/', options);
     }
 
+    sendFinalLetter(casefileid: number) {        
+        return this.http.post(APP_SETTINGS.SENDFINALLETTEREMAIL_URL + casefileid + '/send_final_email/', "{}");               
+    }
+
     private handleError (error: any) {
         // TODO figure out a better error handler
         // in a real world app, we may send the server to some remote logging infrastructure
