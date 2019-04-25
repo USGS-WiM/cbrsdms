@@ -1,31 +1,32 @@
 [
   {
-    "name": "CBRADMS",
+    "name": "CBRSDMS",
     "organization": "U.S. Geological Survey",
-    "description": "CBRA Determinations Management System",
-    "version": "v0.0.0",
-    "status": "Development",
+    "description": "CBRS DMS (Coastal Barrier Resources System Determinations Management System)",
+    "version": "v1.0.0",
+    "status": "Production",
 
     "permissions": {
       "usageType": "openSource",
       "licenses": [
         {
           "name": "Public Domain",
-          "URL": "https://github.com/usgs/CBRADMS/blob/master/LICENSE.md"
+          "URL": "https://github.com/usgs/CBRSDMS/blob/master/LICENSE.md"
         }
       ]
     },
 
     "homepageURL": "https://wim.usgs.gov",
-    "downloadURL": "https://github.com/USGS-WiM/CBRADMS/archive/master.zip",
-    "disclaimerURL": "https://github.com/USGS-WiM/CBRADMS/blob/master/DISCLAIMER.md",
-    "repositoryUrl": "https://github.com/USGS-WiM/CBRADMS",
+    "downloadURL": "https://github.com/USGS-WiM/CBRSDMS/archive/master.zip",
+    "disclaimerURL": "https://github.com/USGS-WiM/CBRSDMS/blob/master/DISCLAIMER.md",
+    "repositoryUrl": "https://github.com/USGS-WiM/CBRSDMS",
     "vcs": "git",
 
     "laborHours": null,
 
     "tags": [
       "cbra",
+      "cbrs",
       "determinations",
       "management"
     ],
@@ -41,7 +42,7 @@
     },
 
     "date": {
-      "metadataLastUpdated": "2018-02-09"
+      "metadataLastUpdated": "2019-04-25"
     }
   }
 ]
