@@ -3,7 +3,7 @@
     "name": "CBRSDMS",
     "organization": "U.S. Geological Survey",
     "description": "CBRS DMS (Coastal Barrier Resources System Determinations Management System)",
-    "version": "v1.0.0",
+    "version": "v1.3.1",
     "status": "Production",
 
     "permissions": {
@@ -42,7 +42,7 @@
     },
 
     "date": {
-      "metadataLastUpdated": "2019-04-25"
+      "metadataLastUpdated": "2019-05-31"
     }
   }
 ]
