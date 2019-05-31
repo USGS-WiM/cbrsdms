@@ -7,7 +7,7 @@ CBRS Determinations Management System
 
 # CBRS DMS v1.3.1
 
-This is the web services codebase for version 1 of the Coastal Barrier Resources System Determinations Management System (the web services codebase can be found [here](https://github.com/USGS-WiM/cbrsservices_django)). CBRS DMS allows the FWS CBRS team and contractors to enter, query, and manage determinations on whether properties under consideration are in or out of boundaries of federally-designated units, as well as generate reports for completed determinations.
+This is the web client codebase for version 1 of the Coastal Barrier Resources System Determinations Management System (the web services codebase can be found [here](https://github.com/USGS-WiM/cbrsservices_django)). CBRS DMS allows the FWS CBRS team and contractors to enter, query, and manage determinations on whether properties under consideration are in or out of boundaries of federally-designated units, as well as generate reports for completed determinations.
 
 [Angular](https://angular.io/) and generated with [Angular CLI](https://github.com/angular/angular-cli)
 
