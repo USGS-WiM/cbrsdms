@@ -1,28 +1,29 @@
+
+import {throwError as observableThrowError, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Determination} from './determination';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+
+
 import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class DeterminationService {
-    constructor (private http: Http) {}
+    constructor (private http: HttpClient) {}
 
     getDetermination (id: number | string) {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS };
 
         return this.http.get(APP_SETTINGS.DETERMINATIONS_URL + id + '/', options)
-            .map(res => <Determination> res.json())
+            .map(res => <Determination> res)
             .catch(this.handleError);
     }
 
     getDeterminations (searchArgs?: URLSearchParams) {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
 
         return this.http.get(APP_SETTINGS.DETERMINATIONS_URL, options)
-            .map(res => <Determination[]> res.json())
+            .map(res => <Determination[]> res)
             .catch(this.handleError);
     }
 
@@ -31,6 +32,6 @@ export class DeterminationService {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+        return observableThrowError(error.json() || 'Server error');
     }
 }

@@ -1,20 +1,21 @@
+
+import {throwError as observableThrowError, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {ReportCase} from './report-case';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+
+
 import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class ReportCaseService {
-    constructor (private http: Http) {}
+    constructor (private http: HttpClient) {}
 
     getReportCases (searchArgs?: URLSearchParams) {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
 
         return this.http.get(APP_SETTINGS.REPORTCASES_URL, options)
-            .map(res => <ReportCase[]> res.json())
+            .map(res => <ReportCase[]> res)
             .catch(this.handleError);
     }
 
@@ -50,6 +51,6 @@ export class ReportCaseService {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+        return observableThrowError(error.json() || 'Server error');
     }
 }

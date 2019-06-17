@@ -1,5 +1,5 @@
 import { Component, Inject, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from "@angular/common";
 import { ModalService } from './modal.service';
 
 @Component({

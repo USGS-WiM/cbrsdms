@@ -1,20 +1,21 @@
+
+import {throwError as observableThrowError, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions} from '@angular/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {ReportCaseCount} from './report-case-count';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+
+
 import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class ReportCaseCountService {
-    constructor (private http: Http) {}
+    constructor (private http: HttpClient) {}
 
     getReportCaseCounts () {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS };
 
         return this.http.get(APP_SETTINGS.REPORTCASECOUNTS_URL, options)
-            .map(res => <ReportCaseCount[]> res.json())
+            .map(res => <ReportCaseCount[]> res)
             .catch(this.handleError);
     }
 
@@ -23,6 +24,6 @@ export class ReportCaseCountService {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+        return observableThrowError(error.json() || 'Server error');
     }
 }

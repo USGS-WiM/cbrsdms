@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBuilder, Validators, FormGroup, FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-import {URLSearchParams} from '@angular/http';
 import {TagService} from './tag.service';
 import {Tag} from './tag';
 import {CaseService} from '../cases/case.service';

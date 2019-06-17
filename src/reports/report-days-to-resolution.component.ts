@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {URLSearchParams} from '@angular/http';
 import {ReportCase} from './report-case';
 import {ReportCaseService} from './report-case.service';
 import {Column} from '../grid/column';

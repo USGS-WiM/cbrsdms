@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {URLSearchParams} from '@angular/http';
 import {ReportCase} from './report-case';
 import {ReportCaseService} from './report-case.service';
 import {ReportFilterComponent} from './report-filter.component';
@@ -13,8 +12,8 @@ import * as FileSaver from 'file-saver';
     templateUrl: 'report-detail.component.html'
 })
 export class ReportDaysToEachStatusComponent implements OnInit {
-    @ViewChild(ReportFilterComponent)
-    reportComponent: ReportFilterComponent;
+    @ViewChild(ReportFilterComponent, {static: false})
+    reportComponent: ReportFilterComponent; // may need to change to '{static: true}'
 
     paginated = true;
     allow_filter = true;

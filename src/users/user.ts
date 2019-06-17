@@ -9,6 +9,7 @@ export class User {
         public user_permissions?: string[],
         public is_superuser?: Boolean,
         public is_staff?: Boolean,
-        public is_active?: Boolean
+        public is_active?: Boolean,
+        public password?: string
     ) {}
 }

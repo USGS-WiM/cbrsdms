@@ -1,38 +1,38 @@
+
+import {throwError as observableThrowError, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
+import {HttpClient, HttpResponse, HttpHeaders} from '@angular/common/http';
 import {Case} from './case';
 import {AuthenticationService} from '../authentication/authentication.service';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import 'rxjs/Rx';
 import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class CaseService {
-    constructor (private http: Http, private _authenticationService: AuthenticationService) {}
+    constructor (private http: HttpClient, private _authenticationService: AuthenticationService) {}
 
     getCase (id: number | string) {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS };
 
         return this.http.get(APP_SETTINGS.CASES_URL + id + '/', options)
-            .map(res => <Case> res.json())
-            .catch(this.handleError);
+        .map(res => <Case> res)
+        .catch(this.handleError);
     }
 
     getCases (searchArgs?: URLSearchParams) {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
 
         return this.http.get(APP_SETTINGS.CASES_URL, options)
-            .map(res => <Case[]> res.json())
-            .catch(this.handleError);
+        .map(res => <Case[]> res)
+        .catch(this.handleError);
     }
 
     createCase (acase: Case): Observable<Case> {
         const body = JSON.stringify(acase);
-        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        const options = { headers: APP_SETTINGS.AUTH_JSON_HEADERS };
 
         return this.http.post(APP_SETTINGS.CASES_URL, body, options)
-            .map(res => <Case> res.json())
+            .map(res => <Case> res)
             .catch(this.handleError)
     }
 
@@ -42,10 +42,10 @@ export class CaseService {
         delete acase['id'];
 
         const body = JSON.stringify(acase);
-        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        const options = { headers: APP_SETTINGS.AUTH_JSON_HEADERS };
 
         return this.http.put(APP_SETTINGS.CASES_URL + id + '/', body, options)
-            .map(res => <Case> res.json())
+            .map(res => <Case> res)
             .catch(this.handleError)
     }
 
@@ -81,6 +81,6 @@ export class CaseService {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+        return observableThrowError(error.json() || 'Server error');
     }
 }

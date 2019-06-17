@@ -1,6 +1,5 @@
 import {Component, OnInit, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {URLSearchParams} from '@angular/http';
 import {Case} from '../cases/case';
 import {CaseService} from '../cases/case.service';
 import {WorkbenchFilterComponent} from './workbench-filter.component';
@@ -14,8 +13,8 @@ import {FormBuilder} from '@angular/forms';
 })
 
 export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit {
-    @ViewChild(WorkbenchFilterComponent)
-    filterComponent: WorkbenchFilterComponent;
+    @ViewChild(WorkbenchFilterComponent, {static: false})
+    filterComponent: WorkbenchFilterComponent; // may need to change to '{static: true}'
 
     tag_ID: number;
     private _params: any;
@@ -80,9 +79,11 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
                         this.cases_properties.length = 0;
                         for (let i = 0, j = this._cases.length; i < j; i++) {
                             const case_property: any = this._cases[i];
-                            const address = case_property.property_string.split(',');
-                            case_property.street = address[0];
-                            case_property.city = address[2];
+                            if (case_property.property_string) {
+                                const address = case_property.property_string.split(',');
+                                case_property.street = address[0];
+                                case_property.city = address[2];
+                            }
                             this.cases_properties.push(case_property);
                             if (this._cases.length === this.cases_properties.length) {
                                 if (!newUrlSearchParams) { this._router.navigate(['/workbench']); }
@@ -110,7 +111,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             new Column('cbrs_unit_string', 'CBRS Unit'),
             new Column('street', 'Street Address'),
             new Column('city', 'City'),
-            //new Column('policy_number', 'Policy #'),
+            // new Column('policy_number', 'Policy #'),
             new Column('priority', 'Priority'),
             new Column('duplicate', 'Duplicate of'),
         ];

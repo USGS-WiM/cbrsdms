@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {DatePipe} from '@angular/common';
-import {URLSearchParams} from '@angular/http';
 import {Systemmap} from '../systemmaps/systemmap';
 import {SystemmapService} from '../systemmaps/systemmap.service';
 import {Systemunitmap} from '../systemunitmaps/systemunitmap';
@@ -140,17 +139,14 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemmaps(urlSearchParams?) {
-        console.log("_getsystemmaps called with: " + urlSearchParams);                     
-                
-        
-        
+        console.log('_getsystemmaps called with: ' + urlSearchParams);
 
         this._systemmapService.getSystemmaps(new URLSearchParams(urlSearchParams))
         .subscribe(
             (res: Systemmap[]) => {
-                
+
                 if (this._currentMapFilter != null) {
-                    if (this._currentMapFilter.length == urlSearchParams.split('=')[1].length) {
+                    if (this._currentMapFilter.length === urlSearchParams.split('=')[1].length) {
                         this.systemmaps = res;
                         if (this.systemmaps.length > 0) {
                             this.noSystemmapsFound = false;
@@ -159,7 +155,7 @@ export class MapdataListComponent implements OnInit {
                             this.noSystemmapsFound = true;
                             this.notready = false;
                         }
-                    } else {                        
+                    } else {
                         console.log("OLD search results | current filter: " + this._currentMapFilter + " results filter: " + urlSearchParams.split('=')[1]);
                     }
                 } else {
@@ -171,10 +167,10 @@ export class MapdataListComponent implements OnInit {
                         this.noSystemmapsFound = true;
                         this.notready = false;
                     }
-                }  
+                }
             },
             error => this._errorMessage = <any>error
-        );        
+        );
     }
 
     private _createSystemmap(map: Systemmap) {
@@ -211,12 +207,12 @@ export class MapdataListComponent implements OnInit {
 
     private _updateSystemunitmap(mapID: number, unitIDs: number[]) {
         this.notready = true;
-        //let currentSet = new Set(this._currentMapSystemUnits);
-        //let newSet = new Set(unitIDs);
-        //let deleteSet = new Set([...currentSet].filter(x => !newSet.has(x)));
-        //let createSet = new Set([...newSet].filter(x => !currentSet.has(x)));
-        //let deleteSetCount = deleteSet.size;
-        //let createSetCount = createSet.size;
+        // let currentSet = new Set(this._currentMapSystemUnits);
+        // let newSet = new Set(unitIDs);
+        // let deleteSet = new Set([...currentSet].filter(x => !newSet.has(x)));
+        // let createSet = new Set([...newSet].filter(x => !currentSet.has(x)));
+        // let deleteSetCount = deleteSet.size;
+        // let createSetCount = createSet.size;
         let deleteArray = this._currentMapSystemUnits.filter(x => unitIDs.indexOf(x) < 0 );
         let createArray = unitIDs.filter(x => this._currentMapSystemUnits.indexOf(x) < 0);
         let deleteArrayCount = deleteArray.length;

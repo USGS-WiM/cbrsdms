@@ -1,6 +1,5 @@
 import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {URLSearchParams} from '@angular/http';
 import {Case} from '../cases/case';
 import {Property} from '../properties/property'
 import {Requester} from '../requesters/requester';
@@ -300,26 +299,26 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     this._updateControls(this._myCase_fields, this._caseControls, this.myCase);
                     this._getSystemunits();
                     this._getUsers();
-                    this._sendFinalMailCheck(acase);                    
+                    this._sendFinalMailCheck(acase);
                 },
                 error => this._errorMessage = <any>error);
     }
 
     // show the send final email button if final date set and presence of final letter
-    private _sendFinalMailCheck(acase: Case) {        
+    private _sendFinalMailCheck(acase: Case) {
         if (acase.final_letter_date) {
-            for (let casefile of this.myCasefiles) {
+            for (const casefile of this.myCasefiles) {
                 if (casefile.final_letter) {
                     this.sendFinalMailReady = true;
                 }
-            }                        
+            }
         }
     }
 
     private _getCasefiles(caseID: number) {
         this._casefileService.getCasefiles(new URLSearchParams('case=' + caseID))
             .then(
-                casefiles => {
+                (casefiles: any) => {
                     this.myCasefiles = casefiles;
                     // this.updateControls(this.myCase_fields, this.caseControls, this.myCase);
                 },
@@ -955,11 +954,11 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         this.filesToUploadDetails.splice(index, 1);
     }
 
-    sendFinalLetter() {       
-        if (this.case_ID && confirm("Are you sure you want to send the email with final letter?")) {            
-            this._casefileService.sendFinalLetter(this.case_ID);      
-            this.sendFinalMailComplete = true;      
-        }        
+    sendFinalLetter() {
+        if (this.case_ID && confirm('Are you sure you want to send the email with final letter?')) {
+            this._casefileService.sendFinalLetter(this.case_ID);
+            this.sendFinalMailComplete = true;
+        }
     }
 
     removeFinalLetter() {

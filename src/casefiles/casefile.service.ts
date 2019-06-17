@@ -1,20 +1,20 @@
 import {Injectable} from '@angular/core';
-import {Http, RequestOptions, URLSearchParams} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {AuthenticationService} from '../authentication/authentication.service';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/toPromise';
+
+
 import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class CasefileService {
-    constructor (private http: Http, private _authenticationService: AuthenticationService) {}
+    constructor (private http: HttpClient, private _authenticationService: AuthenticationService) {}
 
     getCasefiles (searchArgs?: URLSearchParams) {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
 
         return this.http.get(APP_SETTINGS.CASEFILES_URL, options)
             .toPromise()
-            .then(res => res.json())
+            .then(res => res)
             .catch(this.handleError);
     }
 
@@ -46,13 +46,13 @@ export class CasefileService {
     }
 
     deleteCasefile(casefileid: number) {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS };
 
         return this.http.delete(APP_SETTINGS.CASEFILES_URL + casefileid + '/', options);
     }
 
-    sendFinalLetter(casefileid: number) {        
-        return this.http.post(APP_SETTINGS.SENDFINALLETTEREMAIL_URL + casefileid + '/send_final_email/', "{}");               
+    sendFinalLetter(casefileid: number) {
+        return this.http.post(APP_SETTINGS.SENDFINALLETTEREMAIL_URL + casefileid + '/send_final_email/', '{}');
     }
 
     private handleError (error: any) {

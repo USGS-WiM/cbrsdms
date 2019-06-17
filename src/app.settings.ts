@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Headers} from '@angular/http';
+import {HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class APP_SETTINGS {
 
     private static _environment = 'production';
-    // private static _API_ENDPOINT = 'http://localhost:8000/cbrsservices/';
+    private static _API_ENDPOINT = 'http://localhost:8080/cbrsservices/';
     // private static _API_ENDPOINT = 'http://cbrsdev.wim.usgs.gov/cbrsservices/';
-    private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbrsservices/';
+    // private static _API_ENDPOINT = 'https://' + window.location.hostname + '/cbrsservices/';
     public static set environment (env: string) { this._environment = env };
 
     public static get IS_LOGGEDIN(): boolean { return (!!sessionStorage.getItem('username') && !!sessionStorage.getItem('password')); };
@@ -31,15 +31,15 @@ export class APP_SETTINGS {
     public static get REPORTCASECOUNTS_URL(): string { return this._API_ENDPOINT + 'reportcasecounts/' };
     public static get SENDFINALLETTEREMAIL_URL(): string {return this._API_ENDPOINT };
 
-    public static get MIN_JSON_HEADERS() { return new Headers({ 'Accept': 'application/json' }) };
-    public static get JSON_HEADERS() { return new Headers({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) };
-    public static get AUTH_HEADERS() { return new Headers({ 'Authorization': 'Basic ' +
+    public static get MIN_JSON_HEADERS() { return new HttpHeaders({ 'Accept': 'application/json' }) };
+    public static get JSON_HEADERS() { return new HttpHeaders({ 'Accept': 'application/json', 'Content-Type': 'application/json' }) };
+    public static get AUTH_HEADERS() { return new HttpHeaders({ 'Authorization': 'Basic ' +
         btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password'))}) };
-    public static get MIN_AUTH_JSON_HEADERS() { return new Headers({
+    public static get MIN_AUTH_JSON_HEADERS() { return new HttpHeaders({
         'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')),
         'Accept': 'application/json' }
     )};
-    public static get AUTH_JSON_HEADERS() { return new Headers({
+    public static get AUTH_JSON_HEADERS() { return new HttpHeaders({
         'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')),
         'Accept': 'application/json', 'Content-Type': 'application/json' }
     )};

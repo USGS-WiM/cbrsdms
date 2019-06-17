@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Output, OnInit} from '@angular/core';
 import {WorkbenchFilter} from './workbench-filter';
-import {URLSearchParams} from '@angular/http';
 import {Tag} from '../tags/tag';
 import {Systemunit} from '../systemunits/systemunit';
 import {User} from '../users/user';

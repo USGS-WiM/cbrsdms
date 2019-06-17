@@ -1,38 +1,37 @@
+
+import {throwError as observableThrowError, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Comment} from './comment';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
 import {APP_SETTINGS} from '../app.settings';
 
 @Injectable()
 export class CommentService {
-    constructor (private http: Http) {}
+    constructor (private http: HttpClient) {}
 
     getComment (id: number | string) {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS };
 
         return this.http.get(APP_SETTINGS.COMMENTS_URL + id + '/', options)
-            .map(res => <Comment> res.json())
+            .map(res => <Comment> res)
             .catch(this.handleError);
     }
 
     getComments (searchArgs?: URLSearchParams) {
-        const options = new RequestOptions({ headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs });
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
 
         return this.http.get(APP_SETTINGS.COMMENTS_URL, options)
-            .map(res => <Comment[]> res.json())
+            .map(res => <Comment[]> res)
             .catch(this.handleError);
     }
 
-    createComment (comment: Comment) : Observable<Comment> {
+    createComment (comment: Comment): Observable<Comment> {
         const acomment = {'acase': comment.acase, 'comment': comment.comment};
         const body = JSON.stringify(acomment);
-        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        const options = { headers: APP_SETTINGS.AUTH_JSON_HEADERS };
 
         return this.http.post(APP_SETTINGS.COMMENTS_URL, body, options)
-            .map(res => <Comment> res.json())
+            .map(res => <Comment> res)
             .catch(this.handleError)
     }
 
@@ -43,10 +42,10 @@ export class CommentService {
         const acomment = {'acase': comment.acase, 'comment': comment.comment, 'created_by': comment.created_by};
 
         const body = JSON.stringify(acomment);
-        const options = new RequestOptions({ headers: APP_SETTINGS.AUTH_JSON_HEADERS });
+        const options = { headers: APP_SETTINGS.AUTH_JSON_HEADERS };
 
         return this.http.put(APP_SETTINGS.COMMENTS_URL + id + '/', body, options)
-            .map(res => <Comment> res.json())
+            .map(res => <Comment> res)
             .catch(this.handleError)
     }
 
@@ -55,6 +54,6 @@ export class CommentService {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+        return observableThrowError(error.json() || 'Server error');
     }
 }

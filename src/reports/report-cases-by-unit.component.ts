@@ -1,6 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {URLSearchParams} from '@angular/http';
 import {ReportCase} from './report-case';
 import {ReportCaseService} from './report-case.service';
 import {Systemunit} from '../systemunits/systemunit';

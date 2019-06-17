@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {CaseService} from './cases/case.service';
 import {CasefileService} from './casefiles/casefile.service';
@@ -55,7 +55,8 @@ import {MyDatePickerModule} from 'mydatepicker';
 
 @NgModule({
     imports: [
-        routing, BrowserModule, FormsModule, ReactiveFormsModule, RouterModule, HttpModule, MultiselectDropdownModule, MyDatePickerModule
+        routing, BrowserModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule, MultiselectDropdownModule,
+        MyDatePickerModule
     ],
     declarations: [
         AppComponent, ModalComponent, Grid, NavbarComponent, LoginComponent, TagListComponent, TagDetailComponent,
