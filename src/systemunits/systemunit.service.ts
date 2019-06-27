@@ -19,8 +19,8 @@ export class SystemunitService {
             .catch(this.handleError);
     }
 
-    getSystemunits (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getSystemunits (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.SYSTEMUNITS_URL, options)
             .map(res => <Systemunit[]> res)

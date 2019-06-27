@@ -19,8 +19,8 @@ export class DeterminationService {
             .catch(this.handleError);
     }
 
-    getDeterminations (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getDeterminations (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.DETERMINATIONS_URL, options)
             .map(res => <Determination[]> res)

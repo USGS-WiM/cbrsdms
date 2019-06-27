@@ -44,7 +44,7 @@ export class TagListComponent {
     deleteTag(tag) {
         this.error = false;
         if (window.confirm('Are you sure you want to delete this tag?')) {
-            this._caseService.getCases(new URLSearchParams('tags=' + tag))
+            this._caseService.getCases({tags: tag})
                 .subscribe(
                     (cases: Case[]) => {
                         if (cases.length > 0) {
@@ -81,7 +81,7 @@ export class TagListComponent {
     }
 
     private _validateTag(tag: Tag) {
-        this._tagService.getTags(new URLSearchParams('name=' + tag.name))
+        this._tagService.getTags({name: tag.name})
             .subscribe(
                 (tags: Tag[]) => {
                     if (tags.length !== 0) {

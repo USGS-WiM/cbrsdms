@@ -19,8 +19,8 @@ export class TagService {
             .catch(this.handleError);
     }
 
-    getTags (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getTags (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.TAGS_URL, options)
             .map(res => <Tag[]> res)

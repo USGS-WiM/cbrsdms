@@ -20,8 +20,8 @@ export class CasetagService {
             .catch(this.handleError);
     }
 
-    getCasetags (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getCasetags (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.CASETAGS_URL, options)
             .map(res => <Casetag[]> res)

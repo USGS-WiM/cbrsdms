@@ -19,8 +19,8 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    getUsers (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getUsers (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.USERS_URL, options)
             .map(res => <User[]> res)

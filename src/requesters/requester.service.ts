@@ -19,8 +19,8 @@ export class RequesterService {
             .catch(this.handleError);
     }
 
-    getRequesters (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getRequesters (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.REQUESTERS_URL, options)
             .map(res => <Requester[]> res)

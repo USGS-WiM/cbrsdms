@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DatePipe} from '@angular/common';
+import {DatePipe, formatDate} from '@angular/common';
 import {Systemmap} from '../systemmaps/systemmap';
 import {SystemmapService} from '../systemmaps/systemmap.service';
 import {Systemunitmap} from '../systemunitmaps/systemunitmap';
@@ -15,6 +15,8 @@ import {APP_SETTINGS} from '../app.settings';
 import {ModalService} from '../modal.service';
 import {IMultiSelectOption, IMultiSelectSettings} from 'angular-2-dropdown-multiselect';
 import {IMyOptions} from 'mydatepicker';
+import { FieldofficeService } from '../fieldoffices/fieldoffice.service';
+import { Fieldoffice } from '../fieldoffices/fieldoffice';
 
 
 @Component({
@@ -33,10 +35,17 @@ export class MapdataListComponent implements OnInit {
     };
     systemmaps: Systemmap[];
     systemunits: Systemunit[];
+    systemunits_nofilter: Systemunit[];
     prohibitiondates: Prohibitiondate[];
+    prohibitiondates_nofilter: Prohibitiondate[];
     systemmapColumns: Column[];
     systemunitColumns: Column[];
     prohibitiondateColumns: Column[];
+    fieldOffices: Fieldoffice[];
+    systemUnitTypes = [
+        {id: 1, unit_type: 'CBRS'},
+        {id: 2, unit_type: 'OPA'}
+    ] // TODO: call from services (need to add callable url) rather than hardcode
 
     mySystemmap = new Systemmap();
     mySystemunit = new Systemunit();
@@ -107,7 +116,8 @@ export class MapdataListComponent implements OnInit {
                  private _systemunitmapService: SystemunitmapService,
                  private _systemunitService: SystemunitService,
                  private _prohibitiondateService: ProhibitiondateService,
-                 private _modalService: ModalService) {
+                 private _modalService: ModalService,
+                 private _fieldOfficeService: FieldofficeService) {
 
         // get the fields for each object type
         this._mapFields = Object.keys(this.mySystemmap);
@@ -129,6 +139,7 @@ export class MapdataListComponent implements OnInit {
     ngOnInit() {
         this._getSystemmaps();
         this._getSystemunits();
+        this._getFieldOffices();
         this._getProhibitiondates();
         this._getColumns();
 
@@ -138,15 +149,25 @@ export class MapdataListComponent implements OnInit {
         //     });
     }
 
+    private _getFieldOffices() {
+        console.log('_getFieldOffices called');
+        this._fieldOfficeService.getFieldoffices()
+            .subscribe(
+                (res: Fieldoffice[]) => {
+                    this.fieldOffices = res;
+                }
+            )
+    }
+
     private _getSystemmaps(urlSearchParams?) {
         console.log('_getsystemmaps called with: ' + urlSearchParams);
 
-        this._systemmapService.getSystemmaps(new URLSearchParams(urlSearchParams))
+        this._systemmapService.getSystemmaps(urlSearchParams)
         .subscribe(
             (res: Systemmap[]) => {
 
-                if (this._currentMapFilter != null) {
-                    if (this._currentMapFilter.length === urlSearchParams.split('=')[1].length) {
+                if (this._currentMapFilter != null && this._currentMapFilter !== '') {
+                    if (this._currentMapFilter.length === urlSearchParams.freetext.length) {
                         this.systemmaps = res;
                         if (this.systemmaps.length > 0) {
                             this.noSystemmapsFound = false;
@@ -156,7 +177,7 @@ export class MapdataListComponent implements OnInit {
                             this.notready = false;
                         }
                     } else {
-                        console.log("OLD search results | current filter: " + this._currentMapFilter + " results filter: " + urlSearchParams.split('=')[1]);
+                        console.log('OLD search results | current filter: ' + this._currentMapFilter + ' results filter: ' + urlSearchParams.freetext);
                     }
                 } else {
                     this.systemmaps = res;
@@ -213,22 +234,22 @@ export class MapdataListComponent implements OnInit {
         // let createSet = new Set([...newSet].filter(x => !currentSet.has(x)));
         // let deleteSetCount = deleteSet.size;
         // let createSetCount = createSet.size;
-        let deleteArray = this._currentMapSystemUnits.filter(x => unitIDs.indexOf(x) < 0 );
-        let createArray = unitIDs.filter(x => this._currentMapSystemUnits.indexOf(x) < 0);
-        let deleteArrayCount = deleteArray.length;
-        let createArrayCount = createArray.length;
+        const deleteArray = this._currentMapSystemUnits.filter(x => unitIDs.indexOf(x) < 0 );
+        const createArray = unitIDs.filter(x => this._currentMapSystemUnits.indexOf(x) < 0);
+        const deleteArrayCount = deleteArray.length;
+        const createArrayCount = createArray.length;
         let deleteCount = 0;
-        let createCount = 0;
+        const createCount = 0;
         let getSystemMapsCalled = false;
 
         // delete any units that have been removed from this map
         if (deleteArrayCount > 0) {
             for (const unitID of deleteArray) {
                 this._systemunitmapService.getSystemunitmaps(
-                    new URLSearchParams('unit=' + unitID.toString() + '&map=' + mapID.toString()))
+                    {unit: unitID.toString(), map: mapID.toString()})
                     .subscribe(
                         (res: Systemunitmap[]) => {
-                            if (res.length != 0) {
+                            if (res.length !== 0) {
                                 this._systemunitmapService.deleteSystemunitmap(res[0].id)
                                     .subscribe(
                                         (result => {
@@ -251,7 +272,7 @@ export class MapdataListComponent implements OnInit {
         if (createArrayCount > 0) {
             for (const unitID of createArray) {
                 this._systemunitmapService.getSystemunitmaps(
-                    new URLSearchParams('unit=' + unitID.toString() + '&map=' + mapID.toString()))
+                    {unit: unitID.toString(), map: mapID.toString()})
                     .subscribe(
                         (res: Systemunitmap[]) => {
                             if (res.length === 0) {
@@ -275,14 +296,20 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemunits(urlSearchParams?) {
-        this._systemunitService.getSystemunits(new URLSearchParams(urlSearchParams))
+        this._systemunitService.getSystemunits(urlSearchParams)
             .subscribe(
                 res => {
                     this.systemunits = res;
+                    if (!urlSearchParams) {this.systemunits_nofilter = res; }
                     if (this.systemunits.length > 0) {
                         for (let i = 0, j = this.systemunits.length; i < j; i++) {
                             this.systemunitoptions.push(
                                 {id: this.systemunits[i].id, name: this.systemunits[i].system_unit_number});
+                            for (const type of this.systemUnitTypes) {
+                                if (this.systemunits[i].system_unit_type === type.id) {
+                                    this.systemunits[i]['system_unit_type_string'] = type.unit_type;
+                                }
+                            }
                         }
                         this.noSystemunitsFound = false;
                         this.notready = false;
@@ -324,10 +351,11 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getProhibitiondates(urlSearchParams?) {
-        this._prohibitiondateService.getProhibitiondates(new URLSearchParams(urlSearchParams))
+        this._prohibitiondateService.getProhibitiondates(urlSearchParams)
             .subscribe(
                 res => {
                     this.prohibitiondates = res;
+                    this.prohibitiondates_nofilter = res;
                     if (this.prohibitiondates.length > 0) {
                         this.noProhibitiondatesFound = false;
                         this.notready = false;
@@ -420,6 +448,7 @@ export class MapdataListComponent implements OnInit {
         this.systemunitColumns = [
             new Column('system_unit_number', 'Unit Number'),
             new Column('system_unit_name', 'Unit Name'),
+            new Column('system_unit_type_string', 'Unit Type')
             // new Column('field_office', 'Field Office'),
         ];
         this.prohibitiondateColumns = [
@@ -428,24 +457,43 @@ export class MapdataListComponent implements OnInit {
         ];
     }
 
-    
+
     filterGrid(filterID: string, filterValue: string) {
-        console.log("filter grid called with: " + filterID + " " + filterValue);
+        console.log('filter grid called with: ' + filterID + ' ' + filterValue);
         const filterClass = filterID.slice(0, -7);
         this._currentMapFilter = filterValue;
 
         switch (filterClass) {
             case 'systemmap':
-                filterValue ? this._getSystemmaps('freetext=' + filterValue) : this._getSystemmaps();
+                filterValue ? this._getSystemmaps({freetext: filterValue}) : this._getSystemmaps();
                 this._slowDown = true;
                 break;
             case 'systemunit':
-                filterValue ? this._getSystemunits('freetext=' + filterValue) : this._getSystemunits();
+                filterValue ? this._getSystemunits({freetext: filterValue}) : this._getSystemunits();
                 break;
-            case 'prohibitiondate':
-                filterValue ? this._getProhibitiondates('freetext=' + filterValue) : this._getProhibitiondates();
+            case 'prohibitiondates':
+                // change how this works
+                const self = this;
+                if (filterValue !== '') {
+                    this.prohibitiondates = this.prohibitiondates_nofilter;
+                    this.prohibitiondates = this.prohibitiondates.filter(function(pd){
+                        return pd.system_unit_string.toUpperCase().indexOf(filterValue.toUpperCase()) > -1 ||
+                            self.removePads(pd.prohibition_date_mdy).indexOf(filterValue) > -1;
+                    })
+                } else {
+                    this.prohibitiondates = this.prohibitiondates_nofilter;
+                }
                 break;
-        }       
+        }
+    }
+
+    removePads(date) {
+        const splitDate = date.split('/');
+        for (let i = 0, j = splitDate.length; i < j; i++) {
+            if (splitDate[i].length === 2 && splitDate[i][0] === '0') {splitDate[i] = splitDate[i][1]
+            } else if (splitDate[i].length === 4) {splitDate[i] = splitDate[i].substr(2)}
+        }
+        return splitDate.join('/');
     }
 
     openModal(modalID: string, row?: any) {
@@ -511,6 +559,7 @@ export class MapdataListComponent implements OnInit {
                     break;
                 case 'modalUnit':
                     const unit = form.value;
+                    console.log(unit);
                     // validate that required fields have values
                     if (!unit.system_unit_number) {
                         APP_UTILITIES.showToast('System Unit NOT saved:\nUnit Number must have a value!');
@@ -522,6 +571,10 @@ export class MapdataListComponent implements OnInit {
                     break;
                 case 'modalDate':
                     const date = form.value;
+                    const formattedDate = formatDate(date.prohibition_date.formatted, 'yyyy-MM-dd', 'en-US');
+                    date.prohibition_date = formattedDate;
+                    date['prohibition_date_mdy'] = formattedDate;
+                    console.log(date);
                     // validate that required fields have values
                     if (!date.prohibition_date || !date.system_unit) {
                         APP_UTILITIES.showToast('Prohibition Date NOT saved:\n'

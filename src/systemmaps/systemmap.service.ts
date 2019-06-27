@@ -19,8 +19,8 @@ export class SystemmapService {
             .catch(err => this.handleError(err))
     }
 
-    getSystemmaps (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getSystemmaps (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.SYSTEMMAPS_URL, options)
             .map(res => <Systemmap[]> res)

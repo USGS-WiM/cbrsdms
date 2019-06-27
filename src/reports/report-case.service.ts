@@ -11,8 +11,8 @@ import {APP_SETTINGS} from '../app.settings';
 export class ReportCaseService {
     constructor (private http: HttpClient) {}
 
-    getReportCases (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getReportCases (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.REPORTCASES_URL, options)
             .map(res => <ReportCase[]> res)

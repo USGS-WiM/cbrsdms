@@ -37,17 +37,28 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
             .subscribe(params => {
                 if (params['tags']) {
                     this.tag_ID = params['tags'];
-                    const urlSearchParams = 'view=workbench&tags=' + params['tags'];
+                    const urlSearchParams = {view: 'workbench', tags: params['tags']};
                     this._getCases(urlSearchParams);
                     this._getColumns();
                 } else if (sessionStorage.getItem('filterUrlSearchParams')) {
-                    this._getCases(sessionStorage.getItem('filterUrlSearchParams'));
+                    // convert urlsearchparams to object for filter/request parameters
+                    const urlParamArray = sessionStorage.getItem('filterUrlSearchParams').split('&');
+                    const urlParamObject = {};
+                    for (const param of urlParamArray) {
+                        const paramArray = param.split('=');
+                        urlParamObject[paramArray[0]] = paramArray[1];
+                    }
+                    this._getCases(urlParamObject);
                     this._getColumns();
                 } else {
                     this._getCases();
                     this._getColumns();
                 }
             });
+        console.log(sessionStorage.getItem('filterUrlSearchParams'));
+        if (sessionStorage.getItem('filterUrlSearchParams')) {
+            if (this.hideFilter) {this.toggleFilter()}
+        }
     }
 
     ngOnDestroy() {
@@ -64,13 +75,13 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
         this.hideFilter ? this.hideFilter = false : this.hideFilter = true;
     }
 
-    onFilter(urlSearchParams: string) {
+    onFilter(urlSearchParams: object) {
         this._getCases(urlSearchParams);
     }
 
     private _getCases(newUrlSearchParams?) {
-        const urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'view=workbench&status=Open';
-        this._caseService.getCases(new URLSearchParams(urlSearchParams))
+        const urlSearchParams = newUrlSearchParams ? newUrlSearchParams : {view: 'workbench', status: 'Open'};
+        this._caseService.getCases(urlSearchParams)
             .subscribe(
                 cases => {
                     console.log(cases);
@@ -122,4 +133,48 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
         this.notready = false;
     }
 
+    downloadCases() {
+        const csv = this.jsonToCSV(this._cases);
+        const filename = 'workbench.csv';
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        if (navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, filename);
+        } else {
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            if (link.download !== undefined) { // feature detection
+                // Browsers that support HTML5 download attribute
+                link.setAttribute('href', url);
+                link.setAttribute('download', filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                window.open(url);
+            }
+        }
+    }
+
+    public jsonToCSV(json) {
+        // converts json to csv
+        let str = '';
+        let line = '';
+        Object.keys(json[0]).forEach(function(key) {
+            if (line !== '') {line += ','; }
+            line += key;
+        });
+        str += line + '\r\n';
+        for (let i = 0; i < json.length; i++) {
+            line = '';
+            Object.keys(json[i]).forEach(function(key) {
+                if (line !== '') {line += ','; }
+                if (typeof json[i][key] === 'string' && json[i][key].indexOf(',') !== -1) {
+                    line += '"' + json[i][key] + '"';
+                } else {line += json[i][key]; }
+            });
+            str += line + '\r\n';
+        }
+        return str;
+    }
 }

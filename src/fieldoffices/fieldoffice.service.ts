@@ -19,8 +19,8 @@ export class FieldofficeService {
             .catch(this.handleError);
     }
 
-    getFieldoffices (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getFieldoffices (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.FIELDOFFICES_URL, options)
             .map(res => <Fieldoffice[]> res)

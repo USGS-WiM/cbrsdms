@@ -44,13 +44,13 @@ export class ReportDaysToResolutionComponent implements OnInit {
             let prevPageNum;
             let ndxStart = this._prevPage.indexOf('page=');
             if (ndxStart === -1) {
-                const urlSearchParams = 'report=daystoresolution';
+                const urlSearchParams = {report: 'daystoresolution'};
                 this._getReportCases(urlSearchParams);
             } else {
                 ndxStart += 5;
                 const ndxEnd = this._prevPage.indexOf('&', ndxStart);
                 ndxEnd === -1 ? prevPageNum = this._prevPage.slice(ndxStart) : prevPageNum = this._prevPage.slice(ndxStart, ndxEnd);
-                const urlSearchParams = 'page=' + prevPageNum + '&report=daystoresolution';
+                const urlSearchParams = {page: prevPageNum, report: 'daystoresolution'};
                 this._getReportCases(urlSearchParams);
             }
         }
@@ -65,7 +65,7 @@ export class ReportDaysToResolutionComponent implements OnInit {
             const ndxStart = this._nextPage.indexOf('page=') + 5;
             const ndxEnd = this._nextPage.indexOf('&', ndxStart);
             ndxEnd === -1 ? nextPageNum = this._nextPage.slice(ndxStart) : nextPageNum = this._nextPage.slice(ndxStart, ndxEnd);
-            const urlSearchParams = 'page='  + nextPageNum + '&report=daystoresolution';
+            const urlSearchParams = {page: nextPageNum, report: 'daystoresolution'};
             this._getReportCases(urlSearchParams);
         }
     }
@@ -84,12 +84,12 @@ export class ReportDaysToResolutionComponent implements OnInit {
     }
 
     private _getReportCases(newUrlSearchParams?) {
-        const urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=daystoresolution';
-        this._reportCaseService.getReportCases(new URLSearchParams(urlSearchParams))
+        const urlSearchParams = newUrlSearchParams ? newUrlSearchParams : {report: 'daystoresolution'};
+        this._reportCaseService.getReportCases(urlSearchParams)
             .subscribe(
                 (reportcases: any) => {
                     if (Number(reportcases.count) > 0) {
-                        APP_UTILITIES.showToast(reportcases.count + ' cases found.');
+                        APP_UTILITIES.showToast(reportcases.count + ' case(s) found.');
                         const max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
                         this.page_size < 100 ? this.page_size = 100 : this.page_size = max_records;
                         this._prevPage = reportcases.previous;
@@ -97,6 +97,7 @@ export class ReportDaysToResolutionComponent implements OnInit {
                         this.reportcases = reportcases.results;
                         this._sortAndShow();
                     } else {
+                        APP_UTILITIES.showToast('No cases found.');
                         this.notready = false;
                     }
                 },
@@ -119,4 +120,7 @@ export class ReportDaysToResolutionComponent implements OnInit {
         this.notready = false;
     }
 
+    printCases() {
+        window.print();
+    }
 }

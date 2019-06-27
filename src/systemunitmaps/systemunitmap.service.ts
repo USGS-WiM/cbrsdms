@@ -19,8 +19,8 @@ export class SystemunitmapService {
             .catch(this.handleError);
     }
 
-    getSystemunitmaps (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getSystemunitmaps (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.SYSTEMUNITMAPS_URL, options)
             .map(res => <Systemunitmap[]> res)

@@ -17,8 +17,8 @@ export class CommentService {
             .catch(this.handleError);
     }
 
-    getComments (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getComments (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.COMMENTS_URL, options)
             .map(res => <Comment[]> res)

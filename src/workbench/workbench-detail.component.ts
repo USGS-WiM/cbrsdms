@@ -316,7 +316,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     private _getCasefiles(caseID: number) {
-        this._casefileService.getCasefiles(new URLSearchParams('case=' + caseID))
+        this._casefileService.getCasefiles({case: caseID})
             .then(
                 (casefiles: any) => {
                     this.myCasefiles = casefiles;
@@ -326,7 +326,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     private _getCaseIDs() {
-        this._caseService.getCases(new URLSearchParams('view=caseid'))
+        this._caseService.getCases({view: 'caseid'})
             .subscribe(
                 (cases: Case[]) => {
                     this.myCaseIDs.length = 0;
@@ -339,7 +339,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     private _getProperties(caseID: number | string) {
-        this._propertyService.getProperties(new URLSearchParams('case=' + caseID))
+        this._propertyService.getProperties({case: caseID})
             .subscribe(
                 properties => {
                     this.myProperty = properties[0];
@@ -349,7 +349,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     private _getRequesters(caseID: number | string) {
-        this._requesterService.getRequesters(new URLSearchParams('case=' + caseID))
+        this._requesterService.getRequesters({case: caseID})
             .subscribe(
                 requesters => {
                     this.myRequester = requesters[0];
@@ -359,7 +359,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     private _getComments(caseID: number | string) {
-        this._commentService.getComments(new URLSearchParams('case=' + caseID))
+        this._commentService.getComments({case: caseID})
             .subscribe(
                 (comments: Comment[]) => {
                     this.myComments = comments;
@@ -371,7 +371,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     private _getCasetags(caseID: number | string) {
-        this._casetagService.getCasetags(new URLSearchParams('case=' + caseID))
+        this._casetagService.getCasetags({case: caseID})
             .subscribe(
                 (casetags: Casetag[]) => {
                     this.myCasetags = casetags;
@@ -425,7 +425,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     public getSystemmaps(unitID: number | string) {
-        this._systemmapService.getSystemmaps(new URLSearchParams('unit=' + unitID))
+        this._systemmapService.getSystemmaps({unit: unitID})
             .subscribe(
                 (systemmaps: Systemmap[]) => {
                     this.mySystemmaps = systemmaps.sort(APP_UTILITIES.dynamicSortMultiple(['-effective', 'map_number']));
@@ -458,7 +458,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
             this._caseControls['cbrs_map_date'].setValue('');
             this.notready = false;
         } else {
-            const maps = this.mySystemmaps.filter(function (map) { return map.id == mapID; });
+            const maps = this.mySystemmaps.filter(function (map) { return map.id === mapID; });
             // map_date comes in yyyy-mm-dd format
             const date_parts = maps[0].map_date.split('-');
             const mdy = date_parts[1] + '/' + date_parts[2] + '/' + date_parts[0];
@@ -480,8 +480,8 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     public validateDate(thisDateControl, thisDate) {
-        let thisDateMDY = ('00' + thisDate.month).slice(-2)
-            + '/' + ('00' + thisDate.day).slice(-2) 
+        const thisDateMDY = ('00' + thisDate.month).slice(-2)
+            + '/' + ('00' + thisDate.day).slice(-2)
             + '/' + ('0000' + thisDate.year).slice(-4);
         if (this.inInit) {
             return false;
@@ -687,7 +687,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     private _getUsers() {
-        this._userService.getUsers(new URLSearchParams('used_users=True'))
+        this._userService.getUsers({used_users: 'True'})
             .subscribe(
                 users => {
                     this.myUsers = users;
@@ -794,7 +794,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     private getProhibitiondates(unitID: number | string) {
-        this._prohibitiondateService.getProhibitiondates(new URLSearchParams('unit=' + unitID))
+        this._prohibitiondateService.getProhibitiondates({unit: unitID})
             .subscribe(
                 prohibitiondates => {
                     this.myProhibitiondates = prohibitiondates;
@@ -1236,7 +1236,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     //////
 
     private __getCases(propertyID: number, requesterID: number) {
-        this._caseService.getCases(new URLSearchParams('property=' + propertyID + '&requester=' + requesterID))
+        this._caseService.getCases({property: propertyID, requester: requesterID})
             .subscribe(
                 (cases: Case[]) => {
                     if (cases.length > 0) {
@@ -1257,15 +1257,12 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     }
 
     private __getProperties(property: Property) {
-        this._propertyService.getProperties(
-            new URLSearchParams(
-                'street=' + property.street
-                + '&unit=' + property.unit
-                + '&city=' + property.city
-                + '&state=' + property.state
-                + '&zipcode=' + property.zipcode
-                // + '&legal_description=' +property.legal_description
-            ))
+        this._propertyService.getProperties({street: property.street,
+                unit: property.unit,
+                city: property.city,
+                state: property.state,
+                zipcode: property.zipcode
+            })
             .subscribe(
                 (properties: Property[]) => {
                     if (properties.length > 0) { this._newProperty.id = properties[0].id; }
@@ -1276,18 +1273,18 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
 
     private __getRequesters(requester: Requester) {
         this._requesterService.getRequesters(
-            new URLSearchParams(
-                'salutation=' + requester.salutation
-                + '&first_name=' + requester.first_name
-                + '&last_name=' + requester.last_name
-                + '&organization=' + requester.organization
-                + '&email=' + requester.email
-                + '&street=' + requester.street
-                + '&unit=' + requester.unit
-                + '&city=' + requester.city
-                + '&state=' + requester.state
-                + '&zipcode=' + requester.zipcode
-            ))
+            {
+                salutation: requester.salutation,
+                first_name: requester.first_name,
+                last_name: requester.last_name,
+                organization: requester.organization,
+                email: requester.email,
+                street: requester.street,
+                unit: requester.unit,
+                city: requester.city,
+                state: requester.state,
+                zipcode: requester.zipcode,
+            })
             .subscribe(
                 (requesters: Requester[]) => {
                     if (requesters.length > 0) { this._newRequester.id = requesters[0].id; }

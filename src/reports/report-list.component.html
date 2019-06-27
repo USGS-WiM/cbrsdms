@@ -5,6 +5,7 @@
         <ul class="reports-ul">
             <li>
                 <a [routerLink]="['/reports/casesbyunit']">Cases by Unit</a>
+                <br>
                 <label for="cbrs_unit">CBRS Unit</label>
                 <select id="cbrs_unit" (change)="goToCasesByUnit(newUnit.value)" #newUnit>
                     <option value=""></option>
@@ -22,4 +23,4 @@
             </li>
         </ul>
     </div>
-</div>
+</div> 

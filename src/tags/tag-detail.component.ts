@@ -74,7 +74,7 @@ export class TagDetailComponent implements OnInit, OnDestroy {
     }
 
     private _validateTag(tag: Tag) {
-        this._tagService.getTags(new URLSearchParams('name=' + tag.name))
+        this._tagService.getTags({name: tag.name})
             .subscribe(
                 (tags: Tag[]) => {
                     if (tag.name !== this.myTag.name && tags.length !== 0) {

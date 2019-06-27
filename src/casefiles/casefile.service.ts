@@ -9,8 +9,8 @@ import {APP_SETTINGS} from '../app.settings';
 export class CasefileService {
     constructor (private http: HttpClient, private _authenticationService: AuthenticationService) {}
 
-    getCasefiles (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getCasefiles (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.CASEFILES_URL, options)
             .toPromise()

@@ -19,8 +19,8 @@ export class PropertyService {
             .catch(this.handleError);
     }
 
-    getProperties (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getProperties (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.PROPERTIES_URL, options)
             .map(res => <Property[]> res)

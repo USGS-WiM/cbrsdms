@@ -64,4 +64,8 @@ export class ReportCountCasesByStatusComponent implements OnInit {
         this.notready = false;
     }
 
+    printCases() {
+        window.print();
+    }
+
 }

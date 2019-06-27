@@ -51,6 +51,7 @@ import {ModalComponent} from './modal.component';
 import {routing, appRoutingProviders} from './app.routing'
 import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import {MyDatePickerModule} from 'mydatepicker';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import {MyDatePickerModule} from 'mydatepicker';
     providers: [
         appRoutingProviders, CaseService, CasefileService, CasetagService, PropertyService, RequesterService, AuthenticationService,
         CommentService, DeterminationService, FieldofficeService, ProhibitiondateService, SystemmapService, SystemunitmapService,
-        SystemunitService, TagService, UserService, WorkbenchFilterService, ReportCaseService, ReportCaseCountService, ModalService
+        SystemunitService, TagService, UserService, WorkbenchFilterService, ReportCaseService, ReportCaseCountService, ModalService,
+        DatePipe
     ],
     bootstrap: [AppComponent]
 })

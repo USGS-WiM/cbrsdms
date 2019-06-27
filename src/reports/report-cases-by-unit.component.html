@@ -1,6 +1,6 @@
 <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
 <div [hidden]="notready">
-    <div align="center">
+    <div align="center" class="hidden-print">
         <label for="cbrs_unit_top">CBRS Unit</label>
         <select id="cbrs_unit_top" (change)="onFilter(newUnitTop.value)" #newUnitTop>
             <option value=""></option>
@@ -10,10 +10,11 @@
         <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
         <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="prevPage(newUnitTop.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
         <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="exportToCSV(newUnitTop.value)"><i class="fa fa-download"></i> Export CSV</button>
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="printCases()"><i class="fa fa-print"></i> Print</button>
         <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="nextPage(newUnitTop.value)">Next Page <i class="fa fa-arrow-right"></i></button>
     </div>
     <report-grid [rows]="cases_properties" [columns]="columns"></report-grid>
-    <div align="center">
+    <div align="center" class="hidden-print">
         <label for="cbrs_unit_bottom">CBRS Unit</label>
         <select id="cbrs_unit_bottom" (change)="onFilter(newUnitBottom.value)" #newUnitBottom>
             <option value=""></option>
@@ -23,6 +24,7 @@
         <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
         <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="prevPage(newUnitBottom.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
         <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="exportToCSV(newUnitBottom.value)"><i class="fa fa-download"></i> Export CSV</button>
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="printCases()"><i class="fa fa-print"></i> Print</button>
         <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="nextPage(newUnitBottom.value)">Next Page <i class="fa fa-arrow-right"></i></button>
     </div>
 </div>

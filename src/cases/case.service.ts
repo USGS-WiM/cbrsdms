@@ -19,8 +19,8 @@ export class CaseService {
         .catch(this.handleError);
     }
 
-    getCases (searchArgs?: URLSearchParams) {
-        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, search: searchArgs };
+    getCases (searchArgs?) {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS, params: searchArgs };
 
         return this.http.get(APP_SETTINGS.CASES_URL, options)
         .map(res => <Case[]> res)

@@ -255,7 +255,6 @@ button.reports-export-btn i.fa-filter {
   color: #D24B4B;
 }
 .dms-table {
-  display: block;
   margin: 35px auto 55px auto !important;
   width: 90%;
   margin: 0 auto;
@@ -431,6 +430,11 @@ button.reports-export-btn i.fa-filter {
   width: 300px;
   box-sizing: border-box;
   padding: 25px 0;
+}
+.reports-ul select,
+#cbrs_unit_top,
+#cbrs_unit_bottom{
+    margin-left: 5px;
 }
 .cbrs-form {
   box-sizing: border-box;
@@ -998,3 +1002,24 @@ body.modal-open {
 .margin-bottom {margin-bottom:10px;}
 .margin-top {margin-top:10px;}
 .mydp, .mydp .headertodaybtn {border:none !important;padding: 4px;}
+
+@media print {
+    .hidden-print, .cbrsToast.toastVisible {
+        display: none !important;
+    }
+    .dms-table {
+        margin: 0 auto;
+        width: 100%;
+        font-size: 10px;
+    }
+    .dms-table thead th a {
+        font-size: 10px;
+    }
+    body {
+        margin: 0 auto;
+        padding: 0;
+    }
+    span.app-header {
+        padding: 5px;
+    }
+}

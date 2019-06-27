@@ -36,7 +36,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
         this._params = this._route.queryParams
             .subscribe(params => {
                 if (params['units']) {
-                    const urlSearchParams = 'report=casesbyunit&cbrs_unit=' + params['units'];
+                    const urlSearchParams = {report: 'casesbyunit', cbrs_unit: params['units']}
                     this.selected_unit = Number(params['units']);
                     this._getReportCases(urlSearchParams);
                     this._getSystemunits();
@@ -63,14 +63,14 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
             let prevPageNum;
             let ndxStart = this._prevPage.indexOf('page=');
             if (ndxStart === -1) {
-                const urlSearchParams = (unit.toString() === '') ? null : 'report=casesbyunit&cbrs_unit=' + unit.toString();
+                const urlSearchParams = (unit.toString() === '') ? null : {report: 'casesbyunit', cbrs_unit: unit.toString()};
                 this._getReportCases(urlSearchParams);
             } else {
                 ndxStart += 5;
                 const ndxEnd = this._prevPage.indexOf('&', ndxStart);
                 ndxEnd === -1 ? prevPageNum = this._prevPage.slice(ndxStart) : prevPageNum = this._prevPage.slice(ndxStart, ndxEnd);
-                const urlSearchParams = (unit.toString() === '') ?
-                    'page='  + prevPageNum + '&report=casesbyunit' : 'page='  + prevPageNum + '&report=casesbyunit';
+                const urlSearchParams = (unit.toString() === '') ? {page: prevPageNum, report: 'casesbyunit'} : {page: prevPageNum,
+                    report: 'casesbyunit'};
                 this._getReportCases(urlSearchParams);
             }
         }
@@ -86,8 +86,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
             const ndxEnd = this._nextPage.indexOf('&', ndxStart);
             ndxEnd === -1 ? nextPageNum = this._nextPage.slice(ndxStart) : nextPageNum = this._nextPage.slice(ndxStart, ndxEnd);
             const urlSearchParams = (unit.toString() === '') ?
-                'page='  + nextPageNum + '&report=casesbyunit' :
-                'page='  + nextPageNum + '&report=casesbyunit' + '&cbrs_unit=' + unit.toString();
+                {page: nextPageNum, report: 'casesbyunit'} : {page: nextPageNum, report: 'casesbyunit', cbrs_unit: unit.toString()};
             this._getReportCases(urlSearchParams);
         }
     }
@@ -95,7 +94,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     onFilter(unit: number) {
         this.notready = true;
         this.selected_unit = unit;
-        const urlSearchParams = (unit.toString() === '') ? null : 'report=casesbyunit&cbrs_unit=' + unit.toString();
+        const urlSearchParams = (unit.toString() === '') ? null : {report: 'casesbyunit', cbrs_unit: unit.toString()};
         this._getReportCases(urlSearchParams);
     }
 
@@ -122,13 +121,13 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     }
 
     private _getReportCases(newUrlSearchParams?) {
-        const urlSearchParams = newUrlSearchParams ? newUrlSearchParams : 'report=casesbyunit';
-        this._reportCaseService.getReportCases(new URLSearchParams(urlSearchParams))
+        const urlSearchParams = newUrlSearchParams ? newUrlSearchParams : {report: 'casesbyunit'};
+        this._reportCaseService.getReportCases(urlSearchParams)
             .subscribe(
                 (reportcases: any) => {
                     console.log(reportcases);
                     if (Number(reportcases.count) > 0) {
-                        APP_UTILITIES.showToast(reportcases.count + ' cases found.');
+                        APP_UTILITIES.showToast(reportcases.count + ' case(s) found.');
                         const max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
                         this.page_size < 100 ? this.page_size = 100 : this.page_size = max_records;
                         this._prevPage = reportcases.previous;
@@ -150,6 +149,8 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
                             this._sortAndShow();
                         }, 500);
                     } else {
+                        this.cases_properties = [];
+                        APP_UTILITIES.showToast('No cases found.');
                         this.notready = false;
                     }
                 },
@@ -169,7 +170,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     private _getColumns() {
         this.columns = [
             new Column('id', 'Case ID'),
-            //new Column('id', 'Case Reference'),
+            // new Column('id', 'Case Reference'),
             new Column('status', 'Status'),
             new Column('prohibition_date', 'Prohibition Date'),
             new Column('cbrs_unit_string', 'CBRS Unit'),
@@ -185,4 +186,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
         this.notready = false;
     }
 
+    printCases() {
+        window.print();
+    }
 }

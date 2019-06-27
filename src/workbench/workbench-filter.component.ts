@@ -20,7 +20,7 @@ import {IMyOptions} from 'mydatepicker';
 })
 
 export class WorkbenchFilterComponent implements OnInit {
-    @Output() onFilter = new EventEmitter<string>();
+    @Output() onFilter = new EventEmitter<Object>();
 
     myWorkbenchFilter = new WorkbenchFilter();
     selectedTag: number;
@@ -100,7 +100,7 @@ export class WorkbenchFilterComponent implements OnInit {
                 }
             }
         }
-        if (!this.myWorkbenchFilter.status) {this.myWorkbenchFilter.status = 'Open';}
+        if (!this.myWorkbenchFilter.status) {this.myWorkbenchFilter.status = 'Open'}
         this.selectedTag =
             typeof this.myWorkbenchFilter.tags !== 'undefined' && this.myWorkbenchFilter.tags.length > 0 ?
                 this.myWorkbenchFilter.tags[0] : null;
@@ -109,7 +109,7 @@ export class WorkbenchFilterComponent implements OnInit {
     }
 
     private _getCaseIDs() {
-        this._caseService.getCases(new URLSearchParams('view=caseid'))
+        this._caseService.getCases({view: 'caseid'})
             .subscribe(
                 (cases: Case[]) => {
                     this.myCaseIDs.length = 0;
@@ -142,7 +142,7 @@ export class WorkbenchFilterComponent implements OnInit {
     }
 
     private _getUsers() {
-        this._userService.getUsers(new URLSearchParams('used_users=True'))
+        this._userService.getUsers({used_users: 'True'})
             .subscribe(
                 users => {
                     this.myUsers = users;
@@ -167,6 +167,7 @@ export class WorkbenchFilterComponent implements OnInit {
         this._workbenchFilterService.deleteFilter();
         this._workbenchFilterService.deleteUrlSearchParams();
         this.filternotready = false;
+        this.onFilter.emit({view: 'workbench'});
     }
 
     onSubmit(form) {
@@ -209,7 +210,17 @@ export class WorkbenchFilterComponent implements OnInit {
 
             this._workbenchFilterService.setFilter(wbf);
             this._workbenchFilterService.setUrlSearchParams(urlSearchParams);
-            this.onFilter.emit(urlSearchParams);
+
+            // convert urlsearchparams to object for filter/request parameters
+            const urlParamArray = urlSearchParams.split('&');
+            const urlParamObject = {};
+            console.log(urlParamArray);
+            for (const param of urlParamArray) {
+                const paramArray = param.split('=');
+                urlParamObject[paramArray[0]] = paramArray[1];
+            }
+            console.log(urlParamObject);
+            this.onFilter.emit(urlParamObject);
         }
         this.cleared = false;
 
