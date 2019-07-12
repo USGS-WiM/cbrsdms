@@ -37,6 +37,7 @@ import {MapdataListComponent} from './mapdata/mapdata-list.component';
 import {SystemmapGridComponent} from './mapdata/systemmap-grid.component';
 import {SystemunitGridComponent} from './mapdata/systemunit-grid.component';
 import {ProhibitiondateGridComponent} from './mapdata/prohibitiondate-grid.component';
+import {UserGridComponent} from './users/user-grid.component';
 import {ReportComponent} from './reports/report.component';
 import {ReportListComponent} from './reports/report-list.component';
 import {ReportGridComponent} from './reports/report-grid.component';
@@ -52,19 +53,22 @@ import {routing, appRoutingProviders} from './app.routing'
 import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import {MyDatePickerModule} from 'mydatepicker';
 import { DatePipe } from '@angular/common';
+import {UsersComponent} from './users/users.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
     imports: [
         routing, BrowserModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule, MultiselectDropdownModule,
-        MyDatePickerModule
+        MyDatePickerModule, NgbModule
     ],
     declarations: [
         AppComponent, ModalComponent, Grid, NavbarComponent, LoginComponent, TagListComponent, TagDetailComponent,
         WorkbenchComponent, WorkbenchListComponent, WorkbenchGridComponent, WorkbenchFilterComponent, WorkbenchDetailComponent,
         MapdataComponent, MapdataListComponent, SystemmapGridComponent, SystemunitGridComponent, ProhibitiondateGridComponent,
         ReportComponent, ReportListComponent, ReportGridComponent, ReportFilterComponent, ReportCasesByUnitComponent,
-        ReportDaysToResolutionComponent, ReportDaysToEachStatusComponent, ReportCountCasesByStatusComponent, DisplayValuePipe
+        ReportDaysToResolutionComponent, ReportDaysToEachStatusComponent, ReportCountCasesByStatusComponent, DisplayValuePipe,
+        UsersComponent, UserGridComponent
     ],
     providers: [
         appRoutingProviders, CaseService, CasefileService, CasetagService, PropertyService, RequesterService, AuthenticationService,

@@ -30,6 +30,8 @@ export class AuthenticationService {
                     sessionStorage.setItem('password', password);
                     sessionStorage.setItem('first_name', this.user.first_name);
                     sessionStorage.setItem('last_name', this.user.last_name);
+                    sessionStorage.setItem('user_id', this.user.id);
+                    sessionStorage.setItem('is_staff', this.user.is_staff)
                     return u;
                 } else {
                     // TODO: do something more professional here
@@ -53,6 +55,8 @@ export class AuthenticationService {
       sessionStorage.removeItem('password');
       sessionStorage.removeItem('first_name');
       sessionStorage.removeItem('last_name');
+      sessionStorage.removeItem('user_id');
+      sessionStorage.removeItem('is_staff');
       return observableOf(true);
 
   }

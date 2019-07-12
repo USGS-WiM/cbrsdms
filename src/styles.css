@@ -267,6 +267,7 @@ button.reports-export-btn i.fa-filter {
 }
 .dms-table thead th {
   border-bottom-width: 1px !important;
+  color: #FFF
 }
 .dms-table thead th a {
   box-sizing: border-box;
@@ -936,11 +937,8 @@ div.col-md-10 {
 .multi-table .container table td,
 .multi-table .container table th{
     width: auto;
-    max-width: 210px !important;
-}
-.mapData-filter{
-
-}
+    max-width: 280px !important;
+} /* TODO: make sure this change doesn't affect other tables*/
 .mapData-filter label{
   display: block;
   margin-top: 10px;
@@ -1004,8 +1002,11 @@ body.modal-open {
 .mydp, .mydp .headertodaybtn {border:none !important;padding: 4px;}
 
 @media print {
-    .hidden-print, .cbrsToast.toastVisible {
+    .hidden-print, .cbrsToast.toastVisible, .add-comment-wrap, .btn-lg, .removeCaseFileButton {
         display: none !important;
+    }
+    .printArea {
+        display: block !important;
     }
     .dms-table {
         margin: 0 auto;
@@ -1022,4 +1023,65 @@ body.modal-open {
     span.app-header {
         padding: 5px;
     }
+     .cbrs-form .form-main-header, .cbrs-form .col-md-2, .cbrs-form .col-md-3 {
+        display: inline-block !important;
+    }
+    .cbrs-form .dms-group .chx-group, .cbrs-form .dms-group .chx-group .slct, .cbrs-form .dms-group, .cbrs-form .dms-group .file-group,
+    .cbrs-form .dms-group .dms-form-group.bb{
+        border: none !important;
+    }
+    .cbrs-form{
+        margin: 0 auto;
+        width: 100%;
+    }
+    .cbrs-form .dms-group .dms-form-group.br {
+        width: unset;
+        border: none;
+    }
+    .cbrs-form .dms-group .dms-form-group label {
+        height: 35px;
+        display: inline-block;
+    }
+    .cbrs-form .dms-group .file-group label {
+        display: block;
+        height: unset;
+    }
+    .cbrs-form .mydpicon {
+        display: none;
+    }
+    .mydp .selection {
+        width: unset;
+    }
+    .cbrs-form label {
+        max-width: unset;
+    }
+    .cbrs-form .dms-group .dms-form-group.bb {
+        width: 15%;
+    }
+}
+
+.btn-lg {
+    margin: 5px 5px 5px 0px;
+}
+
+.printArea {
+    display: none;
+}
+
+#hard_copy_map_reviewed{
+    margin-top: 15px;
+}
+#qc_reviewer{
+    margin-top: 5px;
+}
+
+.fa-info-circle {
+    padding-left: 5px;
+}
+.tooltip{
+    opacity:1!important;
+}
+
+.cbrs-form .btn-group {
+    margin: 0px 5px 20px 0px;
 }

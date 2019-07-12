@@ -1,0 +1,99 @@
+<navbar></navbar><!-- <router-outlet></router-outlet> -->
+
+<div>
+    <div *ngIf="notready" align="center" id="loading-spinner">
+        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+    </div>
+    <div *ngIf="!notready" style="display: flex; justify-content: center;">
+        <div class="mapData-filter">
+            <div align="center">
+                <label for="user-filter">Users</label><br />
+                <button type="button" (click)="openModal('modalUser')" class="btn btn-default btn-save-all">Add User</button><br />
+                <input id="user-filter" placeholder="Filter" (keyup)="filterGrid(user.id, user.value)" ng-model="_currentMapFilter" #user>
+            </div>
+            <user-grid *ngIf="users" [rows]="users" [columns]="columns" [displayLookup]="users" (edit)="openModal('modalUser', $event)" class="multi-table"></user-grid>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="container">
+    <button type="button" (click)="openModal()" class="btn btn-default btn-save-all">Add User</button><br />
+    <table class="dms-table table table-bordered">
+        <thead>
+            <tr>
+                <th *ngFor="let col of columns">
+                    <a (click)="sort(col.name)" class="gridHeader">{{col.descr}} <i class="fa fa-sort"></i></a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users" (click)="onClick(row)">
+                <td *ngFor="let col of columns">{{user[col.name]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->
+<modal id="modalUser">
+    <div class="modal">
+        <div class="modal-body">
+            <div class="container cbrs-form">
+                <h3 *ngIf="!row">Add User</h3><h3 *ngIf="row">Edit User {{row?.id}}</h3>
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm, 'modalUser')">
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="first_name">First Name</label>
+                            <input id="first_name" type="text" formControlName="first_name">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="last_name">Last Name</label>
+                            <input id="last_name" type="text" formControlName="last_name">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="username">Username</label>
+                            <input id="username" type="text" formControlName="username">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="email">Email</label>
+                            <input id="email" type="text" formControlName="email">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="password">Password</label>
+                            <input id="password" type="password" formControlName="password">
+                        </div>
+                    </div>
+                    <!-- <button *ngIf="!changePassword && row" type="submit" class="btn btn-default btn-primary btn-group" (click)="changePassword = true">Change Password</button>
+                    <button *ngIf="changePassword && row" type="submit" class="btn btn-default btn-primary btn-group" (click)="changePassword = false">Cancel Change Password</button>
+                    <div *ngIf="changePassword && row" class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="new_password">New Password</label>
+                            <input id="new_password" type="password" formControlName="new_password">
+                        </div>
+                    </div> -->
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="is_active" style="display: inline-block;">Is Active</label><i class="fa fa-info-circle" #t="ngbTooltip" ngbTooltip="Rather than deleting the user, set 'is active' to false." triggers="click"></i>
+                            <input id="is_active" name="is_active" type="checkbox" [checked]="newUser.is_active" value="true" formControlName="is_active" style="display: inline-block;">
+                        </div>
+                    </div>
+                    <div class="dms-group">
+                        <div class="dms-form-group">
+                            <label for="is_staff">Is Staff</label>
+                            <input id="is_staff" name="is_staff" type="checkbox" [checked]="newUser.is_staff" value="true" formControlName="is_staff" style="display: inline-block;">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default btn-primary btn-group" [disabled]="!userForm.valid">Save</button>
+                    <button type="button" class="btn btn-default btn-group" (click)="closeModal('modalUser')">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>

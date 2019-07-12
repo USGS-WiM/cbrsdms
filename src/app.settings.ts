@@ -21,6 +21,7 @@ export class APP_SETTINGS {
     public static get TAGS_URL(): string { return this._API_ENDPOINT + 'tags/' };
     public static get CASETAGS_URL(): string { return this._API_ENDPOINT + 'casetags/' };
     public static get SYSTEMUNITS_URL(): string { return this._API_ENDPOINT + 'systemunits/' };
+    public static get SYSTEMUNITTYPES_URL(): string { return this._API_ENDPOINT + 'systemunittypes/' };
     public static get FIELDOFFICES_URL(): string { return this._API_ENDPOINT + 'fieldoffices/' };
     public static get SYSTEMMAPS_URL(): string { return this._API_ENDPOINT + 'systemmaps/' };
     public static get SYSTEMUNITMAPS_URL(): string { return this._API_ENDPOINT + 'systemunitmaps/' };

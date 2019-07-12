@@ -5,6 +5,7 @@ import {WorkbenchRoutes} from './workbench/workbench.routes';
 import {MapdataRoutes} from './mapdata/mapdata.routes';
 import {ReportRoutes} from './reports/report.routes';
 import {TagRoutes} from './tags/tag.routes';
+import {UsersRoutes} from './users/users.routes';
 
 const routes: Routes = [
     ...AuthenticationRoutes,
@@ -12,6 +13,7 @@ const routes: Routes = [
     ...MapdataRoutes,
     ...ReportRoutes,
     ...TagRoutes,
+    ...UsersRoutes
 ];
 
 export const appRoutingProviders: any[] = [

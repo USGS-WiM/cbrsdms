@@ -1385,4 +1385,8 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         this._router.navigate( ['/workbench/' + caseID] );
     }
 
+    print() {
+        window.print();
+    }
+
 }

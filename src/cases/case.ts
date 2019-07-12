@@ -35,6 +35,7 @@ export class Case {
         public invalid?: Boolean,
         public comments?: number[],
         public tags?: number[],
-        public id?: number
+        public id?: number,
+        public hard_copy_map_reviewed?: Boolean
     ) {}
 }

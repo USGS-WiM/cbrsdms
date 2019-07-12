@@ -17,17 +17,18 @@
         </div><br /><br />
 
         <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
-
-            <div class="row margin-bottom">
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-success btn-lg" [disabled]="!form.valid">Save</button>
-                    <span [hidden]="!sendFinalMailReady">
-                        <button type="submit" class="btn btn-danger btn-lg" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
-                        <span [hidden]="!sendFinalMailComplete">Mail sent successfully!</span>
-                    </span>
-                </div>
-            </div>
             
+                <div class="row margin-bottom">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-success btn-lg" [disabled]="!form.valid">Save</button>
+                            <button type="button" class="btn btn-success btn-lg" (click)="print()">Print</button>
+                            <span [hidden]="!sendFinalMailReady">
+                                <button type="submit" class="btn btn-danger btn-lg" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
+                                <span [hidden]="!sendFinalMailComplete">Mail sent successfully!</span>
+                            </span>
+                        </div>
+                    </div>
+                    
             <div formGroupName="casegroup">
 
                 <div class="dms-group noheader" *ngIf="!case_ID">
@@ -36,8 +37,8 @@
                             <div class="file-group">
                                 <label class="half-label fifty" for="casefiles">Case Files</label><!--
                                 --><label class="bb" style="width:25%"></label><!--
-                                --><label class="file-upload-label" for="casefileSelect">Upload Files</label>
-                                <div class="col-md-12" *ngIf="!noxhr">
+                                --><label class="file-upload-label" for="casefileSelect" class="hidden-print">Upload Files</label>
+                                <div class="col-md-12 hidden-print" *ngIf="!noxhr">
                                     <div id="casefiledrag" class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">or drop files here <br/><br/></div>
                                 </div>
 
@@ -49,7 +50,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <input class="custom-file-input" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />
+                                <input class="custom-file-input hidden-print" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />
                             </div>
                         </div>
                     </div>
@@ -78,11 +79,13 @@
                                     --><div class="chx">
                                         <input id="invalid" type="checkbox" formControlName="invalid">
                                     </div>
-                                </div><!--
-                                    --><div class="col-md-3 chx-group">
+                                </div>
+                                <div class="col-md-3 chx-group">
                                     <label for="duplicate">Duplicate of</label><!--
                                     --><div class="slct">
-                                        <select id="duplicate" formControlName="duplicate" style="width:120px">
+                                        <div >{{myCase.duplicate}}</div>
+                                        <select id="duplicate" formControlName="duplicate" style="width:120px" class="hidden-print">
+                                            <option value="" selected hidden disabled>Select Case ID</option> <!--trying to show this in the select bar-->
                                             <option value=""></option>
                                             <option *ngFor="let caseID of myCaseIDs" [value]="caseID.id" [selected]="caseID.id == myCase.duplicate">{{caseID.id}}</option>
                                         </select>
@@ -140,9 +143,9 @@
                                 <div class="file-group">
                                     <label class="half-label fifty" for="casefiles">Case Files</label><!--
                                     --><label class="bb" style="width:25%"></label><!--
-                                    --><label class="file-upload-label" for="casefileSelect">Upload</label>
+                                    --><label class="file-upload-label hidden-print" for="casefileSelect">Upload</label>
 
-                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
+                                    <div class="filedropzone hidden-print" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
 
                                     <div class="col-xs-12 col-md-6 filepad">
                                         <ul id="casefiles" *ngIf="myCasefiles.length > 0">
@@ -164,7 +167,7 @@
                                         </div>
                                     </div>
 
-                                    <input class="custom-file-input" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />
+                                    <input class="custom-file-input hidden-print" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />
                                 </div>
                             </div>
 
@@ -172,9 +175,9 @@
                                 <div class="file-group">
                                     <label class="half-label fifty" for="casefiles">Case Files</label><!--
                                     --><label class="bb" style="width:25%"></label><!--
-                                    --><label class="file-upload-label" for="casefileSelect">Upload</label>
+                                    --><label class="file-upload-label hidden-print" for="casefileSelect">Upload</label>
 
-                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
+                                    <div class="filedropzone hidden-print" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
 
                                     <div class="col-xs-12 col-md-6 filepad">
                                         <ul id="casefiles" *ngIf="myCasefiles.length > 0">
@@ -196,7 +199,7 @@
                                         </div>
                                     </div>
 
-                                    <input class="custom-file-input" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />
+                                    <input class="custom-file-input hidden-print" id="casefileSelect" type="file" multiple (change)="casefileSelectHandler($event)" formControlName="casefiles" />
                                 </div>
                             </div>
 
@@ -207,10 +210,10 @@
                         <div *ngIf="!noxhr" class="col-xs-12 nopadd" style="background-color: white" id="finalletterfiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="finalletterSelectHandler($event)">
                             <div class="file-group">
                                 <label class="label fifty" style="border-top: 1px solid #E8E8E8;" for="finalletter">Final Letter</label>                                
-                                <label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload</label>
-                                <label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft</label>
+                                <label class="file-upload-label hidden-print" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload</label>
+                                <label class="file-upload-label hidden-print" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft</label>
 
-                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
+                                    <div class="filedropzone hidden-print" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
 
                                 <div class="col-xs-12 col-md-6 filepad">
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
@@ -229,8 +232,8 @@
                                         <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton pull-right">-</button>
                                     </div>
 
-                                    <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
-                                    <input class="custom-file-input" id="draftletter" type="button" (click)="generateLetter()" />
+                                    <input class="custom-file-input hidden-print" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
+                                    <input class="custom-file-input hidden-print" id="draftletter" type="button" (click)="generateLetter()" />
                                 </div>
 
                             </div>
@@ -241,10 +244,10 @@
                         <div *ngIf="noxhr" class="col-xs-12" style="background-color: white">
                             <div class="file-group">
                                 <label class="label fifty" style="border-top: 1px solid #E8E8E8;" for="finalletter">Final Letter</label><!--
-                                --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload Letter</label><!--
-                                --><label class="file-upload-label" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft Letter</label>
+                                --><label class="file-upload-label hidden-print" style="width:25%; border-top: 1px solid #E8E8E8;" for="finalLetterSelect">Upload Letter</label><!--
+                                --><label class="file-upload-label hidden-print" style="width:25%; border-top: 1px solid #E8E8E8;" for="draftletter">Draft Letter</label>
 
-                                    <div class="filedropzone" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
+                                    <div class="filedropzone hidden-print" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)">or drop files here <br/><br/></div>
 
                                 <div class="col-md-6 col-xs-12 filepad">
                                     <ul id="finalletter" *ngIf="myCasefiles.length > 0">
@@ -263,8 +266,8 @@
                                         <button type="button" (click)="removeFinalLetter()" class="removeCaseFileButton pull-right">-</button>
                                     </div>
 
-                                    <input class="custom-file-input" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
-                                    <input class="custom-file-input" id="draftletter" type="button" (click)="generateLetter()" />
+                                    <input class="custom-file-input hidden-print" id="finalLetterSelect" type="file" (change)="finalletterSelectHandler($event)" formControlName="final_letter" />
+                                    <input class="custom-file-input hidden-print" id="draftletter" type="button" (click)="generateLetter()" />
                                 </div>
 
                             </div>
@@ -322,13 +325,21 @@
                     <h2 class="dms-group-header">CASE ASSIGNMENT & SIGNOFF</h2>
 
                     <div class="row" id="signoff">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="analyst">Analyst</label>
                                 <select id="analyst" formControlName="analyst" (change)="updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>
                                     <option value=""></option>
                                     <option *ngFor="let analyst of availableAnalysts" [value]="analyst.id" [selected]="analyst.id == selectedAnalyst">{{analyst.username}}</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="dms-form-group br">
+                                <label for="hard_copy_map_reviewed">Hard Copy Map Reviewed</label>
+                                <div class="chx">
+                                    <input id="hard_copy_map_reviewed" type="checkbox" formControlName="hard_copy_map_reviewed">
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -338,7 +349,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="dms-form-group br">
                                 <label for="qc_reviewer">QC Reviewer</label>
                                 <select id="qc_reviewer" formControlName="qc_reviewer" (change)="updateCaseControlValue(newQCReviewer.id, newQCReviewer.value)" #newQCReviewer>
@@ -365,25 +376,25 @@
                 <div class="row" formGroupName="propertygroup">
 
                     <div class="col-md-3">
-                        <div class="dms-form-group br bb">
+                        <div class="dms-form-group br">
                             <label for="street">Street</label>
                             <input id="street" type="text" formControlName="street">
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="dms-form-group br bb">
+                        <div class="dms-form-group br">
                             <label for="unit">Suite/Apt #</label>
                             <input id="unit" type="text" formControlName="unit">
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="dms-form-group br bb">
+                        <div class="dms-form-group br">
                             <label for="city">City</label>
                             <input id="city" type="text" formControlName="city">
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="dms-form-group br bb">
+                        <div class="dms-form-group br">
                             <label for="state">State</label>
                             <select id="state" formControlName="state" (change)="updatePropertyControlValue(newPState.id, newPState.value)" #newPState>
                                 <option value=""></option>
@@ -393,7 +404,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <div class="dms-form-group bb">
+                        <div class="dms-form-group">
                             <label for="zipcode">Zipcode</label>
                             <input id="zipcode" type="text" formControlName="zipcode">
                         </div>
@@ -427,7 +438,7 @@
                 <div class="row" formGroupName="requestergroup">
 
                     <div class="col-md-2">
-                        <div class="dms-form-group br bb">
+                        <div class="dms-form-group br">
                             <label for="salutation">Salutation</label>
                             <select id="salutation" formControlName="salutation" (change)="updateRequesterControlValue(newSalutation.id, newSalutation.value)" #newSalutation>
                                 <option value=""></option>
@@ -436,25 +447,25 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="dms-form-group br bb">
+                        <div class="dms-form-group br">
                             <label for="first_name">First Name</label>
                             <input id="first_name" type="text" formControlName="first_name">
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="dms-form-group br bb">
+                        <div class="dms-form-group br">
                             <label for="last_name">Last Name</label>
                             <input id="last_name" type="text" formControlName="last_name">
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="dms-form-group br bb">
+                        <div class="dms-form-group br">
                             <label for="organization">Organization</label>
                             <input id="organization" type="text" formControlName="organization">
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="dms-form-group bb">
+                        <div class="dms-form-group">
                             <label for="email">Email</label>
                             <input id="email" type="email" formControlName="email">
                         </div>
@@ -549,6 +560,7 @@
             <div class="row margin-top">
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-success btn-lg" [disabled]="!form.valid">Save</button>
+                    <button type="button" class="btn btn-success btn-lg" (click)="print()">Print</button>
                     <span [hidden]="!sendFinalMailReady">
                         <button type="submit" class="btn btn-danger btn-lg" (click)="sendFinalLetter(); $event.preventDefault();">Send Final Letter</button>
                         <span [hidden]="!sendFinalMailComplete">Mail sent successfully!</span>

@@ -17,6 +17,7 @@ import {IMultiSelectOption, IMultiSelectSettings} from 'angular-2-dropdown-multi
 import {IMyOptions} from 'mydatepicker';
 import { FieldofficeService } from '../fieldoffices/fieldoffice.service';
 import { Fieldoffice } from '../fieldoffices/fieldoffice';
+import { Systemunittype } from '../systemunits/systemunittype';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class MapdataListComponent implements OnInit {
         displayAllSelectedText: true
     };
     systemmaps: Systemmap[];
+    systemmaps_nofilter: Systemmap[];
     systemunits: Systemunit[];
     systemunits_nofilter: Systemunit[];
     prohibitiondates: Prohibitiondate[];
@@ -42,10 +44,9 @@ export class MapdataListComponent implements OnInit {
     systemunitColumns: Column[];
     prohibitiondateColumns: Column[];
     fieldOffices: Fieldoffice[];
-    systemUnitTypes = [
-        {id: 1, unit_type: 'CBRS'},
-        {id: 2, unit_type: 'OPA'}
-    ] // TODO: call from services (need to add callable url) rather than hardcode
+    subscription;
+    loaded = 0;
+    systemUnitTypes: Systemunittype[];
 
     mySystemmap = new Systemmap();
     mySystemunit = new Systemunit();
@@ -139,6 +140,7 @@ export class MapdataListComponent implements OnInit {
     ngOnInit() {
         this._getSystemmaps();
         this._getSystemunits();
+        this._getSystemunittypes();
         this._getFieldOffices();
         this._getProhibitiondates();
         this._getColumns();
@@ -162,32 +164,57 @@ export class MapdataListComponent implements OnInit {
     private _getSystemmaps(urlSearchParams?) {
         console.log('_getsystemmaps called with: ' + urlSearchParams);
 
-        this._systemmapService.getSystemmaps(urlSearchParams)
+        this.subscription = this._systemmapService.getSystemmaps(urlSearchParams)
         .subscribe(
             (res: Systemmap[]) => {
 
                 if (this._currentMapFilter != null && this._currentMapFilter !== '') {
-                    if (this._currentMapFilter.length === urlSearchParams.freetext.length) {
+                    if (urlSearchParams && this._currentMapFilter.length === urlSearchParams.freetext.length) {
                         this.systemmaps = res;
                         if (this.systemmaps.length > 0) {
                             this.noSystemmapsFound = false;
-                            this.notready = false;
+                            // filter by date (TODO: should put in the services)
+                            for (const sm_nf of this.systemmaps_nofilter) {
+                                let exists = false;
+                                for (const sm of this.systemmaps) {
+                                    if (sm.map_number === sm_nf.map_number) { exists = true; }
+                                }
+                                if (!exists) {
+                                    if (this.removePads(sm_nf.map_date_dmy).indexOf(this._currentMapFilter) > -1) {
+                                        this.systemmaps.push(sm_nf);
+                                    }
+                                }
+                            }
                         } else {
                             this.noSystemmapsFound = true;
-                            this.notready = false;
+                            const self = this;
+                            // if no filtered items returned, filter nofilter items
+                            this.systemmaps = JSON.parse(JSON.stringify(this.systemmaps_nofilter));
+                            this.systemmaps = this.systemmaps.filter(function(sm){
+                                return self.removePads(sm.map_date_dmy).indexOf(self._currentMapFilter) > -1;
+                            })
                         }
-                    } else {
+                    } else if (urlSearchParams) {
                         console.log('OLD search results | current filter: ' + this._currentMapFilter + ' results filter: ' + urlSearchParams.freetext);
                     }
                 } else {
                     this.systemmaps = res;
+                    this.systemmaps_nofilter = res;
+                    for (const sm of this.systemmaps_nofilter) {
+                        const date_dmy = sm.map_date.split('-');
+                        sm['map_date_dmy'] = date_dmy[1] + '/' + date_dmy[2] + '/' + date_dmy[0].slice(-2);
+                    }
+                    console.log(this.systemmaps_nofilter);
                     if (this.systemmaps.length > 0) {
                         this.noSystemmapsFound = false;
-                        this.notready = false;
                     } else {
                         this.noSystemmapsFound = true;
-                        this.notready = false;
                     }
+                }
+                if (this.loaded >= 2) {
+                    this.notready = false;
+                } else {
+                    this.loaded ++; // keeps loader until all three tables are loaded
                 }
             },
             error => this._errorMessage = <any>error
@@ -295,27 +322,37 @@ export class MapdataListComponent implements OnInit {
         }
     }
 
+    private _getSystemunittypes() {
+        this.subscription = this._systemunitService.getSystemunittypes()
+            .subscribe(
+                res => {
+                    this.systemUnitTypes = res;
+                },
+                error => this._errorMessage = <any>error
+            );
+    }
+
     private _getSystemunits(urlSearchParams?) {
-        this._systemunitService.getSystemunits(urlSearchParams)
+        this.subscription = this._systemunitService.getSystemunits(urlSearchParams)
             .subscribe(
                 res => {
                     this.systemunits = res;
-                    if (!urlSearchParams) {this.systemunits_nofilter = res; }
-                    if (this.systemunits.length > 0) {
-                        for (let i = 0, j = this.systemunits.length; i < j; i++) {
-                            this.systemunitoptions.push(
-                                {id: this.systemunits[i].id, name: this.systemunits[i].system_unit_number});
-                            for (const type of this.systemUnitTypes) {
-                                if (this.systemunits[i].system_unit_type === type.id) {
-                                    this.systemunits[i]['system_unit_type_string'] = type.unit_type;
-                                }
-                            }
+                    if (!urlSearchParams) {
+                        this.systemunits_nofilter = res;
+                        this.systemunitoptions = [];
+                        for (const unit of res) {
+                            this.systemunitoptions.push({id: unit.id, name: unit.system_unit_number})
                         }
+                    }
+                    if (this.systemunits.length > 0) {
                         this.noSystemunitsFound = false;
-                        this.notready = false;
                     } else {
                         this.noSystemunitsFound = true;
+                    }
+                    if (this.loaded >= 2) {
                         this.notready = false;
+                    } else {
+                        this.loaded ++; // keeps loader until all three tables are loaded
                     }
                 },
                 error => this._errorMessage = <any>error
@@ -351,17 +388,37 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getProhibitiondates(urlSearchParams?) {
-        this._prohibitiondateService.getProhibitiondates(urlSearchParams)
+        this.subscription = this._prohibitiondateService.getProhibitiondates(urlSearchParams)
             .subscribe(
                 res => {
                     this.prohibitiondates = res;
-                    this.prohibitiondates_nofilter = res;
+                    if (!urlSearchParams) {this.prohibitiondates_nofilter = res; }
                     if (this.prohibitiondates.length > 0) {
                         this.noProhibitiondatesFound = false;
-                        this.notready = false;
+                        // might be able to do this in the services instead, issue is with formatting of dates
+                        for (const pd_nf of this.prohibitiondates_nofilter) {
+                            let exists = false;
+                            for (const pd of this.prohibitiondates) {
+                                if (pd.id === pd_nf.id) { exists = true; }
+                            }
+                            if (!exists) {
+                                if (this.removePads(pd_nf.prohibition_date_mdy).indexOf(this._currentMapFilter) > -1) {
+                                    this.systemmaps.push(pd_nf);
+                                }
+                            }
+                        }
                     } else {
                         this.noProhibitiondatesFound = true;
+                        const self = this;
+                        this.prohibitiondates = JSON.parse(JSON.stringify(this.prohibitiondates_nofilter));
+                        this.prohibitiondates = this.prohibitiondates.filter(function(pd){
+                            return self.removePads(pd.prohibition_date_mdy).indexOf(self._currentMapFilter) > -1;
+                        })
+                    }
+                    if (this.loaded >= 2) {
                         this.notready = false;
+                    } else {
+                        this.loaded ++; // keeps loader until all three tables are loaded
                     }
                 },
                 error => this._errorMessage = <any>error
@@ -459,11 +516,12 @@ export class MapdataListComponent implements OnInit {
 
 
     filterGrid(filterID: string, filterValue: string) {
+        if (this.subscription) {this.subscription.unsubscribe(); }
         console.log('filter grid called with: ' + filterID + ' ' + filterValue);
         const filterClass = filterID.slice(0, -7);
         this._currentMapFilter = filterValue;
 
-        switch (filterClass) {
+        switch (filterClass) { // check filtervalue, see what it displays as when empty string
             case 'systemmap':
                 filterValue ? this._getSystemmaps({freetext: filterValue}) : this._getSystemmaps();
                 this._slowDown = true;
@@ -472,22 +530,13 @@ export class MapdataListComponent implements OnInit {
                 filterValue ? this._getSystemunits({freetext: filterValue}) : this._getSystemunits();
                 break;
             case 'prohibitiondates':
-                // change how this works
-                const self = this;
-                if (filterValue !== '') {
-                    this.prohibitiondates = this.prohibitiondates_nofilter;
-                    this.prohibitiondates = this.prohibitiondates.filter(function(pd){
-                        return pd.system_unit_string.toUpperCase().indexOf(filterValue.toUpperCase()) > -1 ||
-                            self.removePads(pd.prohibition_date_mdy).indexOf(filterValue) > -1;
-                    })
-                } else {
-                    this.prohibitiondates = this.prohibitiondates_nofilter;
-                }
+                filterValue ? this._getProhibitiondates({freetext: filterValue}) : this._getProhibitiondates();
                 break;
         }
     }
 
     removePads(date) {
+        if (date.indexOf('/') === -1) {console.log(date); }
         const splitDate = date.split('/');
         for (let i = 0, j = splitDate.length; i < j; i++) {
             if (splitDate[i].length === 2 && splitDate[i][0] === '0') {splitDate[i] = splitDate[i][1]

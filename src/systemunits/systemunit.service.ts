@@ -6,10 +6,19 @@ import {Systemunit} from './systemunit';
 
 
 import {APP_SETTINGS} from '../app.settings';
+import { Systemunittype } from './systemunittype';
 
 @Injectable()
 export class SystemunitService {
     constructor (private http: HttpClient) {}
+
+    getSystemunittypes () {
+        const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS };
+
+        return this.http.get(APP_SETTINGS.SYSTEMUNITTYPES_URL, options)
+            .map(res => <Systemunittype[]> res)
+            .catch(this.handleError);
+    }
 
     getSystemunit (id: number | string) {
         const options = { headers: APP_SETTINGS.MIN_AUTH_JSON_HEADERS };
