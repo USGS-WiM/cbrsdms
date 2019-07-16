@@ -1193,22 +1193,23 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         if (!hasRequiredValues) {return}
 
         // ensure no property fields are null (use empty strings if null)
-        for (const group of changedPropertyGroup) {
+        // TODO: fix these? not creating any issues without them
+        /* for (const group of changedPropertyGroup.controls) {
             for (const key of group) {
-                if (!changedPropertyGroup[key]) {
-                    changedPropertyGroup[key] = '';
+                if (!changedPropertyGroup.controls[key]) {
+                    changedPropertyGroup.controls[key] = '';
                 }
             }
-        }
+        } */
 
         // ensure no requester fields are null (use empty strings if null)
-        for (const group of changedRequesterGroup) {
+        /* for (const group of changedRequesterGroup) {
             for (const key of group) {
                 if (!changedRequesterGroup[key]) {
                     changedRequesterGroup[key] = '';
                 }
             }
-        }
+        } */
 
         // create the local models
         this._newCase = new Case();

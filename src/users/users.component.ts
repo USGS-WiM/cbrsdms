@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
     notready = false;
     private _errorMessage: string;
     subscription;
-    // changePassword = false;
+    changePassword = false;
 
     private _requiredFields = [];
 
@@ -149,6 +149,7 @@ export class UsersComponent implements OnInit {
 
     onSubmit(form: FormGroup, modalID: string) {
         this.notready = true;
+        this.changePassword = false;
         if (form.dirty) {
             const is_staff = sessionStorage.getItem('is_staff');
             const user_id = sessionStorage.getItem('user_id');
@@ -157,12 +158,9 @@ export class UsersComponent implements OnInit {
                     const user = form.value;
                     console.log(user);
                     // validate that required fields have values
+                    // TODO: add current password entry, check with session storage password
                     if (!user.username) {
-                        APP_UTILITIES.showToast('User NOT saved: Username and password must have values!'); // TODO add more
-                    /* } else if (!is_staff && user.id && user_id !== String(user.id)) {
-                        APP_UTILITIES.showToast('User NOT saved: You do not have permission to edit this user.');
-                    } else if (!user.id && !is_staff) {
-                        APP_UTILITIES.showToast('User NOT saved: You do not have the permissions to create users.') */
+                        APP_UTILITIES.showToast('User NOT saved: Username must have a value!'); // TODO add more
                     } else {
                         if (user.id) {
                             this._updateUser(user);
@@ -183,6 +181,17 @@ export class UsersComponent implements OnInit {
         this._userService.updateUser(user)
             .subscribe(
                 res => {
+                    // update session storage if changes made to logged in user
+                    const loggedInUserID = sessionStorage.getItem('user_id');
+                    if (res.id.toString() === loggedInUserID) {
+                        if (user.password) { sessionStorage.setItem('password', user.password); }
+                        if (res.username !== sessionStorage.getItem('username')) {sessionStorage.setItem('username', res.username)}
+                        if (res.first_name !== sessionStorage.getItem('first_name')) {sessionStorage.setItem('first_name', res.first_name)}
+                        if (res.last_name !== sessionStorage.getItem('last_name')) {sessionStorage.setItem('last_name', res.last_name)}
+                        if (res.is_staff.toString() !== sessionStorage.getItem('is_staff')) {
+                            sessionStorage.setItem('is_staff', res.is_staff.toString())
+                        }
+                    }
                     this._getUsers();
                     this.row = <User>res;
                     this._updateControls(this.row);

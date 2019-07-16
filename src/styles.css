@@ -561,7 +561,7 @@ button.reports-export-btn i.fa-filter {
 .cbrs-form .dms-group .chx-group .slct {
   height: 33px;
   width: 140px;
-  line-height: 33px;
+  line-height: 2px;
   vertical-align: top;
   background-color: #2D3146;
   display: inline-block;
@@ -1001,65 +1001,6 @@ body.modal-open {
 .margin-top {margin-top:10px;}
 .mydp, .mydp .headertodaybtn {border:none !important;padding: 4px;}
 
-@media print {
-    .hidden-print, .cbrsToast.toastVisible, .add-comment-wrap, .btn-lg, .removeCaseFileButton {
-        display: none !important;
-    }
-    .printArea {
-        display: block !important;
-    }
-    .dms-table {
-        margin: 0 auto;
-        width: 100%;
-        font-size: 10px;
-    }
-    .dms-table thead th a {
-        font-size: 10px;
-    }
-    body {
-        margin: 0 auto;
-        padding: 0;
-    }
-    span.app-header {
-        padding: 5px;
-    }
-     .cbrs-form .form-main-header, .cbrs-form .col-md-2, .cbrs-form .col-md-3 {
-        display: inline-block !important;
-    }
-    .cbrs-form .dms-group .chx-group, .cbrs-form .dms-group .chx-group .slct, .cbrs-form .dms-group, .cbrs-form .dms-group .file-group,
-    .cbrs-form .dms-group .dms-form-group.bb{
-        border: none !important;
-    }
-    .cbrs-form{
-        margin: 0 auto;
-        width: 100%;
-    }
-    .cbrs-form .dms-group .dms-form-group.br {
-        width: unset;
-        border: none;
-    }
-    .cbrs-form .dms-group .dms-form-group label {
-        height: 35px;
-        display: inline-block;
-    }
-    .cbrs-form .dms-group .file-group label {
-        display: block;
-        height: unset;
-    }
-    .cbrs-form .mydpicon {
-        display: none;
-    }
-    .mydp .selection {
-        width: unset;
-    }
-    .cbrs-form label {
-        max-width: unset;
-    }
-    .cbrs-form .dms-group .dms-form-group.bb {
-        width: 15%;
-    }
-}
-
 .btn-lg {
     margin: 5px 5px 5px 0px;
 }
@@ -1084,4 +1025,135 @@ body.modal-open {
 
 .cbrs-form .btn-group {
     margin: 0px 5px 20px 0px;
+}
+
+.hidden {
+    display: none !important;
+}
+@media print {
+    .hidden-print, .cbrsToast.toastVisible, .add-comment-wrap, .btn-lg, .removeCaseFileButton {
+        display: none !important;
+    }
+    .printArea {
+        display: block !important;
+    }
+    .dms-table {
+        margin: 0 auto;
+        width: 100%;
+        font-size: 10px;
+    }
+    .dms-table thead th a {
+        font-size: 10px;
+    }
+    body {
+        margin: 0 auto;
+        padding: 0;
+    }
+    /* Remove background grey */
+    body, html{
+        background-color: white !important;
+    }
+    .cbrs-form{
+        padding: 0 !important;
+    }
+    #cbrs-form-body .app-header{
+        display: block !important;
+        text-align: left !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    #cbrs-form-body .form-main-header{
+        margin: 0 auto !important;
+        padding: 0 !important;
+        display: flex !important;
+        justify-content: space-around;
+    }
+    #cbrs-form-body .form-main-header .col-md-3{
+        display: none !important;
+    }
+    #cbrs-form-body .form-main-header div{
+        width: 33.33% !important;
+        padding-left: 0 !important;
+        max-width: 33.33% !important;
+        min-width: 33.33% !important;
+        text-align: left !important;
+        font-size: 20px !important;
+    }
+    span.app-header {
+        padding: 5px;
+    }
+     .cbrs-form .form-main-header, .cbrs-form .col-md-2, .cbrs-form .col-md-3 {
+        display: inline-block !important;
+    }
+    .cbrs-form .dms-group .chx-group, .cbrs-form .dms-group .chx-group .slct, .cbrs-form .dms-group, .cbrs-form .dms-group .file-group,
+    .cbrs-form .dms-group .dms-form-group.bb{
+        border: none !important;
+    }
+    .cbrs-form{
+        margin: 0 auto;
+        width: 100%;
+    }
+    .cbrs-form .dms-group .dms-form-group.br {
+        width: unset;
+        border: none;
+    }
+    .cbrs-form .dms-group .file-group label {
+        display: block;
+        height: unset;
+    }
+    /* Form Labels */
+    .dms-group-header{
+        margin-bottom: 15px !important;
+        padding: 0 0 5px 0 !important;
+        font-weight: 700 !important;
+        text-transform: capitalize !important;
+    }
+    .dms-form-group label{
+        padding: 0 !important;
+        font-weight: 500 !important;
+        font-size: 14px !important;
+        margin: 0 !important;
+        text-transform: capitalize !important;
+        height: auto !important;
+        display: inline-block;
+    }
+    .dms-form-group br{
+        display: none !important;
+    }
+    .dms-form-group input{
+        font-size: 20px !important;
+        font-weight: 600 !important;
+    }
+    .cbrs-form .mydpicon {
+        display: none;
+    }
+    .mydp .selection {
+        width: unset;
+    }
+    .cbrs-form label {
+        max-width: unset;
+    }
+    .cbrs-form .dms-group .dms-form-group.bb {
+        width: 15%;
+    }
+    /* Remove shadows and background */
+    .cbrs-form .dms-group{
+        box-shadow: none !important;
+        background-color: transparent !important;
+    }
+    /* Make Checkboxes bigger */
+    .chx-group input{
+        transform: scale(2) !important;
+        transform-origin: 50% 50%;
+        margin-left: 10px !important;
+    }
+    .chx-group label,
+    .chx-group .slct,
+    .chx-group .chx{
+        background-color: transparent !important;
+        color: black !important;
+        text-transform: capitalize !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+    }
 }

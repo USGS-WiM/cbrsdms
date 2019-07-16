@@ -364,7 +364,8 @@ export class MapdataListComponent implements OnInit {
         this._systemunitService.createSystemunit(unit)
             .subscribe(
                 result => {
-                    this._getSystemunits();
+                    if (this._currentMapFilter === '') { this._getSystemunits();
+                    } else { this._getSystemunits({freetext: this._currentMapFilter}); }
                     this.row = <Systemunit>result;
                     this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
                 },
@@ -378,7 +379,8 @@ export class MapdataListComponent implements OnInit {
         this._systemunitService.updateSystemunit(unit)
             .subscribe(
                 result => {
-                    this._getSystemunits();
+                    if (this._currentMapFilter === '') { this._getSystemunits();
+                    } else { this._getSystemunits({freetext: this._currentMapFilter}); }
                     this.row = <Systemunit>result;
                     this._updateControls(this._unitFields, this._unitControls, <Systemunit>result);
                 },
@@ -403,7 +405,7 @@ export class MapdataListComponent implements OnInit {
                             }
                             if (!exists) {
                                 if (this.removePads(pd_nf.prohibition_date_mdy).indexOf(this._currentMapFilter) > -1) {
-                                    this.systemmaps.push(pd_nf);
+                                    this.prohibitiondates.push(pd_nf);
                                 }
                             }
                         }
@@ -444,7 +446,8 @@ export class MapdataListComponent implements OnInit {
         this._prohibitiondateService.updateProhibitiondate(date)
             .subscribe(
                 result => {
-                    this._getProhibitiondates();
+                    if (this._currentMapFilter === '') { this._getProhibitiondates();
+                    } else { this._getProhibitiondates({freetext: this._currentMapFilter}); }
                     this.row = <Prohibitiondate>result;
                     this._updateControls(this._dateFields, this._dateControls, <Prohibitiondate>result);
                 },
@@ -461,6 +464,7 @@ export class MapdataListComponent implements OnInit {
                     this._systemmapService.deleteSystemmap(recordID)
                         .subscribe(
                             res => {
+                                if (this._currentMapFilter) {(<HTMLInputElement>document.getElementById('systemmap-filter')).value = ''; }
                                 this._getSystemmaps();
                             },
                             err => console.log(err)
@@ -471,6 +475,7 @@ export class MapdataListComponent implements OnInit {
                     this._systemunitService.deleteSystemunit(recordID)
                         .subscribe(
                             res => {
+                                if (this._currentMapFilter) {(<HTMLInputElement>document.getElementById('systemunit-filter')).value = ''; }
                                 this._getSystemunits();
                             },
                             err => console.log(err)
@@ -481,6 +486,7 @@ export class MapdataListComponent implements OnInit {
                     this._prohibitiondateService.deleteProhibitiondate(recordID)
                         .subscribe(
                             res => {
+                                if (this._currentMapFilter) {(<HTMLInputElement>document.getElementById('prohibitiondates-filter')).value = ''; }
                                 this._getProhibitiondates();
                             },
                             err => console.log(err)
