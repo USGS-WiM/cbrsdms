@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+    <head>
+        <title>CBRS DMS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <base href="">
+        <link rel="icon" type="image/png" href="assets/favicon.ico"> 
+    <link rel="stylesheet" href="styles.e1d5911ea2e4b8cee8d5.css"></head>
+
+    <body>
+        <div id="cbrs-form-body">
+            <my-app>
+                <span class="loading-message">
+                    Loading...<br>
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br><br><br><br>
+                </span>
+            </my-app>
+        </div>
+    <script src="runtime-es2015.fa0071edbcd493596be9.js" type="module"></script><script src="polyfills-es2015.0dc66774b0c7159153d5.js" type="module"></script><script src="runtime-es5.9c308a63d02029c20228.js" nomodule></script><script src="polyfills-es5.8b8a203fa6535d4b865b.js" nomodule></script><script src="main-es2015.bd3643e0db940be61fda.js" type="module"></script><script src="main-es5.e7808a0e8877197acedd.js" nomodule></script></body>
+
+    <script>
+        window.addEventListener("dragover",function(e){
+          e = e || event;
+          e.preventDefault();
+        },false);
+        window.addEventListener("drop",function(e){
+          e = e || event;
+          e.preventDefault();
+        },false);
+        var dropZone = document.getElementsByTagName("BODY")[0];
+        var dropzoneId = "filedropzone";
+        dropZone.addEventListener('dragover', function(e) {
+            var dropzones = document.getElementsByClassName(dropzoneId);
+            for(var i = 0; i < dropzones.length; ++i){
+                dropzones[i].setAttribute("class", dropzoneId + " fullScreenFileDrag");
+            }
+        });
+        dropZone.addEventListener('drop', function(e) {
+            var dropzones = document.getElementsByClassName(dropzoneId);
+            for(var i = 0; i < dropzones.length; ++i){
+                dropzones[i].setAttribute("class", dropzoneId);
+            }
+        });
+        dropZone.addEventListener('dragleave', function(e) {
+            var dropzones = document.getElementsByClassName(dropzoneId);
+             for(var i = 0; i < dropzones.length; ++i){
+                 dropzones[i].setAttribute("class", dropzoneId);
+             }
+        });
+    </script>
+
+</html>
