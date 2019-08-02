@@ -1,0 +1,30 @@
+<div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
+<div [hidden]="notready">
+    <div align="center" class="hidden-print">
+        <label for="user_top">User</label>
+        <select id="user_top" (change)="onFilter(newUserTop.value)" #newUserTop>
+            <option value=""></option>
+            <option *ngFor="let user of users" [value]="user.username" [selected]="user.username == selected_user">{{user.username}}</option>
+        </select>
+        <br/><br/>
+        <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="prevPage(newUserTop.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="exportToCSV(newUserTop.value)"><i class="fa fa-download"></i> Export CSV</button>
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="printCases()"><i class="fa fa-print"></i> Print</button>
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="nextPage(newUserTop.value)">Next Page <i class="fa fa-arrow-right"></i></button>
+    </div>
+    <report-grid [rows]="cases_properties" [columns]="columns"></report-grid>
+    <div align="center" class="hidden-print">
+        <label for="user_bottom">User</label>
+        <select id="user_bottom" (change)="onFilter(newUserBottom.value)" #newUserBottom>
+            <option value=""></option>
+            <option *ngFor="let user of users" [value]="user.username" [selected]="user.username == selected_user">{{user.username}}</option>
+        </select>
+        <br/><br/>
+        <!-- <button class="btn btn-default btn-save-all" (click)="clearFilter()">Clear</button> -->
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="prevPage(newUserBottom.value)"><i class="fa fa-arrow-left"></i> Prev Page</button>
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="exportToCSV(newUserBottom.value)"><i class="fa fa-download"></i> Export CSV</button>
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="printCases()"><i class="fa fa-print"></i> Print</button>
+        <button type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="nextPage(newUserBottom.value)">Next Page <i class="fa fa-arrow-right"></i></button>
+    </div>
+</div>

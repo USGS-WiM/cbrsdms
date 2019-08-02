@@ -6,9 +6,15 @@ export class APP_UTILITIES {
 
     public static get TIME(): string { return new Date().toISOString().substr(14, 22); }
 
-    public static showToast(message: string, timeout?: number) {
+    public static showToast(type: string, message: string, timeout?: number) {
         const toast = <HTMLElement> document.querySelector('#cbrs_toast');
-        toast.className = 'cbrsToast toastVisible';
+        if (type === 'Success') {
+            toast.className = 'cbrsToast toastVisible toastSuccess';
+        } else if (type === 'Error') {
+            toast.className = 'cbrsToast toastVisible toastError';
+        } else {
+            toast.className = 'cbrsToast toastVisible';
+        }
         toast.innerHTML = message;
         setTimeout(function(){
             toast.className = 'cbrsToast';

@@ -55,6 +55,7 @@ import {MyDatePickerModule} from 'mydatepicker';
 import { DatePipe } from '@angular/common';
 import {UsersComponent} from './users/users.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReportCasesForUserComponent } from './reports/report-cases-for-user.component';
 
 
 @NgModule({
@@ -68,7 +69,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         MapdataComponent, MapdataListComponent, SystemmapGridComponent, SystemunitGridComponent, ProhibitiondateGridComponent,
         ReportComponent, ReportListComponent, ReportGridComponent, ReportFilterComponent, ReportCasesByUnitComponent,
         ReportDaysToResolutionComponent, ReportDaysToEachStatusComponent, ReportCountCasesByStatusComponent, DisplayValuePipe,
-        UsersComponent, UserGridComponent
+        UsersComponent, UserGridComponent, ReportCasesForUserComponent
     ],
     providers: [
         appRoutingProviders, CaseService, CasefileService, CasetagService, PropertyService, RequesterService, AuthenticationService,

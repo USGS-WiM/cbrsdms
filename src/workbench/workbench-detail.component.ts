@@ -504,7 +504,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         thisDateAsDate = new Date(thisDateAsDate.getTime() + Math.abs(thisDateAsDate.getTimezoneOffset() * 60000));
         if (thisDateAsDate.getFullYear() < 1000  || thisDateAsDate.getFullYear() > 9999 || thisDateAsDate.getMonth() < 0
             || thisDateAsDate.getMonth() > 11 || thisDateAsDate.getDate() < 1 || thisDateAsDate.getDate() > 31) {
-            APP_UTILITIES.showToast(thisDateMDY
+            APP_UTILITIES.showToast('Error', thisDateMDY
                 + ' (' + thisDateAsDate.toISOString().substr(0, 10) + ') is not a valid date. Please enter a valid date.');
             return false;
         }
@@ -531,7 +531,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     prevDate = this._caseControls[prevDateControl].value;
                     if (!prevDate) {
                         // warn the user of the invalid date selection
-                        APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + ' should not be entered until '
+                        APP_UTILITIES.showToast('Error', dateControlLabels[thisDateControlIndex] + ' should not be entered until '
                             + dateControlLabels[thisDateControlIndex - 3] + ' has been entered!');
                         // clear the current date control value
                         // this.updateCaseControlValue(thisDateControl, null);
@@ -547,7 +547,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                     prevDate = this._caseControls[prevDateControl].value;
                     if (!prevDate) {
                         // warn the user of the invalid date selection
-                        APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + ' should not be entered until '
+                        APP_UTILITIES.showToast('Error', dateControlLabels[thisDateControlIndex] + ' should not be entered until '
                             + dateControlLabels[thisDateControlIndex - 2] + ' has been entered!');
                         // clear the current date control value
                         // this.updateCaseControlValue(thisDateControl, null);
@@ -560,7 +560,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                 prevDate = this._caseControls[prevDateControl].value;
                 if (!prevDate) {
                     // warn the user of the invalid date selection
-                    APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex] + ' should not be entered until '
+                    APP_UTILITIES.showToast('Error', dateControlLabels[thisDateControlIndex] + ' should not be entered until '
                         + dateControlLabels[thisDateControlIndex - 1] + ' has been entered!');
                     // clear the current date control value
                     // this.updateCaseControlValue(thisDateControl, null);
@@ -633,9 +633,9 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         if (thisDate && thisDateControlIndex === dateControls.length - 1 && (thisDate < prevDate)) {
             // warn the user of the invalid date selection
             if (prevDateControl === 'final_letter_date') {
-                APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex]
+                APP_UTILITIES.showToast('Error', dateControlLabels[thisDateControlIndex]
                     + ' can not be earlier than ' + dateControlLabels[thisDateControlIndex - 2] + '!');
-            } else {APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex]
+            } else {APP_UTILITIES.showToast('Error', dateControlLabels[thisDateControlIndex]
                 + ' can not be earlier than ' + dateControlLabels[thisDateControlIndex - 1] + '!');
             }
             // clear the current date control value
@@ -645,7 +645,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
             // check if the current date postdates the next date (which is invalid)
             // (note that the next date MAY OR MAY NOT exist)
             // warn the user of the invalid date selection
-            APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex]
+            APP_UTILITIES.showToast('Error', dateControlLabels[thisDateControlIndex]
                 + ' can not be later than ' + dateControlLabels[thisDateControlIndex + 1] + '!');
             // clear the current date control value
             // this.updateCaseControlValue(thisDateControl, null);
@@ -656,7 +656,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
             // check if the current date is not null and predates the previous date (which is invalid)
             if (!nextDate && thisDate && (thisDate < prevDate)) {
                 // warn the user of the invalid date selection
-                APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex]
+                APP_UTILITIES.showToast('Error', dateControlLabels[thisDateControlIndex]
                     + ' can not be earlier than ' + dateControlLabels[thisDateControlIndex - 1] + '!');
                 // clear the current date control value
                 // this.updateCaseControlValue(thisDateControl, null);
@@ -665,11 +665,11 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                 // or postdates the next date (both of which are invalid)
                 // warn the user of the invalid date selection
                 if (thisDateControl === 'qc_reviewer_signoff_date' && nextDateControl === 'close_date') {
-                    APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex]
+                    APP_UTILITIES.showToast('Error', dateControlLabels[thisDateControlIndex]
                         + ' must be between ' + dateControlLabels[thisDateControlIndex - 1]
                         + ' and ' + dateControlLabels[thisDateControlIndex + 2] + '!');
                 } else {
-                    APP_UTILITIES.showToast(dateControlLabels[thisDateControlIndex]
+                    APP_UTILITIES.showToast('Error', dateControlLabels[thisDateControlIndex]
                         + ' must be between ' + dateControlLabels[thisDateControlIndex - 1]
                         + ' and ' + dateControlLabels[thisDateControlIndex + 1] + '!');
                 }
@@ -990,7 +990,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                 },
                 (error) => {
                     // console.error(error);
-                    APP_UTILITIES.showToast(error);
+                    APP_UTILITIES.showToast('Error', error);
                 }
             );
     }
@@ -1010,16 +1010,18 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                 },
                 (error) => {
                     // console.error(error);
-                    APP_UTILITIES.showToast(error);
+                    APP_UTILITIES.showToast('Error', error);
                 }
             );
     }
 
     generateLetter () {
+        const self = this;
         this._caseService.createFinalLeter(this.case_ID)
             .then(function(data) {
                 const blob = new Blob([data[0]], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
                 FileSaver.saveAs(blob, data[1]);
+                self.notready = false;
             });
     }
 
@@ -1182,12 +1184,12 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
         // ensure required fields have values
         let hasRequiredValues = true;
         if (!changedPropertyGroup.controls.street && !changedPropertyGroup.controls.city  && !changedPropertyGroup.controls.state) {
-            APP_UTILITIES.showToast('Could not find the property street and/or city and/or state. Some address value is required.');
+            APP_UTILITIES.showToast('Error', 'Could not find the property street and/or city and/or state. Some address value is required.');
             hasRequiredValues = false;
         }
         if (!changedRequesterGroup.controls.first_name && !changedRequesterGroup.controls.last_name
             && !changedRequesterGroup.controls.email) {
-            APP_UTILITIES.showToast('Could not find the requester first name and/or last name and/or email. Some name is required.');
+            APP_UTILITIES.showToast('Error', 'Could not find the requester first name and/or last name and/or email. Some name is required.');
             hasRequiredValues = false;
         }
         if (!hasRequiredValues) {return}
@@ -1244,7 +1246,7 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
                         // inform the user that the request already exists and show the summary
                         this._newCase.id = cases[0].id;
                         // TODO: replace this alert with a better UX, like a modal
-                        APP_UTILITIES.showToast('That case already exists! Loading the case details...');
+                        APP_UTILITIES.showToast('Info', 'That case already exists! Loading the case details...');
                         setTimeout(() => {
                             this.notready = false;
                             this.__goToCase(this._newCase.id);

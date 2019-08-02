@@ -48,7 +48,7 @@ export class TagListComponent {
                 .subscribe(
                     (cases: Case[]) => {
                         if (cases.length > 0) {
-                            APP_UTILITIES.showToast(
+                            APP_UTILITIES.showToast('Error',
                                 'This tag cannot be removed because it is assigned to one or more determination cases.');
                         } else {
                             this._tagService.deleteTag(tag)

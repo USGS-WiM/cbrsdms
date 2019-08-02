@@ -38,7 +38,7 @@ export class ReportDaysToResolutionComponent implements OnInit {
 
     prevPage() {
         if (this._prevPage == null) {
-            APP_UTILITIES.showToast('This is the first page.');
+            APP_UTILITIES.showToast('Info', 'This is the first page.');
         } else {
             this.notready = true;
             let prevPageNum;
@@ -58,7 +58,7 @@ export class ReportDaysToResolutionComponent implements OnInit {
 
     nextPage() {
         if (this._nextPage == null) {
-            APP_UTILITIES.showToast('This is the last page.');
+            APP_UTILITIES.showToast('Info', 'This is the last page.');
         } else {
             this.notready = true;
             let nextPageNum;
@@ -71,15 +71,18 @@ export class ReportDaysToResolutionComponent implements OnInit {
     }
 
     exportToCSV(unit?: number) {
+        this.notready = true;
         const urlSearchParams = 'report=daystoresolution&format=csv&page_size=' + this.page_size;
         this._getReportCasesCSV(urlSearchParams);
     }
 
     private _getReportCasesCSV(urlSearchParams?) {
+        const self = this;
         this._reportCaseService.getReportCasesCSV(urlSearchParams)
             .then(function(data) {
                 const blob = new Blob([data[0]], { type: 'text/csv' });
                 FileSaver.saveAs(blob, data[1]);
+                self.notready = false;
             });
     }
 
@@ -89,7 +92,7 @@ export class ReportDaysToResolutionComponent implements OnInit {
             .subscribe(
                 (reportcases: any) => {
                     if (Number(reportcases.count) > 0) {
-                        APP_UTILITIES.showToast(reportcases.count + ' case(s) found.');
+                        APP_UTILITIES.showToast('Info', reportcases.count + ' case(s) found.');
                         const max_records = Math.ceil(Number(reportcases.count) / 100) * 100;
                         this.page_size < 100 ? this.page_size = 100 : this.page_size = max_records;
                         this._prevPage = reportcases.previous;
@@ -97,7 +100,7 @@ export class ReportDaysToResolutionComponent implements OnInit {
                         this.reportcases = reportcases.results;
                         this._sortAndShow();
                     } else {
-                        APP_UTILITIES.showToast('No cases found.');
+                        APP_UTILITIES.showToast('Info', 'No cases found.');
                         this.notready = false;
                     }
                 },

@@ -21,6 +21,15 @@
             <li>
                 <a [routerLink]="['/reports/countcasesbystatus']">Count of Cases by Status</a>
             </li>
+            <li>
+                <a [routerLink]="['/reports/allcasesforuser']">All Cases for User</a>
+                <br>
+                <label for="user">CBRS Unit</label>
+                <select id="user" (change)="goToCasesForUser(newUser.value)" #newUser>
+                    <option value=""></option>
+                    <option *ngFor="let user of users" [value]="user.username">{{user.username}}</option>
+                </select>
+            </li>
         </ul>
     </div>
 </div> 

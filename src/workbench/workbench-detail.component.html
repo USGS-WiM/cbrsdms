@@ -324,8 +324,8 @@
                 <div class="dms-group" *ngIf="case_ID">
                     <h2 class="dms-group-header">CASE ASSIGNMENT & SIGNOFF</h2>
 
-                    <div class="row" id="signoff">
-                        <div class="col-md-2">
+                    <div class="row caseSignoff" id="signoff">
+                        <div class="col-md-3">
                             <div class="dms-form-group br">
                                 <label for="analyst">Analyst</label>
                                 <select id="analyst" formControlName="analyst" (change)="updateCaseControlValue(newAnalyst.id, newAnalyst.value)" #newAnalyst>
@@ -342,7 +342,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="analyst_signoff_date">Analyst Signoff Date</label>
                                 <my-date-picker *ngIf="!isOnHold" id="analyst_signoff_date" formControlName="analyst_signoff_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newAnalystDate.elem.nativeElement.id, newAnalystDate.selectedDate)" #newAnalystDate></my-date-picker>
@@ -358,7 +358,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="dms-form-group br" [style.background-color]="isOnHold ? 'lightgray' : ''">
                                 <label for="qc_reviewer_signoff_date">QC Reviewer Signoff Date</label>
                                 <my-date-picker *ngIf="!isOnHold" id="qc_reviewer_signoff_date" formControlName="qc_reviewer_signoff_date" [options]="myDatePickerOptions" (inputFieldChanged)="validateDate(newQC1Date.elem.nativeElement.id, newQC1Date.selectedDate)" #newQC1Date></my-date-picker>
@@ -435,7 +435,7 @@
 
             <div class="dms-group">
                 <h2 class="dms-group-header">Requester Information</h2>
-                <div class="row" formGroupName="requestergroup">
+                <div class="row requesterInfo" formGroupName="requestergroup">
 
                     <div class="col-md-2">
                         <div class="dms-form-group br">
@@ -458,23 +458,26 @@
                             <input id="last_name" type="text" formControlName="last_name">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <div class="dms-form-group br">
                             <label for="organization">Organization</label>
-                            <input id="organization" type="text" formControlName="organization">
+                            <input class="hidden-print" id="organization" type="text" formControlName="organization">
+                            <textarea class="printArea" id="organization" formControlName="organization"></textarea>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <div class="dms-form-group">
                             <label for="email">Email</label>
-                            <input id="email" type="email" formControlName="email">
+                            <input class="hidden-print" id="email" type="email" formControlName="email">
+                            <textarea class="printArea" id="email" formControlName="email"></textarea>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <div class="dms-form-group br">
                             <label for="street">Street</label>
-                            <input id="street" type="text" formControlName="street">
+                            <input class="hidden-print"id="street" type="text" formControlName="street">
+                            <textarea class="printArea" id="street" formControlName="street"></textarea>
                         </div>
                     </div>
                     <div class="col-md-2">

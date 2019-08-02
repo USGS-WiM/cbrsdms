@@ -66,10 +66,10 @@ export class UserService {
             for (const err in error.error) {
                 if (typeof(error.error[err]) === 'object') {
                     for (const errMessage of error.error[err]) {
-                        APP_UTILITIES.showToast(self.capitalize(err) + ': ' + self.capitalize(errMessage));
+                        APP_UTILITIES.showToast('Error', self.capitalize(err) + ': ' + self.capitalize(errMessage));
                     }
                 } else {
-                    APP_UTILITIES.showToast(self.capitalize(error.error[err]));
+                    APP_UTILITIES.showToast('Error', self.capitalize(error.error[err]));
                 }
             }
         }

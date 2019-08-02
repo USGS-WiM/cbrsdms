@@ -688,7 +688,8 @@ button.reports-export-btn i.fa-filter {
   display: block;
 }
 .cbrs-form .dms-group .dms-form-group input,
-.cbrs-form .dms-group .dms-form-group select {
+.cbrs-form .dms-group .dms-form-group select,
+.cbrs-form .dms-group .dms-form-group textarea {
   display: block;
   width: 86%;
   margin: 0 auto;
@@ -848,7 +849,7 @@ div.col-md-10 {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  background-color: #FF0B40;
+  background-color: orange;
   color: #FFF;
   border-radius: 4px;
   font-size: 12.5px;
@@ -1030,6 +1031,15 @@ body.modal-open {
 .hidden {
     display: none !important;
 }
+
+.toastSuccess {
+    background-color: green;
+}
+
+.toastError {
+    background-color: red;
+}
+
 @media print {
     .hidden-print, .cbrsToast.toastVisible, .add-comment-wrap, .btn-lg, .removeCaseFileButton {
         display: none !important;
@@ -1082,7 +1092,8 @@ body.modal-open {
     span.app-header {
         padding: 5px;
     }
-     .cbrs-form .form-main-header, .cbrs-form .col-md-2, .cbrs-form .col-md-3 {
+     .cbrs-form .form-main-header, .cbrs-form .col-md-2, .cbrs-form .col-md-3,
+     .cbrs-form .col-md-4, .cbrs-form .col-md-5 {
         display: inline-block !important;
     }
     .cbrs-form .dms-group .chx-group, .cbrs-form .dms-group .chx-group .slct, .cbrs-form .dms-group, .cbrs-form .dms-group .file-group,
@@ -1094,7 +1105,8 @@ body.modal-open {
         width: 100%;
     }
     .cbrs-form .dms-group .dms-form-group.br {
-        width: unset;
+		/* width: 100% !important; */
+		width: unset !important;
         border: none;
     }
     .cbrs-form .dms-group .file-group label {
@@ -1120,10 +1132,15 @@ body.modal-open {
     .dms-form-group br{
         display: none !important;
     }
-    .dms-form-group input{
-        font-size: 20px !important;
-        font-weight: 600 !important;
-    }
+	.dms-form-group input[type=checkbox]{
+		-webkit-transform: scale(2) !important;
+                transform: scale(2) !important;
+        -webkit-transform-origin: 50% 50%;
+                transform-origin: 50% 50%;
+		position:relative !important;
+        left: 8px !important;
+        display: inline-block !important;
+	}
     .cbrs-form .mydpicon {
         display: none;
     }
@@ -1134,7 +1151,7 @@ body.modal-open {
         max-width: unset;
     }
     .cbrs-form .dms-group .dms-form-group.bb {
-        width: 15%;
+		width: auto !important;
     }
     /* Remove shadows and background */
     .cbrs-form .dms-group{
@@ -1143,8 +1160,10 @@ body.modal-open {
     }
     /* Make Checkboxes bigger */
     .chx-group input{
-        transform: scale(2) !important;
-        transform-origin: 50% 50%;
+        -webkit-transform: scale(2) !important;
+                transform: scale(2) !important;
+        -webkit-transform-origin: 50% 50%;
+                transform-origin: 50% 50%;
         margin-left: 10px !important;
     }
     .chx-group label,
@@ -1156,4 +1175,176 @@ body.modal-open {
         font-size: 16px !important;
         font-weight: 500 !important;
     }
+​
+​
+	/* NEW */
+	/* NEW */
+	/* NEW */
+​
+	.chx-group .slct{
+		display: inline-flex !important;
+		flex-direction: column !important;
+		justify-content: center !important;
+		text-align: left !important;
+		font-weight: 900 !important;
+		padding-bottom: 1px !important;
+		text-decoration: underline !important;
+		font-weight: bolder !important;
+		border: 2px solid black !important;
+	}
+	.cbrs-form .col-xs-12{
+		padding-bottom: 15px !important;
+	}
+	.dms-form-group{
+		width: 10% !important;
+		padding-right: 2% !important;
+	}
+	.dms-form-group:nth-child(4){
+		width: 18% !important;
+    }
+
+	.cbrs-form select,
+	.cbrs-form input,
+	.dms-form-group input,
+	input, .cbrs-form textarea,
+	.cbrs-form #distance{
+		/* height: 30px !important; */
+		padding: 0 !important;
+		margin: 0 !important;
+		font-size: 20px !important;
+		font-weight: 700 !important;
+		-webkit-appearance: none !important;
+		appearance: none !important;
+		width: fit-content !important;
+	}
+	.cbrs-form input[type='checkbox']{
+		-webkit-appearance: checkbox !important;
+		appearance: checkbox !important;
+		position: relative;
+		top: 2px !important;
+	}
+	.file-group .half-label,
+	.file-group .fifty{
+		margin: 0 !important;
+		text-align: left !important;
+		text-transform: capitalize;
+		font-size: 20px !important;
+		font-weight: 800 !important;
+		border: none !important;
+		width: 100% !important;
+		padding: 0 !important;
+	}
+	.file-group .bb{
+		display: none !important;
+	}
+	.filepad {
+		padding: 0 0 0 0 !important;
+		display: block;
+		box-sizing: border-box;
+	}
+	#casefiles,
+	#finalletter{
+		width: 100% !important;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+	#casefiles li,
+	#finalletter li{
+		padding: 0 !important;
+	}
+	#casefiles li a,
+	#finalletter li a{
+		font-weight: 400 !important;
+	}
+​
+	.dms-group-header{
+		margin: 0 !important;
+		text-align: left !important;
+		text-transform: capitalize;
+		font-size: 20px !important;
+		font-weight: normal !important;
+		border: none !important;
+		width: 100% !important;
+		padding: 0 !important;
+	}
+​
+    .chx-group label{
+		text-align: left !important;
+		width: fit-content !important;
+	}
+	.nopadd .col-md-3.chx-group{
+        width: fit-content !important;
+        min-width: fit-content !important;
+        display: inline-flex !important;
+    }
+	.nopadd .col-md-3.chx-group .chx{
+		padding-right: 30px !important;
+		/* width: auto !important; */
+	}
+​
+	.mydp, .mydp .headertodaybtn{
+		padding: 0 !important;
+		font-size: 14px !important;
+		font-weight: 400 !important;
+	}
+	.mydp *, .mydp .headertodaybtn *{
+		padding: 0 !important;
+		font-size: 14px !important;
+		font-weight: 400 !important;
+    }
+	
+	.dms-form-group{
+		width: 100% !important;
+	}
+​
+	.col-md-6{
+		border: none !important;
+    }
+    
+    #duplicate {
+        margin-top: 15px !important;
+    }
+
+    .cbrs-form .dms-group .chx-group .chx input[type="checkbox"] {
+        margin-left: 10px !important;
+    }
+    .cbrs-form .dms-group .chx-group .slct {
+        padding-top: 16px;
+    }
+
+    .file-group {
+        height: unset !important;
+    }
+
+    #finalletterfiledrag {
+        padding: none !important;
+    }
+
+    #dates .col-md-2, #dates .col-md-3{
+        width: fit-content !important;
+		max-width: 15% !important;
+    }
+
+    .col-md-2 {
+        width: fit-content !important;
+        max-width: 15% !important;
+    }
+    .col-md-3 {
+        width: fit-content !important;
+        max-width: 25% !important
+    }
+    .col-md-4 {
+        width: fit-content !important;
+        max-width: 33% !important;
+    }
+    .col-md-5 {
+        width: fit-content !important;
+        max-width: 42% !important;
+    }
+
+    .mydp, my-date-picker {
+        padding: 0;
+        margin: 0;
+    }
+
 }

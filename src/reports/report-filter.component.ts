@@ -54,10 +54,10 @@ export class ReportFilterComponent {
             if (to_date_val) {urlSearchParams += '&to_date=' + APP_UTILITIES.convertDateToISOString(to_date_val)}
 
             if (!date_field_val) {
-                APP_UTILITIES.showToast('You cannot filter without a date field selected.');
+                APP_UTILITIES.showToast('Error', 'You cannot filter without a date field selected.');
                 this.filternotready = false;
             } else if (!from_date_val && !to_date_val) {
-                APP_UTILITIES.showToast('You cannot filter without at least one date value (from or to) selected.');
+                APP_UTILITIES.showToast('Error', 'You cannot filter without at least one date value (from or to) selected.');
                 this.filternotready = false;
             } else {
                 this.filternotready = false;

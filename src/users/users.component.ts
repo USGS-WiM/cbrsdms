@@ -160,7 +160,7 @@ export class UsersComponent implements OnInit {
                     // validate that required fields have values
                     // TODO: add current password entry, check with session storage password
                     if (!user.username) {
-                        APP_UTILITIES.showToast('User NOT saved: Username must have a value!'); // TODO add more
+                        APP_UTILITIES.showToast('Error', 'User NOT saved: Username must have a value!'); // TODO add more
                     } else {
                         if (user.id) {
                             this._updateUser(user);
@@ -195,7 +195,7 @@ export class UsersComponent implements OnInit {
                     this._getUsers();
                     this.row = <User>res;
                     this._updateControls(this.row);
-                    APP_UTILITIES.showToast('Success! User info updated');
+                    APP_UTILITIES.showToast('Success', 'Success! User info updated');
                     // this.changePassword = false;
                 },
                 error => this.handleError(error)
@@ -210,7 +210,7 @@ export class UsersComponent implements OnInit {
                     this._getUsers();
                     this.row = <User>res;
                     this._updateControls(this.row);
-                    APP_UTILITIES.showToast('Success! User created');
+                    APP_UTILITIES.showToast('Success', 'Success! User created');
                 },
                 error => this.handleError(error)
             )
@@ -226,10 +226,10 @@ export class UsersComponent implements OnInit {
             for (const err in error.error) {
                 if (typeof(error.error[err]) === 'object') {
                     for (const errMessage of error.error[err]) {
-                        APP_UTILITIES.showToast(self.capitalize(err) + ': ' + self.capitalize(errMessage));
+                        APP_UTILITIES.showToast('Error', self.capitalize(err) + ': ' + self.capitalize(errMessage));
                     }
                 } else {
-                    APP_UTILITIES.showToast(self.capitalize(error.error[err]));
+                    APP_UTILITIES.showToast('Error', self.capitalize(error.error[err]));
                 }
             }
         }

@@ -6,6 +6,7 @@ import {ReportCasesByUnitComponent} from './report-cases-by-unit.component';
 import {ReportDaysToResolutionComponent} from './report-days-to-resolution.component';
 import {ReportDaysToEachStatusComponent} from './report-days-to-each-status.component';
 import {ReportCountCasesByStatusComponent} from './report-count-cases-by-status.component';
+import { ReportCasesForUserComponent } from './report-cases-for-user.component';
 
 export const ReportRoutes: Routes = [
     {
@@ -30,6 +31,11 @@ export const ReportRoutes: Routes = [
             {
                 path: 'daystoeachstatus',
                 component: ReportDaysToEachStatusComponent,
+                canActivate: [AuthenticationGuard]
+            },
+            {
+                path: 'allcasesforuser',
+                component: ReportCasesForUserComponent,
                 canActivate: [AuthenticationGuard]
             },
             {
