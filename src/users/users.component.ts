@@ -16,6 +16,7 @@ export class UsersComponent implements OnInit {
     newUser = new User();
     user: User;
     columns: Column[];
+    columns_notstaff: Column[];
     private _userFields;
     private _userControls;
     userForm: FormGroup;
@@ -25,6 +26,8 @@ export class UsersComponent implements OnInit {
     private _errorMessage: string;
     subscription;
     changePassword = false;
+    is_staff;
+    username;
 
     private _requiredFields = [];
 
@@ -37,6 +40,8 @@ export class UsersComponent implements OnInit {
     ngOnInit() {
         this._getUsers();
         this._getColumns();
+        this.is_staff = sessionStorage.getItem('is_staff');
+        this.username = sessionStorage.getItem('username');
     }
 
     private _getColumns() {
@@ -48,22 +53,31 @@ export class UsersComponent implements OnInit {
             new Column('is_active', 'Active'),
             new Column('is_staff', 'Staff')
         ];
+        this.columns_notstaff = [
+            new Column('first_name', 'First Name'),
+            new Column('last_name', 'Last Name'),
+            new Column('username', 'Username'),
+            new Column('email', 'Email')
+        ];
     }
 
     openModal(modalID: string, row?: any) {
-        if (row) {
-            switch (modalID) {
-                case 'modalUser':
-                    this.row = <User>row;
-                    this._updateControls(<User>row);
-                    break;
-                default:
-                    this.row = row;
+        this.changePassword = false;
+        if ((row && this.username === row.username) || this.is_staff === 'true') {
+            if (row) {
+                switch (modalID) {
+                    case 'modalUser':
+                        this.row = <User>row;
+                        this._updateControls(<User>row);
+                        break;
+                    default:
+                        this.row = row;
+                }
+            } else {
+                this._clearModalControls();
             }
-        } else {
-            this._clearModalControls();
+            this._modalService.open('modalUser');
         }
-        this._modalService.open('modalUser');
     }
 
     _getUsers(urlSearchParams?) {
