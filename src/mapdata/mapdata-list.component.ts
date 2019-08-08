@@ -529,7 +529,7 @@ export class MapdataListComponent implements OnInit {
             // new Column('field_office', 'Field Office'),
         ];
         this.prohibitiondateColumns = [
-            new Column('system_unit', 'Unit ID'),
+            new Column('system_unit', 'Unit Number'),
             new Column('prohibition_date', 'Prohibition Date'),
         ];
     }
