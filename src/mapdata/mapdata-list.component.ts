@@ -174,26 +174,9 @@ export class MapdataListComponent implements OnInit {
                         this.systemmaps = res;
                         if (this.systemmaps.length > 0) {
                             this.noSystemmapsFound = false;
-                            // filter by date (TODO: should put in the services)
-                            for (const sm_nf of this.systemmaps_nofilter) {
-                                let exists = false;
-                                for (const sm of this.systemmaps) {
-                                    if (sm.map_number === sm_nf.map_number) { exists = true; }
-                                }
-                                if (!exists) {
-                                    if (this.removePads(sm_nf.map_date_dmy).indexOf(this._currentMapFilter) > -1) {
-                                        this.systemmaps.push(sm_nf);
-                                    }
-                                }
-                            }
                         } else {
                             this.noSystemmapsFound = true;
                             const self = this;
-                            // if no filtered items returned, filter nofilter items
-                            this.systemmaps = JSON.parse(JSON.stringify(this.systemmaps_nofilter));
-                            this.systemmaps = this.systemmaps.filter(function(sm){
-                                return self.removePads(sm.map_date_dmy).indexOf(self._currentMapFilter) > -1;
-                            })
                         }
                     } else if (urlSearchParams) {
                         console.log('OLD search results | current filter: ' + this._currentMapFilter + ' results filter: ' + urlSearchParams.freetext);
@@ -405,25 +388,8 @@ export class MapdataListComponent implements OnInit {
                     if (!urlSearchParams) {this.prohibitiondates_nofilter = res; }
                     if (this.prohibitiondates.length > 0) {
                         this.noProhibitiondatesFound = false;
-                        // might be able to do this in the services instead, issue is with formatting of dates
-                        for (const pd_nf of this.prohibitiondates_nofilter) {
-                            let exists = false;
-                            for (const pd of this.prohibitiondates) {
-                                if (pd.id === pd_nf.id) { exists = true; }
-                            }
-                            if (!exists) {
-                                if (this.removePads(pd_nf.prohibition_date_mdy).indexOf(this._currentMapFilter) > -1) {
-                                    this.prohibitiondates.push(pd_nf);
-                                }
-                            }
-                        }
                     } else {
                         this.noProhibitiondatesFound = true;
-                        const self = this;
-                        this.prohibitiondates = JSON.parse(JSON.stringify(this.prohibitiondates_nofilter));
-                        this.prohibitiondates = this.prohibitiondates.filter(function(pd){
-                            return self.removePads(pd.prohibition_date_mdy).indexOf(self._currentMapFilter) > -1;
-                        })
                     }
                     if (this.loaded >= 2) {
                         this.notready = false;
@@ -553,16 +519,6 @@ export class MapdataListComponent implements OnInit {
                 filterValue ? this._getProhibitiondates({freetext: filterValue}) : this._getProhibitiondates();
                 break;
         }
-    }
-
-    removePads(date) {
-        if (date.indexOf('/') === -1) {console.log(date); }
-        const splitDate = date.split('/');
-        for (let i = 0, j = splitDate.length; i < j; i++) {
-            if (splitDate[i].length === 2 && splitDate[i][0] === '0') {splitDate[i] = splitDate[i][1]
-            } else if (splitDate[i].length === 4) {splitDate[i] = splitDate[i].substr(2)}
-        }
-        return splitDate.join('/');
     }
 
     openModal(modalID: string, row?: any) {
