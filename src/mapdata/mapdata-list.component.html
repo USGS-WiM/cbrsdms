@@ -59,15 +59,15 @@
                         </div>
                     </div>
                     <div class="dms-group">
-                        <div class="dms-form-group">
+                        <div class="dms-form-group system_units_div">
                             <label for="system_units">System Units</label>
                             <!--<input id="system_units" formControlName="system_units">-->
-                            <ss-multiselect-dropdown *ngIf="systemunits" id="system_units" formControlName="system_units" [options]="systemunitoptions" [settings]="systemunitsettings"></ss-multiselect-dropdown>
+                            <ss-multiselect-dropdown *ngIf="systemunits" id="system_units" class="system_units" formControlName="system_units" [options]="systemunitoptions" [settings]="systemunitsettings"></ss-multiselect-dropdown>
                         </div>
                     </div>
                     <div class="dms-group">
                         <div class="dms-form-group" style="display: inline;">
-                            <label for="effective" style="display: inline-block;">Effective</label>
+                            <label for="effective" style="display: inline-block; margin-bottom: 10px;">Effective</label>
                             <input id="effective" name="effective" type="checkbox" [checked]="row?.effective" value="true" formControlName="effective" style="display: inline-block;">
                         </div>
                     </div>

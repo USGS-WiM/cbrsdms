@@ -1348,3 +1348,24 @@ body.modal-open {
     }
 
 }
+
+/* KJ 8/14 for issue 162 */
+#effective {
+    width: unset;
+    float: right;
+    text-align: center;
+    margin: 14px 10%;
+}
+
+.system_units .dropdown-inline {
+    margin: 5px 0px 10px 17px;
+    width: calc(100% - 34px);
+}
+
+.mydp .selectiongroup input {
+    margin-left: 14px !important;
+}
+
+.system_units_div {
+    height: unset !important;
+}

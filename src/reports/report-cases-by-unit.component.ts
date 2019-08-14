@@ -141,6 +141,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
                             const case_property: any = this._reportcases[i];
                             const address = case_property.property_string.split(',');
                             case_property.street_address = address[0];
+                            case_property.city = address[2] + ', ' + address[3];
                             delete case_property['property_string'];
                             this.cases_properties.push(case_property);
                             // if (this._reportcases.length == this.cases_properties.length - 1) {
@@ -172,7 +173,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     private _getColumns() {
         this.columns = [
             new Column('id', 'Case ID'),
-            // new Column('id', 'Case Reference'),
+            new Column('case_reference', 'Case Reference'),
             new Column('status', 'Status'),
             new Column('prohibition_date', 'Prohibition Date'),
             new Column('cbrs_unit_string', 'CBRS Unit'),
@@ -180,6 +181,8 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
             new Column('final_letter_date', 'Final Letter Date'),
             new Column('determination_string', 'Determination'),
             new Column('street_address', 'Street Address'),
+            new Column('city', 'City'),
+            new Column('duplicate', 'Duplicate of'),
         ];
     }
 

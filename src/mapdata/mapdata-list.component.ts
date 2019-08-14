@@ -321,6 +321,7 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemunits(urlSearchParams?) {
+        this.notready = true;
         this.subscription = this._systemunitService.getSystemunits(urlSearchParams)
             .subscribe(
                 res => {
