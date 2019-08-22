@@ -1007,7 +1007,7 @@ body.modal-open {
 }
 
 .printArea {
-    display: none;
+    display: none !important;
 }
 
 #hard_copy_map_reviewed{

@@ -1,7 +1,7 @@
 <div class="container cbrs-form">
 
-    <div *ngIf="filternotready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"></div>
-    <div *ngIf="!filternotready">
+    <div [hidden]="!filternotready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"></div>
+    <div [hidden]="filternotready">
 
         <form [formGroup]="form" *ngIf="active" (ngSubmit)="onSubmit(form)">
 

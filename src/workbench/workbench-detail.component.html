@@ -84,9 +84,9 @@
                                     <label for="duplicate">Duplicate of</label><!--
                                     --><div class="slct">
                                         <div >{{myCase.duplicate}}</div>
-                                        <select id="duplicate" formControlName="duplicate" style="width:120px" class="hidden-print">
-                                            <option value="" selected hidden disabled>Select Case ID</option> <!--trying to show this in the select bar-->
-                                            <option value=""></option>
+                                        <select id="duplicate" formControlName="duplicate" style="width:125px" class="hidden-print">
+                                            <option value="null" [selected]="!myCase.duplicate" disabled>Select Case ID</option>
+                                            <option value="null">None</option>
                                             <option *ngFor="let caseID of myCaseIDs" [value]="caseID.id" [selected]="caseID.id == myCase.duplicate">{{caseID.id}}</option>
                                         </select>
                                     </div>

@@ -186,9 +186,9 @@ export class WorkbenchFilterComponent implements OnInit {
                 if (field.dirty && field.value != null && field.value !== '') {
                     if (this._myWorkbenchFilter_fields[i] === 'request_date_after' ||
                         this._myWorkbenchFilter_fields[i] === 'request_date_before') {
-                        const newval = ('0' + field.value.year).slice(-4)
-                            + '-' + ('0' + field.value.month).slice(-2)
-                            + '-' + ('0' + field.value.day).slice(-2);
+                        const newval = ('0' + field.value.date.year).slice(-4)
+                            + '-' + ('0' + field.value.date.month).slice(-2)
+                            + '-' + ('0' + field.value.date.day).slice(-2);
                         wbf[this._myWorkbenchFilter_fields[i]] = newval;
                         urlSearchParams += '&' + this._myWorkbenchFilter_fields[i]  + '=' + newval;
                     } else {
