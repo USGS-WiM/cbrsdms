@@ -89,6 +89,7 @@ export class WorkbenchFilterComponent implements OnInit {
         this._getUsers();
         this._getSystemunits();
         this._getTags();
+        this.defaultFilter();
         this.myStatuses.push('Open');
     }
 
@@ -100,6 +101,7 @@ export class WorkbenchFilterComponent implements OnInit {
                 }
             }
         }
+        this.defaultFilter();
         if (!this.myWorkbenchFilter.status) {this.myWorkbenchFilter.status = 'Open'}
         this.selectedTag =
             typeof this.myWorkbenchFilter.tags !== 'undefined' && this.myWorkbenchFilter.tags.length > 0 ?
@@ -193,6 +195,11 @@ export class WorkbenchFilterComponent implements OnInit {
                         urlSearchParams += '&' + this._myWorkbenchFilter_fields[i]  + '=' + newval;
                     } else {
                         wbf[this._myWorkbenchFilter_fields[i]] = field.value;
+                        if (field.value === true) {
+                            field.value = 'True';
+                        } else if (field.value === false) {
+                            field.value = 'False';
+                        }
                         urlSearchParams += '&' + this._myWorkbenchFilter_fields[i] + '=' + field.value;
                     }
                 }
