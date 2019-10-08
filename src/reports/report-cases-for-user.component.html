@@ -1,7 +1,7 @@
 <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
 <div [hidden]="notready">
     <div align="center" class="hidden-print">
-        <label for="user_top">User</label>
+        <label for="user_top">Username </label>
         <select id="user_top" (change)="onFilter(newUserTop.value)" #newUserTop>
             <option value=""></option>
             <option *ngFor="let user of users" [value]="user.username" [selected]="user.username == selected_user">{{user.username}}</option>
@@ -15,7 +15,7 @@
     </div>
     <report-grid [rows]="cases_properties" [columns]="columns"></report-grid>
     <div align="center" class="hidden-print">
-        <label for="user_bottom">User</label>
+        <label for="user_bottom">Username </label>
         <select id="user_bottom" (change)="onFilter(newUserBottom.value)" #newUserBottom>
             <option value=""></option>
             <option *ngFor="let user of users" [value]="user.username" [selected]="user.username == selected_user">{{user.username}}</option>
