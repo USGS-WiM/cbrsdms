@@ -6,6 +6,7 @@ html {
   font-family: 'Open Sans', sans-serif;
   margin: 0 auto;
   padding: 0;
+  background-color: #F8F8F8;
   /* background-color: #F8F9FA; */
 }
 button:focus {
@@ -1281,7 +1282,6 @@ body.modal-open {
 	margin: 0;
 	border: 1px solid rgba(0,0,0,0.37);
 	background-color: white;
-	border-radius: 3px;
 }
 .cbrs-form-header.footer{
 	margin-top: 25px;
@@ -1309,11 +1309,10 @@ body.modal-open {
 }
 @media print {
 	.case-info{
-		border: 1px solid rgba(0,0,0,0.7);
-		border-radius: 2px;
+		border: 1px solid rgba(0,0,0,0.5);
 	}
 	.case-info-item{
-		border-right: 1px solid rgba(0,0,0,0.7);
+		border-right: 1px solid rgba(0,0,0,0.5);
 	}
 }
 
@@ -1361,7 +1360,8 @@ body.modal-open {
 	display: flex;
 	justify-content: space-between;
 	box-sizing: border-box;
-	padding: 10px 0;
+	padding: 10px;
+	border: 1px solid rgba(0,0,0,0.5);
 }
 .cbrs-form-status label{
 	display: flex;
@@ -1444,7 +1444,7 @@ body.modal-open {
 }
 .input-row-header{
 	display: block;
-	border: 1px solid rgba(0,0,0,0.7);
+	border: 1px solid rgba(0,0,0,0.5);
 	box-sizing: border-box;
 	padding: 12px 15px;
 	background-color: #EEF0F3;
@@ -1452,7 +1452,7 @@ body.modal-open {
 .input-item{
 	box-sizing: border-box;
 	padding: 3px 15px 6px 15px;
-	border: 1px solid rgba(0,0,0,0.7);
+	border: 1px solid rgba(0,0,0,0.5);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -1580,11 +1580,11 @@ body.modal-open {
 
 /* Case Files */
 .cbrs-casefiles{
-	border: 1px solid rgba(0,0,0,0.7);
+	border: 1px solid rgba(0,0,0,0.5);
 }
 .casefiles-header{
 	display: flex;
-	border-bottom: 1px solid rgba(0,0,0,0.7);
+	border-bottom: 1px solid rgba(0,0,0,0.5);
 	padding: 10px;
 	background-color: #EEF0F3;
 }
@@ -1594,6 +1594,9 @@ body.modal-open {
 	padding: 6px 0;
 	font-size: 18px;
 	font-weight: 600;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .casefiles-header-buttons{
 	display: flex;
@@ -1704,6 +1707,7 @@ body.modal-open {
 	display: flex;
 	justify-content: space-between;
 	box-sizing: border-box;
+	border: 1px solid rgba(0,0,0,0.5);
 }
 .comments-split{
 	width: 50%;
