@@ -1,5 +1,5 @@
 <nav [hidden]="hideNavbar"  class="hidden-print">
-    <div style="float: left;">
+    <div class="split">
         <a routerLink="/workbench" [queryParams]="{home: true}">Workbench</a>
         <!-- <a href="../../cbrsrequests/">Create Case</a> -->
         <a routerLink="/workbench/new">Create Case</a>
@@ -8,9 +8,14 @@
         <a routerLink="/tags">Tags</a>
         <a routerLink="/users">User Administration</a>
     </div>
-    <div style="float: right;">
-        <b class="nav-user">User: {{ first_name }} {{ last_name }}</b>
-        <a (click)="onLogout()">Logout <i class="fa fa-sign-out"></i></a>
+    <div class="split">
+        <label class="nav-user">
+			<b>User:&nbsp;</b>
+			<span>{{ first_name }} {{ last_name }}</span>
+		</label>
+        <a (click)="onLogout()">
+			<span>Logout <i class="fa fa-sign-out"></i></span>
+		</a>
     </div>
 </nav>
 <div id="cbrs_toast" class="cbrsToast"></div>
