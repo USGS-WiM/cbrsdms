@@ -30,7 +30,7 @@
 			<div class="cbrs-form-header">
 
 				<!-- Case Info -->
-				<div class="case-info">
+				<div class="case-info" *ngIf="myCase.case_number || case_ID">
 					<div class="case-info-item">
 						<label>Case ID</label>
 						<span class="case-info-value">{{ myCase.case_number || case_ID }}</span>

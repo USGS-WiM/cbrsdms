@@ -1267,7 +1267,8 @@ body.modal-open {
 .case-buttons{
 	display: flex;
 	justify-content: center;
-	flex-direction: column;
+    flex-direction: column;
+    padding-bottom: 5px;
 }
 
 .case-buttons-flex{
@@ -1602,9 +1603,7 @@ body.modal-open {
 
 /* Case Files */
 .cbrs-casefiles{
-	border-left: 1px solid rgba(0,0,0,0.5);
-	border-right: 1px solid rgba(0,0,0,0.5);
-	border-bottom: 1px solid rgba(0,0,0,0.5);
+	border: 1px solid rgba(0,0,0,0.5);
 	background-color: white;
 }
 .casefiles-header{
@@ -1898,4 +1897,22 @@ body.modal-open {
 }
 .workbench-list-buttons button{
 	margin: 0 10px;
+}
+
+/* KJ fix 10/11*/
+.modal .dms-group {
+    box-shadow: 0 1px 3px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.14);
+}
+
+.modal .mydp .selectiongroup input, report-filter .mydp .selectiongroup input{
+    border-bottom: none !important;
+    margin-left: 14px!important;
+    background-color: #FFF !important;
+    font-weight: 400 !important;
+}
+
+ button.filter-cases-btn {
+  display: block;
+  padding: 8px 15px;
+  margin: 0 auto;
 }
