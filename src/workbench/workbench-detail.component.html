@@ -74,9 +74,9 @@
 					<!-- Case Files -->
 					<div class="cbrs-casefiles" *ngIf="!noxhr" id="casefiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">
 						<!-- Case Files upload -->
-						<div class="casefiles-header hidden-print">
+						<div class="casefiles-header">
 							<h2>Case Files</h2>
-							<div class="casefiles-header-buttons">
+							<div class="casefiles-header-buttons hidden-print">
 								<label class="file-upload-label" for="casefileSelect">Upload Files</label>
 							</div>
 						</div>
@@ -86,7 +86,7 @@
 						<div class="cbrs-files-display">
 							<!-- Existing Case Files -->
 							<div class="files-list">
-								<h3>Case Files</h3>
+								<h3 class="hidden-print">Case Files</h3>
 								<ul id="casefiles" class="file-ul" *ngIf="myCasefiles.length > 0">
 									<span *ngFor="let casefile of myCasefiles">
 										<li *ngIf="!casefile.final_letter">
@@ -213,9 +213,9 @@
 						<!-- Case Files -->
 						<div class="cbrs-casefiles" *ngIf="!noxhr" id="casefiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="casefileSelectHandler($event)">
 							<!-- Case Files upload -->
-							<div class="casefiles-header hidden-print">
+							<div class="casefiles-header">
 								<h2>Case Files</h2>
-								<div class="casefiles-header-buttons">
+								<div class="casefiles-header-buttons hidden-print">
 									<label class="file-upload-label" for="casefileSelect">Upload</label>
 								</div>
 							</div>
@@ -225,7 +225,7 @@
 							<div class="cbrs-files-display">
 								<!-- Existing Case Files -->
 								<div class="files-list">
-									<h3>Case Files</h3>
+									<h3 class="hidden-print">Case Files</h3>
 									<ul id="casefiles" class="file-ul" *ngIf="myCasefiles.length > 0">
 										<span *ngFor="let casefile of myCasefiles">
 											<li *ngIf="!casefile.final_letter">
@@ -257,9 +257,9 @@
 						<!-- NOXHR -->
 						<div class="cbrs-casefiles" *ngIf="noxhr">
 							<!-- Case Files upload -->
-							<div class="casefiles-header hidden-print">
+							<div class="casefiles-header">
 								<h2>Case Files</h2>
-								<div class="casefiles-header-buttons">
+								<div class="casefiles-header-buttons hidden-print">
 									<label class="file-upload-label" for="casefileSelect">Upload</label>
 								</div>
 							</div>
@@ -269,7 +269,7 @@
 							<div class="cbrs-files-display">
 								<!-- Existing Case Files -->
 								<div class="files-list">
-									<h3>Case Files</h3>
+									<h3 class="hidden-print">Case Files</h3>
 									<ul id="casefiles" class="file-ul" *ngIf="myCasefiles.length > 0">
 										<span *ngFor="let casefile of myCasefiles">
 											<li *ngIf="!casefile.final_letter">
@@ -304,9 +304,9 @@
 						<!-- Final Letter -->
 						<div class="cbrs-casefiles" *ngIf="!noxhr" id="finalletterfiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="finalletterSelectHandler($event)">
 							<!-- Final Letter upload -->
-							<div class="casefiles-header hidden-print">
+							<div class="casefiles-header">
 								<h2>Final Letter</h2>
-								<div class="casefiles-header-buttons">
+								<div class="casefiles-header-buttons hidden-print">
 									<label class="file-upload-label" for="draftletter">Draft</label>
 									<label class="file-upload-label" for="finalLetterSelect">Upload</label>
 								</div>
@@ -317,7 +317,7 @@
 							<div class="cbrs-files-display">
 								<!-- Existing Case Files -->
 								<div class="files-list">
-									<h3>Final Letter</h3>
+									<h3 class="hidden-print">Final Letter</h3>
 									<ul id="finalletter" class="file-ul" *ngIf="myCasefiles.length > 0">
 										<span *ngFor="let casefile of myCasefiles">
 											<li *ngIf="casefile.final_letter">
@@ -350,9 +350,9 @@
 						<!-- NoXHR -->
 						<div class="cbrs-casefiles" *ngIf="noxhr" id="finalletterfiledrag" (dragover)="fileDragHover($event)" (dragleave)="fileDragHover($event)" (drop)="finalletterSelectHandler($event)">
 							<!-- Final Letter upload -->
-							<div class="casefiles-header hidden-print">
+							<div class="casefiles-header">
 								<h2>Final Letter</h2>
-								<div class="casefiles-header-buttons">
+								<div class="casefiles-header-buttons hidden-print">
 									<label class="file-upload-label" for="draftletter">Draft</label>
 									<label class="file-upload-label" for="finalLetterSelect">Upload</label>
 								</div>
@@ -363,7 +363,7 @@
 							<div class="cbrs-files-display">
 								<!-- Existing Case Files -->
 								<div class="files-list">
-									<h3>Final Letter</h3>
+									<h3 class="hidden-print">Final Letter</h3>
 									<ul id="finalletter" class="file-ul" *ngIf="myCasefiles.length > 0">
 										<span *ngFor="let casefile of myCasefiles">
 											<li *ngIf="casefile.final_letter">
@@ -629,45 +629,43 @@
 					<div class="case-comments" *ngIf="case_ID">
 						<div class="comments-split">
 							<div class="input-row-header">
-								<h2>Comments {{editingComment}}</h2>
+								<h2>Comments</h2>
 							</div>
 
 							<!-- Comment input box -->
-							<div class="comment-box">
+							<div class="comment-box hidden-print">
 								<input type="text" placeholder="Add New Comment" class="new-comment-input" #newComment>
 								<button type="button" class="standard-btn" (click)="addComment(newComment.value); newComment.value='';">Add a comment</button>
 							</div>
 
 							<!-- Comment Error -->
-							<span *ngIf="!commentUnique" class="comment-error">That comment already exists for this case.</span>
-							<span *ngIf="!commentOwner" class="comment-error">You do not have permission to edit this comment since you did not create it.</span>
-
-							<span *ngIf="!commentUnique" style="position:relative;top:20px;" class="alert alert-danger">That comment already exists for this case.</span>
-
-                        <span *ngIf="!commentOwner" class="alert alert-danger">You do not have permission edit this comment since you did not create it.</span>
-
+							<span *ngIf="!commentUnique" class="comment-error hidden-print">That comment already exists for this case.</span>
+							<span *ngIf="!commentOwner" class="comment-error hidden-print">You do not have permission to edit this comment since you did not create it.</span>
 
 							<!-- Comment List -->
-							<ul class="comment-ul">
+							<div class="comment-display">
 								<div *ngFor="let comment of myComments">
-									<div *ngIf="!editingComment || editCommentID != comment.id" (click)="editComment(comment.id)">{{ comment.comment }} ({{ comment.created_by_string}} at {{ comment.created_date }})</div>
-									<br /><br />
+									<!-- Regular comment display - not editing -->
+									<div class="comment-body" *ngIf="!editingComment || editCommentID != comment.id" (click)="editComment(comment.id)">
+										{{ comment.comment }} <i>({{ comment.created_by_string}} at {{ comment.created_date }})</i>
+									</div>
+									<!-- Editing comment -->
 									<div *ngIf="editingComment && editCommentID == comment.id">
-										<div class="add-comment-wrap">
-											<input type="text" class="new-comment-input" style="width:50%" value={{comment.comment}} #editedComment><!--
-											--><button class="btn-add-comment" style="width:20%" type="button" (click)="updateComment(editedComment.value);">Update comment</button>
-											<button class="btn-add-comment" style="width:10%; background-color: burlywood" type="button" (click)="cancelEditComment();">Cancel</button>
+										<div class="comment-box hidden-print">
+											<input type="text" placeholder="" class="new-comment-input" value={{comment.comment}} #editedComment>
+											<button class="standard-btn" type="button" (click)="updateComment(editedComment.value);">Update comment</button>
+											<button class="standard-btn grey" type="button" (click)="cancelEditComment();">Cancel</button>
 										</div>
 									</div>
 								</div>
-							</ul>
+							</div>
 						</div>
 						<div class="comments-split">
 							<div class="input-row-header">
 								<h2>Tags</h2>
 							</div>
 							<!-- Tag input box -->
-							<div class="comment-box">
+							<div class="comment-box hidden-print">
 								<select class="new-comment-input new-comment-select" #newTag>
 									<option value=""></option>
 									<option *ngFor="let tag of availableTags" [value]="tag.id">{{tag.name}}</option>
@@ -676,7 +674,10 @@
 							</div>
 							<!-- Tag List -->
 							<ul class="tag-ul">
-								<li *ngFor="let casetag of myCasetags">{{ casetag.tagname }} <button class="btn-remove" type="button" (click)="removeCasetag(casetag.id)"><i class="fa fa-remove"></i></button></li>
+								<li *ngFor="let casetag of myCasetags">
+									<span>{{ casetag.tagname }}</span>
+									<button class="btn-remove hidden-print" type="button" (click)="removeCasetag(casetag.id)"><i class="fa fa-remove"></i></button>
+								</li>
 							</ul>
 						</div>
 					</div>
