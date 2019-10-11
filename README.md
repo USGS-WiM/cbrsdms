@@ -37,7 +37,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Production Build
 
-Run `ng build --prod --base-href [relative path to web server root]` to build the project. The build artifacts will be stored in the `dist/` directory. This will use the production environment configuration.
+Run `ng build --prod --base-href /cbrsdms/` to build the project. The build artifacts will be stored in the `dist/` directory. This will use the production environment configuration.
 
 ## Authors
 

@@ -46,9 +46,7 @@ export class ReportFilterComponent {
             let urlSearchParams = 'report=daystoeachstatus';
             const date_field_val = form.controls['date_field'].value;
             const from_date_val = form.controls['from_date'].value;
-            console.log(from_date_val);
             const to_date_val = form.controls['to_date'].value;
-            console.log(to_date_val);
             if (date_field_val) {urlSearchParams += '&date_field=' + date_field_val}
             if (from_date_val) {urlSearchParams += '&from_date=' + APP_UTILITIES.convertDateToISOString(from_date_val)}
             if (to_date_val) {urlSearchParams += '&to_date=' + APP_UTILITIES.convertDateToISOString(to_date_val)}
@@ -64,12 +62,10 @@ export class ReportFilterComponent {
                 // convert urlsearchparams to object for filter/request parameters
                 const urlParamArray = urlSearchParams.split('&');
                 const urlParamObject = {};
-                console.log(urlParamArray);
                 for (const param of urlParamArray) {
                     const paramArray = param.split('=');
                     urlParamObject[paramArray[0]] = paramArray[1];
                 }
-                console.log(urlParamObject);
                 this.onFilter.emit(urlSearchParams);
             }
         }

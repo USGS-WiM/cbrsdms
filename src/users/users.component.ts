@@ -84,7 +84,6 @@ export class UsersComponent implements OnInit {
         this.subscription = this._userService.getUsers(urlSearchParams)
             .subscribe(res => {
                 this.users = res;
-                console.log(res);
                 this.notready = false;
                 if (!urlSearchParams) {(<HTMLInputElement>document.getElementById('user-filter')).value = ''; }
             },
@@ -170,7 +169,6 @@ export class UsersComponent implements OnInit {
             switch (modalID) {
                 case 'modalUser':
                     const user = form.value;
-                    console.log(user);
                     // validate that required fields have values
                     // TODO: add current password entry, check with session storage password
                     if (!user.username) {
@@ -190,7 +188,6 @@ export class UsersComponent implements OnInit {
     }
 
     private _updateUser(user: User) {
-        console.log(user);
         this.notready = true;
         this._userService.updateUser(user)
             .subscribe(

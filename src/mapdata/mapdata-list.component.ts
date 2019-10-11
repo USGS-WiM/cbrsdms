@@ -153,7 +153,6 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getFieldOffices() {
-        console.log('_getFieldOffices called');
         this._fieldOfficeService.getFieldoffices()
             .subscribe(
                 (res: Fieldoffice[]) => {
@@ -163,7 +162,6 @@ export class MapdataListComponent implements OnInit {
     }
 
     private _getSystemmaps(urlSearchParams?) {
-        console.log('_getsystemmaps called with: ' + urlSearchParams);
 
         this.subscription = this._systemmapService.getSystemmaps(urlSearchParams)
         .subscribe(
@@ -188,7 +186,6 @@ export class MapdataListComponent implements OnInit {
                         const date_dmy = sm.map_date.split('-');
                         sm['map_date_dmy'] = date_dmy[1] + '/' + date_dmy[2] + '/' + date_dmy[0].slice(-2);
                     }
-                    console.log(this.systemmaps_nofilter);
                     if (this.systemmaps.length > 0) {
                         this.noSystemmapsFound = false;
                     } else {
@@ -585,7 +582,6 @@ export class MapdataListComponent implements OnInit {
                     break;
                 case 'modalUnit':
                     const unit = form.value;
-                    console.log(unit);
                     // validate that required fields have values
                     if (!unit.system_unit_number) {
                         APP_UTILITIES.showToast('Error', 'System Unit NOT saved:\nUnit Number must have a value!');
@@ -607,7 +603,6 @@ export class MapdataListComponent implements OnInit {
                     }
                     date.prohibition_date = formattedDate;
                     date['prohibition_date_mdy'] = formattedDate;
-                    console.log(date);
                     // validate that required fields have values
                     if (!date.prohibition_date || !date.system_unit) {
                         APP_UTILITIES.showToast('Error', 'Prohibition Date NOT saved:\n'

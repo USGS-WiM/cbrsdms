@@ -213,20 +213,16 @@ export class WorkbenchFilterComponent implements OnInit {
             }
             this.filternotready = false;
 
-            console.log(urlSearchParams);
-
             this._workbenchFilterService.setFilter(wbf);
             this._workbenchFilterService.setUrlSearchParams(urlSearchParams);
 
             // convert urlsearchparams to object for filter/request parameters
             const urlParamArray = urlSearchParams.split('&');
             const urlParamObject = {};
-            console.log(urlParamArray);
             for (const param of urlParamArray) {
                 const paramArray = param.split('=');
                 urlParamObject[paramArray[0]] = paramArray[1];
             }
-            console.log(urlParamObject);
             this.onFilter.emit(urlParamObject);
         }
         this.cleared = false;

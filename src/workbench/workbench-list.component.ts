@@ -55,7 +55,6 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
                     this._getColumns();
                 }
             });
-        console.log(sessionStorage.getItem('filterUrlSearchParams'));
         if (sessionStorage.getItem('filterUrlSearchParams')) {
             if (this.hideFilter) {this.toggleFilter()}
         }
@@ -84,7 +83,6 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
         this._caseService.getCases(urlSearchParams)
             .subscribe(
                 cases => {
-                    console.log(cases);
                     this._cases = cases;
                     if (this._cases.length > 0) {
                         this.cases_properties.length = 0;

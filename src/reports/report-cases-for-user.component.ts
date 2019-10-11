@@ -129,7 +129,6 @@ export class ReportCasesForUserComponent implements OnInit, OnDestroy {
         this._reportCaseService.getReportCases(urlSearchParams)
             .subscribe(
                 (reportcases: any) => {
-                    console.log(reportcases);
                     if (Number(reportcases.count) > 0) {
                         APP_UTILITIES.showToast('Info', reportcases.count + ' case(s) found.');
                         const max_records = Math.ceil(Number(reportcases.count) / 100) * 100;

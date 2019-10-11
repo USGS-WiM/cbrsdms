@@ -43,7 +43,6 @@ export class AuthenticationService {
     }
 
     getUser() {
-        console.log('Auth.getUser: ' + this.user.first_name);
         return this.user;
     }
 
