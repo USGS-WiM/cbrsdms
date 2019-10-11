@@ -198,7 +198,7 @@ export class WorkbenchFilterComponent implements OnInit {
                         if (field.value === true) {
                             field.value = 'True';
                         } else if (field.value === false) {
-                            field.value = 'False';
+                            continue;
                         }
                         urlSearchParams += '&' + this._myWorkbenchFilter_fields[i] + '=' + field.value;
                     }

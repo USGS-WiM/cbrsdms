@@ -405,7 +405,9 @@ span.loading-message i {
 }
 .reports-ul select,
 #cbrs_unit_top,
-#cbrs_unit_bottom{
+#cbrs_unit_bottom,
+#user_top,
+#user_bottom{
     margin-left: 5px;
 }
 .cbrs-form {

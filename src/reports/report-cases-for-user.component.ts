@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ReportCase} from './report-case';
 import {ReportCaseService} from './report-case.service';
 import {Column} from '../grid/column';
@@ -29,7 +29,8 @@ export class ReportCasesForUserComponent implements OnInit, OnDestroy {
     constructor (
         private _route: ActivatedRoute,
         private _reportCaseService: ReportCaseService,
-        private _userService: UserService
+        private _userService: UserService,
+        private _router: Router
     ) {}
 
     ngOnInit() {
@@ -92,6 +93,7 @@ export class ReportCasesForUserComponent implements OnInit, OnDestroy {
     }
 
     onFilter(user: string) {
+        this._router.navigate([], {relativeTo: this._route, queryParams: {'user': user}} );
         this.notready = true;
         this.selected_user = user;
         const urlSearchParams = (user.toString() === '') ? null : {report: 'allcasesforuser', user: user.toString()};
@@ -164,7 +166,6 @@ export class ReportCasesForUserComponent implements OnInit, OnDestroy {
         this._userService.getUsers(urlSearchParams)
             .subscribe(res => {
                 this.users = res.sort(APP_UTILITIES.dynamicSort('username'));
-                this.notready = false;
             },
             error => this._errorMessage = <any>error);
     }

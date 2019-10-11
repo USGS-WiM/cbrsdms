@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ReportCase} from './report-case';
 import {ReportCaseService} from './report-case.service';
 import {Systemunit} from '../systemunits/systemunit';
@@ -29,7 +29,8 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     constructor (
         private _route: ActivatedRoute,
         private _reportCaseService: ReportCaseService,
-        private _systemunitService: SystemunitService
+        private _systemunitService: SystemunitService,
+        private _router: Router
     ) {}
 
     ngOnInit() {
@@ -92,6 +93,7 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
     }
 
     onFilter(unit: number) {
+        this._router.navigate([], {relativeTo: this._route, queryParams: {'units': unit}} );
         this.notready = true;
         this.selected_unit = unit;
         const urlSearchParams = (unit.toString() === '') ? null : {report: 'casesbyunit', cbrs_unit: unit.toString()};
