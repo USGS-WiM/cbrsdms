@@ -705,18 +705,8 @@ button.reports-export-btn i.fa-filter {
   box-sizing: border-box;
   padding: 15px 35px;
 }
-.add-comment-wrap .new-comment-input {
-  border-top: 1px solid #E8E8E8;
-  box-sizing: border-box;
-  padding: 10px 15px !important;
-  display: inline-block;
-  width: 70%;
-  vertical-align: middle;
-  border: 1px solid #ebebeb !important;
-}
-.add-comment-wrap .new-comment-select {
-  height: 42px;
-}
+
+
 .add-comment-wrap .btn-add-comment {
   display: inline-block;
   width: 30%;
@@ -1262,6 +1252,32 @@ body.modal-open {
 
 
 /* Layout Changes 10/8/19 -  Mitch */
+/* Layout Changes 10/8/19 -  Mitch */
+/* Layout Changes 10/8/19 -  Mitch */
+/* Layout Changes 10/8/19 -  Mitch */
+/* Layout Changes 10/8/19 -  Mitch */
+/* Layout Changes 10/8/19 -  Mitch */
+/* Layout Changes 10/8/19 -  Mitch */
+/* Layout Changes 10/8/19 -  Mitch */
+
+/* Standard button */
+.standard-btn{
+	font-size: 13px;
+	padding: 8px 10px;
+	border: none;
+	border-radius: 3px;
+	background-color: #20DA98;
+	color: white;
+	font-weight: 600;
+	border: 1px solid rgb(23, 177, 123);
+	transition: 0.1s;
+}
+.standard-btn:hover{
+	cursor: pointer;
+	text-decoration: underline;
+	background-color: rgb(23, 177, 123);
+	transition: 0.1s;
+}
 
 /* Loading Spinner */
 #loading-spinner{
@@ -1334,16 +1350,16 @@ body.modal-open {
 	padding: 8px 10px;
 	border: none;
 	border-radius: 3px;
-	background-color: #02A0FA;
+	background-color: #20DA98;
 	color: white;
 	font-weight: 600;
-	border: 1px solid #017DC3;
+	border: 1px solid rgb(23, 177, 123);
 	transition: 0.1s;
 }
 .case-buttons button:hover{
 	cursor: pointer;
 	text-decoration: underline;
-	background-color: #017DC3;
+	background-color: rgb(23, 177, 123);
 	transition: 0.1s;
 }
 .final-letter-sent {
@@ -1362,11 +1378,36 @@ body.modal-open {
 	box-sizing: border-box;
 	padding: 10px;
 	border: 1px solid rgba(0,0,0,0.5);
+	background-color: #142233;
+}
+@media print {
+	.cbrs-form-status{
+		background-color: white;
+	}
 }
 .cbrs-form-status label{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	color: white;
+}
+@media print {
+	.cbrs-form-status label{
+		color: black;
+	}
+}
+.cbrs-shadow{
+	display: block;
+	width: 100%;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.07), 
+              0 2px 2px rgba(0,0,0,0.075), 
+              0 4px 4px rgba(0,0,0,0.075), 
+              0 8px 8px rgba(0,0,0,0.075);
+}
+@media print {
+	.cbrs-shadow{
+		box-shadow: none;
+	}
 }
 .cfs--left{
 	display: flex;
@@ -1413,8 +1454,12 @@ body.modal-open {
 	display: block;
 	width: 100%;
 	box-sizing: border-box;
-	background-color: #FFF;
 	margin-bottom: 25px;
+}
+@media print {
+	.dms-group{
+		margin-bottom: 0;
+	}
 }
 /* Form section headers */
 .dms-group h3{
@@ -1436,6 +1481,10 @@ body.modal-open {
 	box-sizing: border-box;
 	justify-content: space-between;
 	flex-wrap: wrap;
+	background-color: white;
+	border-left: 1px solid rgba(0,0,0,0.5);
+    border-right: 1px solid rgba(0,0,0,0.5);
+    border-bottom: 1px solid rgba(0,0,0,0.5);
 }
 @media print {
 	.input-row{
@@ -1444,20 +1493,36 @@ body.modal-open {
 }
 .input-row-header{
 	display: block;
-	border: 1px solid rgba(0,0,0,0.5);
+	border-top: 1px solid rgba(0,0,0,0.5);
+	border-left: 1px solid rgba(0,0,0,0.5);
+	border-right: 1px solid rgba(0,0,0,0.5);
+	border-bottom: 0.5px solid rgba(0,0,0,0.5);
 	box-sizing: border-box;
 	padding: 12px 15px;
 	background-color: #EEF0F3;
+	margin-top: 45px;
+}
+@media print {
+	.input-row-header{
+		margin-top: 0;
+	}
 }
 .input-item{
 	box-sizing: border-box;
 	padding: 3px 15px 6px 15px;
-	border: 1px solid rgba(0,0,0,0.5);
+	border-left: 0.5px solid rgba(0,0,0,0.5);
+	border-right: 0.5px solid rgba(0,0,0,0.5);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	width: fit-content;
 	flex-grow: 3;
+}
+.input-item:first-child{
+	border-left: none;
+}
+.input-item:last-child{
+	border-right: none;
 }
 @media print {
 	.input-item{
@@ -1574,13 +1639,13 @@ body.modal-open {
 		display: none !important;
 	}
 }
-/* .cbrs-form .mydpicon {
-	display: none;
-} */
 
 /* Case Files */
 .cbrs-casefiles{
-	border: 1px solid rgba(0,0,0,0.5);
+	border-left: 1px solid rgba(0,0,0,0.5);
+	border-right: 1px solid rgba(0,0,0,0.5);
+	border-bottom: 1px solid rgba(0,0,0,0.5);
+	background-color: white;
 }
 .casefiles-header{
 	display: flex;
@@ -1612,16 +1677,16 @@ body.modal-open {
 	padding: 8px 10px;
 	border: none;
 	border-radius: 3px;
-	background-color: #02A0FA;
+	background-color: #20DA98;
 	color: white;
 	font-weight: 600;
-	border: 1px solid #017DC3;
+	border: 1px solid rgb(23, 177, 123);
 	transition: 0.1s;
 }
 .casefiles-header-buttons .file-upload-label:hover{
 	cursor: pointer;
 	text-decoration: underline;
-	background-color: #017DC3;
+	background-color: rgb(23, 177, 123);
 	transition: 0.1s;
 }
 /* File Drop */
@@ -1707,11 +1772,64 @@ body.modal-open {
 	display: flex;
 	justify-content: space-between;
 	box-sizing: border-box;
-	border: 1px solid rgba(0,0,0,0.5);
+	border-bottom: 1px solid rgba(0,0,0,0.5);
+	border-right: 1px solid rgba(0,0,0,0.5);
+	border-left: 1px solid rgba(0,0,0,0.5);
+	margin-top: 25px;
+	background-color: white;
+}
+.case-comments .input-row-header{
+	margin-top: 0;
+	border: none;
+	border-bottom: 1px solid rgba(0,0,0,0.5);
+	border-top: 1px solid rgba(0,0,0,0.5);
 }
 .comments-split{
 	width: 50%;
 	min-width: 50%;
 	max-width: 50%;
 	box-sizing: border-box;
+}
+.comments-split:last-child{
+	border-left: 1px solid rgba(0,0,0,0.5);
+}
+
+/* Comment boxes */
+.comment-box{
+	display: flex;
+	justify-content: space-between;
+	box-sizing: border-box;
+	padding: 15px;
+}
+.comment-box .new-comment-input {
+	box-sizing: border-box;
+	padding: 8px 10px;
+	display: inline-block;
+	vertical-align: middle;
+	flex-grow: 3;
+	border: 1px solid #D9DDE4;
+}
+.comment-box .new-comment-select {
+	height: 36px !important;
+}
+.comment-box button{
+	margin-left: 12px;
+}
+/* Comment Error */
+.comment-error{
+	display: block;
+    width: 90%;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 13px;
+    font-family: monospace;
+    box-sizing: border-box;
+    padding: 6px 12px;
+	background-color: #F23939;
+	border: 2px solid rgba(0,0,0,0.25);
+    color: white;
+    line-height: 16px;
+	border-radius: 5px;
+	margin-top: 5px;
+	font-weight: bold;
 }
