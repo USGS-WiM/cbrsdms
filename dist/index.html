@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <base href="">
         <link rel="icon" type="image/png" href="./favicon.ico"> 
-    <link rel="stylesheet" href="styles.2adf5f76aebbada34161.css"></head>
+        <link rel="stylesheet" href="styles.2adf5f76aebbada34161.css"></head>
 
     <body>
         <div id="cbrs-form-body">
@@ -34,7 +34,7 @@
         dropZone.addEventListener('dragover', function(e) {
             var dropzones = document.getElementsByClassName(dropzoneId);
             for(var i = 0; i < dropzones.length; ++i){
-                dropzones[i].setAttribute("class", dropzoneId + " fullScreenFileDrag");
+                dropzones[i].setAttribute("class", dropzoneId + " dropzone-target");
             }
         });
         dropZone.addEventListener('drop', function(e) {

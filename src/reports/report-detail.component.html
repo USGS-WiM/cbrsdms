@@ -1,6 +1,6 @@
 <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
 <div [hidden]="notready">
-    <button *ngIf="allow_filter" class="filter-cases-btn hidden-print" (click)="toggleFilter()"><i class="fa fa-filter"></i> Filter Cases</button>
+    <button *ngIf="allow_filter" class="btn btn-default filter-cases-btn hidden-print" (click)="toggleFilter()"><i class="fa fa-filter"></i> Filter Cases</button>
     <report-filter *ngIf="allow_filter" [hidden]="hideFilter" (onFilter)="onFilter($event)"></report-filter>
     <div align="center" class="hidden-print">
         <button *ngIf="paginated" type="button" class="btn btn-default reports-export-btn" style="display:inline;" (click)="prevPage()"><i class="fa fa-arrow-left"></i> Prev Page</button>

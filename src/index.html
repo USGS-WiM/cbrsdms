@@ -34,7 +34,7 @@
         dropZone.addEventListener('dragover', function(e) {
             var dropzones = document.getElementsByClassName(dropzoneId);
             for(var i = 0; i < dropzones.length; ++i){
-                dropzones[i].setAttribute("class", dropzoneId + " fullScreenFileDrag");
+                dropzones[i].setAttribute("class", dropzoneId + " dropzone-target");
             }
         });
         dropZone.addEventListener('drop', function(e) {

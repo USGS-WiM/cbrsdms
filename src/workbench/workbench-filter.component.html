@@ -7,167 +7,160 @@
 
             <div class="dms-group noheader">
 
-                <div class="row">
+				<!-- Filter Form -->
+				<!-- Filter Form -->
+				<!-- Filter Form -->
+				<div class="cbrs-shadow">
+					<span formGroupName="workbenchfiltergroup">
+						<!-- Status options and duplicate input -->
+						<div class="cbrs-form-status">
+							<div class="cfs--left">
+								<!-- Priority -->
+								<div class="cfs--option">
+									<label for="priority">Priority</label>
+									<div class="cfs--option-input">
+										<input id="priority" type="checkbox" formControlName="priority">
+									</div>
+								</div>
+								<!-- Oh Hold -->
+								<div class="cfs--option">
+									<label for="on_hold">On Hold</label>
+									<div class="cfs--option-input">
+										<input id="on_hold" type="checkbox" formControlName="on_hold">
+									</div>
+								</div>
+								<!-- Invalid -->
+								<div class="cfs--option">
+									<label for="invalid">Invalid</label>
+									<div class="cfs--option-input">
+										<input id="invalid" type="checkbox" formControlName="invalid">
+									</div>
+								</div>
+								<!-- Duplicate -->
+								<div class="cfs--option" style="margin-left: 12px;">
+									<label for="duplicate">Duplicate of</label>
+									<select id="duplicate" formControlName="duplicate" style="width:120px; margin-left: 5px; position:relative; top: 3px;">
+										<option value=""></option>
+										<option value="none">None</option>
+										<option *ngFor="let caseID of myCaseIDs" [value]="caseID.id" [selected]="caseID.id == myWorkbenchFilter.case_number">{{caseID.id}}</option>
+									</select>							
+								</div>
+							</div>
 
-                    <div formGroupName="workbenchfiltergroup">
+							<div class="cfs--right">
+								<div class="cfs--duplicate">
+									<button type="submit" class="standard-btn" [disabled]="!form.valid">Search</button>
+									<button type="button" class="standard-btn" (click)="clearFilter()" style="margin-left: 12px;">Clear</button>
+								</div>
+							</div>
+						</div>
+						<!-- 1st Row -->
+						<div class="input-row">
+							<!-- Status -->
+							<div class="input-item">
+								<label for="status">Status</label>
+								<select id="status" formControlName="status">
+									<option value=""></option>
+									<option *ngFor="let status of myStatuses" [value]="status" [selected]="status == myWorkbenchFilter.status">{{status}}</option>
+								</select>
+							</div>
+							<!-- Case ID -->
+							<div class="input-item">
+								<label for="case_number">Case ID</label>
+								<input id="case_number" type="text" formControlName="case_number" style="max-width: 100px;">
+							</div>
+							<!-- Case Reference -->
+							<div class="input-item">
+								<label for="case_reference">Case Reference</label>
+								<input id="case_reference" type="text" formControlName="case_reference">
+							</div>
+							<!-- Request Date After -->
+							<div class="input-item">
+								<label for="request_date_after">Request Date After</label>
+								<my-date-picker id="request_date_after" [options]="myDatePickerOptions" formControlName="request_date_after"></my-date-picker>
+							</div>
+							<!-- Request Date Before -->
+							<div class="input-item">
+								<label for="request_date_before">Request Date Before</label>
+								<my-date-picker id="request_date_before" [options]="myDatePickerOptions" formControlName="request_date_before"></my-date-picker>
+							</div>
+							<!-- Distance From -->
+							<div class="input-item">
+								<label for="distance_from">Distance From</label>
+								<input id="distance_from" type="text" formControlName="distance_from" style="max-width: 80px;">
+							</div>
+							<!-- Distance To -->
+							<div class="input-item">
+								<label for="distance_to">Distance To</label>
+								<input id="distance_to" type="text" formControlName="distance_to" style="max-width: 80px;">
+							</div>
+						</div>
+						<!-- 2nd Row -->
+						<div class="input-row">
+							<!-- Analyst -->
+							<div class="input-item">
+								<label for="analyst">Analyst</label>
+								<select id="analyst" formControlName="analyst" style="max-width: 100px;">
+									<option value=""></option>
+									<option *ngFor="let analyst of myUsers" [value]="analyst.id" [selected]="analyst.id == myWorkbenchFilter.analyst">{{analyst.username}}</option>
+								</select>
+							</div>
+							<!-- QC Reviewer -->
+							<div class="input-item">
+								<label for="qc_reviewer">QC Reviewer</label>
+								<select id="qc_reviewer" formControlName="qc_reviewer" style="max-width: 100px;">
+									<option value=""></option>
+									<option *ngFor="let qc_reviewer of myUsers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == myWorkbenchFilter.qc_reviewer">{{qc_reviewer.username}}</option>
+								</select>
+							</div>
+							<!-- CBRS Unit -->
+							<div class="input-item">
+								<label for="cbrs_unit">CBRS Unit</label>
+								<select id="cbrs_unit" formControlName="cbrs_unit">
+									<option value=""></option>
+									<option *ngFor="let unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myWorkbenchFilter.cbrs_unit">{{unit.system_unit_number}}</option>
+								</select>
+							</div>
+							<!-- Tag -->
+							<div class="input-item">
+								<label for="tags">Tag</label>
+								<select id="tags" formControlName="tags" style="max-width: 100px;">
+									<option value=""></option>
+									<option *ngFor="let tag of myTags" [value]="tag.id" [selected]="tag.id == myWorkbenchFilter.tags[0]">{{tag.name}}</option>
+								</select>
+							</div>
+							<!-- Street -->
+							<div class="input-item">
+								<label for="street">Street</label>
+								<input id="street" type="text" formControlName="street" style="max-width: 100px;">
+							</div>
+							<!-- City -->
+							<div class="input-item">
+								<label for="city">City</label>
+								<input id="city" type="text" formControlName="city">
+							</div>
+						</div>
+					</span>
+					<!-- 3rd Row -->
+					<div class="input-row" formGroupName="workbenchfreetextgroup">
+						<!-- Policy Number -->
+						<div class="input-item">
+							<label for="policy_number">Policy Number</label>
+							<input id="policy_number" type="text" formControlName="policy_number">
+						</div>
+						<!-- Fiscal Year -->
+						<div class="input-item">
+							<label for="fiscal_year">Fiscal Year</label>
+							<input id="fiscal_year" type="text" formControlName="fiscal_year">
+						</div>
+						<!-- Free Text -->
+						<div class="input-item">
+							<label for="freetext">Freetext</label>
+							<input id="freetext" id="freetext" type="text" formControlName="freetext">
+						</div>
+					</div>
+				</div>
 
-                        <div class="col-md-10">
-
-                            <div class="row">
-
-                                <div class="col-md-2 dms-form-group bb br">
-                                    <label for="status">Status</label>
-                                    <select id="status" formControlName="status">
-                                        <option value=""></option>
-                                        <option *ngFor="let status of myStatuses" [value]="status" [selected]="status == myWorkbenchFilter.status">{{status}}</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-2 dms-form-group bb br">
-                                    <label for="case_number">Case ID</label>
-                                    <input id="case_number" type="text" formControlName="case_number">
-                                </div>
-
-                                <div class="col-md-2 dms-form-group bb br">
-                                    <label for="case_reference">Case Reference</label>
-                                    <input id="case_reference" type="text" formControlName="case_reference">
-                                </div>
-
-                                <div class="col-md-2 dms-form-group bb br">
-                                    <label for="request_date_after">Request Date After</label>
-                                    <my-date-picker id="request_date_after" [options]="myDatePickerOptions" formControlName="request_date_after"></my-date-picker>
-                                </div>
-
-                                <div class="col-md-2 dms-form-group bb br">
-                                    <label for="request_date_before">Request Date Before</label>
-                                    <my-date-picker id="request_date_before" [options]="myDatePickerOptions" formControlName="request_date_before"></my-date-picker>
-                                </div>
-
-                                <div class="col-md-1 dms-form-group bb br">
-                                    <label for="distance_from">Distance From</label>
-                                    <input id="distance_from" type="text" formControlName="distance_from">
-                                </div>
-
-                                <div class="col-md-1 dms-form-group bb br">
-                                    <label for="distance_to">Distance To</label>
-                                    <input id="distance_to" type="text" formControlName="distance_to">
-                                </div>
-
-                            </div> <!-- /row -->
-
-                            <div class="row">
-
-                                <div class="col-md-2 dms-form-group br">
-                                    <label for="analyst">Analyst</label>
-                                    <select id="analyst" formControlName="analyst">
-                                        <option value=""></option>
-                                        <option *ngFor="let analyst of myUsers" [value]="analyst.id" [selected]="analyst.id == myWorkbenchFilter.analyst">{{analyst.username}}</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-2 dms-form-group br">
-                                    <label for="qc_reviewer">QC Reviewer</label>
-                                    <select id="qc_reviewer" formControlName="qc_reviewer">
-                                        <option value=""></option>
-                                        <option *ngFor="let qc_reviewer of myUsers" [value]="qc_reviewer.id" [selected]="qc_reviewer.id == myWorkbenchFilter.qc_reviewer">{{qc_reviewer.username}}</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-2 dms-form-group br">
-                                    <label for="cbrs_unit">CBRS Unit</label>
-                                    <select id="cbrs_unit" formControlName="cbrs_unit">
-                                        <option value=""></option>
-                                        <option *ngFor="let unit of mySystemunits" [value]="unit.id" [selected]="unit.id == myWorkbenchFilter.cbrs_unit">{{unit.system_unit_number}}</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-2 dms-form-group br">
-                                    <label for="tags">Tag</label>
-                                    <select id="tags" formControlName="tags">
-                                        <option value=""></option>
-                                        <option *ngFor="let tag of myTags" [value]="tag.id" [selected]="tag.id == myWorkbenchFilter.tags[0]">{{tag.name}}</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-2 dms-form-group br">
-                                    <label for="street">Street</label>
-                                    <input id="street" type="text" formControlName="street">
-                                </div>
-
-                                <div class="col-md-2 dms-form-group br">
-                                    <label for="city">City</label>
-                                    <input id="city" type="text" formControlName="city">
-                                </div>
-
-                            </div> <!-- /row -->
-
-                        </div> <!-- /col-md-10 -->
-
-                        <div class="col-md-2">
-                            <div class="chx-group">
-                                <label for="priority">Priority</label><!--
-                                --><div class="chx">
-                                    <input id="priority" type="checkbox" formControlName="priority">
-                                </div>
-                            </div><!--
-                                --><div class="chx-group">
-                                <label for="on_hold">On Hold</label><!--
-                                --><div class="chx">
-                                    <input id="on_hold" type="checkbox" formControlName="on_hold">
-                                </div>
-                            </div><!--
-                                --><div class="chx-group">
-                                <label for="invalid">Invalid</label><!--
-                                --><div class="chx">
-                                    <input id="invalid" type="checkbox" formControlName="invalid">
-                                </div>
-                            </div><!--
-                                --><div class="chx-group">
-                                <label for="duplicate">Duplicate</label><!--
-                                --><div class="slct">
-                                    <select id="duplicate" formControlName="duplicate" style="width:120px">
-                                        <option value=""></option>
-                                        <option value="none">None</option>
-                                        <option *ngFor="let caseID of myCaseIDs" [value]="caseID.id" [selected]="caseID.id == myWorkbenchFilter.case_number">{{caseID.id}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div> <!-- /col-md-2 -->
-
-                    </div> <!-- /workbenchfiltergroup -->
-
-                </div> <!-- /row -->
-
-            </div> <!-- /dms-group noheaders -->
-
-            <div class="dms-group noheader">
-
-                <div class="row">
-
-                    <div formGroupName="workbenchfreetextgroup" class="col-md-10">
-
-                        <div class="col-md-2 dms-form-group br">
-                            <label for="policy_number">Policy Number</label>
-                            <input id="policy_number" type="text" formControlName="policy_number">
-                        </div>
-
-                        <div class="col-md-2 dms-form-group br">
-                            <label for="fiscal_year">Fiscal Year</label>
-                            <input id="fiscal_year" type="text" formControlName="fiscal_year">
-                        </div><!--
-
-                        --><div class="col-md-8 dms-form-group br">
-                            <label for="freetext">Freetext</label>
-                            <input id="freetext" id="freetext" type="text" formControlName="freetext">
-                        </div>
-
-
-                    </div> <!-- /workbenchfreetextgroup -->
-
-                    <button type="submit" class="btn btn-default btn-save-all-inline col-md-1" [disabled]="!form.valid">Search</button>
-                    <button type="button" class="btn btn-default btn-save-all-inline col-md-1" (click)="clearFilter()">Clear</button>
-
-                </div> <!-- /row -->
             </div> <!-- /dms-group noheaders -->
         </form>
 

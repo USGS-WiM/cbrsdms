@@ -1,10 +1,18 @@
 <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
 <div [hidden]="notready">
-    <div align="center" class="hidden-print">
-        <button class="btn btn-default filter-cases-btn" (click)="toggleFilter()" style="display:inline;"><i class="fa fa-filter"></i> Filter Cases</button>
+	<!-- Filter and Export buttons -->
+    <span class="hidden-print">
+		<div class="workbench-list-buttons">
+			<button class="standard-btn grey filter-cases-btn" (click)="toggleFilter()"><i class="fa fa-filter"></i> Filter Cases</button>
+			<button class="standard-btn grey reports-export-btn" (click)="downloadCases()"><i class="fa fa-download"></i> Export CSV</button>
+		</div>
+		<!-- Filter component -->
         <workbench-filter [hidden]="hideFilter" (onFilter)="onFilter($event)"></workbench-filter>
-        <button class="btn btn-default reports-export-btn" (click)="downloadCases()"><i class="fa fa-download"></i> Export CSV</button>
-    </div>
-    <div *ngIf="noCasesFound" align="center"><br /><br />No cases found.</div>
-    <div *ngIf="!noCasesFound"><workbench-grid [rows]="cases_properties" [columns]="columns"></workbench-grid></div>
+	</span>
+
+	<div *ngIf="noCasesFound" align="center" class="no-data">No cases found.</div>
+	
+    <div *ngIf="!noCasesFound">
+		<workbench-grid [rows]="cases_properties" [columns]="columns"></workbench-grid>
+	</div>
 </div>
