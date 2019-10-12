@@ -59,7 +59,10 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
     editCommentID: number;
     private _isNewCase = false;
     private _errorMessage: string;
-    private _today = new Date();
+	private _today = new Date();
+	
+	username = sessionStorage.getItem('username');
+
 
     private _userFields: string[] = ['analyst', 'qc_reviewer'];
     private _debug = false;
@@ -830,7 +833,8 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
 
     editComment(commentID) {
         const oldcomment = this.myComments.filter(function(comment) { return comment.id === commentID })[0];
-        if (oldcomment.created_by_string === this._authenticationService.user.username) {
+        if (oldcomment.created_by_string === this.username) {
+        // if (oldcomment.created_by_string === this._authenticationService.user.username) {
             this.commentOwner = true;
             this.editingComment = true;
             this.editCommentID = commentID;

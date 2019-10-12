@@ -1,80 +1,88 @@
 <navbar></navbar><!-- <router-outlet></router-outlet> -->
 
-<div>
-    <div *ngIf="notready" align="center" id="loading-spinner">
-        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-    </div>
-    <div *ngIf="!notready" style="display: flex; justify-content: center;">
-        <div class="mapData-filter">
-            <div align="center">
-                <label for="user-filter">Users</label><br />
-                <button *ngIf="is_staff === 'true'" type="button" (click)="openModal('modalUser')" class="btn btn-default btn-save-all">Add User</button><br />
-                <input id="user-filter" placeholder="Filter" (keyup)="filterGrid(user.id, user.value)" ng-model="_currentMapFilter" #user>
-                <div style="padding: 5px;">Note: Non-staff members cannot edit other users or create new users.</div>
-            </div>
-            <user-grid *ngIf="users" [rows]="users" [columns]="is_staff === 'true' ? columns : columns_notstaff" [displayLookup]="users"
-                (edit)="openModal('modalUser', $event)" class="multi-table"></user-grid>
-        </div>
-    </div>
+<div *ngIf="notready" align="center" id="loading-spinner">
+	<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+</div>
+
+<div *ngIf="!notready" class="page-wrapper">
+
+	<!-- Page Notice -->
+	<div class="page-notice">Note: Non-staff members cannot edit other users or create new users.</div>
+	
+	<div class="cbrs-table-header">
+		<div class="cbrs-table-header-title">
+			<b>Users</b>
+		</div>
+		<div class="cbrs-table-header-actions">
+			<input id="user-filter" placeholder="Filter" (keyup)="filterGrid(user.id, user.value)" ng-model="_currentMapFilter" #user>
+			<button *ngIf="is_staff === 'true'" type="button" (click)="openModal('modalUser')" class="standard-btn">Add User</button><br />
+		</div>
+	</div>
+	<!-- User Table -->
+	<user-grid *ngIf="users" [rows]="users" [columns]="is_staff === 'true' ? columns : columns_notstaff" [displayLookup]="users"
+		(edit)="openModal('modalUser', $event)" class="multi-table"></user-grid>
 </div>
 
 <modal id="modalUser">
     <div class="modal">
-        <div class="modal-body">
-            <div class="container cbrs-form">
-                <h3 *ngIf="!row">Add User</h3><h3 *ngIf="row">Edit User {{row?.id}}</h3>
-                <form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm, 'modalUser')">
-                    <div class="dms-group">
-                        <div class="dms-form-group">
-                            <label for="first_name">First Name</label>
-                            <input id="first_name" type="text" formControlName="first_name">
-                        </div>
-                    </div>
-                    <div class="dms-group">
-                        <div class="dms-form-group">
-                            <label for="last_name">Last Name</label>
-                            <input id="last_name" type="text" formControlName="last_name">
-                        </div>
-                    </div>
-                    <div class="dms-group">
-                        <div class="dms-form-group">
-                            <label for="username">Username</label>
-                            <input id="username" type="text" formControlName="username">
-                        </div>
-                    </div>
-                    <div class="dms-group">
-                        <div class="dms-form-group">
-                            <label for="email">Email</label>
-                            <input id="email" type="text" formControlName="email">
-                        </div>
-                    </div>
-                    <button *ngIf="!changePassword && row" type="submit" class="btn btn-default btn-primary btn-group" (click)="changePassword = true">Change Password</button>
-                    <button *ngIf="changePassword && row" type="submit" class="btn btn-default btn-primary btn-group" (click)="changePassword = false">Cancel Change Password</button>
-                    <div *ngIf="(changePassword && row) || !row" class="dms-group">
-                        <div class="dms-form-group">
-                            <label for="password">Password</label>
-                            <input id="password" type="password" formControlName="password">
-                        </div>
-                    </div>
-                    <div *ngIf="is_staff === 'true'">
-                        <div class="dms-group">
-                            <div class="dms-form-group">
-                                <label for="is_active" style="display: inline-block;">Is Active</label><i class="fa fa-info-circle" #t="ngbTooltip" ngbTooltip="Rather than deleting the user, set 'is active' to false." triggers="click"></i>
-                                <input id="is_active" name="is_active" type="checkbox" [checked]="newUser.is_active" value="true" formControlName="is_active" style="display: inline-block;">
-                            </div>
-                        </div>
-                        <div class="dms-group">
-                            <div class="dms-form-group">
-                                <label for="is_staff">Is Staff</label>
-                                <input id="is_staff" name="is_staff" type="checkbox" [checked]="newUser.is_staff" value="true" formControlName="is_staff" style="display: inline-block;">
-                            </div>
-                        </div>
-                    </div>
-                    <br><button type="submit" class="btn btn-default btn-primary btn-group" [disabled]="!userForm.valid">Save</button>
-                    <button type="button" class="btn btn-default btn-group" (click)="closeModal('modalUser')">Cancel</button>
-                </form>
-            </div>
-        </div>
+		<form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm, 'modalUser')" class="cbrs-shadow">
+			<!-- Modal Title -->
+			<div class="modal-title">
+				<span *ngIf="!row">Add User</span>
+				<span *ngIf="row">Edit User {{row?.id}}</span>
+			</div>
+			<!-- Modal Content -->
+			<div class="modal-scroll two-col">
+				<div class="modal-form-item">
+					<label for="first_name">First Name</label>
+					<input id="first_name" type="text" formControlName="first_name">
+				</div>
+				<div class="modal-form-item">
+					<label for="last_name">Last Name</label>
+					<input id="last_name" type="text" formControlName="last_name">
+				</div>
+				<div class="modal-form-item">
+					<label for="username">Username</label>
+					<input id="username" type="text" formControlName="username">
+				</div>
+				<div class="modal-form-item">
+					<label for="email">Email</label>
+					<input id="email" type="text" formControlName="email">
+				</div>
+
+				<!-- If logged in, change password -->
+				<div class="modal-form-item">
+					<div *ngIf="(changePassword && row) || !row">
+						<label for="password">Password</label>
+						<input id="password" type="password" formControlName="password">
+					</div>
+
+					<button *ngIf="!changePassword && row" type="submit" class="standard-btn" style="margin-top: 10px;" (click)="changePassword = true">Change Password</button>
+					<button *ngIf="changePassword && row" type="submit" class="standard-btn grey" style="margin-top: 10px;" (click)="changePassword = false">Cancel Change Password</button>
+				</div>
+
+				
+				
+
+				<!-- Staff only -->
+				<div class="modal-form-item" *ngIf="is_staff === 'true'">
+					<div class="modal-checkbox">
+						<label for="is_active" style="display: inline-block;">Is Active</label><i class="fa fa-info-circle" #t="ngbTooltip" ngbTooltip="Rather than deleting the user, set 'is active' to false." triggers="click"></i>
+						<input id="is_active" name="is_active" type="checkbox" [checked]="newUser.is_active" value="true" formControlName="is_active" style="display: inline-block;">
+					</div>
+					<div class="modal-checkbox">
+						<label for="is_staff">Is Staff</label>
+						<input id="is_staff" name="is_staff" type="checkbox" [checked]="newUser.is_staff" value="true" formControlName="is_staff" style="display: inline-block;">
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Actions -->
+			<div class="modal-actions">
+				<button type="button" class="standard-btn grey" (click)="closeModal('modalUser')">Cancel</button>
+				<button type="submit" class="standard-btn" [disabled]="!userForm.valid">Save</button>
+			</div>
+		</form>
     </div>
     <div class="modal-background"></div>
 </modal>

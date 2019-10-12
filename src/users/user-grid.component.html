@@ -1,20 +1,18 @@
-<div class="container">
-    <table class="dms-table table table-bordered">
-        <thead>
-            <tr>
-                <th *ngFor="let col of columns">
-                    <a (click)="sort(col.name)" class="gridHeader">{{col.descr}} <i class="fa fa-sort"></i></a>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let row of rows" (click)="onClick(row)">
-                <td *ngFor="let col of columns">
-                    <!--<span>{{row[col.name]}}</span>-->
-                    <span *ngIf="!(col.name.includes('date'))">{{row[col.name]}}</span>
-                    <span *ngIf="col.name.includes('date')">{{row[col.name] | date:'shortDate'}}</span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<table class="dms-table table table-bordered">
+	<thead>
+		<tr>
+			<th *ngFor="let col of columns">
+				<a (click)="sort(col.name)" class="gridHeader">{{col.descr}} <i class="fa fa-sort"></i></a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let row of rows" (click)="onClick(row)">
+			<td *ngFor="let col of columns">
+				<!--<span>{{row[col.name]}}</span>-->
+				<span *ngIf="!(col.name.includes('date'))">{{row[col.name]}}</span>
+				<span *ngIf="col.name.includes('date')">{{row[col.name] | date:'shortDate'}}</span>
+			</td>
+		</tr>
+	</tbody>
+</table>

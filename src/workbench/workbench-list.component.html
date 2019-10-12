@@ -1,17 +1,26 @@
 <div [hidden]="!notready" align="center" id="loading-spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
-<div [hidden]="notready">
-	<!-- Filter and Export buttons -->
-    <span class="hidden-print">
-		<div class="workbench-list-buttons">
-			<button class="standard-btn grey filter-cases-btn" (click)="toggleFilter()"><i class="fa fa-filter"></i> Filter Cases</button><br>
+<div [hidden]="notready" class="page-wrapper">
+	
+	<!-- Filter popup -->
+	<workbench-filter [hidden]="hideFilter" (onFilter)="onFilter($event)"></workbench-filter>
+
+	<!-- No Results -->
+	<div *ngIf="noCasesFound" align="center" class="no-data">No cases found.</div>
+
+	<!-- Table Header -->
+	<div class="cbrs-table-header hidden-print">
+		<div class="cbrs-table-header-title">
+			<b>Cases</b>
+		</div>
+		<div class="cbrs-table-header-actions">
+			<!-- Show/Hide filters -->
+			<button [hidden]="!hideFilter" class="standard-btn grey filter-cases-btn" (click)="toggleFilter()"><i class="fa fa-filter"></i> Filter Cases</button>
+			<button [hidden]="hideFilter" class="standard-btn grey filter-cases-btn" (click)="toggleFilter()"><i class="fa fa-filter"></i> Hide Filters</button>
+			<!-- Export CSV -->
 			<button class="standard-btn grey reports-export-btn" (click)="downloadCases()"><i class="fa fa-download"></i> Export CSV</button>
 		</div>
-		<!-- Filter component -->
-        <workbench-filter [hidden]="hideFilter" (onFilter)="onFilter($event)"></workbench-filter>
-	</span>
-
-	<div *ngIf="noCasesFound" align="center" class="no-data">No cases found.</div>
-	
+	</div>
+	<!-- Case Results / Grid -->
     <div *ngIf="!noCasesFound">
 		<workbench-grid [rows]="cases_properties" [columns]="columns"></workbench-grid>
 	</div>

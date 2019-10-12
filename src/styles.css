@@ -228,9 +228,7 @@ span.loading-message i {
   color: #D24B4B;
 }
 .dms-table {
-  margin: 35px auto 55px auto !important;
-  max-width: 90%;
-  margin: 0 auto;
+  margin: 0 auto 65px auto;
   font-family: 'Open Sans', sans-serif;
   border: 0px solid black;
   border-radius: 3px;
@@ -772,7 +770,6 @@ div.col-md-10 {
   Map Data Page Fixes
 */
 .multi-table{
-  margin-top: 15px !important;
   display: block;
 }
 .multi-table .container{
@@ -789,63 +786,9 @@ div.col-md-10 {
     width: auto;
     max-width: 280px !important;
 } /* TODO: make sure this change doesn't affect other tables*/
-.mapData-filter label{
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 5px;
-}
-.mapData-filter input{
-  display: block;
-  width: 170px;
-  box-sizing: border-box;
-  padding: 5px 10px;
-}
 
 /* MODAL STYLES
 -------------------------------*/
-modal {
-  /* modals are hidden by default */
-  display: none;
-}
-modal .modal {
-  display: block;
-  /* modal container fixed across whole screen */
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  /* z-index must be higher than .modal-background */
-  z-index: 1000;
-  /* enables scrolling for tall modals */
-  overflow: auto;
-}
-modal .modal .modal-body {
-  padding: 20px;
-  background: #fff;
-  /* margin exposes part of the modal background */
-  margin-top: 10%;
-  margin-right: 40%;
-  margin-bottom: 60%;
-  margin-left: 40%;
-}
-modal .modal-background {
-  /* modal background fixed across whole screen */
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  /* semi-transparent black  */
-  background-color: #000;
-  opacity: 0.75;
-  /* z-index must be below .modal and above everything else  */
-  z-index: 900;
-}
-body.modal-open {
-  /* body overflow is hidden to hide main scrollbar when modal window is open */
-  overflow: hidden;
-}
 
 .margin-bottom {margin-bottom:10px;}
 .margin-top {margin-top:10px;}
@@ -1200,6 +1143,17 @@ body.modal-open {
 	text-decoration: underline;
 	background-color: rgb(23, 177, 123);
 	transition: 0.1s;
+}
+.standard-btn:disabled{
+	opacity: 0.5;
+	background-color: #EEF0F3;
+	border: 1px solid #D9DDE4;
+}
+.standard-btn:disabled:hover{
+	opacity: 0.5;
+	background-color: #EEF0F3;
+	border: 1px solid #D9DDE4;
+	cursor: default;
 }
 .standard-btn.grey{
 	background-color: #EEF0F3;
@@ -1716,6 +1670,17 @@ body.modal-open {
  }
  .file-ul li .file-name a{
 	text-decoration: underline;
+	transition: 0.1s;
+	color: #01598B;
+}
+.file-ul li .file-name a:hover{
+	color: #017DC3;
+	transition: 0.1s;
+}
+@media print {
+	.file-ul li .file-name a{
+		text-decoration: none;
+	}
 }
 
 .removeCaseFileButton {
@@ -1917,4 +1882,178 @@ body.modal-open {
   display: block;
   padding: 8px 15px;
   margin: 0 auto;
+}
+
+/* Modal Styles */
+/* Modal Styles */
+/* Modal Styles */
+modal {
+	z-index: 9000;
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+modal .modal {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	max-width: 480px;
+	height: 100%;
+	z-index: 9020;
+	margin: 0 auto;
+	min-width: 280px;
+}
+/* Modal Title */
+modal .modal .modal-title{
+	background-color: white;
+	padding: 8px 15px;
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+modal .modal .modal-title span{
+	font-size: 18px;
+	font-weight: 600;
+}
+/* Modal Body */
+modal .modal .modal-scroll {
+	overflow: auto;
+	background-color: white;
+	max-height: 60vh;
+	height: fit-content;
+	box-sizing: border-box;
+	padding: 15px 0;
+}
+
+/* Modal two-column form */
+modal .modal .modal-scroll.two-col{
+	display: flex;
+	flex-wrap: wrap;
+}
+modal .modal .modal-scroll.two-col .modal-form-item{
+	width: 50%;
+	min-width: 50%;
+	max-width: 50%;
+	box-sizing: border-box;
+	padding: 5px 15px;
+}
+modal .modal .modal-scroll.two-col .modal-form-item label{
+	display: block;
+	font-size: 13px;
+	font-weight: normal;
+	letter-spacing: 0.15px;
+}
+modal .modal .modal-scroll.two-col .modal-form-item input{
+	margin: 0;
+	padding: 3px 5px;
+	font-size: 14px;
+	border: 1px solid rgba(0,0,0,0.3);
+}
+modal .modal .modal-scroll.two-col .modal-form-item .modal-checkbox{
+	display: flex;
+}
+modal .modal .modal-scroll.two-col .modal-form-item .modal-checkbox:nth-child(1){
+	padding-top: 8px;
+	box-sizing: border-box;
+}
+modal .modal .modal-scroll.two-col .modal-form-item .modal-checkbox i{
+	position: relative;
+	top: 2px;
+}
+modal .modal .modal-scroll.two-col .modal-form-item .modal-checkbox input{
+	position: relative;
+	top: 3px;
+	margin-left: 5px;
+}
+
+/* Modal Footer */
+modal .modal .modal-actions{
+	display: flex;
+	background-color: white;
+	justify-content: flex-end;
+	box-sizing: border-box;
+	padding: 8px 15px;
+	border-top: 1px solid rgba(0,0,0,0.25);
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+modal .modal .modal-actions button{
+	margin-left: 15px;
+}
+
+/* Modal Lightbox */
+modal .modal-background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9010;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(10,20,50,0.7)
+}
+/* Hide body scrolling when viewing  */
+body.modal-open {
+	overflow: hidden;
+}
+  
+
+/* Page Styles */
+/* Page Styles */
+/* Page Styles */
+.page-wrapper{
+	display: block;
+	margin: 0 auto;
+	width: 94%;
+}
+.page-notice{
+	display: block;
+    margin: 0 auto;
+    max-width: 500px;
+    width: fit-content;
+    background-color: rgba(230,0,0,0.15);
+    font-weight: 600;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+	color: rgba(0,0,0,0.8);
+	margin-bottom: 25px;
+}
+.cbrs-table-header{
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 8px 15px;
+	background-color: white;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.cbrs-table-header-title{
+	flex-grow: 3;
+	font-size: 22px;
+	font-weight: 600;
+}
+.cbrs-table-header-title b{
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	justify-content: center;
+}
+.cbrs-table-header-actions{
+	display: flex;
+	justify-content: flex-end;
+}
+.cbrs-table-header-actions input,
+.cbrs-table-header-actions button{
+	margin-left: 15px;
+}
+.cbrs-table-header-actions input{
+	height: 99%;
+	border: 1px solid rgba(0,0,0,0.3);
+	box-sizing: border-box;
+	padding: 0 8px;
+	min-width: 140px;
 }
