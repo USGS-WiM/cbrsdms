@@ -70,8 +70,8 @@ export class ReportCasesByUnitComponent implements OnInit, OnDestroy {
                 ndxStart += 5;
                 const ndxEnd = this._prevPage.indexOf('&', ndxStart);
                 ndxEnd === -1 ? prevPageNum = this._prevPage.slice(ndxStart) : prevPageNum = this._prevPage.slice(ndxStart, ndxEnd);
-                const urlSearchParams = (unit.toString() === '') ? {page: prevPageNum, report: 'casesbyunit'} : {page: prevPageNum,
-                    report: 'casesbyunit'};
+                const urlSearchParams = (unit.toString() === '') ? {page: prevPageNum, report: 'casesbyunit',
+                    cbrs_unit: unit.toString()} : {page: prevPageNum, report: 'casesbyunit', cbrs_unit: unit.toString()};
                 this._getReportCases(urlSearchParams);
             }
         }

@@ -83,4 +83,31 @@ export class CaseService {
         console.error(error);
         return observableThrowError(error.json() || 'Server error');
     }
+
+    getWorkbenchCSV(urlSearchParams?: string) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        let filename = '';
+                        const disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            const matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {filename = matches[1].replace(/['"]/g, '')}
+                        }
+                        resolve([xhr.response, filename]);
+                    } else {
+                        reject(xhr.response);
+                    }
+                }
+            };
+            xhr.responseType = 'blob';
+            xhr.open('GET', APP_SETTINGS.CASES_URL + '?' + urlSearchParams, true);
+            xhr.setRequestHeader('Authorization',
+                'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password')));
+            xhr.send();
+        });
+    }
 }

@@ -496,7 +496,7 @@
 							<!-- Street -->
 							<div class="input-item">
 								<label for="street">Street</label>
-								<input id="street" type="text" formControlName="street">
+								<textarea id="street" type="text" formControlName="street" (input)='setHeight($event.target)'></textarea>
 							</div>
 							<!-- Suite/Apt # -->
 							<div class="input-item">
@@ -527,12 +527,12 @@
 							<!-- Legal Description -->
 							<div class="input-item">
 								<label for="legal_description">Legal Description</label>
-								<input id="legal_description" type="text" formControlName="legal_description">
+								<textarea id="legal_description" type="text" formControlName="legal_description" (input)='setHeight($event.target)'></textarea>
 							</div>
 							<!-- Subdivision -->
 							<div class="input-item">
 								<label for="subdivision">Subdivision</label>
-								<input id="subdivision" type="text" formControlName="subdivision">
+								<textarea id="subdivision" type="text" formControlName="subdivision" (input)='setHeight($event.target)'></textarea>
 							</div>
 							<!-- Policy Number -->
 							<div class="input-item">
@@ -575,22 +575,19 @@
 							<!-- Organization -->
 							<div class="input-item">
 								<label for="organization">Organization</label>
-								<input class="hidden-print" id="organization" type="text" formControlName="organization">
-								<textarea class="printArea" id="organization" formControlName="organization"></textarea>
+								<textarea id="organization" formControlName="organization" (input)='setHeight($event.target)'></textarea>
 							</div>
 							<!-- Email -->
 							<div class="input-item">
 								<label for="email">Email</label>
-								<input class="hidden-print" id="email" type="email" formControlName="email">
-								<textarea class="printArea" id="email" formControlName="email"></textarea>
+								<textarea id="email" formControlName="email" (input)='setHeight($event.target)'></textarea>
 							</div>
 						</div>
 						<div class="input-row">
 							<!-- Street -->
 							<div class="input-item">
 								<label for="street">Street</label>
-								<input class="hidden-print"id="street" type="text" formControlName="street">
-								<textarea class="printArea" id="street" formControlName="street"></textarea>
+								<textarea id="street" formControlName="street" (input)='setHeight($event.target)'></textarea>
 							</div>
 							<!-- Suite/Apt # -->
 							<div class="input-item">

@@ -42,7 +42,7 @@ export class ReportListComponent  {
     _getUsers() {
         this._userService.getUsers()
             .subscribe(res => {
-                this.users = res.sort(APP_UTILITIES.dynamicSort('username'));
+                this.users = res.sort(APP_UTILITIES.dynamicSort('username')).filter(u => u.is_active);
                 this.count ++;
                 if (this.count > 1) {this.notready = false; }
             },
