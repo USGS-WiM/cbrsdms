@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit, AfterViewChecked} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Case} from '../cases/case';
 import {Property} from '../properties/property'
@@ -37,7 +37,7 @@ import * as FileSaver from 'file-saver';
     templateUrl: 'workbench-detail.component.html',
     styles: ['.error {color:red;}']
 })
-export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
+export class WorkbenchDetailComponent implements OnInit, AfterViewInit, AfterViewChecked {
     case_ID: number;
     private _filesToUpload: File[] = [];
     filesToUploadDetails: Object[] = [];
@@ -199,6 +199,14 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         this.inInit = false;
+    }
+
+    ngAfterViewChecked() {
+        // update text area sizes once content is filled in
+        const textAreas = document.getElementsByTagName('textarea');
+        for (const ta of Array.from(textAreas)) {
+            this.setHeight(ta);
+        }
     }
 
     constructor (fb: FormBuilder,
@@ -1390,6 +1398,13 @@ export class WorkbenchDetailComponent implements OnInit, AfterViewInit {
 
     print() {
         window.print();
+    }
+
+    setHeight(element) {
+        if (element.scrollHeight > 0) {
+            element.style.height = '';
+            element.style.height = element.scrollHeight + 'px';
+        }
     }
 
 }

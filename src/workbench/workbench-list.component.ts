@@ -6,6 +6,7 @@ import {WorkbenchFilterComponent} from './workbench-filter.component';
 import {Column} from '../grid/column';
 import {APP_UTILITIES} from '../app.utilities';
 import {FormBuilder} from '@angular/forms';
+import * as FileSaver from 'file-saver';
 
 @Component({
     templateUrl: 'workbench-list.component.html',
@@ -24,6 +25,7 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     notready = true;
     hideFilter = true;
     noCasesFound = false;
+    csvSearchParams;
     private _errorMessage: string;
 
     constructor (
@@ -75,6 +77,8 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     onFilter(urlSearchParams: object) {
+        this.notready = true;
+        this.csvSearchParams = urlSearchParams ? urlSearchParams : {view: 'workbench', status: 'Open'};
         this._getCases(urlSearchParams);
     }
 
@@ -103,8 +107,9 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
                         this.noCasesFound = true;
                     }
                     this._sortAndShow();
+                    this.notready = false;
                 },
-                error => this._errorMessage = <any>error
+                error => {this._errorMessage = <any>error; this.notready = false; }
             );
     }
 
@@ -132,26 +137,20 @@ export class WorkbenchListComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     downloadCases() {
-        const csv = this.jsonToCSV(this._cases);
-        const filename = 'workbench.csv';
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        if (navigator.msSaveBlob) { // IE 10+
-            navigator.msSaveBlob(blob, filename);
-        } else {
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            if (link.download !== undefined) { // feature detection
-                // Browsers that support HTML5 download attribute
-                link.setAttribute('href', url);
-                link.setAttribute('download', filename);
-                link.style.visibility = 'hidden';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } else {
-                window.open(url);
-            }
-        }
+        const self = this;
+        this.notready = true;
+        if (!this.csvSearchParams) {this.csvSearchParams = {view: 'workbench', status: 'Open'}}
+        const params = [];
+        Object.keys(this.csvSearchParams).forEach(key => {
+            params.push(key + '=' + this.csvSearchParams[key]);
+        })
+        const paramsObject = params.join('&') + '&format=csv';
+        this._caseService.getWorkbenchCSV(paramsObject)
+            .then(function(data) {
+                const blob = new Blob([data[0]], { type: 'text/csv' });
+                FileSaver.saveAs(blob, data[1]);
+                self.notready = false;
+            });
     }
 
     public jsonToCSV(json) {

@@ -3,7 +3,7 @@
     "name": "CBRSDMS",
     "organization": "U.S. Geological Survey",
     "description": "CBRS DMS (Coastal Barrier Resources System Determinations Management System)",
-    "version": "v1.4.0",
+    "version": "v1.4.1",
     "status": "Production",
 
     "permissions": {
@@ -16,7 +16,7 @@
       ]
     },
 
-    "homepageURL": "cbrs.wim.usgs.gov/cbrsdms/",
+    "homepageURL": "http://cbrs.wim.usgs.gov/cbrsdms/",
     "downloadURL": "https://github.com/USGS-WiM/CBRSDMS/archive/master.zip",
     "disclaimerURL": "https://github.com/USGS-WiM/CBRSDMS/blob/master/DISCLAIMER.md",
     "repositoryUrl": "https://github.com/USGS-WiM/CBRSDMS",

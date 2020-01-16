@@ -164,7 +164,7 @@ export class ReportCasesForUserComponent implements OnInit, OnDestroy {
     _getUsers(urlSearchParams?) {
         this._userService.getUsers(urlSearchParams)
             .subscribe(res => {
-                this.users = res.sort(APP_UTILITIES.dynamicSort('username'));
+                this.users = res.sort(APP_UTILITIES.dynamicSort('username')).filter(u => u.is_active);
             },
             error => this._errorMessage = <any>error);
     }
