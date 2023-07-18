@@ -1,3 +1,6 @@
+# THIS REPO IS ARCHIVED
+## Please visit https://code.usgs.gov/WiM/cbrsdms for the active repo of this project.
+
 CBRSDMS
 =======
 CBRS Determinations Management System
